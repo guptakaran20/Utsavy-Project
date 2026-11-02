@@ -25,7 +25,7 @@ export default function App() {
 
   return (
     <SmoothScroll locked={!opened}>
-      {!gateDone && <HaveliGate onOpen={() => setOpened(true)} onDone={() => setGateDone(true)} />}
+      {!gateDone && <HaveliGate onEnter={() => setOpened(true)} onDone={() => setGateDone(true)} />}
       <Nav visible={opened} />
       <main>
         <Hero play={opened} />

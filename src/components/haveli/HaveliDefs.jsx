@@ -37,13 +37,13 @@ export default function HaveliDefs() {
 
         {/* teak leaves */}
         <linearGradient id="hv-teak" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#7e4622" />
-          <stop offset="0.5" stopColor="#5f3118" />
-          <stop offset="1" stopColor="#40200c" />
+          <stop offset="0" stopColor="#6a1520" />
+          <stop offset="0.5" stopColor="#4a0d16" />
+          <stop offset="1" stopColor="#2e060c" />
         </linearGradient>
         <linearGradient id="hv-panel" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#3f1d0a" />
-          <stop offset="1" stopColor="#5a2e14" />
+          <stop offset="0" stopColor="#2a050b" />
+          <stop offset="1" stopColor="#4a0b16" />
         </linearGradient>
         <pattern id="hv-grain" width="9" height="350" patternUnits="userSpaceOnUse">
           <rect x="1" width="0.7" height="350" fill="rgba(0,0,0,0.22)" />
@@ -53,18 +53,18 @@ export default function HaveliDefs() {
 
         {/* sandstone casing */}
         <linearGradient id="hv-stone" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f4dab0" />
-          <stop offset="0.5" stopColor="#e0b37f" />
-          <stop offset="1" stopColor="#b98353" />
+          <stop offset="0" stopColor="#9a2236" />
+          <stop offset="0.5" stopColor="#6e1424" />
+          <stop offset="1" stopColor="#3f0912" />
         </linearGradient>
         <pattern id="hv-carve" width="10" height="10" patternUnits="userSpaceOnUse">
-          <rect width="10" height="10" fill="#d3a06c" />
-          <circle cx="5" cy="5" r="2.6" fill="#a8703f" />
-          <circle cx="5" cy="5" r="1.1" fill="#f4d7a8" />
-          <circle cx="0" cy="0" r="1" fill="#a8703f" />
-          <circle cx="10" cy="0" r="1" fill="#a8703f" />
-          <circle cx="0" cy="10" r="1" fill="#a8703f" />
-          <circle cx="10" cy="10" r="1" fill="#a8703f" />
+          <rect width="10" height="10" fill="#5a0f1c" />
+          <circle cx="5" cy="5" r="2.6" fill="#b8862f" />
+          <circle cx="5" cy="5" r="1.1" fill="#f3d68a" />
+          <circle cx="0" cy="0" r="1" fill="#b8862f" />
+          <circle cx="10" cy="0" r="1" fill="#b8862f" />
+          <circle cx="0" cy="10" r="1" fill="#b8862f" />
+          <circle cx="10" cy="10" r="1" fill="#b8862f" />
         </pattern>
 
         {/* the lit courtyard behind the doors */}

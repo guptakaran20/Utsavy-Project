@@ -1,0 +1,631 @@
+/* The golden light past the doors; the hero reuses it so the hand-over is seamless */
+:root {
+  --haveli-bloom: radial-gradient(ellipse 90% 80% at 50% 55%, #fff8e4 0%, #ffe6b0 35%, #f8c070 72%, #eea24e 100%);
+}
+
+/* Shared gradients live here; display: none would break the url(#hv-…) references */
+.hv-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.haveli {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  isolation: isolate;
+  background: #12040a;
+  color: var(--gold-100);
+  /* no panning while the gate is up (the swipe opens it instead), but zoom stays available */
+  touch-action: pinch-zoom;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- The wall at night ---------- */
+
+.haveli-wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 46% 42% at 50% 56%, rgba(255, 168, 88, 0.2), rgba(255, 140, 60, 0.06) 55%, transparent 75%),
+    radial-gradient(ellipse 100% 85% at 50% 48%, transparent 38%, rgba(10, 2, 4, 0.82) 100%),
+    linear-gradient(45deg, rgba(212, 162, 76, 0.05) 1px, transparent 1px) 0 0 / 46px 46px,
+    linear-gradient(-45deg, rgba(212, 162, 76, 0.05) 1px, transparent 1px) 0 0 / 46px 46px,
+    radial-gradient(ellipse 80% 65% at 50% 45%, #7f1729 0%, #4a0b16 55%, #22050b 100%);
+}
+
+.haveli-wall .fairy-lights {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(90px, 18svh, 190px);
+  max-width: none;
+  pointer-events: none;
+}
+
+/* ---------- Scene: everything that is walked into ---------- */
+
+.haveli-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.haveli.is-walking .haveli-scene,
+.haveli.is-walking .haveli-wall {
+  will-change: transform;
+}
+
+.haveli-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1.6svh, 16px);
+  height: 100%;
+  padding:
+    calc(env(safe-area-inset-top, 0px) + clamp(14px, 3.2svh, 36px))
+    max(var(--gutter, 16px), env(safe-area-inset-right, 0px))
+    calc(env(safe-area-inset-bottom, 0px) + clamp(12px, 2.6svh, 28px))
+    max(var(--gutter, 16px), env(safe-area-inset-left, 0px));
+}
+
+/* ---------- Heading ---------- */
+
+.haveli-heading {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  max-width: min(100%, 44rem);
+  text-align: center;
+}
+
+/* a soft scrim so the words read over the fairy lights */
+.haveli-heading::before {
+  content: '';
+  position: absolute;
+  inset: -30% -12%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(18, 4, 8, 0.6), rgba(18, 4, 8, 0) 100%);
+}
+
+.haveli-heading p {
+  margin: 0;
+}
+
+.haveli-kicker {
+  font-family: var(--font-display);
+  font-size: clamp(0.66rem, 0.56rem + 0.4vw, 0.86rem);
+  line-height: 1.5;
+  letter-spacing: 0.2em;
+  color: rgba(251, 236, 196, 0.82);
+  text-wrap: balance;
+  text-shadow: 0 1px 10px rgba(10, 2, 4, 0.9);
+}
+
+.haveli-names {
+  /* swashes reach past the glyph box; the padding keeps them inside the clipped gradient */
+  padding: 0.04em 0.35em 0.1em;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.25rem, min(11vw, 7svh), 4.25rem);
+  line-height: 1.15;
+  background: var(--gold-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.haveli-amp {
+  padding: 0 0.08em;
+  font-size: 0.78em;
+}
+
+.haveli-date {
+  font-family: var(--font-display);
+  font-size: clamp(0.64rem, 0.58rem + 0.25vw, 0.8rem);
+  line-height: 1.6;
+  letter-spacing: 0.3em;
+  color: rgba(243, 214, 138, 0.85);
+  text-shadow: 0 1px 10px rgba(10, 2, 4, 0.9);
+}
+
+/* ---------- The doorway, sized to the space left over ---------- */
+
+.haveli-fit {
+  flex: 1 1 0;
+  align-self: stretch;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: center;
+}
+
+/* Width-limited by the screen or height-limited by the space: the door is
+   300 × 440 and keeps a quarter of its width below it for the floor strip.
+   The floor of 6.5rem keeps it tappable on very short landscape screens. */
+.haveli-unit {
+  --hv-w: max(6.5rem, min(100cqw, 86vw, 30rem, 100cqh * 300 / 515));
+  position: relative;
+  z-index: 1;
+  container-type: inline-size;
+  width: var(--hv-w);
+  margin-bottom: calc(var(--hv-w) * 0.25);
+}
+
+/* The courtyard floor: dark warm stone with a pool of door light at the threshold */
+.haveli-unit::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: -1;
+  width: 400vw;
+  height: 100vh;
+  margin-left: -200vw;
+  pointer-events: none;
+  /* a clean gold skirting where wall meets floor */
+  border-top: 2px solid #d4a24c;
+  box-shadow: 0 -3px 0 rgba(212, 162, 76, 0.25);
+  background:
+    radial-gradient(ellipse 58cqi 24cqi at 50% 0, rgba(255, 196, 120, 0.3), rgba(255, 160, 80, 0.1) 52%, transparent 100%),
+    linear-gradient(180deg, #3a0811 0%, #2a050b 22%, #1a0307 60%, #0e0204 100%);
+}
+
+/* Wall-lamp light behind the doorway */
+.haveli-glow {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.haveli-glow > i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 204, 128, 0.46), rgba(255, 150, 66, 0.17) 48%, rgba(255, 130, 50, 0) 100%);
+}
+
+.haveli-glow.is-left,
+.haveli-glow.is-right {
+  top: calc(44% - 36cqi);
+  width: 72cqi;
+  height: 72cqi;
+}
+
+.haveli-glow.is-left {
+  left: -46cqi;
+}
+
+.haveli-glow.is-right {
+  right: -46cqi;
+}
+
+.haveli-glow.is-top {
+  top: -30cqi;
+  left: calc(50% - 64cqi);
+  width: 128cqi;
+  height: 72cqi;
+}
+
+.haveli-glow.is-top > i {
+  background: radial-gradient(closest-side, rgba(255, 214, 150, 0.34), rgba(255, 160, 80, 0.12) 55%, rgba(255, 140, 60, 0) 100%);
+}
+
+.gateway {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  aspect-ratio: 300 / 440;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gateway:focus-visible {
+  outline: 2px solid var(--gold-200);
+  outline-offset: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.gateway .casing,
+.gateway .door-toran,
+.opening .beyond,
+.leaf .leaf-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.gateway .casing {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.gateway .door-toran {
+  z-index: 4;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* The arch opening in the casing (x 50–250, y 90–440 of 300 × 440) */
+.opening {
+  position: absolute;
+  left: 16.6667%;
+  top: 20.4545%;
+  z-index: 2;
+  width: 66.6667%;
+  height: 79.5455%;
+  perspective: 110cqi;
+  perspective-origin: 50% 45%;
+}
+
+.leaf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.leaf-l {
+  left: 0;
+  transform-origin: 0 50%;
+}
+
+.leaf-r {
+  right: 0;
+  transform-origin: 100% 50%;
+}
+
+/* The slab's thickness on the meeting edge, seen as it swings */
+.leaf::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2.4cqi;
+  pointer-events: none;
+  background: linear-gradient(180deg, #5c3016 0%, #3a1a0a 55%, #1f0d04 100%);
+}
+
+.leaf-l::after {
+  right: 0;
+  transform-origin: 100% 50%;
+  transform: rotateY(-90deg);
+}
+
+.leaf-r::after {
+  left: 0;
+  transform-origin: 0 50%;
+  transform: rotateY(90deg);
+}
+
+/* Lamplight through the crack between the closed leaves; it gives way to the real gap */
+.seam {
+  position: absolute;
+  top: 2%;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  width: 0.5cqi;
+  margin-left: -0.25cqi;
+  border-radius: 0.5cqi;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 226, 160, 0) 0%, rgba(255, 226, 160, 0.9) 16%, #fff1cc 62%, rgba(255, 214, 140, 0.95) 100%);
+  box-shadow: 0 0 1.2cqi rgba(255, 196, 110, 0.8), 0 0 3cqi rgba(255, 170, 80, 0.45);
+  opacity: calc(0.8 - var(--o, 0) * 5);
+}
+
+/* Light from the courtyard leaking under the doors */
+.sill {
+  position: absolute;
+  left: 4cqi;
+  right: 4cqi;
+  bottom: 0;
+  z-index: 2;
+  height: 1.2cqi;
+  border-radius: 1cqi;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 212, 138, 0), #ffd48a 18%, #fff1cc 50%, #ffd48a 82%, rgba(255, 212, 138, 0));
+  filter: blur(0.7cqi);
+  opacity: calc(0.4 + var(--o, 0) * 4);
+}
+
+/* The knock: light flares through the crack for a moment */
+.gateway.is-pressed .seam,
+.gateway.is-pressed .sill {
+  opacity: 1;
+}
+
+/* Rangoli on the floor in front: its own `scale` (via --rs) animates without touching the floor tilt */
+.haveli-unit .rangoli {
+  --rs: 1;
+  position: absolute;
+  top: calc(100% + 1.5cqi);
+  left: 50%;
+  z-index: 1;
+  width: 60cqi;
+  height: 60cqi;
+  max-width: none;
+  margin-left: -30cqi;
+  transform: perspective(240cqi) rotateX(74deg);
+  transform-origin: 50% 0;
+  scale: var(--rs);
+  pointer-events: none;
+}
+
+/* scoped under the unit so it outranks decor.css's `.diya { position: relative }` whatever the load order */
+.haveli-unit .haveli-diya {
+  position: absolute;
+  bottom: -1cqi;
+  z-index: 2;
+  font-size: 3.2cqi;
+  pointer-events: none;
+}
+
+.haveli-unit .haveli-diya.is-left {
+  left: -4cqi;
+}
+
+.haveli-unit .haveli-diya.is-right {
+  right: -4cqi;
+}
+
+/* ---------- Hint ---------- */
+
+.haveli-hint {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  margin: 0;
+  padding-top: 0.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(0.66rem, 0.6rem + 0.25vw, 0.78rem);
+  line-height: 1.5;
+  letter-spacing: 0.24em;
+  color: rgba(251, 236, 196, 0.78);
+  text-shadow: 0 1px 8px rgba(10, 2, 4, 0.9);
+}
+
+.haveli-hint .is-mouse {
+  display: none;
+}
+
+.haveli-hint-dot {
+  position: relative;
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--gold-200);
+  box-shadow: 0 0 8px rgba(243, 214, 138, 0.8);
+  animation: haveli-breathe 2.2s ease-in-out infinite alternate;
+}
+
+.haveli-hint-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--gold-200);
+  animation: haveli-ping 2.2s var(--ease-out) infinite;
+}
+
+@keyframes haveli-breathe {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes haveli-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+/* ---------- The bloom the guest walks into ---------- */
+
+.haveli-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: var(--haveli-bloom);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- "Open the doors" badge in place of the cursor ---------- */
+
+.door-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.5rem 1.05rem 0.55rem;
+  border: 1px solid rgba(243, 214, 138, 0.55);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--maroon-600), var(--maroon-800));
+  box-shadow:
+    0 0.6rem 1.6rem -0.5rem rgba(0, 0, 0, 0.65),
+    0 0 0 3px rgba(122, 20, 38, 0.35),
+    inset 0 1px 0 rgba(255, 236, 190, 0.25);
+  color: var(--gold-100);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  line-height: 1.25;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.door-cursor.is-on {
+  opacity: 1;
+}
+
+.door-cursor-pa {
+  font-family: var(--font-gurmukhi);
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  color: var(--gold-200);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gateway {
+    cursor: none;
+  }
+
+  .haveli-hint .is-touch {
+    display: none;
+  }
+
+  .haveli-hint .is-mouse {
+    display: inline;
+  }
+}
+
+@media not all and (hover: hover) and (pointer: fine) {
+  .door-cursor {
+    display: none;
+  }
+}
+
+/* The badge hides once the doors are knocked, so give the pointer back */
+.haveli.is-entering .gateway {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haveli-hint-dot {
+    animation: none;
+  }
+
+  .haveli-hint-dot::after {
+    display: none;
+  }
+
+  .door-cursor {
+    transition: none;
+  }
+}
+
+/* ---------- Depth: a recessed doorway, a floor that recedes, layers that shift ---------- */
+
+/* the doorway tilts a little towards the pointer (set by HaveliGate) */
+.gateway {
+  transform-style: preserve-3d;
+  transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.haveli.is-entering .gateway,
+.haveli.is-walking .gateway {
+  transform: perspective(1400px);
+}
+
+/* the carved casing stands proud of the wall and throws a shadow on it */
+.gateway .casing {
+  transform: translateZ(16px);
+  filter: drop-shadow(12px 22px 18px rgba(0, 0, 0, 0.6)) drop-shadow(-3px 6px 6px rgba(0, 0, 0, 0.35));
+}
+
+/* the garland hangs out in front of the casing */
+.gateway .door-toran {
+  transform: translateZ(40px);
+  filter: drop-shadow(4px 10px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* the doors sit deep inside the wall; scaled back up so they still fill the arch at rest */
+.opening {
+  transform: translateZ(-36px) scale(1.026);
+}
+
+/* behind the doors: the dark jamb you glimpse round the edges of the recess as it tilts */
+.gateway::before {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 15%;
+  bottom: 0;
+  border-radius: 50% 50% 0 0 / 26% 26% 0 0;
+  transform: translateZ(-60px) scale(1.04);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.2) 18%, rgba(0, 0, 0, 0.2) 82%, rgba(0, 0, 0, 0.75)),
+    linear-gradient(180deg, #3a0811, #1a0307);
+  pointer-events: none;
+}
+
+/* the courtyard floor: tiles laid in perspective, converging on the doorway */
+.haveli-unit::after {
+  height: 440px;
+  transform-origin: 50% 0;
+  transform: perspective(520px) rotateX(64deg);
+  background:
+    radial-gradient(ellipse 22% 34% at 50% 0, rgba(255, 196, 120, 0.42), rgba(255, 160, 80, 0.12) 55%, transparent 100%),
+    linear-gradient(180deg, transparent 35%, rgba(8, 1, 3, 0.85)),
+    repeating-linear-gradient(90deg, rgba(212, 162, 76, 0.28) 0 2px, transparent 2px 130px),
+    repeating-linear-gradient(0deg, rgba(212, 162, 76, 0.28) 0 2px, transparent 2px 130px),
+    conic-gradient(#2c050c 25%, #3d0912 0 50%, #2c050c 0 75%, #3d0912 0) 0 0 / 260px 260px;
+  background-position: center top;
+}
+
+/* faraway things drift less than near ones */
+.haveli-wall .fairy-lights {
+  translate: calc(var(--px, 0) * -18px) calc(var(--py, 0) * -8px);
+  transition: translate 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.haveli-heading {
+  translate: calc(var(--px, 0) * 10px) calc(var(--py, 0) * 6px);
+  transition: translate 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gateway {
+    transition: none;
+  }
+}
