@@ -1,0 +1,93 @@
+.toran {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.toran__top {
+  position: relative;
+  z-index: 1;
+  height: 26px;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.35) 0 2px, transparent 4px) 0 0 / 22px 26px repeat-x,
+    repeating-conic-gradient(from 0deg at 50% 50%, #ffb300 0 15deg, #ef8a00 15deg 30deg) 0 0 / 22px 26px repeat-x;
+  -webkit-mask: radial-gradient(circle 11px at 11px 13px, #000 98%, transparent) 0 0 / 22px 26px repeat-x;
+  mask: radial-gradient(circle 11px at 11px 13px, #000 98%, transparent) 0 0 / 22px 26px repeat-x;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+
+.toran__strings {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -10px;
+  padding: 0 clamp(8px, 2vw, 32px);
+}
+
+.toran__string {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+}
+
+/* The thread the flowers are strung on */
+.toran__string::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 10px;
+  left: 50%;
+  width: 1px;
+  background: rgba(243, 214, 138, 0.5);
+}
+
+.toran__flower {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.4), transparent 45%),
+    repeating-conic-gradient(#ffb300 0 12deg, #f08a00 12deg 24deg);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35), inset 0 -3px 5px rgba(160, 60, 0, 0.45);
+}
+
+.toran__flower--deep {
+  background:
+    radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.3), transparent 45%),
+    repeating-conic-gradient(#ff6d00 0 12deg, #d84315 12deg 24deg);
+}
+
+.toran__leaf {
+  width: 14px;
+  height: 22px;
+  margin-bottom: -2px;
+  border-radius: 0 100% 0 100%;
+  background: linear-gradient(135deg, #5c9e31, #2e6b1f);
+  transform: rotate(-35deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.toran__tassel {
+  width: 6px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(180deg, var(--gold-200), var(--gold-500));
+}
+
+@media (max-width: 760px) {
+  .toran__string:nth-child(even) {
+    display: none;
+  }
+
+  .toran__flower {
+    width: 16px;
+    height: 16px;
+  }
+}

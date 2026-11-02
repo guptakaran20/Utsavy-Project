@@ -1,0 +1,148 @@
+.couple {
+  padding-top: 0;
+}
+
+.couple__grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 72px);
+  max-width: 1060px;
+  margin: clamp(48px, 7vw, 88px) auto 0;
+}
+
+.couple__and {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border: 1px solid var(--gold-400);
+  border-radius: 50%;
+  outline: 1px solid rgba(212, 162, 76, 0.4);
+  outline-offset: 6px;
+  font-size: 30px;
+  color: var(--maroon-700);
+  background: var(--ivory);
+}
+
+.person {
+  text-align: center;
+}
+
+.person__frame {
+  position: relative;
+  width: min(320px, 76vw);
+  aspect-ratio: 3 / 4;
+  margin: 0 auto 36px;
+}
+
+/* Mughal-arch window, drawn as a mask so it scales with the frame */
+.person__photo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V35C0 21 17 13.5 31 9C41 6 47 3.5 50 0C53 3.5 59 6 69 9C83 13.5 100 21 100 35V100Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V35C0 21 17 13.5 31 9C41 6 47 3.5 50 0C53 3.5 59 6 69 9C83 13.5 100 21 100 35V100Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+.person__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.person__monogram {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at 50% 40%, #8a1a2e, var(--maroon-800) 70%);
+}
+
+.person__mandala {
+  position: absolute;
+  width: 140%;
+  color: var(--gold-400);
+  opacity: 0.25;
+}
+
+.person__monogram span {
+  position: relative;
+  font-size: clamp(110px, 14vw, 150px);
+  line-height: 1;
+  background: var(--gold-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.person__outline {
+  position: absolute;
+  inset: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  max-width: none;
+  overflow: visible;
+  fill: none;
+  stroke: var(--gold-400);
+  stroke-width: 0.5;
+  pointer-events: none;
+}
+
+.person__outline path:last-child {
+  opacity: 0.55;
+}
+
+.person__role {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-500);
+}
+
+.person__role .gurmukhi {
+  letter-spacing: 0;
+  font-size: 15px;
+}
+
+.person__name {
+  margin: 6px 0 0;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(56px, 6vw, 76px);
+  line-height: 1.1;
+  color: var(--maroon-700);
+}
+
+.person__full {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  color: var(--maroon-800);
+}
+
+.person__parents {
+  max-width: 34ch;
+  margin: 14px auto 0;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.person__blurb {
+  max-width: 34ch;
+  margin: 10px auto 0;
+  color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .couple__grid {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+
+  .couple__and {
+    margin: 0 auto;
+  }
+}

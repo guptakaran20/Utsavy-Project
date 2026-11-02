@@ -1,0 +1,5 @@
+/* --o (0..1) is set on an ancestor as the leaf swings, so it darkens as it turns away */
+.leaf-shade {
+  opacity: calc(var(--o, 0) * 0.5);
+  pointer-events: none;
+}

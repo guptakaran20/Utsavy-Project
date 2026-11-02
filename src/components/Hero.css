@@ -1,0 +1,242 @@
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(110px, 14vh, 160px) var(--gutter) clamp(70px, 10vh, 130px);
+  overflow: hidden;
+  text-align: center;
+  color: var(--ivory);
+  background: radial-gradient(ellipse 80% 65% at 50% 45%, #7f1729 0%, #4a0b16 55%, var(--maroon-900) 100%);
+}
+
+/* Faint jaali lattice */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(45deg, rgba(212, 162, 76, 0.06) 1px, transparent 1px) 0 0 / 46px 46px,
+    linear-gradient(-45deg, rgba(212, 162, 76, 0.06) 1px, transparent 1px) 0 0 / 46px 46px;
+  -webkit-mask: radial-gradient(ellipse at center, transparent 30%, #000 85%);
+  mask: radial-gradient(ellipse at center, transparent 30%, #000 85%);
+}
+
+.hero__mandala-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.hero__mandala {
+  width: min(118vmin, 980px);
+  color: var(--gold-400);
+  opacity: 0.2;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+}
+
+.hero__content p {
+  margin: 0;
+}
+
+.hero__symbol {
+  font-size: clamp(42px, min(6vw, 7vh), 66px);
+  line-height: 1;
+  color: var(--gold-200);
+  text-shadow: 0 0 34px rgba(243, 214, 138, 0.45);
+}
+
+.hero__blessing-pa {
+  margin-top: 14px !important;
+  font-size: clamp(22px, 2.6vw, 30px);
+  color: var(--gold-200);
+}
+
+.hero__blessing-en {
+  margin-top: 6px !important;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 230, 0.7);
+}
+
+.hero__together {
+  margin-top: clamp(20px, 3.5vh, 40px) !important;
+  font-style: italic;
+  font-size: clamp(18px, 1.6vw, 22px);
+  color: rgba(251, 244, 230, 0.8);
+}
+
+.hero__names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4px 0 0;
+  font-weight: 400;
+}
+
+.hero__name {
+  display: block;
+  /* Extra room so the gradient (background-clip: text) covers the script's swashes and descenders */
+  padding: 0 0.3em 0.28em;
+  margin-bottom: -0.28em;
+  font-family: var(--font-script);
+  font-size: clamp(68px, min(14vw, 13vh), 168px);
+  line-height: 1.05;
+  background: var(--gold-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
+}
+
+.hero__amp-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: -6px 0;
+}
+
+.hero__rule {
+  width: clamp(60px, 12vw, 140px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-400));
+}
+
+.hero__rule:last-child {
+  background: linear-gradient(90deg, var(--gold-400), transparent);
+}
+
+.hero__amp {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--gold-400);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--gold-200);
+}
+
+.hero__meta {
+  margin-top: clamp(14px, 2.5vh, 32px);
+}
+
+.hero__gurmukhi-names {
+  font-size: clamp(18px, 2vw, 24px);
+  color: rgba(243, 214, 138, 0.85);
+}
+
+.hero__date {
+  margin-top: clamp(8px, 1.5vh, 16px) !important;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.4vw, 28px);
+  letter-spacing: 0.22em;
+  color: var(--ivory);
+}
+
+.hero__place {
+  margin-top: 4px !important;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 230, 0.7);
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: max(28px, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(251, 244, 230, 0.6);
+}
+
+.hero__scroll-line {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  overflow: hidden;
+  background: rgba(212, 162, 76, 0.25);
+}
+
+.hero__scroll-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 18px;
+  background: var(--gold-200);
+  animation: scroll-cue 2s var(--ease-out) infinite;
+}
+
+/* On laptop-height screens the label would collide with the city line */
+@media (max-height: 900px) {
+  .hero__scroll {
+    bottom: 12px;
+  }
+
+  .hero__scroll > span:first-child {
+    display: none;
+  }
+
+  .hero__scroll-line {
+    height: 36px;
+  }
+}
+
+@keyframes scroll-cue {
+  from {
+    transform: translateY(-18px);
+  }
+  to {
+    transform: translateY(48px);
+  }
+}
+
+/* ---------- Petals ---------- */
+
+.petals {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.petal {
+  position: absolute;
+  top: 0;
+  width: 12px;
+  height: 16px;
+  border-radius: 0 80% 0 80%;
+  opacity: 0.85;
+  box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petals {
+    display: none;
+  }
+}
