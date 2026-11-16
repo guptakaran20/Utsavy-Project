@@ -18,7 +18,12 @@
   --font-display: 'Cinzel', 'Times New Roman', serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-script: 'Great Vibes', cursive;
-  --font-gurmukhi: 'Noto Serif Gurmukhi', serif;
+  --font-gurmukhi: 'Tiro Gurmukhi', 'Noto Serif Gurmukhi', serif;
+  --green-800: #0a3d33;
+  --green-600: #1f4d3a;
+  --indigo-900: #121a33;
+  --indigo-700: #1e2a4a;
+  --plaster: #f6eedf;
 
   --gutter: clamp(16px, 4vw, 48px);
   --section-y: clamp(88px, 12vw, 160px);
@@ -95,16 +100,19 @@ textarea {
 
 /* ---------- Sections ---------- */
 
-.section {
+.section,
+.chap {
   position: relative;
   padding: var(--section-y) var(--gutter);
   overflow: hidden;
 }
 
 .section--ivory {
-  background-color: var(--ivory);
-  background-image: radial-gradient(rgba(184, 134, 47, 0.12) 1px, transparent 1.4px);
-  background-size: 24px 24px;
+  background-color: var(--plaster);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23b8862f' stroke-opacity='.16'%3E%3Cpath d='M30 4l26 26-26 26L4 30z'/%3E%3Cpath d='M30 16l14 14-14 14-14-14z'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,255,255,.7), transparent);
+  background-size: 60px 60px, auto;
   color: var(--ink);
 }
 
@@ -134,11 +142,13 @@ textarea {
 
 .section-title__title {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-serif);
+  font-style: italic;
   font-weight: 500;
-  font-size: clamp(34px, 5vw, 58px);
-  line-height: 1.1;
-  letter-spacing: 0.04em;
+  font-size: clamp(44px, 7vw, 92px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 .section-title .flourish {
@@ -232,3 +242,10 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Every chapter fills a screen so the auto-tour has clean stops */
+.chap { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+.section-title__eyebrow { font-size: clamp(20px, 2vw, 26px); }
+html { overflow-x: clip; }
+.rsvp { overflow-x: clip; }
+.chap > .notes__grid, .chap > .venue__grid, .chap > .gallery__strip, .chap > .invite__inner { width: 100%; box-sizing: border-box; }

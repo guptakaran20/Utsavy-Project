@@ -34,10 +34,9 @@
   z-index: 0;
   background:
     radial-gradient(ellipse 46% 42% at 50% 56%, rgba(255, 168, 88, 0.2), rgba(255, 140, 60, 0.06) 55%, transparent 75%),
-    radial-gradient(ellipse 100% 85% at 50% 48%, transparent 38%, rgba(10, 2, 4, 0.82) 100%),
-    linear-gradient(45deg, rgba(212, 162, 76, 0.05) 1px, transparent 1px) 0 0 / 46px 46px,
-    linear-gradient(-45deg, rgba(212, 162, 76, 0.05) 1px, transparent 1px) 0 0 / 46px 46px,
-    radial-gradient(ellipse 80% 65% at 50% 45%, #7f1729 0%, #4a0b16 55%, #22050b 100%);
+    radial-gradient(ellipse 120% 100% at 50% 45%, transparent 55%, rgba(4, 8, 22, 0.5) 100%),
+    url('/night-sky.webp') 50% 0 / cover no-repeat,
+    #060b1f;
 }
 
 .haveli-wall .fairy-lights {
@@ -329,6 +328,7 @@
 
 /* Lamplight through the crack between the closed leaves; it gives way to the real gap */
 .seam {
+  display: none;
   position: absolute;
   top: 2%;
   bottom: 0;
@@ -396,6 +396,7 @@
 
 .haveli-unit .haveli-diya.is-right {
   right: -4cqi;
+  transform: scaleX(-1); /* mirrored so its flame faces the door, like the left lamp */
 }
 
 /* ---------- Hint ---------- */
@@ -602,15 +603,12 @@
 /* the courtyard floor: tiles laid in perspective, converging on the doorway */
 .haveli-unit::after {
   height: 440px;
+  border-top: 0;
+  box-shadow: none;
   transform-origin: 50% 0;
   transform: perspective(520px) rotateX(64deg);
-  background:
-    radial-gradient(ellipse 22% 34% at 50% 0, rgba(255, 196, 120, 0.42), rgba(255, 160, 80, 0.12) 55%, transparent 100%),
-    linear-gradient(180deg, transparent 35%, rgba(8, 1, 3, 0.85)),
-    repeating-linear-gradient(90deg, rgba(212, 162, 76, 0.28) 0 2px, transparent 2px 130px),
-    repeating-linear-gradient(0deg, rgba(212, 162, 76, 0.28) 0 2px, transparent 2px 130px),
-    conic-gradient(#2c050c 25%, #3d0912 0 50%, #2c050c 0 75%, #3d0912 0) 0 0 / 260px 260px;
-  background-position: center top;
+  /* no tiled floor: the night sky runs right to the bottom of the screen, with only a warm pool of lamplight at the threshold */
+  background: none;
 }
 
 /* faraway things drift less than near ones */
@@ -629,3 +627,70 @@
     transition: none;
   }
 }
+
+/* ---------- "Open Invitation" button: the crackers go off when it is pressed ---------- */
+.haveli-open {
+  position: relative;
+  z-index: 5;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  min-height: 52px;
+  margin-top: 0.4rem;
+  padding: 0 1.9rem 0 1.4rem;
+  border: 1px solid var(--gold-200);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e9bf6c, #b8862f);
+  color: var(--maroon-900);
+  font-family: var(--font-display);
+  font-size: clamp(0.78rem, 0.7rem + 0.3vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(243, 214, 138, 0.6), 0 14px 34px -10px rgba(184, 134, 47, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  animation: haveli-open-pulse 2.4s ease-out infinite;
+  transition: transform 0.3s var(--ease-out);
+}
+.haveli-open svg { width: 1.2em; height: 1.2em; fill: currentColor; }
+.haveli-open__pa { font-family: var(--font-gurmukhi); letter-spacing: 0; text-transform: none; font-size: 1.05em; padding-left: 0.7em; border-left: 1px solid rgba(34, 5, 11, 0.35); }
+.haveli-open:hover { transform: translateY(-2px) scale(1.03); }
+.haveli-open:active { transform: scale(0.96); }
+.haveli.is-entering .haveli-open { animation: none; pointer-events: none; }
+@keyframes haveli-open-pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 214, 138, 0.55), 0 14px 34px -10px rgba(184, 134, 47, 0.8), inset 0 1px 0 rgba(255,255,255,.45); } 100% { box-shadow: 0 0 0 16px rgba(243, 214, 138, 0), 0 14px 34px -10px rgba(184, 134, 47, 0.8), inset 0 1px 0 rgba(255,255,255,.45); } }
+@media (prefers-reduced-motion: reduce) { .haveli-open { animation: none; } }
+
+/* ---------- the rope: tied across both door rings like an invitation-card ribbon; drag the tassel down to untie ---------- */
+.haveli-unit .haveli-rope {
+  --len: 7cqi;
+  position: absolute;
+  left: .5cqi;
+  top: 77.6cqi;
+  z-index: 7;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+/* the dori: a twisted brass-gold cord that lengthens as it is pulled */
+.haveli-rope__cord { position: absolute; left: -.6cqi; top: -.4cqi; width: 1.2cqi; height: calc(var(--len) + .6cqi); border-radius: .6cqi; background: repeating-linear-gradient(62deg, #f6dc9a 0 .35cqi, #8a5a1a .35cqi .7cqi); box-shadow: inset .3cqi 0 .2cqi rgba(255,246,204,.5), inset -.3cqi 0 .3cqi rgba(40,20,4,.6), .3cqi .5cqi .7cqi rgba(0,0,0,.5); }
+.haveli-rope__tassel { position: absolute; left: 0; top: calc(var(--len) - .6cqi); width: 10.5cqi; margin-left: -5.25cqi; padding: 0; border: 0; background: none; pointer-events: auto; touch-action: none; cursor: grab; transform-origin: 50% 0; animation: ropeSway 1.5s ease-in-out infinite alternate; filter: drop-shadow(0 1cqi 1cqi rgba(0,0,0,.5)); }
+.haveli-rope__tassel svg { display: block; width: 100%; height: auto; }
+.haveli-rope.is-pulling .haveli-rope__tassel { cursor: grabbing; animation: none; }
+/* a soft golden halo pulsing round the tassel so nobody has to hunt for it */
+.haveli-rope__tassel::before { content: ''; position: absolute; left: 50%; top: 50%; width: 170%; aspect-ratio: 1; margin: -85% 0 0 -85%; border-radius: 50%; background: radial-gradient(circle, rgba(255,214,130,.65) 0, rgba(255,190,90,.25) 38%, rgba(255,190,90,0) 68%); pointer-events: none; z-index: -1; animation: doriHalo 1.8s ease-in-out infinite; }
+.haveli-rope.is-pulling .haveli-rope__tassel::before { animation: none; opacity: 0; }
+@keyframes doriHalo { 0%, 100% { transform: scale(.7); opacity: .35; } 50% { transform: scale(1.15); opacity: 1; } }
+.haveli-rope__tassel:focus-visible { outline: 2px solid var(--gold-200); outline-offset: 4px; border-radius: 6px; }
+@keyframes ropeSway { from { rotate: -7deg; } to { rotate: 7deg; } }
+.haveli-pull { position: relative; z-index: 5; flex: none; margin: 0.3rem 0 0; display: flex; align-items: center; gap: .7em; font-family: var(--font-display); font-size: clamp(.72rem, .66rem + .3vw, .9rem); letter-spacing: .28em; text-transform: uppercase; color: var(--gold-200); text-shadow: 0 1px 10px rgba(10,2,4,.9); }
+.haveli-pull > span:first-child { animation: pullArrow 1.6s ease-in-out infinite; }
+.haveli-pull__pa { font-family: var(--font-gurmukhi); letter-spacing: 0; text-transform: none; font-size: 1.15em; padding-left: .8em; border-left: 1px solid rgba(243,214,138,.4); }
+@keyframes pullArrow { 50% { transform: translateY(5px); } }
+.haveli.is-entering .haveli-pull { opacity: 0; }
+.door-cursor { display: none !important; }
+@media (prefers-reduced-motion: reduce) { .haveli-rope__tassel, .haveli-rope__tassel::before, .haveli-pull > span:first-child { animation: none; } .haveli-rope__cord { animation: none !important; } }
+
+/* the rope is tied round the right-hand door ring: a wrapped knot, then a short tail to the tassel */
+.haveli-rope__knot { width: 7.2cqi; height: 6cqi; margin-top: -.6cqi; border-radius: 50%; background: repeating-linear-gradient(80deg, #f1d28a 0 .5cqi, #a9742a .5cqi 1cqi); box-shadow: 0 .5cqi .9cqi rgba(0,0,0,.55), inset 0 0 0 .35cqi rgba(80,45,10,.55); position: relative; z-index: 3; }
+.haveli-rope__tail { width: 1.9cqi; height: 7cqi; margin-top: -1cqi; border-radius: 1cqi; background: repeating-linear-gradient(62deg, #f1d28a 0 .45cqi, #a9742a .45cqi .9cqi); box-shadow: .25cqi 0 .8cqi rgba(0,0,0,.45); }

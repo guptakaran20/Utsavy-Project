@@ -1,0 +1,63 @@
+.venue__grid { max-width: 1100px; margin: 56px auto 0; display: grid; gap: 40px; grid-template-columns: 1.2fr 1fr; align-items: center; }
+.venue__map { position: relative; margin: 0; aspect-ratio: 4/3; border-radius: 999px 999px 18px 18px / 260px 260px 18px 18px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(90,15,28,.55); background: var(--cream); }
+.venue__map iframe { width: 100%; height: 100%; border: 0; filter: sepia(.45) saturate(.8) hue-rotate(-10deg); }
+.venue__frame { position: absolute; inset: 10px; border: 1px solid var(--gold-400); border-radius: inherit; pointer-events: none; }
+.venue__name { margin: 0 0 8px; font-family: var(--font-display); font-weight: 500; color: var(--maroon-700); font-size: clamp(26px, 3.2vw, 38px); letter-spacing: .04em; }
+.venue__addr { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 14px; color: var(--ink-soft); }
+.venue__addr svg { flex: none; margin-top: 4px; color: var(--gold-500); }
+.venue__note { margin: 0 0 26px; font-style: italic; color: var(--ink-soft); }
+.venue__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn--outline { background: transparent; color: var(--maroon-700); border-color: var(--maroon-600); box-shadow: none; }
+.btn--outline:hover { background: rgba(122,20,38,.08); box-shadow: none; }
+@media (max-width: 860px) { .venue__grid { grid-template-columns: 1fr; } .venue__map { border-radius: 999px 999px 18px 18px / 180px 180px 18px 18px; } .venue__actions .btn { flex: 1 1 100%; } }
+.venue__map::before { content: 'Opening the map…'; position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-500); }
+.venue__map iframe { position: relative; }
+
+/* the same blush paper and edge flowers as the invitation pages */
+.venue.sky-bg { background-color: #f6dcd8; }
+.venue > :not(.floral-sides) { position: relative; z-index: 2; }
+.venue .floral-sides__head { display: none !important; }
+@media (max-width: 760px) { .venue.sky-bg, .notes.sky-bg { padding-inline: 38px; } }
+
+/* flowers rise in softly at the top and dissolve at the foot: no hard line between pages */
+.venue .floral-sides, .notes .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%); }
+.venue .floral-sides, .notes .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 140px, #000 420px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, transparent 140px, #000 420px, #000 calc(100% - 220px), transparent 100%); }
+
+/* the pavilion, framed like the map: an arched window with a gold keyline */
+.venue__photo { position: relative; max-width: 1100px; margin: 40px auto 0; aspect-ratio: 16 / 9; border-radius: 999px 999px 18px 18px / 220px 220px 18px 18px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(90, 15, 28, .55); }
+.venue__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block; }
+@media (max-width: 860px) { .venue__photo { aspect-ratio: 4 / 5; border-radius: 999px 999px 18px 18px / 160px 160px 18px 18px; } }
+
+/* the pavilion as a clean framed picture: soft corners, a gold keyline, room for the flowers either side */
+.venue__photo { max-width: 920px; aspect-ratio: 16 / 9; border-radius: 22px; box-shadow: 0 24px 50px -26px rgba(90, 15, 28, .55), 0 0 0 1px rgba(184, 134, 47, .55); }
+.venue__photo img { object-position: 50% 50%; }
+.venue__photo .venue__frame { inset: 10px; border: 1px solid rgba(255, 244, 214, .85); border-radius: 14px; }
+@media (max-width: 860px) { .venue__photo { aspect-ratio: 4 / 5; border-radius: 22px; } .venue__photo img { object-position: 47% 50%; } }
+
+/* the pavilion is the page itself: laid as a soft backdrop, the edge flowers drift over it, the content rides on top */
+.venue.sky-bg { isolation: isolate; }
+.venue.sky-bg::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(180deg, rgba(246, 220, 216, .35), rgba(246, 220, 216, .55) 60%, rgba(246, 220, 216, .8)), url('/venue.webp') 50% 40% / cover no-repeat; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 240px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 240px), transparent 100%); }
+.venue .floral-sides { z-index: 1; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 260px, #000 calc(100% - 260px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 260px, #000 calc(100% - 260px), transparent 100%); }
+.venue .venue__name, .venue .venue__addr, .venue .venue__note { text-shadow: 0 1px 12px rgba(246, 220, 216, .9); }
+.venue.sky-bg::before { background: linear-gradient(180deg, rgba(246, 220, 216, .5), rgba(246, 220, 216, .66) 55%, rgba(246, 220, 216, .86)), url('/venue.webp') 50% 40% / cover no-repeat; }
+.venue.sky-bg::before { background-position: 47% 50%, 47% 50%; }
+
+/* no seam: this page slides up under the foot of the one above, its own paper only thickening as it goes */
+.venue.sky-bg { background: none; margin-top: -220px; padding-top: calc(var(--section-y) + 220px); pointer-events: none; }
+.venue.sky-bg > * { pointer-events: auto; }
+.venue.sky-bg > .floral-sides { pointer-events: none; }
+.venue.sky-bg::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: #f6dcd8; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.55' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-repeat: repeat; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 200px); mask-image: linear-gradient(to bottom, transparent 0, #000 200px); }
+
+/* the two flower pages overlap: the flowers above dissolve exactly where these rise in, so they read as one run */
+.venue .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%); }
+.venue.sky-bg { z-index: 5; }
+/* a gentler overlap so the page above keeps its call-to-action clear */
+.venue.sky-bg { margin-top: -90px; padding-top: calc(var(--section-y) + 90px); }
+.venue.sky-bg::before { -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 40px, #000 260px, #000 calc(100% - 240px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, transparent 40px, #000 260px, #000 calc(100% - 240px), transparent 100%); }
+.venue .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 40px, #000 260px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, transparent 40px, #000 260px, #000 calc(100% - 220px), transparent 100%); }
+.venue.sky-bg::after { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 120px); mask-image: linear-gradient(to bottom, transparent 0, #000 120px); }
+/* the paper is fully solid by the exact point where the page above ends, so nothing cream shows through at the join */
+.venue.sky-bg::after { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 80px); mask-image: linear-gradient(to bottom, transparent 0, #000 80px); }
+
+/* slow parallax on the pavilion backdrop (driven by --bgy in Venue.jsx) */
+.venue.sky-bg::before { background-position: 47% 50%, 47% calc(50% + var(--bgy, 0px)); }

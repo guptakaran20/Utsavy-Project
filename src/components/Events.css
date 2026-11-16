@@ -1,362 +1,215 @@
-.events {
-  position: relative;
-  background:
-    radial-gradient(ellipse 70% 60% at 20% 30%, rgba(122, 20, 38, 0.9), transparent 70%),
-    radial-gradient(ellipse 60% 60% at 90% 80%, rgba(232, 117, 26, 0.18), transparent 70%),
-    var(--maroon-900);
-  color: var(--ivory);
+.events { --e-bg1: var(--maroon-600); --e-bg2: var(--maroon-900); --e-accent: var(--gold-400); position: relative; overflow: hidden; padding: var(--section-y) var(--gutter); color: var(--ivory); }
+.events--mehndi { --e-bg1: #1f6b50; --e-bg2: #06241d; }
+.events--maiyan { --e-bg1: #c8861b; --e-bg2: #4a2a05; --e-accent: #ffe29a; }
+.events--anand { --e-bg1: #7a1426; --e-bg2: #22050b; }
+.events--reception { --e-bg1: #2b3a69; --e-bg2: #0e1430; }
+.events::before { content: ''; position: absolute; inset: 0; background: inherit; }
+.events__mandala { position: absolute; left: 50%; top: 50%; width: min(1300px, 190vw); translate: -50% -50%; color: var(--gold-200); opacity: .07; pointer-events: none; }
+.events__head { position: relative; text-align: center; }
+.events__eyebrow { margin: 0; color: var(--gold-200); font-size: clamp(20px,2vw,26px); }
+.events__title { margin: 0; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(44px, 7vw, 92px); line-height: 1; }
+.events__tabs { position: relative; display: flex; justify-content: center; gap: 10px; margin: clamp(28px,4vw,48px) auto 0; overflow-x: auto; padding: 4px; max-width: 100%; scrollbar-width: none; }
+.events__tabs::-webkit-scrollbar { display: none; }
+.etab { position: relative; flex: none; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 22px 0 14px; border-radius: 999px; border: 1px solid rgba(243,214,138,.4); background: rgba(0,0,0,.2); color: var(--ivory); cursor: pointer; font-family: var(--font-display); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.etab__pill { position: absolute; inset: -1px; border-radius: inherit; background: linear-gradient(180deg,#e2b765,#b8862f); }
+.etab > :not(.etab__pill) { position: relative; }
+.etab.is-on { color: var(--maroon-900); }
+.etab__day { display: flex; flex-direction: column; align-items: center; gap: 3px; font-family: var(--font-serif); font-size: 24px; line-height: 1; font-weight: 600; letter-spacing: 0; }
+.etab__day small { font-family: var(--font-display); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; }
+.events__stage { position: relative; max-width: 1040px; margin: clamp(28px,4vw,52px) auto 0; width: 100%; }
+.ecard { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
+.ecard__arch { width: 100%; filter: drop-shadow(0 30px 40px rgba(0,0,0,.4)); }
+.ecard__art-inner { position: relative; display: grid; place-items: center; width: 100%; height: 100%; align-content: center; padding-top: 14%; }
+.ecard__mandala { position: absolute; width: 150%; color: var(--e-accent); opacity: .22; }
+.ecard__big { position: relative; font-family: var(--font-serif); font-weight: 500; font-size: clamp(90px, 14vw, 170px); line-height: .85; color: var(--gold-200); font-variant-numeric: lining-nums; }
+.ecard__mon { position: relative; font-family: var(--font-display); letter-spacing: .4em; text-transform: uppercase; color: var(--gold-400); margin-right: -.4em; }
+.ecard__pa { margin: 0; color: var(--gold-200); font-size: clamp(20px, 2.2vw, 28px); }
+.ecard__name { margin: 0 0 12px; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(38px, 5.4vw, 68px); line-height: 1; }
+.ecard__desc { margin: 0 0 22px; max-width: 46ch; color: rgba(251,244,230,.88); text-wrap: pretty; }
+.ecard__list { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 14px; }
+.ecard__list li { display: flex; gap: 14px; align-items: flex-start; }
+.ecard__list svg { flex: none; margin-top: 3px; color: var(--gold-400); }
+.ecard__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.events__cta { position: relative; margin: clamp(32px,5vw,56px) 0 0; text-align: center; }
+.events__cta a { display: inline-flex; gap: 12px; align-items: center; font-family: var(--font-serif); font-style: italic; font-size: clamp(22px, 3vw, 30px); color: var(--gold-200); text-decoration: none; border-bottom: 1px solid var(--gold-500); padding-bottom: 4px; }
+@media (max-width: 760px) {
+  .events { justify-content: flex-start; }
+  .ecard { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  .ecard__arch { width: min(52vw, 220px); }
+  .ecard__list { text-align: left; } .ecard__desc { margin-inline: auto; }
+  .ecard__actions { justify-content: center; } .ecard__actions .btn { flex: 1 1 100%; }
+  .etab__name { display: none; } .etab { padding: 0 18px; } .events__tabs { justify-content: flex-start; }
 }
 
-.events__pin {
-  position: relative;
-  padding: var(--section-y) var(--gutter);
+/* parchment scroll on brass rollers; changing day rolls it up and unrolls the next */
+.events__stage { z-index: 2; }
+.escroll { position: relative; width: min(100%, 440px); margin: 0 auto; display: flex; flex-direction: column; align-items: stretch; }
+.escroll__roller { position: relative; z-index: 2; height: 38px; margin: 0 -22px; border-radius: 19px; background: linear-gradient(180deg, #f3e2b4 0, #d9bd7c 38%, #b8975a 70%, #7a5a2a 100%); box-shadow: 0 8px 14px rgba(0,0,0,.4); }
+.escroll__roller::before, .escroll__roller::after { content: ''; position: absolute; top: -4px; bottom: -4px; width: 40px; border-radius: 14px; background: repeating-linear-gradient(135deg, #f6d37a 0 5px, #b0731d 5px 10px); box-shadow: inset 0 0 0 2px #7a4d10, 0 4px 8px rgba(0,0,0,.4); }
+.escroll__roller::before { left: -6px; } .escroll__roller::after { right: -6px; }
+.escroll__paper { position: relative; overflow: hidden; margin: 0 6px; color: #5a3a22; background-color: #f3e5c1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .35 0 0 0 0 .15 0 0 0 .3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), radial-gradient(ellipse at 20% 10%, rgba(180,130,60,.22), transparent 40%), radial-gradient(ellipse at 85% 70%, rgba(150,100,40,.2), transparent 45%), linear-gradient(90deg, rgba(120,80,30,.35), transparent 8%, transparent 92%, rgba(120,80,30,.35));
+  box-shadow: inset 0 0 0 2px #c9a24d, inset 0 0 0 7px #f3e5c1, inset 0 0 0 8px #c9a24d; }
+.escroll__inner { padding: 34px 26px 28px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.escroll .ecard__pa { color: #a8762a; margin: 0; }
+.escroll .ecard__name { margin: 4px 0 6px; font-family: var(--font-display); font-style: normal; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: clamp(26px, 6vw, 34px); color: #7a4a30; text-wrap: balance; }
+.escroll .florals--lotus { margin: 4px auto 10px; }
+.escroll__date { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: .14em; font-size: 17px; color: #7a4a30; }
+.escroll__time { margin: 2px 0 10px; font-style: italic; color: #8a6a4a; }
+.escroll .ecard__desc { margin: 0 0 14px; color: #5a3a22; }
+.escroll__venue, .escroll__attire { display: flex; gap: 10px; align-items: flex-start; justify-content: center; margin: 4px 0; text-align: left; font-size: .95em; }
+.escroll__venue svg, .escroll__attire svg { flex: none; margin-top: 3px; color: #a8762a; }
+.escroll .ecard__actions { justify-content: center; margin-top: 18px; }
+.escroll__btn { min-height: 44px; padding: 0 20px; font-size: 12px; border-color: #a8762a; }
+.escroll__btn--ghost { background: transparent; color: #7a4a30; border-color: #7a4a30; box-shadow: none; }
+.escroll__btn--ghost:hover { background: rgba(122,74,48,.08); }
+.events .corner--tl, .events .corner--tr, .events .corner--bl, .events .corner--br { z-index: 1; opacity: .96; }
+@media (max-width: 760px) { .events .florals--corner { width: 34vw; } .escroll { width: min(100%, 360px); } }
+
+/* phone: the whole pinned page (title, days, scroll) fits one screen, clear of the floating buttons */
+@media (max-width: 760px) {
+  .events.chap { min-height: 100svh; padding: 44px var(--gutter) 88px; justify-content: flex-start; }
+  .events__title { font-size: 40px; }
+  .events__tabs { margin-top: 16px; justify-content: center; }
+  .events__stage { margin-top: 20px; }
+  .escroll__roller { height: 30px; }
+  .escroll__inner { padding: 22px 20px 18px; }
+  .escroll .ecard__desc { margin-bottom: 8px; font-size: 15px; }
+  .escroll .florals--lotus { transform: scale(.8); margin: 0 auto 4px; }
+  .escroll .ecard__actions { margin-top: 12px; gap: 8px; }
+  .escroll__btn { min-height: 40px; }
+  .events__cta { display: none; }
+}
+@media (max-width: 760px) {
+  .events.chap { padding-top: 28px; padding-bottom: 80px; }
+  .events__title { font-size: 36px; }
+  .events__tabs { margin-top: 10px; }
+  .events__stage { margin-top: 14px; }
+  .etab { min-height: 50px; }
+  .escroll .florals--lotus { display: none; }
+  .escroll__inner { padding: 16px 18px 14px; }
+  .escroll .ecard__name { font-size: 24px; margin: 2px 0 4px; }
+  .escroll__date { font-size: 15px; }
+  .escroll__time { margin-bottom: 6px; }
+  .escroll .ecard__desc { font-size: 14px; line-height: 1.4; }
+  .escroll__venue, .escroll__attire { font-size: 14px; margin: 2px 0; }
+  .escroll .ecard__actions { margin-top: 10px; }
+  .escroll__btn { min-height: 38px; }
 }
 
-.events__track {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
+/* phone: let the card grow to fill whatever height the screen has left */
+@media (max-width: 760px) {
+  .escroll__inner { min-height: calc(100svh - 350px); justify-content: center; }
+}
+@media (max-width: 760px) and (min-height: 820px) {
+  .escroll .florals--lotus { display: block; }
+  .escroll__inner { padding: 24px 20px 22px; min-height: calc(100svh - 370px); }
+  .escroll .ecard__name { font-size: 30px; margin: 4px 0 6px; }
+  .escroll__date { font-size: 17px; }
+  .escroll .ecard__desc { font-size: 16px; line-height: 1.5; margin-bottom: 14px; }
+  .escroll__venue, .escroll__attire { font-size: 16px; margin: 5px 0; }
+  .escroll .ecard__actions { margin-top: 18px; gap: 10px; }
+  .escroll__btn { min-height: 44px; }
 }
 
-/* ---------- Intro panel ---------- */
+/* blush paper and flowers like the invitation pages, whatever the day */
+.events.sky-bg { color: #5a1424; background-color: #f6dcd8; }
+.events.sky-bg::before { display: none; }
+.events.sky-bg > :not(.floral-sides) { position: relative; z-index: 2; }
+.events.sky-bg > .events__mandala.events__mandala { position: absolute; color: #b8862f; opacity: .12; z-index: 1; }
+.events.sky-bg .events__eyebrow { color: #b8862f; }
+.events.sky-bg .etab { color: #5a1424; background: rgba(255,253,248,.6); border-color: rgba(184,134,47,.7); }
+.events.sky-bg .etab.is-on { color: var(--maroon-900); }
+.events.sky-bg .escroll__roller, .events.sky-bg .escroll__paper { box-shadow: 0 10px 20px rgba(90,20,30,.28); }
+.events.sky-bg .escroll__paper { box-shadow: inset 0 0 0 2px #c9a24d, inset 0 0 0 7px #f3e5c1, inset 0 0 0 8px #c9a24d, 0 10px 20px rgba(90,20,30,.2); }
+.events .floral-sides__head { display: none; }
+.events .floral-sides > img.floral-sides__head { display: none !important; }
 
-.events__intro {
-  max-width: 420px;
-  text-align: center;
+/* the stage reserves the tallest day's height (see EventBody) so nothing below or around it moves while pinned */
+.events__stage { display: grid; }
+.events__stage > .escroll { grid-area: 1 / 1; align-self: start; }
+.escroll--ghost { visibility: hidden; pointer-events: none; }
+.escroll__ghostpaper { display: grid; }
+.escroll__ghostpaper > * { grid-area: 1 / 1; }
+
+/* the call-to-action sits at the foot of the pinned section: always visible, and no big empty gap before the next band */
+.events { padding-bottom: clamp(40px, 6vw, 88px); }
+
+/* sticky hold: the section sticks at the top, or, when taller than the screen, with its bottom at the screen's bottom */
+.events-track { position: relative; z-index: 2; }
+.events-track > .events { position: sticky; top: 0; height: 100svh; min-height: 0; justify-content: flex-start; padding-block: clamp(14px, 3svh, 32px); }
+
+/* the call-to-action sits on the pink sky, so it needs dark ink (the pale gold was made for the old maroon background) */
+.events__cta a { color: var(--maroon-700); border-bottom-color: var(--maroon-600); }
+.events__cta a .gurmukhi { color: var(--maroon-600); font-style: normal; }
+.events__cta a:hover { color: var(--maroon-900); }
+
+.events .floral-sides--section { -webkit-mask-image: none; mask-image: none; z-index: 0; }
+
+/* one screen: nothing in the held section may squash (the tab row was being clipped), and on wide screens it is laid out
+   compactly with a wider scroll, so all four days sit comfortably on screen at full size */
+.events-track > .events > * { flex-shrink: 0; }
+.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16%); mask-image: linear-gradient(to bottom, transparent 0, #000 16%); }
+@media (min-width: 900px) {
+  /* wide screens: heading, day list and link on the left, the scroll on the right: nothing needs to shrink to fit the height */
+  .events-track > .events { display: grid; grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1fr); grid-template-rows: auto auto auto; grid-template-areas: "head stage" "tabs stage" "cta stage"; align-content: center; column-gap: clamp(28px, 5vw, 80px); padding-inline: max(var(--gutter), 14vw); }
+  .events-track .events__head { grid-area: head; text-align: left; }
+  .events-track .events__title { font-size: clamp(36px, 4.4vw, 64px); }
+  .events-track .events__eyebrow { font-size: clamp(16px, 1.5vw, 22px); }
+  .events-track .events__tabs { grid-area: tabs; flex-direction: column; align-items: stretch; justify-content: flex-start; overflow: visible; gap: 10px; margin: clamp(16px, 3svh, 32px) 0 0; padding: 4px; }
+  .events-track .etab { width: 100%; }
+  .events-track .events__stage { grid-area: stage; align-self: center; margin: 0; }
+  .events-track .events__cta { grid-area: cta; text-align: left; margin-top: clamp(16px, 3svh, 32px); }
+  .events-track .escroll { width: min(100%, 560px); }
+}
+@media (min-width: 900px) {
+  .events-track > .events { padding-inline: max(var(--gutter), 17vw); }
+  .events-track .events__cta a { font-size: clamp(18px, 1.8vw, 24px); flex-wrap: wrap; }
 }
 
-.events__eyebrow {
-  margin: 0;
-  font-size: 20px;
-  color: var(--gold-200);
+@media (min-width: 900px) {
+  .events-track > .events { grid-template-columns: minmax(300px, 440px) minmax(0, 1fr); column-gap: clamp(32px, 6vw, 120px); padding-inline: max(var(--gutter), 18vw); }
+  .events-track .events__tabs { max-width: 440px; }
+  .events-track .events__cta { max-width: 440px; }
+  .events-track .escroll { width: min(100%, 600px); margin-inline: auto; }
 }
 
-.events__title {
-  margin: 4px 0 0;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(36px, 4.6vw, 58px);
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  color: var(--gold-100);
-}
+/* the big mandala watermarks fade out toward their rim instead of being sliced off at the section edge, which drew a
+   straight line across the page where the countdown meets the celebrations */
+.events__mandala, .countdown__mandala { -webkit-mask-image: radial-gradient(closest-side, #000 15%, transparent 58%); mask-image: radial-gradient(closest-side, #000 15%, transparent 58%); }
 
-.events__intro .flourish {
-  margin: 18px auto 0;
-  color: var(--gold-400);
-}
+/* overlap the sheet above by a hair so no sliver of the page behind can show between the two papers */
+.events-track { margin-top: -2px; }
 
-.events__lede {
-  margin: 22px 0 0;
-  font-size: 20px;
-  color: rgba(251, 244, 230, 0.8);
-}
+/* the new paper melts into the sheet above over its last stretch (same paper, same pattern), hiding the old edge completely */
+.events__fade { position: absolute; left: 0; right: 0; top: -110px; height: 112px; z-index: 3; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 90%); mask-image: linear-gradient(to bottom, transparent, #000 90%); }
+.events-track > .events { padding-top: clamp(48px, 9svh, 110px); padding-bottom: clamp(20px, 3.5svh, 44px); }
 
-.events__hint {
-  display: none;
-  align-items: center;
-  gap: 10px;
-  margin: 28px 0 0;
-  font-family: var(--font-display);
-  font-size: 12px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--gold-200);
-}
+/* no hazy half-faded flowers at the seam: a clean strip of plain paper, then the flowers begin crisply */
+.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 90px, #000 150px); mask-image: linear-gradient(to bottom, transparent 0, transparent 90px, #000 150px); }
 
-.events__hint svg {
-  animation: nudge 1.6s ease-in-out infinite;
-}
+/* seam: no overlay wash, a short crisp fade, and flowers that start right away: less haze and less empty paper */
+.events__fade { display: none; }
+.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px); mask-image: linear-gradient(to bottom, transparent 0, #000 70px); }
+.events-track > .events { padding-top: clamp(36px, 7svh, 84px); }
+@media (min-width: 900px) { .events-track .events__head { margin-top: clamp(28px, 7svh, 80px); } }
 
-@keyframes nudge {
-  50% {
-    transform: translateX(6px);
-  }
-}
+/* the heading often lands on the edge flowers: a soft blush wash behind it, and a deeper gold for the small label */
+.events-track .events__head { isolation: isolate; }
+.events-track .events__head::before { content: ''; position: absolute; z-index: -1; inset: -34px -70px -26px -50px; pointer-events: none; background: radial-gradient(ellipse 60% 62% at 50% 52%, rgba(246, 220, 216, .97) 42%, rgba(246, 220, 216, .75) 68%, rgba(246, 220, 216, 0) 100%); }
+.events.sky-bg .events__eyebrow { color: #8f5f12; font-weight: 600; }
 
-/* ---------- Event card ---------- */
 
-.event {
-  --bg: linear-gradient(165deg, #7a1426, #3a0811);
-  --fg: var(--ivory);
-  --accent: var(--gold-200);
-  --line: rgba(243, 214, 138, 0.35);
 
-  position: relative;
-  flex: 0 0 auto;
-  width: min(420px, 100%);
-  padding: 96px clamp(24px, 3vw, 36px) 32px;
-  overflow: hidden;
-  isolation: isolate;
-  border-radius: 50% 50% 14px 14px / 130px 130px 14px 14px;
-  background: var(--bg);
-  color: var(--fg);
-  text-align: center;
-  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8), inset 0 0 0 1px var(--line);
-}
+/* the flowers dissolve at the foot of this page so the next page can begin with no hard seam */
+.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); }
+.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 340px), transparent calc(100% - 120px)); mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 340px), transparent calc(100% - 120px)); }
 
-/* Inner gold border following the arch */
-.event::before {
-  content: '';
-  position: absolute;
-  inset: 10px;
-  z-index: -1;
-  border: 1px solid var(--line);
-  border-radius: 50% 50% 8px 8px / 122px 122px 8px 8px;
-  pointer-events: none;
-}
+.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); }
 
-.event__mandala {
-  position: absolute;
-  top: -150px;
-  left: 50%;
-  z-index: -1;
-  width: 380px;
-  margin-left: -190px;
-  color: var(--accent);
-  opacity: 0.2;
-}
-
-.event__index {
-  font-family: var(--font-display);
-  font-size: 13px;
-  letter-spacing: 0.3em;
-  color: var(--accent);
-}
-
-.event__gurmukhi {
-  margin: 10px 0 0;
-  font-size: clamp(28px, 2.6vw, 34px);
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--accent);
-}
-
-.event__name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 20px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.event__desc {
-  margin: 14px 0 0;
-  font-style: italic;
-  font-size: 19px;
-  line-height: 1.45;
-  opacity: 0.9;
-}
-
-.event__details {
-  display: grid;
-  gap: 12px;
-  margin: 22px 0 0;
-  padding: 22px 0 0;
-  border-top: 1px solid var(--line);
-  list-style: none;
-  text-align: left;
-  font-size: 18px;
-  line-height: 1.35;
-}
-
-.event__details li {
-  display: grid;
-  grid-template-columns: 20px 1fr;
-  gap: 12px;
-  align-items: start;
-}
-
-.event__details svg {
-  margin-top: 1px;
-  color: var(--accent);
-}
-
-.event__details strong {
-  font-weight: 600;
-}
-
-.event__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 24px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--accent);
-  font-family: var(--font-display);
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--accent);
-}
-
-.event__link svg {
-  transition: transform 0.3s var(--ease-out);
-}
-
-.event__link:hover svg {
-  transform: translateX(4px);
-}
-
-/* Themes */
-.event--mehndi {
-  --bg: linear-gradient(165deg, #3a7d44, #163a20);
-  --accent: #d9ef9a;
-  --line: rgba(217, 239, 154, 0.35);
-}
-
-.event--maiyan {
-  --bg: linear-gradient(165deg, #ffd25a, #e8980f);
-  --fg: var(--maroon-800);
-  --accent: #8a1a2e;
-  --line: rgba(138, 26, 46, 0.3);
-}
-
-.event--anand {
-  --bg: linear-gradient(165deg, #f0862a, #b3400d);
-  --accent: var(--gold-100);
-  --line: rgba(251, 236, 196, 0.4);
-}
-
-.event--reception {
-  --bg: linear-gradient(165deg, #273069, #0d1130);
-  --accent: var(--gold-200);
-  --line: rgba(243, 214, 138, 0.3);
-}
-
-/* ---------- End panel ---------- */
-
-.events__end {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  max-width: 360px;
-  padding: 24px;
-  text-align: center;
-}
-
-.events__end-pa {
-  margin: 0;
-  font-size: clamp(34px, 4vw, 46px);
-  color: var(--gold-200);
-}
-
-.events__end-text {
-  margin: 0 0 20px;
-  font-family: var(--font-script);
-  font-size: clamp(36px, 4vw, 48px);
-  line-height: 1.2;
-  color: var(--ivory);
-}
-
-.events__progress {
-  display: none;
-}
-
-/* ---------- Horizontal layout ---------- */
-
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
-  .events__pin {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;
-    min-height: 680px;
-    padding: 80px 0 48px;
-    overflow: hidden;
-  }
-
-  .events__track {
-    flex-direction: row;
-    align-items: stretch;
-    gap: clamp(24px, 2.6vw, 40px);
-    width: max-content;
-    padding: 0 var(--gutter) 0 max(var(--gutter), calc((100vw - 1240px) / 2));
-  }
-
-  .events__intro {
-    align-self: center;
-    width: 360px;
-    margin-right: 24px;
-    text-align: left;
-  }
-
-  .events__title {
-    font-size: clamp(36px, 3.2vw, 46px);
-  }
-
-  .events__intro .flourish {
-    margin-left: 0;
-  }
-
-  .events__hint {
-    display: inline-flex;
-  }
-
-  .event {
-    width: clamp(340px, 29vw, 400px);
-    padding-top: 88px;
-  }
-
-  .events__end {
-    align-self: center;
-    width: 340px;
-  }
-
-  .events__progress {
-    display: block;
-    position: absolute;
-    left: 50%;
-    bottom: 28px;
-    width: min(240px, 40vw);
-    height: 2px;
-    margin-left: calc(min(240px, 40vw) / -2);
-    background: rgba(212, 162, 76, 0.2);
-  }
-
-  .events__progress-fill {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: var(--gold-200);
-    transform-origin: left center;
-  }
-}
-
-/* Short desktop screens: tighten the cards so the pinned view fits */
-@media (min-width: 900px) and (max-height: 820px) and (prefers-reduced-motion: no-preference) {
-  .event {
-    padding-top: 72px;
-    padding-bottom: 24px;
-  }
-
-  .event__desc {
-    font-size: 17px;
-  }
-
-  .event__details {
-    gap: 8px;
-    margin-top: 16px;
-    padding-top: 16px;
-    font-size: 16px;
-  }
-}
-
-/* Reduced motion on wide screens: a plain wrapped grid */
-@media (min-width: 900px) and (prefers-reduced-motion: reduce) {
-  .events__track {
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: stretch;
-  }
-
-  .events__intro {
-    flex-basis: 100%;
-    max-width: none;
-  }
-}
+/* Chrome: a masked, flipped flower layer on a pinned page can leave a pale rectangular tile while scrolling.
+   So the layer carries no mask here; plain paper-coloured gradients fade the flowers at the top and foot instead. */
+.events .floral-sides--section { -webkit-mask-image: none !important; mask-image: none !important; transform: none; backface-visibility: visible; will-change: auto; }
+.events .floral-sides--section span { backface-visibility: visible; }
+.events.sky-bg::before { content: ''; display: block; position: absolute; left: 0; right: 0; top: 0; height: 90px; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, #f6dcd8, rgba(246, 220, 216, 0)); }
+.events.sky-bg::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 240px; z-index: 1; pointer-events: none; background: linear-gradient(to top, #f6dcd8 10%, rgba(246, 220, 216, 0)); }

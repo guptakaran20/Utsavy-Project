@@ -12,6 +12,7 @@ export default function Footer() {
   return (
     <footer ref={root} className="footer">
       <Mandala className="footer__mandala" />
+      <p className="footer__wordmark" aria-hidden="true">{wedding.bride.name[0]}&amp;{wedding.groom.name[0]}</p>
       <div className="footer__inner">
         <p className="footer__pa gurmukhi reveal">ਆਪ ਜੀ ਦੀ ਉਡੀਕ ਵਿੱਚ</p>
         <p className="footer__en reveal">Awaiting your gracious presence</p>

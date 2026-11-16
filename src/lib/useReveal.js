@@ -1,19 +1,20 @@
-import { gsap, useGSAP } from './gsap'
+import { gsap, ScrollTrigger, useGSAP } from './gsap'
 
-// Fades up every `.reveal` element inside `scope` as it enters the viewport.
+// Unfolds every `.reveal` inside `scope` one after another as it scrolls in.
+// Elements that enter together are batched and cascade quickly in DOM order.
 export function useReveal(scope) {
   useGSAP(
     () => {
       const mm = gsap.matchMedia()
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.utils.toArray('.reveal', scope.current).forEach((el) => {
-          gsap.from(el, {
-            y: 40,
-            autoAlpha: 0,
-            duration: 1.1,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-          })
+        const els = gsap.utils.toArray('.reveal', scope.current)
+        gsap.set(els, { y: 26, autoAlpha: 0 })
+        ScrollTrigger.batch(els, {
+          start: 'top 92%',
+          once: true,
+          interval: 0.08,
+          onEnter: (batch) =>
+            gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.55, ease: 'power3.out', stagger: 0.09, overwrite: true }),
         })
       })
     },

@@ -3,6 +3,7 @@ import { gsap, useGSAP } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
 import SectionTitle from './SectionTitle'
+import FloralSides from './FloralSides'
 import './GuestNotes.css'
 
 const GURMUKHI_DIGITS = ['੧', '੨', '੩', '੪', '੫', '੬']
@@ -18,8 +19,8 @@ export default function GuestNotes() {
         gsap.from('.note', {
           y: 60,
           autoAlpha: 0,
-          stagger: 0.15,
-          duration: 1.1,
+          stagger: 0.1,
+          duration: 0.6,
           ease: 'power3.out',
           scrollTrigger: { trigger: '.notes__grid', start: 'top 82%', once: true },
         })
@@ -29,7 +30,8 @@ export default function GuestNotes() {
   )
 
   return (
-    <section id="notes" ref={root} className="section section--ivory notes">
+    <section id="notes" ref={root} className="section sky-bg notes chap" data-chapter data-dwell="7">
+      <FloralSides tiles={3} />
       <SectionTitle eyebrow="ਮਹਿਮਾਨਾਂ ਲਈ" title="Good to Know" />
       <div className="notes__grid">
         {wedding.notes.map((note, i) => (

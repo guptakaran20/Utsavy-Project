@@ -1,0 +1,7 @@
+.music { position: fixed; z-index: 40; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px 0 16px; border-radius: 999px; border: 1px solid var(--gold-400); background: rgba(34,5,11,.88); backdrop-filter: blur(6px); color: var(--gold-200); font-family: var(--font-display); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; }
+.music__bars { display: flex; align-items: flex-end; gap: 3px; height: 16px; }
+.music__bars i { width: 3px; height: 4px; background: currentColor; border-radius: 2px; }
+.music.is-on .music__bars i { animation: eq .7s ease-in-out infinite alternate; }
+.music.is-on .music__bars i:nth-child(2) { animation-delay: .15s } .music.is-on .music__bars i:nth-child(3) { animation-delay: .3s } .music.is-on .music__bars i:nth-child(4) { animation-delay: .45s }
+@keyframes eq { to { height: 16px; } }
+@media (max-width: 640px) { .music { padding: 0 14px; opacity: .92; } .music__label { display: none; } }

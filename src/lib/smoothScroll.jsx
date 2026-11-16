@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import { gsap, ScrollTrigger, prefersReducedMotion } from './gsap'
 
 const ScrollContext = createContext(() => {})
+export const LenisContext = createContext({ current: null })
 
 // Lenis smooth scrolling driven by GSAP's ticker so ScrollTrigger stays in sync.
 export function SmoothScroll({ locked, children }) {
@@ -44,7 +45,11 @@ export function SmoothScroll({ locked, children }) {
     }
   }, [])
 
-  return <ScrollContext.Provider value={scrollTo}>{children}</ScrollContext.Provider>
+  return (
+    <LenisContext.Provider value={lenisRef}>
+      <ScrollContext.Provider value={scrollTo}>{children}</ScrollContext.Provider>
+    </LenisContext.Provider>
+  )
 }
 
 export const useScrollTo = () => useContext(ScrollContext)

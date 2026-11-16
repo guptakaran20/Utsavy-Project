@@ -61,3 +61,8 @@
   margin: 0;
   color: var(--ink-soft);
 }
+
+/* the same blush paper and edge flowers as the invitation pages */
+.notes.sky-bg { background-color: #f6dcd8; }
+.notes > :not(.floral-sides) { position: relative; z-index: 2; }
+.notes .floral-sides__head { display: none !important; }

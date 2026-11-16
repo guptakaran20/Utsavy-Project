@@ -9,6 +9,7 @@ import Rangoli from './Rangoli'
 import Diya from './Diya'
 import { wedding } from '../../data/wedding'
 import { gsap, prefersReducedMotion } from '../../lib/gsap'
+import { fireCrackers } from '../../lib/crackers'
 import './HaveliGate.css'
 
 const ANG = 76 // each leaf fully open, swung into the courtyard
@@ -78,6 +79,8 @@ export default function HaveliGate({ onEnter, onDone }) {
     const leafL = $('.leaf-l')
     const leafR = $('.leaf-r')
     const badge = $('.door-cursor')
+    const rope = $('.haveli-rope')
+    const tassel = $('.haveli-rope__tassel')
     // the wall and everything on it scale together, so walking in feels like one space
     const planes = [$('.haveli-wall'), $('.haveli-scene')]
     const reduced = prefersReducedMotion()
@@ -123,7 +126,8 @@ export default function HaveliGate({ onEnter, onDone }) {
         stagger: 0.12,
       }, 1.35)
       from('.haveli-heading > *', { y: 16, autoAlpha: 0, duration: 0.9, stagger: 0.14 }, 1.25)
-      from('.haveli-hint', { y: 8, autoAlpha: 0, duration: 0.8 }, 2)
+      from('.haveli-rope', { y: -40, autoAlpha: 0, duration: 1.1, ease: 'power3.out' }, 1.6)
+      from('.haveli-pull', { y: 10, autoAlpha: 0, duration: 0.8 }, 2.2)
 
       /* ----- the evening breeze and the lamps ----- */
       const ladis = q('.door-toran .ladi')
@@ -149,14 +153,27 @@ export default function HaveliGate({ onEnter, onDone }) {
       })
     }, root)
 
+    // the right leaf (where the rope is tied) swings first; the left follows a beat later
+    let oL = 0
+    let oR = 0
+    const glow = () => gateway.style.setProperty('--o', ((oL + oR) / 2).toFixed(4))
+    const doorR = reduced ? null : spring(120, 14, (o) => {
+      oR = Math.max(0, o) // the frame's door stop: the leaves never swing out at the guest
+      leafR.style.transform = `rotateY(${-oR * ANG}deg)`
+      glow()
+    })
+    const doorL = reduced ? null : spring(120, 14, (o) => {
+      oL = Math.max(0, o)
+      leafL.style.transform = `rotateY(${oL * ANG}deg)`
+      glow()
+    })
     const door = reduced
       ? null
-      : spring(120, 14, (o) => {
-          const open = Math.max(0, o) // the frame's door stop: the leaves never swing out at the guest
-          leafL.style.transform = `rotateY(${open * ANG}deg)`
-          leafR.style.transform = `rotateY(${-open * ANG}deg)`
-          gateway.style.setProperty('--o', open.toFixed(4))
-        })
+      : {
+          set: (p) => { doorR.set(p); doorL.set(p * 0.85) },
+          openAll: () => { doorR.set(1); later(() => doorL.set(1), 140) },
+          stop: () => { doorR.stop(); doorL.stop() },
+        }
 
     /* ----- "Open the doors" badge that replaces the cursor over the doorway ----- */
     let over = false
@@ -205,6 +222,7 @@ export default function HaveliGate({ onEnter, onDone }) {
       if (busy) return
       busy = true
       showBadge(false)
+      fireCrackers()
       root.classList.add('is-entering')
 
       if (reduced) {
@@ -228,8 +246,8 @@ export default function HaveliGate({ onEnter, onDone }) {
             .to(rings, { rotation: 0, duration: 0.9, ease: 'elastic.out(1, 0.3)' })
         })
       }
-      later(() => door.set(1), 260)
-      later(walk, 900)
+      later(() => door.openAll(), 420)
+      later(walk, 1500)
     }
 
     // Walking through: the haveli scales up around the gap between the open
@@ -252,7 +270,7 @@ export default function HaveliGate({ onEnter, onDone }) {
       root.classList.add('is-walking')
       const walker = { e: 0 }
       ctx.add(() => {
-        gsap.to(q('.haveli-heading, .haveli-hint'), {
+        gsap.to(q('.haveli-heading, .haveli-pull, .haveli-rope'), {
           autoAlpha: 0,
           duration: 0.45,
           ease: 'power1.out',
@@ -305,13 +323,93 @@ export default function HaveliGate({ onEnter, onDone }) {
       enter()
     }
 
-    gateway.addEventListener('pointerenter', onPointerEnter)
-    gateway.addEventListener('pointerleave', onPointerLeave)
-    gateway.addEventListener('focus', onFocus)
-    gateway.addEventListener('blur', onBlur)
-    gateway.addEventListener('click', enter)
-    // the doors open by themselves once the haveli has settled; a click, scroll or key just opens them sooner
-    later(enter, ((intro ? intro.duration() : 0) + 0.9) * 1000)
+    // A brass bell-pull (dori) hangs below the left toran bell. Drag the tassel down and the bell swings;
+    // pull it far enough and the bell rings, then the doors swing open.
+    const L0 = 7 // resting length of the dori (cqi)
+    const PULL = 110 // px of drag for a full pull
+    const len = { v: L0 }
+    const ppu = () => rope.parentElement.getBoundingClientRect().width / 100 || 4 // px per cqi of the unit
+    const drawBell = () => rope.style.setProperty('--len', `${len.v}cqi`)
+    drawBell()
+    const bellLadi = () => q('.door-toran .ladi')[0]
+    const swingBell = (deg) => gsap.to(bellLadi(), { rotation: deg, transformOrigin: '50% 0%', duration: 0.12, ease: 'power2.out', overwrite: true })
+    // draw the eye to the dori: every few seconds it gives itself a little tug and the bell answers
+    const nudge = reduced ? null : gsap.timeline({ repeat: -1, repeatDelay: 2.4, delay: 2.8 })
+      .to(len, { v: L0 + 3.4, duration: 0.28, ease: 'power2.out', onUpdate: drawBell })
+      .to(bellLadi(), { rotation: 11, transformOrigin: '50% 0%', duration: 0.28, ease: 'power2.out', overwrite: 'auto' }, 0)
+      .to(len, { v: L0, duration: 1.1, ease: 'elastic.out(1, 0.35)', onUpdate: drawBell })
+      .to(bellLadi(), { rotation: 0, duration: 1.2, ease: 'elastic.out(1, 0.3)' }, '<')
+    let drag = null
+    const springBack = () => {
+      gsap.to(len, { v: L0, duration: 1.1, ease: 'elastic.out(1, 0.4)', overwrite: true, onUpdate: drawBell })
+      gsap.to(bellLadi(), { rotation: 0, duration: 1.2, ease: 'elastic.out(1, 0.3)', overwrite: true })
+    }
+    const ring = () => {
+      if (busy) return
+      nudge?.kill()
+      gsap.to(len, { v: L0, duration: 0.5, ease: 'back.out(2)', overwrite: true, onUpdate: drawBell })
+      gsap.timeline()
+        .to(bellLadi(), { rotation: 16, duration: 0.1, ease: 'power2.out', overwrite: true })
+        .to(bellLadi(), { rotation: -12, duration: 0.18, ease: 'sine.inOut' })
+        .to(bellLadi(), { rotation: 6, duration: 0.2, ease: 'sine.inOut' })
+        .to(bellLadi(), { rotation: 0, duration: 0.5, ease: 'elastic.out(1, 0.35)' })
+      gsap.to(rope, { autoAlpha: 0, duration: 0.6, delay: 0.3 })
+      enter()
+    }
+    const onDown = (e) => {
+      if (busy) return
+      nudge?.kill()
+      drag = { y: e.clientY, dy: 0, moved: false }
+      tassel.setPointerCapture?.(e.pointerId)
+      gsap.killTweensOf(len)
+      rope.classList.add('is-pulling')
+    }
+    const onDrag = (e) => {
+      if (!drag) return
+      const raw = e.clientY - drag.y
+      if (Math.abs(raw) > 4) drag.moved = true
+      drag.dy = raw <= PULL ? Math.max(0, raw) : PULL + (raw - PULL) * 0.25
+      len.v = L0 + drag.dy / ppu()
+      drawBell()
+      swingBell((drag.dy / PULL) * 9)
+      door?.set(Math.min(drag.dy / PULL, 1) * 0.3)
+    }
+    const release = () => {
+      if (!drag) return
+      const { dy, moved } = drag
+      drag = null
+      rope.classList.remove('is-pulling')
+      if (!moved) return autoPull()
+      if (dy / PULL > 0.6) ring()
+      else {
+        door?.set(0)
+        springBack()
+      }
+    }
+    // a tap (or Enter / Space) pulls it for you
+    function autoPull() {
+      if (busy) return
+      nudge?.kill()
+      gsap.to(len, {
+        v: L0 + PULL / ppu(),
+        duration: 0.4,
+        ease: 'power2.out',
+        overwrite: true,
+        onUpdate: () => { drawBell(); swingBell(((len.v - L0) * ppu() / PULL) * 9); door?.set(Math.min((len.v - L0) * ppu() / PULL, 1) * 0.3) },
+        onComplete: ring,
+      })
+    }
+    tassel.addEventListener('pointerdown', onDown)
+    tassel.addEventListener('pointermove', onDrag)
+    tassel.addEventListener('pointerup', release)
+    tassel.addEventListener('pointercancel', release)
+    tassel.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        autoPull()
+      }
+    })
+    // the doors wait for the guest: tap the button (or the doors, scroll, or a key) and the crackers go off
     window.addEventListener('pointermove', onMove, { passive: true })
     window.addEventListener('wheel', onWheel, { passive: false })
     window.addEventListener('touchstart', onTouchStart, { passive: true })
@@ -321,7 +419,6 @@ export default function HaveliGate({ onEnter, onDone }) {
     return () => {
       timers.forEach(window.clearTimeout)
       door?.stop()
-      gateway.removeEventListener('pointerenter', onPointerEnter)
       gateway.removeEventListener('pointerleave', onPointerLeave)
       gateway.removeEventListener('focus', onFocus)
       gateway.removeEventListener('blur', onBlur)
@@ -408,16 +505,36 @@ export default function HaveliGate({ onEnter, onDone }) {
                 <DoorToran />
               </button>
 
+              <div className="haveli-rope">
+                <span className="haveli-rope__cord" aria-hidden="true" />
+                <button type="button" className="haveli-rope__tassel" aria-label="Pull the bell rope to ring the bell and open the doors">
+                  <svg viewBox="0 0 40 92" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="rp-gold" x1="0" x2="1"><stop offset="0" stopColor="#8a5a1a" /><stop offset=".45" stopColor="#f3d68a" /><stop offset="1" stopColor="#9a6a22" /></linearGradient>
+                      <radialGradient id="rp-ruby" cx=".35" cy=".3"><stop offset="0" stopColor="#ff6a7a" /><stop offset="1" stopColor="#8a0a1c" /></radialGradient>
+                    </defs>
+                    <rect x="16" y="0" width="8" height="12" rx="2" fill="url(#rp-gold)" />
+                    <circle cx="20" cy="20" r="8" fill="url(#rp-ruby)" stroke="#d4a24c" strokeWidth="1.2" />
+                    <rect x="12" y="28" width="16" height="7" rx="2" fill="url(#rp-gold)" />
+                    <path d="M13,35 Q10,50 7,82 H33 Q30,50 27,35Z" fill="#c8323f" />
+                    {[10, 13.5, 17, 20.5, 24, 27.5, 31].map((x, i) => (
+                      <path key={x} d={`M${x},38 Q${x + (i - 3) * 0.6},60 ${x + (i - 3) * 0.9},84`} stroke={i % 2 ? '#f3d68a' : '#8a0a1c'} strokeWidth="1.5" fill="none" />
+                    ))}
+                    <path d="M12,58 H28 M9,70 H31" stroke="#f3d68a" strokeWidth="1.6" />
+                    <rect x="6" y="82" width="28" height="4" rx="2" fill="url(#rp-gold)" />
+                    {[8, 14, 20, 26, 32].map((x) => <circle key={x} cx={x} cy="88" r="1.8" fill="#f3d68a" />)}
+                  </svg>
+                </button>
+              </div>
+
               <Rangoli />
               <Diya className="haveli-diya is-left" />
               <Diya className="haveli-diya is-right" />
             </div>
           </div>
 
-          <p className="haveli-hint">
-            <span className="haveli-hint-dot" aria-hidden="true" />
-            <span className="is-touch">The doors are opening for you</span>
-            <span className="is-mouse">The doors are opening for you</span>
+          <p className="haveli-pull">
+            <span aria-hidden="true">↓</span> Ring the bell <span className="haveli-pull__pa" lang="pa">ਘੰਟੀ ਵਜਾਓ</span>
           </p>
         </div>
       </div>

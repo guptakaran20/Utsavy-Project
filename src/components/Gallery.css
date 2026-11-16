@@ -1,0 +1,20 @@
+.gallery__strip { display: flex; gap: clamp(18px, 3vw, 36px); margin: 56px calc(var(--gutter) * -1) 0; padding: 20px var(--gutter) 30px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
+.gallery__strip::-webkit-scrollbar { display: none; }
+.gcard { flex: 0 0 min(72vw, 320px); margin: 0; scroll-snap-align: center; rotate: var(--tilt); transition: rotate .5s var(--ease-out), translate .5s var(--ease-out); }
+.gcard:first-child { margin-left: max(0px, calc((100% - 1160px) / 2)); }
+@media (hover: hover) { .gcard:hover { rotate: 0deg; translate: 0 -8px; } }
+.plate { filter: drop-shadow(0 22px 22px rgba(58,8,17,.28)); }
+.plate > * { display: block; width: 100%; aspect-ratio: 300/380; object-fit: cover; clip-path: url(#jharokha); }
+.plate { clip-path: none; }
+.gcard--maroon .plate > * { background: linear-gradient(160deg, var(--maroon-600), var(--maroon-900)); color: var(--gold-400); }
+.gcard--emerald .plate > * { background: linear-gradient(160deg, #137a63, #062a23); color: var(--gold-200); }
+.gcard--gold .plate > * { background: linear-gradient(160deg, #e2b765, #8a5f1a); color: #fff2cf; }
+.plate__mono { font-family: var(--font-script); font-size: 64px; fill: currentColor; }
+.gcard figcaption { display: flex; flex-direction: column; align-items: center; margin-top: 14px; text-align: center; }
+.gcard figcaption .gurmukhi { color: var(--gold-500); font-size: 18px; }
+.gcard figcaption em { color: var(--maroon-700); font-size: 1.05em; }
+.gallery__nav { display: flex; justify-content: center; gap: 16px; margin-top: 8px; }
+.gallery__btn { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--gold-500); background: transparent; color: var(--maroon-700); cursor: pointer; display: grid; place-items: center; transition: background .3s, color .3s; }
+.gallery__btn:hover { background: var(--maroon-700); color: var(--gold-200); }
+.gallery__btn--prev svg { transform: scaleX(-1); }
+.gallery__strip.is-drag { scroll-snap-type: none; user-select: none; } .gallery__strip img { -webkit-user-drag: none; }

@@ -1,0 +1,3 @@
+.florals--corner { position: absolute; width: clamp(150px, 34vw, 340px); height: auto; pointer-events: none; z-index: 1; filter: drop-shadow(0 6px 10px rgba(0,0,0,.25)); }
+.florals--lotus { display: block; width: min(300px, 70%); height: auto; margin: 0 auto; }
+.corner--tl { top: 0; left: 0; } .corner--tr { top: 0; right: 0; transform: scaleX(-1); } .corner--bl { bottom: 0; left: 0; transform: scaleY(-1); } .corner--br { bottom: 0; right: 0; transform: scale(-1, -1); }

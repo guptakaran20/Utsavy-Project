@@ -1,34 +1,30 @@
 import { useRef } from 'react'
-import { motion } from 'framer-motion'
 import { gsap, useGSAP } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
 import SectionTitle from './SectionTitle'
+import ArchFrame from './ArchFrame'
 import Mandala from './Mandala'
+import Photo from './Photo'
 import './Couple.css'
 
-function Person({ person, role, roleGurmukhi }) {
+function Person({ person, role, roleGurmukhi, tone }) {
   return (
-    <article className="person">
-      <motion.div className="person__frame" whileHover={{ y: -8 }} transition={{ type: 'spring', stiffness: 200, damping: 18 }}>
-        <div className="person__photo">
-          {person.photo ? (
-            <img className="person__img" src={person.photo} alt={person.fullName} />
-          ) : (
-            <div className="person__img person__monogram">
+    <article className={`person person--${tone}`}>
+      <ArchFrame className="person__arch" fill={tone === 'bride' ? 'rgba(122,20,38,.92)' : 'rgba(10,61,51,.95)'}>
+        <Photo
+          className="person__img"
+          src={person.photo}
+          alt={person.fullName}
+          fallback={
+            <div className="person__mono">
               <Mandala className="person__mandala" />
               <span className="gurmukhi">{person.nameGurmukhi[0]}</span>
             </div>
-          )}
-        </div>
-        <svg className="person__outline" viewBox="0 0 100 131" preserveAspectRatio="none" aria-hidden="true">
-          <path pathLength="1" d="M2 131V46C2 28 22 18 38 12C45 9 48 5 50 2C52 5 55 9 62 12C78 18 98 28 98 46V131" />
-          <path pathLength="1" d="M7 131V48C7 32 25 23 40 17C46 14 48.5 11 50 8.5C51.5 11 54 14 60 17C75 23 93 32 93 48V131" />
-        </svg>
-      </motion.div>
-      <p className="person__role reveal">
-        {role} · <span className="gurmukhi">{roleGurmukhi}</span>
-      </p>
+          }
+        />
+      </ArchFrame>
+      <p className="person__role reveal">{role} · <span className="gurmukhi">{roleGurmukhi}</span></p>
       <h3 className="person__name reveal">{person.name}</h3>
       <p className="person__full reveal">{person.fullName}</p>
       <p className="person__parents reveal">{person.parents}</p>
@@ -43,44 +39,31 @@ export default function Couple() {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia()
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.utils.toArray('.person', root.current).forEach((person) => {
-          const tl = gsap.timeline({ scrollTrigger: { trigger: person, start: 'top 80%', once: true } })
-          tl.from(person.querySelector('.person__photo'), {
-            clipPath: 'inset(100% 0% 0% 0%)',
-            duration: 1.4,
-            ease: 'expo.inOut',
+      const m = gsap.matchMedia()
+      m.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.utils.toArray('.person', root.current).forEach((p, i) => {
+          gsap.from(p.querySelector('.person__arch'), {
+            yPercent: 14, autoAlpha: 0, duration: 0.8, ease: 'expo.out',
+            scrollTrigger: { trigger: p, start: 'top 78%', once: true },
           })
-            .from(person.querySelector('.person__img'), { scale: 1.35, duration: 1.8, ease: 'expo.out' }, '<0.3')
-            .fromTo(
-              person.querySelectorAll('.person__outline path'),
-              { strokeDasharray: 1, strokeDashoffset: 1 },
-              { strokeDashoffset: 0, duration: 2, stagger: 0.2, ease: 'power2.inOut' },
-              0.2,
-            )
+          gsap.fromTo(p.querySelectorAll('.arch__line'), { strokeDasharray: 2000, strokeDashoffset: 2000 },
+            { strokeDashoffset: 0, duration: 1.2, stagger: 0.15, ease: 'power2.inOut', clearProps: 'strokeDasharray,strokeDashoffset',
+              scrollTrigger: { trigger: p, start: 'top 78%', once: true } })
         })
-        gsap.from('.couple__and', {
-          scale: 0,
-          rotation: 180,
-          duration: 1.2,
-          ease: 'back.out(1.6)',
-          scrollTrigger: { trigger: '.couple__and', start: 'top 85%', once: true },
-        })
+        gsap.from('.couple__and', { scale: 0, rotation: 120, duration: 0.7, ease: 'back.out(1.6)',
+          scrollTrigger: { trigger: '.couple__and', start: 'top 88%', once: true } })
       })
     },
     { scope: root },
   )
 
   return (
-    <section id="couple" ref={root} className="section section--ivory couple">
+    <section id="couple" ref={root} className="section section--ivory couple chap" data-chapter data-dwell="6">
       <SectionTitle eyebrow="ਲਾੜੀ ਤੇ ਲਾੜਾ" title="The Bride & Groom" />
       <div className="couple__grid">
-        <Person person={wedding.bride} role="The Bride" roleGurmukhi="ਲਾੜੀ" />
-        <div className="couple__and gurmukhi" aria-hidden="true">
-          ਤੇ
-        </div>
-        <Person person={wedding.groom} role="The Groom" roleGurmukhi="ਲਾੜਾ" />
+        <Person person={wedding.bride} role="The Bride" roleGurmukhi="ਲਾੜੀ" tone="bride" />
+        <div className="couple__and" aria-hidden="true">&amp;</div>
+        <Person person={wedding.groom} role="The Groom" roleGurmukhi="ਲਾੜਾ" tone="groom" />
       </div>
     </section>
   )

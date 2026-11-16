@@ -266,3 +266,68 @@
     font-size: 16px;
   }
 }
+
+/* ---- stepper + wax seal ---- */
+.rsvp__steps { position: relative; list-style: none; margin: 0 0 30px; padding: 0; display: flex; justify-content: space-between; font-family: var(--font-display); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
+.rsvp__steps li { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+.rsvp__steps li span { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 1px solid currentColor; background: var(--ivory); font-family: var(--font-serif); font-size: 16px; letter-spacing: 0; transition: all .5s var(--ease-out); }
+.rsvp__steps .is-now, .rsvp__steps .is-done { color: var(--maroon-700); }
+.rsvp__steps .is-now span, .rsvp__steps .is-done span { background: linear-gradient(180deg,#e2b765,#b8862f); color: var(--maroon-900); border-color: var(--gold-400); }
+.rsvp__thread { position: absolute; left: 16.6%; right: 16.6%; top: 17px; height: 0; border-top: 2px dashed rgba(184,134,47,.5); }
+.rsvp__thread::after { content: ''; position: absolute; left: 0; top: -2px; height: 2px; width: 100%; background: var(--maroon-600); transform: scaleX(var(--p)); transform-origin: left; transition: transform .7s var(--ease-out); }
+.rsvp__step { animation: stepIn .55s var(--ease-out) both; }
+.rsvp__step[hidden] { display: none; }
+@keyframes stepIn { from { opacity: 0; transform: translateX(24px); } }
+.rsvp__sorry { text-align: center; font-style: italic; margin: 20px 0 30px; }
+.rsvp__nav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.rsvp__nav .rsvp__submit { margin-left: auto; }
+.rsvp__back { background: none; border: 0; color: var(--maroon-700); cursor: pointer; font-family: var(--font-display); letter-spacing: .15em; font-size: 12px; text-transform: uppercase; min-height: 48px; }
+.seal { position: relative; display: block; margin: 22px auto 6px; width: 118px; height: 118px; border: 0; background: none; cursor: pointer; }
+.seal__disc { position: absolute; inset: 8px; border-radius: 52% 48% 54% 46% / 48% 54% 46% 52%; background: radial-gradient(circle at 35% 30%, #c8323f, #7a1426 60%, #4a0b17); box-shadow: 0 10px 24px rgba(0,0,0,.5), inset 0 2px 4px rgba(255,255,255,.25), inset 0 -3px 6px rgba(0,0,0,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold-200); transition: transform .3s var(--ease-out); }
+.seal__disc b { font-size: 30px; line-height: 1; font-weight: 400; }
+.seal__disc small { font-family: var(--font-display); font-size: 8px; letter-spacing: .2em; text-transform: uppercase; margin-top: 4px; }
+.seal__ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--gold-400); opacity: .0; }
+.seal:hover .seal__disc { transform: scale(1.05) rotate(-3deg); }
+.seal:not(.is-stamping) .seal__ring { animation: sealHint 2.4s ease-out infinite; }
+.seal.is-stamping .seal__disc { animation: sealPress .9s var(--ease-out); }
+.seal.is-stamping .seal__ring { animation: sealRipple .9s ease-out; }
+@keyframes sealHint { 0% { opacity: .7; transform: scale(.85); } 100% { opacity: 0; transform: scale(1.35); } }
+@keyframes sealPress { 0% { transform: scale(1.2); } 35% { transform: scale(.84); } 70% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes sealRipple { 0% { opacity: .9; transform: scale(.9); } 100% { opacity: 0; transform: scale(2.1); } }
+
+/* the reply page wears the blush paper and flowers; the couple stands on the stage beneath the card */
+.rsvp.sky-bg { background-color: #f6dcd8; color: #5a1424; isolation: isolate; padding-bottom: 0; }
+.rsvp.sky-bg > :not(.floral-sides):not(.rsvp__mandala) { position: relative; z-index: 2; }
+.rsvp.sky-bg .floral-sides { z-index: 1; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 360px), transparent calc(100% - 120px)); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 360px), transparent calc(100% - 120px)); }
+.rsvp.sky-bg .rsvp__mandala { color: #b8862f; opacity: .1; z-index: 0; }
+.rsvp.sky-bg .rsvp__deadline { color: #8a4a3a; }
+.rsvp.sky-bg .rsvp__card { box-shadow: 0 30px 60px -28px rgba(90, 20, 30, .5), 0 0 0 1px rgba(184, 134, 47, .6); }
+.rsvp__stage { position: relative; width: min(100%, 1180px); margin: clamp(30px, 5vw, 64px) auto 0; pointer-events: none; user-select: none; }
+.rsvp__stage-img { display: block; width: 100%; height: auto; }
+.rsvp__couple { position: absolute; left: 50%; bottom: 15%; width: 21%; height: auto; transform: translateX(-50%); filter: drop-shadow(0 18px 14px rgba(90, 20, 30, .28)); }
+@media (max-width: 760px) { .rsvp__stage { width: 150%; margin-left: -25%; } .rsvp__couple { width: 24%; } }
+
+/* stage edge to edge across the whole page; the couple stands dead centre, a step up */
+.rsvp__stage { width: calc(100% + 2 * var(--gutter)); max-width: none; margin: clamp(4px, 1.5vw, 20px) calc(-1 * var(--gutter)) 0; }
+.rsvp__couple { position: absolute; left: 50%; bottom: 24%; width: 21%; transform: translateX(-50%); filter: drop-shadow(0 18px 14px rgba(90, 20, 30, .28)); }
+.rsvp__couple img { display: block; width: 100%; height: auto; }
+@media (max-width: 760px) { .rsvp__stage { width: calc(100% + 2 * var(--gutter)); margin-left: calc(-1 * var(--gutter)); } .rsvp__couple { width: 25%; } }
+
+/* ---- the reply card, in the site's own language: an arched window of ivory with a gold keyline ---- */
+.rsvp.sky-bg .rsvp__card { max-width: 600px; padding: clamp(96px, 13vw, 138px) clamp(26px, 5vw, 52px) clamp(30px, 4vw, 44px); border-radius: 999px 999px 26px 26px / 170px 170px 26px 26px; background: linear-gradient(180deg, rgba(255, 251, 242, .94), rgba(250, 238, 218, .94)); backdrop-filter: blur(3px); box-shadow: 0 34px 60px -30px rgba(90, 20, 30, .55), 0 0 0 1px rgba(184, 134, 47, .75), 0 0 0 9px rgba(246, 220, 216, .55), 0 0 0 10px rgba(184, 134, 47, .4); }
+.rsvp.sky-bg .rsvp__card::before { content: ''; top: 40px; left: 50%; right: auto; width: 150px; height: 14px; border-radius: 0; transform: translateX(-50%); background: linear-gradient(90deg, transparent, #c9a24d 30%, #c9a24d 44%, transparent 44%, transparent 56%, #c9a24d 56%, #c9a24d 70%, transparent), none; -webkit-mask: none; opacity: .85; height: 1px; top: 52px; }
+.rsvp.sky-bg .rsvp__card::after { content: ''; position: absolute; inset: 12px; border: 1px solid rgba(184, 134, 47, .45); border-radius: 999px 999px 18px 18px / 160px 160px 18px 18px; pointer-events: none; }
+.rsvp.sky-bg .rsvp__card > * { position: relative; z-index: 1; }
+.rsvp.sky-bg .rsvp__submit { position: relative; overflow: hidden; }
+.rsvp.sky-bg .rsvp__submit::after { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%); transform: translateX(-120%); animation: rsvpShine 4.5s ease-in-out infinite; }
+@keyframes rsvpShine { 0%, 60% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+/* ---- the stage: higher up, softly joined to the page below, lamps that glow and a couple who breathe ---- */
+.rsvp__stage { margin-top: calc(-1 * min(17vw, 250px)); }
+.rsvp__stage::before { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: screen; background: radial-gradient(ellipse 12% 14% at 18% 50%, rgba(255, 228, 160, .9), transparent 70%), radial-gradient(ellipse 12% 14% at 40% 46%, rgba(255, 228, 160, .9), transparent 70%), radial-gradient(ellipse 12% 14% at 62% 44%, rgba(255, 228, 160, .9), transparent 70%), radial-gradient(ellipse 12% 14% at 84% 50%, rgba(255, 228, 160, .9), transparent 70%); animation: rsvpGlow 4.2s ease-in-out infinite alternate; }
+.rsvp__stage::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 16%; z-index: 2; pointer-events: none; background: linear-gradient(to top, #f6dcd8 4%, rgba(246, 220, 216, 0)); }
+.rsvp__couple { z-index: 1; }
+.rsvp__couple img { animation: rsvpBreathe 5s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes rsvpGlow { from { opacity: .15; } to { opacity: .6; } }
+@keyframes rsvpBreathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.006); } }
+@media (prefers-reduced-motion: reduce) { .rsvp__stage::before, .rsvp__couple img, .rsvp.sky-bg .rsvp__submit::after { animation: none; } }

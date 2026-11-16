@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { gsap, useGSAP } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
@@ -41,6 +41,71 @@ function Digit({ value }) {
   )
 }
 
+
+// A gold scalloped seal laid over the number: rub it away with a finger or the mouse to reveal it.
+function ScratchSeal({ revealed, onReveal }) {
+  const ref = useRef(null)
+  const drawing = useRef(false)
+  const moves = useRef(0)
+
+  useEffect(() => {
+    const c = ref.current
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const w = c.offsetWidth
+    const h = c.offsetHeight
+    c.width = w * dpr
+    c.height = h * dpr
+    const x = c.getContext('2d')
+    x.scale(dpr, dpr)
+    const g = x.createLinearGradient(0, 0, w, h)
+    g.addColorStop(0, '#f4dc8e'); g.addColorStop(0.35, '#d9aa48'); g.addColorStop(0.55, '#f6e19a'); g.addColorStop(1, '#b8862f')
+    x.fillStyle = g
+    x.fillRect(0, 0, w, h)
+    for (let i = 0; i < 70; i++) {
+      x.fillStyle = `rgba(255,255,255,${Math.random() * 0.35})`
+      x.fillRect(Math.random() * w, Math.random() * h, 1.5, 1.5)
+    }
+    x.fillStyle = '#6a3a14'
+    x.font = `600 ${Math.max(11, w * 0.1)}px "Cinzel", "Cormorant Garamond", serif`
+    x.textAlign = 'center'
+    x.textBaseline = 'middle'
+    x.letterSpacing = '0.12em'
+    x.fillText('SCRATCH', w / 2, h / 2)
+  }, [])
+
+  const scratch = useCallback((e) => {
+    const c = ref.current
+    const r = c.getBoundingClientRect()
+    const x = c.getContext('2d')
+    const dpr = c.width / r.width
+    x.save()
+    x.globalCompositeOperation = 'destination-out'
+    x.beginPath()
+    x.arc((e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr, Math.max(14, r.width * 0.11) * dpr, 0, Math.PI * 2)
+    x.fill()
+    x.restore()
+    if (++moves.current % 6) return
+    // how much gold is left? sample the middle of the seal
+    const d = x.getImageData(c.width * 0.12, c.height * 0.12, c.width * 0.76, c.height * 0.76).data
+    let clear = 0
+    let n = 0
+    for (let i = 3; i < d.length; i += 64) { n++; if (d[i] < 40) clear++ }
+    if (clear / n > 0.5) onReveal()
+  }, [onReveal])
+
+  return (
+    <canvas
+      ref={ref}
+      className={`scratchseal${revealed ? ' is-gone' : ''}`}
+      onPointerDown={(e) => { drawing.current = true; e.currentTarget.setPointerCapture(e.pointerId); scratch(e) }}
+      onPointerMove={(e) => drawing.current && scratch(e)}
+      onPointerUp={() => { drawing.current = false }}
+      onPointerCancel={() => { drawing.current = false }}
+      aria-hidden="true"
+    />
+  )
+}
+
 const toCalendarStamp = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
 
 function calendarUrl() {
@@ -60,6 +125,9 @@ function calendarUrl() {
 export default function Countdown() {
   const root = useRef(null)
   const units = useCountdown(wedding.date)
+  const [open, setOpen] = useState([false, false, false, false])
+  const reveal = (k) => setOpen((o) => (o[k] ? o : o.map((v, i) => v || i === k)))
+  const allOpen = open.every(Boolean)
   useReveal(root)
 
   useGSAP(
@@ -79,8 +147,8 @@ export default function Countdown() {
         gsap.from('.unit', {
           y: 50,
           autoAlpha: 0,
-          stagger: 0.1,
-          duration: 1,
+          stagger: 0.07,
+          duration: 0.55,
           ease: 'power3.out',
           scrollTrigger: { trigger: '.countdown__units', start: 'top 85%', once: true },
         })
@@ -90,14 +158,16 @@ export default function Countdown() {
   )
 
   return (
-    <section ref={root} className="section section--dark countdown">
+    <section ref={root} className="section countdown chap sky-bg" data-chapter data-dwell="5">
       <Mandala className="countdown__mandala" />
       <div className="countdown__inner">
-        <SectionTitle eyebrow="ਉਲਟੀ ਗਿਣਤੀ" title="Counting the Moments" light />
+        <SectionTitle eyebrow="ਉਲਟੀ ਗਿਣਤੀ" title="Counting the Moments" />
         <p className="countdown__date reveal">{wedding.dateLabel}</p>
         <div className="countdown__units" role="timer" aria-live="off">
-          {units.map((u) => (
+          {units.map((u, k) => (
             <div className="unit" key={u.label}>
+              <ScratchSeal revealed={open[k]} onReveal={() => reveal(k)} />
+              <i className="unit__flame" aria-hidden="true" />
               <div className="unit__digits">
                 {String(u.value)
                   .padStart(2, '0')
@@ -112,10 +182,14 @@ export default function Countdown() {
             </div>
           ))}
         </div>
+        <p className="countdown__hint reveal">
+          {allOpen ? 'Every moment counted' : <>Scratch to reveal <button type="button" onClick={() => setOpen([true, true, true, true])}>Reveal all</button></>}
+        </p>
         <a className="btn btn--ghost reveal" href={calendarUrl()} target="_blank" rel="noreferrer">
           Save the date
         </a>
       </div>
+      <img className="countdown__scene" src="/wedding-scene.webp" alt="" aria-hidden="true" width="1644" height="957" loading="lazy" decoding="async" />
     </section>
   )
 }

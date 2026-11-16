@@ -1,0 +1,23 @@
+/* closing page: blush paper, edge flowers, a parchment scroll */
+.thanks { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100svh; padding: clamp(60px, 9vw, 120px) var(--gutter); background-color: #f6dcd8; isolation: isolate; }
+.thanks > :not(.floral-sides) { position: relative; z-index: 2; }
+.thanks .floral-sides { z-index: 1; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 120px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 120px), transparent 100%); }
+.thanks__scroll { width: min(100%, 460px); filter: drop-shadow(0 24px 30px rgba(90, 20, 30, .28)); }
+.thanks__inner { padding: 40px 28px 36px; }
+.thanks .ecard__name { font-size: clamp(30px, 6vw, 40px); }
+.thanks__line { margin: 6px 0 20px; font-style: italic; color: #5a3a22; line-height: 1.55; text-wrap: balance; }
+.thanks__names { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: clamp(20px, 4.4vw, 26px); color: #7a4a30; text-wrap: balance; }
+.thanks__love { margin: 12px 0 0; font-style: italic; color: #7a4a30; }
+.thanks__love span { color: #c0243c; }
+.thanks__tag { margin: 18px 0 0; font-family: var(--font-display); letter-spacing: .24em; font-size: 12px; text-transform: uppercase; color: #a8762a; }
+@media (max-width: 760px) { .thanks { padding-inline: 38px; } }
+
+.thanks__contacts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin: 20px 0 4px; padding-top: 18px; border-top: 1px solid rgba(168, 118, 42, .45); }
+.thanks__contact { display: flex; flex-direction: column; gap: 3px; }
+.thanks__contact-label { font-family: var(--font-display); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #a8762a; }
+.thanks__contact-name { color: #5a3a22; font-size: 1.02em; }
+.thanks__contact a { color: #7a4a30; text-decoration: none; font-size: .95em; }
+.thanks__love { margin-top: 18px; font-size: .92em; }
+.thanks__tag { margin-top: 10px; }
+.thanks { min-height: 100svh; }
+.thanks__scroll { width: min(100%, 540px); }

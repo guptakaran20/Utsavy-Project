@@ -1,242 +1,163 @@
-.hero {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-  min-height: 100svh;
-  padding: clamp(110px, 14vh, 160px) var(--gutter) clamp(70px, 10vh, 130px);
-  overflow: hidden;
-  text-align: center;
-  color: var(--ivory);
-  background: radial-gradient(ellipse 80% 65% at 50% 45%, #7f1729 0%, #4a0b16 55%, var(--maroon-900) 100%);
+.hero-wrap { position: relative; height: calc(325 * 1svh); margin-bottom: calc(-100 * 1svh); }
+.hero { position: sticky; top: 0; height: 100svh; --scene-h: clamp(280px, 43svh, 620px); color: var(--ivory); overflow: hidden; align-items: center; justify-content: flex-start; padding: 0; background: #1a0409; }
+.hero__sky { position: absolute; inset: 0; background: linear-gradient(180deg, #14030a 0%, #2c0710 30%, #6a1124 58%, #c0431d 82%, #f2a03a 100%); }
+.hero__stars { position: absolute; inset: 0 0 45% 0; opacity: .8; background-image: radial-gradient(1.4px 1.4px at 12% 18%, #fff, transparent), radial-gradient(1px 1px at 28% 8%, #fff9, transparent), radial-gradient(1.4px 1.4px at 44% 22%, #fff, transparent), radial-gradient(1px 1px at 61% 12%, #fff9, transparent), radial-gradient(1.4px 1.4px at 78% 20%, #fff, transparent), radial-gradient(1px 1px at 90% 9%, #fff9, transparent), radial-gradient(1px 1px at 6% 40%, #fff8, transparent), radial-gradient(1.2px 1.2px at 94% 36%, #fff9, transparent), radial-gradient(1px 1px at 52% 42%, #fff6, transparent); animation: twinkle 4.5s ease-in-out infinite alternate; }
+.hero__text { position: relative; z-index: 3; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(96px, 17svh, 170px) var(--gutter) 0; }
+.hero__om { margin: 0; font-size: clamp(24px, 3.6vw, 34px); color: var(--gold-200); line-height: 1; }
+.hero__eyebrow { margin: 6px 0 clamp(8px, 1.8svh, 16px); font-family: var(--font-display); font-size: clamp(9px, 1.2vw, 12px); letter-spacing: .3em; text-transform: uppercase; color: var(--gold-400); }
+.hero__names { margin: 0; display: flex; flex-direction: column; align-items: center; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(54px, min(16vw, 11.5svh), 150px); line-height: .92; letter-spacing: -.015em; }
+.hero__mask { display: block; overflow: hidden; padding: .06em .14em .14em; }
+.hero__line { display: block; background: var(--gold-text); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 7s linear infinite; filter: drop-shadow(0 4px 18px rgba(0,0,0,.5)); }
+.hero__weds { font-family: var(--font-script); font-style: normal; font-size: .42em; line-height: 1; margin: -.04em 0; color: var(--ivory); text-shadow: 0 2px 14px rgba(0,0,0,.6); }
+.hero__sub { margin: clamp(8px, 1.6svh, 16px) 0 0; font-size: clamp(14px, 1.9vw, 19px); color: var(--gold-200); }
+.hero__dear { margin: clamp(10px, 2svh, 20px) 0 0; font-family: var(--font-serif); font-style: italic; font-size: clamp(17px, 2.2vw, 22px); color: rgba(251,244,230,.92); }
+.hero__dear b { font-weight: 600; color: var(--gold-200); }
+.hero__date { margin: clamp(14px, 2.6svh, 26px) 0 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; font-family: var(--font-serif); font-weight: 500; font-size: clamp(22px, 3.2vw, 32px); line-height: 1; color: var(--ivory); font-variant-numeric: lining-nums; }
+.hero__date i { width: 1px; height: .9em; background: var(--gold-400); rotate: 18deg; }
+.hero__date em { flex-basis: 100%; margin-top: 8px; font-style: normal; font-family: var(--font-display); font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold-200); }
+.hero__haveli { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: var(--scene-h); pointer-events: none; }
+/* the lane in front of the haveli, full-bleed even where the SVG is narrower */
+.hero__haveli::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--scene-h) * .0923); background: #3a2012; border-top: 1px solid #7a4a2a; }
+.hero__haveli .baraat { bottom: calc(var(--scene-h) * .0923 * .1); height: calc(var(--scene-h) * .24); }
+@keyframes shimmer { to { background-position: -220% 0; } }
+@keyframes twinkle { to { opacity: .45; } }
+@media (max-height: 640px) { .hero__text { padding-top: 84px; } .hero__haveli { opacity: .9; } }
+
+/* wide, short screens (laptops, phones on their side): shrink the skyline so it never sits under the text */
+@media (min-aspect-ratio: 1/1) {
+  .hero { --scene-h: clamp(230px, 46svh, 520px); }
+  .hero__text { padding-top: clamp(96px, 16svh, 140px); }
+  .hero__names { font-size: clamp(48px, min(8vw, 10.5svh), 120px); }
+  .hero__eyebrow, .hero__sub, .hero__date em { display: none; }
+  .hero__dear { margin-top: 8px; }
+  .hero__date { margin-top: 10px; }
 }
 
-/* Faint jaali lattice */
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(45deg, rgba(212, 162, 76, 0.06) 1px, transparent 1px) 0 0 / 46px 46px,
-    linear-gradient(-45deg, rgba(212, 162, 76, 0.06) 1px, transparent 1px) 0 0 / 46px 46px;
-  -webkit-mask: radial-gradient(ellipse at center, transparent 30%, #000 85%);
-  mask: radial-gradient(ellipse at center, transparent 30%, #000 85%);
+/* ---- village dusk: sun, clouds and birds replace the marigold toran ---- */
+.hero__text { padding-top: clamp(26px, 5svh, 58px); }
+.hero__sun { position: absolute; z-index: 1; left: 50%; bottom: calc(var(--scene-h) * .5); width: min(165vw, 1080px); aspect-ratio: 1; translate: -50% 50%; border-radius: 50%; background: radial-gradient(circle, rgba(255,222,140,.9) 0, rgba(255,186,84,.7) 10%, rgba(244,140,50,.46) 28%, rgba(206,84,34,.24) 48%, rgba(150,40,22,.08) 66%, rgba(120,30,20,0) 76%); }
+.hero__rays { position: absolute; z-index: 1; left: 50%; bottom: calc(var(--scene-h) * .5); width: min(230vw, 1700px); aspect-ratio: 1; translate: -50% 50%; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(255,205,110,0) 0deg, rgba(255,205,110,.17) 2.6deg, rgba(255,205,110,0) 6deg, rgba(255,205,110,0) 10deg), repeating-conic-gradient(from 3deg, rgba(255,170,80,0) 0deg, rgba(255,170,80,.12) 4deg, rgba(255,170,80,0) 9deg, rgba(255,170,80,0) 17deg); -webkit-mask-image: radial-gradient(circle, #000 0, rgba(0,0,0,.55) 22%, rgba(0,0,0,.14) 42%, transparent 58%); mask-image: radial-gradient(circle, #000 0, rgba(0,0,0,.55) 22%, rgba(0,0,0,.14) 42%, transparent 58%); animation: raysTurn 160s linear infinite; mix-blend-mode: screen; filter: blur(3px); }
+@keyframes raysTurn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .hero__rays { animation: none; } }
+@keyframes cloudDrift { to { transform: translateX(10vw); } }
+.hero__birds { position: absolute; z-index: 2; left: 0; top: 36%; width: 34vw; max-width: 220px; animation: birdsFly 38s linear infinite; }
+.bird { animation: flap .7s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes flap { to { transform: scaleY(.45); } }
+@keyframes birdsFly { from { transform: translateX(-30vw) translateY(10px); } to { transform: translateX(110vw) translateY(-30px); } }
+@media (prefers-reduced-motion: reduce) { .hero__clouds i, .hero__birds, .bird { animation: none; } .hero__birds { left: 20%; } }
+
+/* village scene is wider than a phone: centre it and crop; a full-bleed treeline carries the horizon beyond its edges */
+.hero__haveli { overflow: hidden; }
+.hero__haveli .scene { max-width: none; left: 50%; translate: -50% 0; width: calc(var(--scene-h) * 2.4615); height: var(--scene-h); }
+.hero__haveli::after { content: ''; position: absolute; left: 0; right: 0; bottom: calc(var(--scene-h) * .0923); height: calc(var(--scene-h) * .16); background: radial-gradient(ellipse 30px 22px at 22px 100%, #33100f 0 98%, transparent 100%) 0 100% / 56px 100% repeat-x, radial-gradient(ellipse 22px 16px at 20px 100%, #3d1612 0 98%, transparent 100%) 28px 100% / 44px 70% repeat-x; opacity: .9; z-index: -1; }
+
+
+/* light comes from behind the fort: its edge glows and its face stays in shade */
+.hero__haveli .scene { filter: drop-shadow(0 0 8px rgba(255,220,140,.85)) drop-shadow(0 0 26px rgba(255,170,70,.55)); }
+
+/* text block is centred in the sky above the fort instead of hugging the top */
+.hero__text { min-height: calc(100svh - var(--scene-h) * .8); justify-content: center; padding-top: clamp(24px, 4svh, 48px); padding-bottom: clamp(8px, 2svh, 20px); }
+.hero__names { font-size: clamp(54px, min(17vw, 12.5svh), 150px); }
+
+.hero__flash { position: absolute; z-index: 6; inset: 0; opacity: 0; visibility: hidden; pointer-events: none; background-color: var(--plaster); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23b8862f' stroke-opacity='.16'%3E%3Cpath d='M30 4l26 26-26 26L4 30z'/%3E%3Cpath d='M30 16l14 14-14 14-14-14z'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,255,255,.7), transparent); background-size: 60px 60px, auto; }
+.hero__bloom { position: absolute; inset: 0; background: radial-gradient(circle at 50% 62%, #fffbe9 0, #fdeab8 38%, rgba(253,234,184,0) 80%); }
+
+/* ---- daytime sky like the reference invite; type set in tracked Cinzel caps that settle into place ---- */
+.hero__sky { background: linear-gradient(180deg, #4b90e0 0%, #5fa1ea 24%, #86b9f0 50%, #cfd6ee 68%, #f4c8a6 82%, #f6a85e 100%); }
+.hero__stars { display: none; }
+.hero__clouds { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .95; }
+.hero__clouds .cl { animation: cloudDrift 70s linear infinite alternate; }
+.hero__clouds .cl--b { animation-duration: 90s; animation-direction: alternate-reverse; }
+.hero__clouds .cl--c { animation-duration: 110s; }
+@keyframes cloudDrift { to { transform: translateX(46px); } }
+.hero__sun { background: radial-gradient(circle, rgba(255,247,214,.95) 0, rgba(255,226,150,.7) 12%, rgba(255,190,110,.4) 30%, rgba(255,170,100,.18) 52%, rgba(255,160,90,0) 72%); }
+.hero__rays { opacity: .8; }
+.hero__om { color: #fff; text-shadow: 0 2px 10px rgba(20,60,130,.45); }
+.hero__eyebrow { color: rgba(255,255,255,.92); text-shadow: 0 1px 8px rgba(20,60,130,.5); letter-spacing: .3em; }
+.hero__rule { margin: 6px 0; display: flex; align-items: center; gap: 10px; width: min(78%, 420px); }
+.hero__rule i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.85)); }
+.hero__rule i:last-child { background: linear-gradient(270deg, transparent, rgba(255,255,255,.85)); }
+.hero__rule b { width: 7px; height: 7px; rotate: 45deg; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,.7); }
+.hero__names { font-family: 'Cinzel', serif; font-style: normal; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; line-height: 1.02; font-size: clamp(38px, min(11.5vw, 9svh), 112px); color: #fff; margin: 4px 0; }
+.hero__line { display: block; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #fff; animation: none; filter: drop-shadow(0 3px 14px rgba(20,60,130,.45)); white-space: nowrap; }
+.hero__weds-row { display: flex; align-items: center; justify-content: center; gap: 14px; width: min(78%, 420px); margin: 4px auto; }
+.hero__weds-row i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.8)); }
+.hero__weds-row i:last-child { background: linear-gradient(270deg, transparent, rgba(255,255,255,.8)); }
+.hero__weds { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(15px, 2.8vw, 22px); letter-spacing: .35em; text-transform: lowercase; color: #fff; margin: 0; text-shadow: 0 1px 8px rgba(20,60,130,.5); }
+.hero__sub { color: #fff; text-shadow: 0 1px 10px rgba(20,60,130,.5); }
+.hero__dear { color: rgba(255,255,255,.95); text-shadow: 0 1px 10px rgba(20,60,130,.5); }
+.hero__dear b { color: #fff; }
+.hero__date { color: #fff; text-shadow: 0 2px 12px rgba(20,60,130,.45); font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: .16em; font-size: clamp(18px, 3.4vw, 28px); }
+.hero__date i { background: rgba(255,255,255,.8); }
+.hero__date em { color: rgba(255,255,255,.92); letter-spacing: .34em; }
+@media (prefers-reduced-motion: reduce) { .hero__clouds .cl { animation: none; } }
+
+/* minimal opening like the reference invite: just the diamond rules, the names and "weds" on the open sky */
+.hero__om, .hero__eyebrow, .hero__sub, .hero__dear { display: none; }
+.hero__text { padding-top: 0; }
+.hero__names { font-size: clamp(40px, min(12.5vw, 10svh), 128px); letter-spacing: .05em; }
+
+/* open blue sky with drifting clouds, as in the reference: no sun, fort, birds or date, only the names */
+.hero__sky { background: linear-gradient(180deg, #5398e2 0%, #66a6ec 35%, #7db5ee 65%, #92c1f1 100%); }
+.hero__sun, .hero__rays, .hero__birds { display: none; }
+.hero__text { min-height: 100svh; justify-content: center; }
+.hero__rule { width: min(62vw, 520px); margin: clamp(10px, 2.4svh, 26px) 0; }
+.hero__names { font-size: clamp(36px, min(11.2vw, 15svh), 150px); letter-spacing: .045em; line-height: 1.08; margin: 0; }
+.hero__weds-row { width: min(52vw, 440px); margin: clamp(2px, .8svh, 10px) auto; }
+.hero__weds { font-size: clamp(16px, 2.4vw, 26px); letter-spacing: .4em; }
+@media (min-aspect-ratio: 1/1) { .hero__names { font-size: clamp(48px, min(8.4vw, 15svh), 150px); } }
+
+/* the gurdwara stands at the foot of the sky; names sit above its dome */
+.hero { --scene-h: clamp(320px, 70svh, 860px); }
+.hero__haveli::before, .hero__haveli::after { display: none; }
+.hero__haveli { overflow: visible; }
+.hero__haveli .gur { position: absolute; left: 50%; bottom: 0; translate: -50% 0; width: auto; height: var(--scene-h); max-width: 100%; object-fit: contain; object-position: 50% 100%; display: block; filter: drop-shadow(0 0 28px rgba(255, 220, 150, .35)); }
+.hero__text { min-height: 0; justify-content: flex-start; padding-top: clamp(40px, 11svh, 120px); }
+.hero__names { font-size: clamp(34px, min(10.5vw, 11svh), 120px); }
+.hero__date { display: flex; margin-top: clamp(10px, 2svh, 22px); font-size: clamp(16px, 2.6vw, 24px); }
+.hero__date em { display: block; }
+@media (min-aspect-ratio: 1/1) { .hero__names { font-size: clamp(44px, min(7.4vw, 11svh), 120px); } .hero__date em { display: block; } }
+
+/* the gurdwara fills the whole screen behind the names, dome rising through the sky like the reference */
+.hero { --scene-h: 112svh; }
+.hero__haveli .gur { height: var(--scene-h); max-width: none; bottom: -8svh; }
+.hero__text { padding-top: clamp(40px, 16svh, 150px); }
+.hero__line, .hero__weds, .hero__date, .hero__date em { text-shadow: 0 2px 16px rgba(20, 50, 110, .55); }
+
+/* full-width cover: the image spans the whole screen edge to edge, cropped rather than letterboxed */
+.hero__haveli { top: 0; height: auto; }
+.hero__haveli .gur { position: absolute; inset: 0; left: 0; translate: none; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 30%; }
+@media (max-aspect-ratio: 1/1) { .hero__haveli .gur { object-fit: cover; object-position: 50% 100%; } }
+
+/* shorter image, bottom-anchored in the sky; scroll lifts it into place (see Hero.jsx) */
+.hero__haveli { top: auto; bottom: 0; height: 92svh; }
+.hero__haveli .gur { object-position: 50% 30%; }
+@media (max-aspect-ratio: 1/1) { .hero__haveli .gur { object-position: 50% 100%; } }
+
+/* whole building in view with its door at the foot of the screen (no push-in): contain, bottom-anchored */
+.hero__haveli { height: 100svh; }
+.hero__haveli .gur, .hero__haveli .gur { object-fit: contain; object-position: 50% 100%; }
+@media (max-aspect-ratio: 1/1) { .hero__haveli .gur { object-fit: contain; object-position: 50% 100%; } }
+
+/* full-width gurdwara: natural height (taller than the screen), anchored to the bottom; scroll lifts it (see Hero.jsx) */
+.hero__haveli { top: 0; bottom: auto; height: 100%; }
+.hero__haveli .gur { position: absolute; inset: auto 0 0 0; left: 0; translate: none; width: 100%; height: auto; max-width: none; object-fit: fill; }
+
+/* the cutout has transparent margins: oversize it so the marble plinth reaches both edges and the bottom of the screen */
+.hero__haveli .gur { inset: auto auto -5vw -6vw; width: 112vw; max-width: none; }
+
+/* a touch of local contrast keeps the carving crisp when the camera pushes in on the door */
+.hero__haveli .gur { image-rendering: -webkit-optimize-contrast; filter: contrast(1.07) saturate(1.06) drop-shadow(0 0 28px rgba(255, 220, 150, .35)); }
+
+/* the hero stays above the page beneath it until the walk-in ends, then dissolves to reveal it already in place */
+.hero { z-index: 5; }
+
+/* the invitation follows straight on under the hero: it arrives as the hero leaves, nothing overlaps it while the door is shown */
+.hero-wrap { margin-bottom: calc(-100 * 1svh); }
+
+/* phones: names centred on the screen, a bigger gurdwara so its dome and door read clearly */
+@media (max-aspect-ratio: 1/1) {
+  .hero__text { min-height: 100svh; justify-content: center; padding-top: 0; padding-bottom: 6svh; }
+  .hero__haveli .gur { inset: auto auto -7vw -30vw; width: 160vw; }
 }
 
-.hero__mandala-wrap {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-
-.hero__mandala {
-  width: min(118vmin, 980px);
-  color: var(--gold-400);
-  opacity: 0.2;
-}
-
-.hero__content {
-  position: relative;
-  z-index: 2;
-  max-width: 920px;
-}
-
-.hero__content p {
-  margin: 0;
-}
-
-.hero__symbol {
-  font-size: clamp(42px, min(6vw, 7vh), 66px);
-  line-height: 1;
-  color: var(--gold-200);
-  text-shadow: 0 0 34px rgba(243, 214, 138, 0.45);
-}
-
-.hero__blessing-pa {
-  margin-top: 14px !important;
-  font-size: clamp(22px, 2.6vw, 30px);
-  color: var(--gold-200);
-}
-
-.hero__blessing-en {
-  margin-top: 6px !important;
-  font-family: var(--font-display);
-  font-size: 12px;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(251, 244, 230, 0.7);
-}
-
-.hero__together {
-  margin-top: clamp(20px, 3.5vh, 40px) !important;
-  font-style: italic;
-  font-size: clamp(18px, 1.6vw, 22px);
-  color: rgba(251, 244, 230, 0.8);
-}
-
-.hero__names {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 4px 0 0;
-  font-weight: 400;
-}
-
-.hero__name {
-  display: block;
-  /* Extra room so the gradient (background-clip: text) covers the script's swashes and descenders */
-  padding: 0 0.3em 0.28em;
-  margin-bottom: -0.28em;
-  font-family: var(--font-script);
-  font-size: clamp(68px, min(14vw, 13vh), 168px);
-  line-height: 1.05;
-  background: var(--gold-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
-}
-
-.hero__amp-row {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin: -6px 0;
-}
-
-.hero__rule {
-  width: clamp(60px, 12vw, 140px);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-400));
-}
-
-.hero__rule:last-child {
-  background: linear-gradient(90deg, var(--gold-400), transparent);
-}
-
-.hero__amp {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border: 1px solid var(--gold-400);
-  border-radius: 50%;
-  font-family: var(--font-display);
-  font-size: 22px;
-  color: var(--gold-200);
-}
-
-.hero__meta {
-  margin-top: clamp(14px, 2.5vh, 32px);
-}
-
-.hero__gurmukhi-names {
-  font-size: clamp(18px, 2vw, 24px);
-  color: rgba(243, 214, 138, 0.85);
-}
-
-.hero__date {
-  margin-top: clamp(8px, 1.5vh, 16px) !important;
-  font-family: var(--font-display);
-  font-size: clamp(20px, 2.4vw, 28px);
-  letter-spacing: 0.22em;
-  color: var(--ivory);
-}
-
-.hero__place {
-  margin-top: 4px !important;
-  font-family: var(--font-display);
-  font-size: 13px;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(251, 244, 230, 0.7);
-}
-
-.hero__scroll {
-  position: absolute;
-  bottom: max(28px, env(safe-area-inset-bottom));
-  left: 50%;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  transform: translateX(-50%);
-  font-family: var(--font-display);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(251, 244, 230, 0.6);
-}
-
-.hero__scroll-line {
-  position: relative;
-  width: 1px;
-  height: 48px;
-  overflow: hidden;
-  background: rgba(212, 162, 76, 0.25);
-}
-
-.hero__scroll-line::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 1px;
-  height: 18px;
-  background: var(--gold-200);
-  animation: scroll-cue 2s var(--ease-out) infinite;
-}
-
-/* On laptop-height screens the label would collide with the city line */
-@media (max-height: 900px) {
-  .hero__scroll {
-    bottom: 12px;
-  }
-
-  .hero__scroll > span:first-child {
-    display: none;
-  }
-
-  .hero__scroll-line {
-    height: 36px;
-  }
-}
-
-@keyframes scroll-cue {
-  from {
-    transform: translateY(-18px);
-  }
-  to {
-    transform: translateY(48px);
-  }
-}
-
-/* ---------- Petals ---------- */
-
-.petals {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.petal {
-  position: absolute;
-  top: 0;
-  width: 12px;
-  height: 16px;
-  border-radius: 0 80% 0 80%;
-  opacity: 0.85;
-  box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.2);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .petals {
-    display: none;
-  }
-}

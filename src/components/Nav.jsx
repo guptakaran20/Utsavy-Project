@@ -8,6 +8,8 @@ const links = [
   { href: '#couple', label: 'Couple' },
   { href: '#story', label: 'Story' },
   { href: '#events', label: 'Events' },
+  { href: '#venue', label: 'Venue' },
+  { href: '#gallery', label: 'Moments' },
   { href: '#notes', label: 'Details' },
 ]
 
@@ -31,7 +33,7 @@ export default function Nav({ visible }) {
       className="nav"
       initial={{ y: '-110%' }}
       animate={{ y: shown ? '0%' : '-110%' }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       inert={!shown}
     >
       <a className="nav__mark" href="#top" onClick={(e) => go(e, 0)}>
