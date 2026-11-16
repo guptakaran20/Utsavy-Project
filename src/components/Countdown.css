@@ -208,3 +208,47 @@
 
 /* Save the date: the label sits dead centre in its pill */
 .countdown .btn--ghost, .countdown .btn--ghost.reveal { display: flex; width: fit-content; align-items: center; justify-content: center; min-height: 52px; padding: 0 34px; line-height: 1; text-align: center; margin-inline: auto; }
+
+/* ===== Redesign: ivory arched cards in the invitation's blush, rose and gold, each under a cover of rose petals ===== */
+.countdown .countdown__units { filter: none; gap: clamp(14px, 2.4vw, 26px); }
+.countdown .unit {
+  aspect-ratio: 3 / 4; clip-path: none; overflow: hidden; isolation: isolate; padding: 14% 8% 10%;
+  border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px;
+  background: radial-gradient(ellipse 90% 55% at 50% 22%, #fffefb, #fdf6ee 60%, #f8ebe4);
+  border: 1px solid rgba(185, 139, 62, .75);
+  box-shadow: 0 18px 30px -18px rgba(125, 39, 66, .45), 0 2px 3px rgba(120, 70, 50, .1);
+  transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+}
+/* a dotted gold keyline that stays on top of the petal cover too, so every card reads as framed */
+.countdown .unit::after { content: ''; position: absolute; inset: 6px; z-index: 4; pointer-events: none; border: 1px dotted rgba(185, 139, 62, .8); border-radius: 50% 50% 6px 6px / 34% 34% 6px 6px; }
+@media (hover: hover) { .countdown .unit:hover { transform: translateY(-4px); box-shadow: 0 24px 36px -18px rgba(125, 39, 66, .5), 0 2px 3px rgba(120, 70, 50, .1); } }
+.countdown .unit .unit__digits, .countdown .unit .digit__value { color: #a63f5b; text-shadow: 0 1px 0 rgba(255, 255, 255, .7); }
+.countdown .unit__digits { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 5.2vw, 54px); font-variant-numeric: lining-nums tabular-nums; font-feature-settings: "lnum" 1, "tnum" 1; }
+.countdown .unit .unit__label { margin-top: 6px; color: #5d7852; font-size: clamp(9px, 1.3vw, 11.5px); letter-spacing: .22em; }
+.countdown .unit .unit__label .gurmukhi { margin-top: 3px; color: #b98b3e; font-size: 1.3em; }
+.countdown .unit__flame { width: 8px; height: 13px; margin-bottom: 6px; }
+.scratchseal { border-radius: inherit; transition: opacity .8s ease, transform .8s var(--ease-out), filter .8s ease; }
+.scratchseal.is-gone { transform: scale(1.08); filter: blur(4px); }
+.countdown__hint { color: #74535a; }
+.countdown__hint button { color: #a63f5b; text-decoration-style: dashed; text-underline-offset: 4px; }
+@media (max-width: 520px) { .countdown .unit { padding: 16% 8% 10%; } .countdown .unit__digits { font-size: 46px; } }
+
+/* petals that tumble from the scratch card as it is rubbed */
+.scratch-petal { position: fixed; z-index: 60; width: 11px; height: 15px; margin: -7px 0 0 -5px; border-radius: 70% 0 70% 0; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); will-change: transform, opacity; }
+
+/* ===== inside each card: a brass diya, the number over a faint lotus, a gold rule, the labels, and a phulkari hem ===== */
+.countdown .unit {
+  justify-content: center; gap: 0;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 70'%3E%3Cg fill='none' stroke='%23a63f5b' stroke-opacity='.09' stroke-width='1.4'%3E%3Cpath d='M50 6c10 12 10 28 0 46-10-18-10-34 0-46z'/%3E%3Cpath d='M50 52C30 50 14 38 8 18c20 0 34 10 42 34zM50 52c20-2 36-14 42-34-20 0-34 10-42 34z'/%3E%3Cpath d='M50 54C26 58 8 50 0 36c14-2 32 2 50 18zM50 54c24 4 42-4 50-18-14-2-32 2-50 18z'/%3E%3C/g%3E%3C/svg%3E") center 46% / 74% auto no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12'%3E%3Cpath d='M12 1L20 6L12 11L4 6Z' fill='%23e9a6b4' fill-opacity='.55'/%3E%3Cpath d='M12 4L15 6L12 8L9 6Z' fill='%23d9b56a'/%3E%3Cpath d='M0 6h3M21 6h3' stroke='%23b98b3e' stroke-opacity='.6'/%3E%3C/svg%3E") center bottom 14px / 24px 12px repeat-x,
+    radial-gradient(ellipse 90% 55% at 50% 22%, #fffefb, #fdf6ee 60%, #f8ebe4);
+}
+.countdown .unit__diya { position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: 4px; }
+.countdown .unit__diya .unit__flame { margin: 0; }
+.countdown .unit__diya b { display: block; width: 26px; height: 9px; margin-top: -1px; border-radius: 0 0 14px 14px / 0 0 9px 9px; background: linear-gradient(#e6c06a, #a8762a); box-shadow: inset 0 1px 0 rgba(255, 246, 210, .7), 0 2px 3px rgba(120, 70, 30, .3); }
+.countdown .unit__digits { margin-top: 2px; }
+.countdown .unit__rule { display: block; width: 44%; height: 7px; margin: 6px auto 2px; background:
+  radial-gradient(circle, #b98b3e 0 2.2px, transparent 2.6px) center / 7px 7px no-repeat,
+  linear-gradient(90deg, transparent, rgba(185, 139, 62, .8) 30%, transparent 46%, transparent 54%, rgba(185, 139, 62, .8) 70%, transparent) center / 100% 1px no-repeat; }
+.countdown .unit .unit__label { margin-top: 2px; }

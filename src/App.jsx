@@ -18,6 +18,9 @@ import Marquee from './components/Marquee'
 import FamilyWelcome from './components/FamilyWelcome'
 import Venue from './components/Venue'
 import Gallery from './components/Gallery'
+import OurFamilies from './components/OurFamilies'
+import Wishes from './components/Wishes'
+import Contacts from './components/Contacts'
 import MusicToggle from './components/MusicToggle'
 import AutoTour from './lib/AutoTour'
 import { dhol } from './lib/dhol'
@@ -48,14 +51,18 @@ export default function App() {
           <Invitation />
           <Couple />
           <Story />
+          <Gallery />
           <Countdown />
         </div>
         {/* its own sheet of blush paper and flowers, held on screen while the days change; the flowers above fade out as these fade in */}
         <Events />
         <Venue />
+        <OurFamilies />
         <FamilyWelcome />
         <GuestNotes />
         <Rsvp />
+        <Wishes />
+        <Contacts />
       </main>
       <ThankYou />
     </SmoothScroll>

@@ -1,0 +1,13 @@
+.contacts { align-items: center; text-align: center; --rose: #a63f5b; }
+.contacts > :not(.floral-sides) { position: relative; z-index: 2; }
+.contacts .floral-sides__head { display: none !important; }
+.contacts__sub { margin: 14px 0 0; font-style: italic; color: var(--ink-soft); }
+.contacts__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; width: min(100%, 940px); margin-top: clamp(36px, 6vw, 56px); }
+.contact { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 28px 20px 22px; background: linear-gradient(#fffefb, #fbf5ec); border: 1px solid rgba(184, 134, 47, .5); border-radius: 80px 80px 8px 8px / 70px 70px 8px 8px; box-shadow: 0 22px 34px -26px rgba(125, 39, 66, .55); }
+.contact__mono { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: #a63f5b; color: #fff3e2; font-family: var(--font-display); letter-spacing: .06em; box-shadow: 0 0 0 4px #fffefb, 0 0 0 5px var(--gold-400); }
+.contact__label { margin-top: 6px; font: 500 11px var(--font-display); letter-spacing: .24em; text-transform: uppercase; color: #5d7852; }
+.contact__name { margin: 0; font: 400 32px/1.1 var(--font-script); color: var(--rose); }
+.contact__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
+.contact .btn { min-height: 42px; padding: 0 18px; font-size: 12px; }
+.contact__num { font-size: .85em; color: var(--ink-soft); }
+@media (max-width: 760px) { .contacts.sky-bg { padding-inline: 38px; } }

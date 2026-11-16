@@ -1,20 +1,57 @@
-.gallery__strip { display: flex; gap: clamp(18px, 3vw, 36px); margin: 56px calc(var(--gutter) * -1) 0; padding: 20px var(--gutter) 30px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
-.gallery__strip::-webkit-scrollbar { display: none; }
-.gcard { flex: 0 0 min(72vw, 320px); margin: 0; scroll-snap-align: center; rotate: var(--tilt); transition: rotate .5s var(--ease-out), translate .5s var(--ease-out); }
-.gcard:first-child { margin-left: max(0px, calc((100% - 1160px) / 2)); }
-@media (hover: hover) { .gcard:hover { rotate: 0deg; translate: 0 -8px; } }
-.plate { filter: drop-shadow(0 22px 22px rgba(58,8,17,.28)); }
-.plate > * { display: block; width: 100%; aspect-ratio: 300/380; object-fit: cover; clip-path: url(#jharokha); }
-.plate { clip-path: none; }
-.gcard--maroon .plate > * { background: linear-gradient(160deg, var(--maroon-600), var(--maroon-900)); color: var(--gold-400); }
-.gcard--emerald .plate > * { background: linear-gradient(160deg, #137a63, #062a23); color: var(--gold-200); }
-.gcard--gold .plate > * { background: linear-gradient(160deg, #e2b765, #8a5f1a); color: #fff2cf; }
-.plate__mono { font-family: var(--font-script); font-size: 64px; fill: currentColor; }
-.gcard figcaption { display: flex; flex-direction: column; align-items: center; margin-top: 14px; text-align: center; }
-.gcard figcaption .gurmukhi { color: var(--gold-500); font-size: 18px; }
-.gcard figcaption em { color: var(--maroon-700); font-size: 1.05em; }
-.gallery__nav { display: flex; justify-content: center; gap: 16px; margin-top: 8px; }
-.gallery__btn { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--gold-500); background: transparent; color: var(--maroon-700); cursor: pointer; display: grid; place-items: center; transition: background .3s, color .3s; }
-.gallery__btn:hover { background: var(--maroon-700); color: var(--gold-200); }
-.gallery__btn--prev svg { transform: scaleX(-1); }
-.gallery__strip.is-drag { scroll-snap-type: none; user-select: none; } .gallery__strip img { -webkit-user-drag: none; }
+/* Moments: a rose-pink cloth book on blush paper. It opens, then each page turns as you scroll. */
+.gallery { position: relative; padding: 0 !important; overflow: visible !important; min-height: auto !important; display: block !important; background: none; --rose: #a63f5b; --rose-deep: #7d2742; }
+.gallery__track { position: relative; height: calc(100svh + var(--pages, 6) * var(--per, .85) * 100svh); }
+.gallery__stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 2svh, 22px); padding: 14px var(--gutter); overflow: hidden; isolation: isolate; }
+/* the stage carries its own blush paper and flowers, so the background stays still while the pages turn */
+.gallery__stage > :not(.floral-sides) { position: relative; z-index: 2; }
+.gallery__florals { -webkit-mask-image: none !important; mask-image: none !important; z-index: 0; }
+.gallery__head { text-align: center; line-height: 1; }
+.gallery__eyebrow { margin: 0; font-size: clamp(17px, 2vw, 22px); color: var(--gold-500); }
+.gallery__title { margin: 2px 0 0; font: 400 clamp(40px, 7svh, 62px)/1 var(--font-script); color: var(--rose-deep); }
+
+.book { position: relative; width: min(92vw, 560px, calc(72svh * .723)); aspect-ratio: 340 / 470; perspective: 1700px; transform-style: preserve-3d; filter: drop-shadow(0 28px 26px rgba(125, 39, 66, .32)); }
+.book__edge { position: absolute; inset: 3px -6px -5px 5px; border-radius: 3px 8px 8px 3px; background: repeating-linear-gradient(180deg, #f7ecdd 0 2px, #e3d2bb 2px 3px); }
+.book__leaves { position: absolute; inset: 0; }
+
+.bkleaf { position: absolute; inset: 0; transform-origin: 0 50%; transform-style: preserve-3d; will-change: transform; }
+.bkleaf__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 3px 8px 8px 3px; overflow: hidden; }
+.bkleaf__back { transform: rotateY(180deg); display: grid; place-items: end center; padding-bottom: 14px; background: linear-gradient(90deg, #efe3d3, #f9f2e6 30%); color: var(--gold-500); font-family: var(--font-display); font-size: 12px; letter-spacing: .2em; }
+.bkleaf__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(90, 30, 40, .5), rgba(90, 30, 40, .05)); opacity: 0; pointer-events: none; }
+
+/* inside page: ivory paper, dotted gold keyline, photo in an arch window, words below */
+.page { display: flex; flex-direction: column; align-items: center; padding: clamp(22px, 4%, 34px) clamp(20px, 5%, 30px) clamp(18px, 3%, 26px) clamp(28px, 7%, 40px); text-align: center; background: linear-gradient(90deg, #f0e4d4, #fffdf8 14%, #fbf5ec); color: var(--ink); }
+.page::before { content: ''; position: absolute; inset: 9px 9px 9px 15px; border: 1px dotted rgba(184, 134, 47, .65); pointer-events: none; }
+.page__photo { flex: 1 1 auto; min-height: 0; width: 100%; border-radius: 999px 999px 6px 6px / 110px 110px 6px 6px; overflow: hidden; background: linear-gradient(160deg, #f6dcd8, #e9b8bf); box-shadow: 0 0 0 1px rgba(184, 134, 47, .6), 0 0 0 5px #fffdf8, 0 0 0 6px rgba(184, 134, 47, .4); }
+.page__photo img, .page__ph { width: 100%; height: 100%; object-fit: cover; display: block; }
+.page__ph { display: grid; place-content: center; justify-items: center; gap: 6px; color: #a63f5b; font: 400 30px var(--font-script); }
+.page__ph .book__lotus { width: 54px; opacity: .8; }
+.page__pa { margin: 12px 0 0; font-size: 15px; color: var(--gold-500); line-height: 1.2; }
+.page__title { margin: 0; font: 400 clamp(28px, 5.2svh, 44px)/1.05 var(--font-script); color: var(--rose); }
+.page__place { margin: 2px 0 0; font: 500 9.5px var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #5d7852; }
+.page__text { margin: 6px 0 0; font-style: italic; font-size: clamp(14px, 2.2svh, 19px); line-height: 1.4; color: var(--ink-soft); text-wrap: pretty; }
+.page__no { position: absolute; right: 18px; bottom: 12px; font: 500 10px var(--font-display); letter-spacing: .14em; color: var(--gold-500); }
+.page--end { justify-content: center; }
+.page--end .page__title { font-size: clamp(30px, 5svh, 40px); margin-top: 6px; }
+.page--end .page__text { margin-top: 12px; }
+.page__tag { margin: 16px 0 0; font: 500 11px var(--font-display); letter-spacing: .2em; color: var(--gold-500); }
+
+/* cover: rose cloth, gold dashed stitching, a lotus, a darker spine band */
+.cover { display: grid; place-items: center; background: repeating-linear-gradient(-58deg, rgba(255, 255, 255, .13) 0 .7px, transparent .7px 2.2px), linear-gradient(160deg, #c45d7f, #8e2e4f); color: #fff3e2; text-shadow: 0 1px rgba(80, 20, 30, .45); }
+.cover::before { content: ''; position: absolute; inset: 14px 14px 14px 26px; border: 1.4px dashed rgba(246, 222, 170, .9); border-radius: 2px 6px 6px 2px; }
+.cover__band { position: absolute; left: 0; top: 0; bottom: 0; width: 18px; background: linear-gradient(90deg, rgba(60, 10, 25, .55), rgba(60, 10, 25, .12)); border-right: 1px solid rgba(246, 222, 170, .5); }
+.cover__in { position: relative; display: grid; justify-items: center; gap: 4px; padding-left: 14px; text-align: center; }
+.book__lotus { width: clamp(62px, 11%, 84px); color: #f6deaa; }
+.cover__pa { margin: 6px 0 0; font-size: 22px; color: #f6deaa; }
+.cover__title { margin: 0; font: 400 clamp(42px, 8svh, 64px)/1 var(--font-script); }
+.cover__names { margin: 8px 0 0; font: 500 11px var(--font-display); letter-spacing: .28em; text-transform: uppercase; color: #f6deaa; }
+
+.gallery__count { margin: 0; font: 500 11px var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #8a6424; min-height: 1.4em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery__track { height: auto; }
+  .gallery__stage { position: static; height: auto; padding-block: 60px; }
+  .book { width: min(90vw, 340px); aspect-ratio: auto; filter: none; }
+  .book__edge, .bkleaf--cover, .bkleaf__back { display: none; }
+  .book__leaves { position: static; display: flex; flex-direction: column-reverse; gap: 24px; }
+  .bkleaf { position: relative; aspect-ratio: 340 / 470; transform: none !important; }
+}

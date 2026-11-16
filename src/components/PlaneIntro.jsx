@@ -2,10 +2,10 @@ import { useLayoutEffect, useRef } from 'react'
 import { gsap, prefersReducedMotion } from '../lib/gsap'
 import { fireCrackers } from '../lib/crackers'
 import { wedding } from '../data/wedding'
+import { guestName } from '../lib/guest'
 import './PlaneIntro.css'
 
 const [year, month, day] = wedding.date.slice(0, 10).split('-')
-const KICKER = `${wedding.families.charAt(0).toUpperCase()}${wedding.families.slice(1)} welcome you`
 const DATE_LINE = `${day} · ${month} · ${year} · ${wedding.city.split(',')[0]}`
 
 // ---- the artwork (three transparent cut-outs in /public/intro) ------------------------------------------------
@@ -214,7 +214,10 @@ export default function PlaneIntro({ onEnter, onDone, onTakeoff }) {
     <div className="plane-intro" ref={root} role="presentation">
       <div className="pi-stars" aria-hidden="true" />
       <div className="pi-heading">
-        <p className="pi-kicker">{KICKER}</p>
+        <p className="pi-dear"><span className="gurmukhi">ਪਿਆਰੇ</span> <b>{guestName()}</b>,</p>
+        <p className="pi-pa gurmukhi">{wedding.familiesGurmukhi} ਵੱਲੋਂ ਨਿੱਘਾ ਸੱਦਾ</p>
+        <p className="pi-pa pi-pa--flight gurmukhi">ਆਓ, ਜ਼ਿੰਦਗੀ ਦੇ ਸਭ ਤੋਂ ਖ਼ੂਬਸੂਰਤ ਸਫ਼ਰ ਦੀ ਉਡਾਣ ਭਰੀਏ</p>
+        <p className="pi-kicker">Boarding now · the journey of a lifetime with</p>
         <p className="pi-names">{bride.name}<span>&amp;</span>{groom.name}</p>
         <p className="pi-date">{DATE_LINE}</p>
       </div>

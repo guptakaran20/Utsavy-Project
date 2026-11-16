@@ -1,0 +1,20 @@
+.wishes { align-items: center; text-align: center; --rose: #a63f5b; }
+.wishes > :not(.floral-sides) { position: relative; z-index: 2; }
+.wishes .floral-sides__head { display: none !important; }
+.wishes__sub { margin: 14px 0 0; font-style: italic; color: var(--ink-soft); }
+/* phulkari-coloured string the cards hang from */
+.wishes__line { width: min(100%, 980px); height: 8px; margin-top: clamp(40px, 6vw, 64px); border-radius: 4px; background: repeating-linear-gradient(90deg, #d81b74 0 14px, #e8751a 14px 28px, #ffc107 28px 42px, #34a853 42px 56px); box-shadow: 0 3px 4px -2px rgba(90, 30, 40, .4); }
+.wishes__row { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 22px; width: min(100%, 980px); margin: 0; padding: 0 0 8px; }
+.wcard { position: relative; width: min(100%, 220px); margin-top: -2px; padding: 34px 18px 20px; background: linear-gradient(#fffefb, #fbf5ec); border: 1px solid rgba(184, 134, 47, .5); border-radius: 4px; box-shadow: 0 18px 26px -20px rgba(125, 39, 66, .55); transform-origin: 50% 0; rotate: var(--tilt); animation: sway 5s ease-in-out infinite alternate; animation-delay: var(--d); }
+.wcard::before { content: ''; position: absolute; inset: 7px; border: 1px dotted rgba(184, 134, 47, .6); pointer-events: none; }
+.wcard__peg { position: absolute; top: -16px; left: 50%; translate: -50% 0; width: 12px; height: 30px; border-radius: 3px; background: linear-gradient(90deg, #d9a85a, #b8862f); box-shadow: 0 2px 3px rgba(60, 30, 20, .35); }
+.wcard__text { margin: 0; font-style: italic; font-size: .95em; line-height: 1.45; color: var(--ink); text-wrap: pretty; }
+.wcard__name { display: block; margin-top: 10px; font: 400 26px/1.1 var(--font-script); color: var(--rose); }
+@keyframes sway { from { rotate: calc(var(--tilt) - 1.4deg); } to { rotate: calc(var(--tilt) + 1.4deg); } }
+@media (prefers-reduced-motion: reduce) { .wcard { animation: none; } }
+.wishes__form { display: flex; flex-direction: column; gap: 12px; width: min(100%, 480px); margin-top: clamp(40px, 6vw, 60px); padding: 26px 22px 20px; border: 1px solid rgba(184, 134, 47, .5); border-radius: 6px; background: rgba(255, 252, 246, .78); backdrop-filter: blur(3px); }
+.wishes__form-title { margin: 0; font: 400 34px/1 var(--font-script); color: var(--rose); }
+.wishes__form input, .wishes__form textarea { width: 100%; padding: 12px 14px; border: 1px solid rgba(184, 134, 47, .55); border-radius: 3px; background: rgba(255, 255, 255, .85); resize: vertical; }
+.wishes__form .btn { align-self: center; }
+.wishes__sent { min-height: 1.3em; margin: 0; font-style: italic; color: #5d7852; }
+@media (max-width: 760px) { .wishes.sky-bg { padding-inline: 38px; } }

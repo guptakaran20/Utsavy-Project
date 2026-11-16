@@ -1,0 +1,8 @@
+.pclock { display: flex; flex-direction: column; align-items: center; margin: clamp(22px, 4vw, 36px) auto 0; }
+.pclock__dial { width: min(78vw, 320px); height: auto; overflow: visible; filter: drop-shadow(0 22px 26px rgba(125, 39, 66, .28)) drop-shadow(0 2px 2px rgba(120, 70, 50, .2)); }
+.pclock__num { font-size: 26px; font-weight: 600; fill: #a63f5b; }
+.pclock__month { font-size: 13.5px; fill: #8a6424; }
+.pclock__cap { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 12px; }
+.pclock__cap .gurmukhi { font-size: 16px; color: #b98b3e; }
+.pclock__cap span:last-child { font: 500 10.5px var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #74535a; }
+.pclock__map { filter: drop-shadow(0 2px 2px rgba(120, 70, 30, .35)); }

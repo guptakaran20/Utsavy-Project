@@ -38,6 +38,7 @@ export const wedding = {
   city: 'Amritsar, Punjab',
   hashtag: '#HarJasDaViah',
   families: 'the Sandhu & Gill families',
+  familiesGurmukhi: 'ਸੰਧੂ ਤੇ ਗਿੱਲ ਪਰਿਵਾਰ', // same families, in Gurmukhi, for the plane intro
 
   invitation:
     'Together with our families, we joyfully invite you to share in the celebrations as we begin our forever — with laughter at the Sangeet, colour at the Mehndi, and blessings at the Anand Karaj.',
@@ -146,12 +147,13 @@ export const wedding = {
     mapQuery: 'Amritsar, Punjab',
   },
 
+  // Pages of the 'Moments' book. Each page: a photo, a Gurmukhi line, a title, a place and a few words below.
   gallery: [
-    { photo: '/photos/gallery-1.jpg', caption: 'Ik Mulaqat', gurmukhi: 'ਇੱਕ ਮੁਲਾਕਾਤ', tone: 'maroon' },
-    { photo: '/photos/gallery-2.jpg', caption: 'Chai at Wagah', gurmukhi: 'ਵਾਹਗਾ ਦੀ ਸ਼ਾਮ', tone: 'emerald' },
-    { photo: '/photos/gallery-3.jpg', caption: 'The Question', gurmukhi: 'ਸਵਾਲ', tone: 'gold' },
-    { photo: '/photos/gallery-4.jpg', caption: 'Roka & Chunni', gurmukhi: 'ਰੋਕਾ', tone: 'maroon' },
-    { photo: '/photos/gallery-5.jpg', caption: 'Bhangra nights', gurmukhi: 'ਭੰਗੜਾ', tone: 'emerald' },
+    { photo: '/photos/gallery-1.jpg', gurmukhi: 'ਇੱਕ ਮੁਲਾਕਾਤ', caption: 'Ik Mulaqat', place: 'Amritsar · Lohri 2019', text: 'A bonfire, a shared plate of gajak, and a debate about sarson da saag that neither of us has ever won.' },
+    { photo: '/photos/gallery-2.jpg', gurmukhi: 'ਵਾਹਗਾ ਦੀ ਸ਼ਾਮ', caption: 'Chai at Wagah', place: 'Wagah Border · 2022', text: 'Flags, drums and two cups of cutting chai going cold, because we forgot to drink them.' },
+    { photo: '/photos/gallery-3.jpg', gurmukhi: 'ਸਵਾਲ', caption: 'The Question', place: 'Wagah Border · 2023', text: 'Golden hour, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.' },
+    { photo: '/photos/gallery-4.jpg', gurmukhi: 'ਰੋਕਾ', caption: 'Roka & Chunni', place: 'Chandigarh · 2026', text: 'Two families, one very long dinner table, and enough laddoos for the whole mohalla.' },
+    { photo: '/photos/gallery-5.jpg', gurmukhi: 'ਭੰਗੜਾ', caption: 'Bhangra Nights', place: 'Every wedding since', text: 'We have never left a dance floor early. We do not plan to start at our own wedding.' },
   ],
 
   notes: [
@@ -179,5 +181,39 @@ export const wedding = {
   contacts: [
     { label: 'Bride’s family', name: 'Gurpreet Singh Sandhu', phone: '+91 98XXX XXXXX' },
     { label: 'Groom’s family', name: 'Harjit Singh Gill', phone: '+91 98XXX XXXXX' },
+  ],
+
+  // Both families — shown on the 'Our Families' page
+  bothFamilies: {
+    bride: {
+      label: 'The Bride’s Family',
+      parents: 'Sardarni Manjit Kaur & Sardar Gurpreet Singh Sandhu',
+      invite: 'joyfully invite you to the wedding of their daughter',
+      name: 'Harleen Kaur',
+      grand: 'Granddaughter of Bibi Surjit Kaur & S. Balwant Singh Sandhu',
+      blessing: 'A daughter’s laughter, now lighting up two homes.',
+    },
+    groom: {
+      label: 'The Groom’s Family',
+      parents: 'Sardarni Rajwinder Kaur & Sardar Harjit Singh Gill',
+      invite: 'with great joy invite you to the wedding of their son',
+      name: 'Jasraj Singh',
+      grand: 'Grandson of Bibi Gurdev Kaur & S. Mohinder Singh Gill',
+      blessing: 'A son’s promise, to cherish and to stand beside.',
+    },
+  },
+
+  // Ashirwad wall — starter blessings; guests can add their own (saved on their device only)
+  wishes: [
+    { name: 'Bibi Surjit Kaur', text: 'Rab tuhanu hamesha hasde-vasde rakhe. May your home always smell of fresh rotis and laughter.' },
+    { name: 'Simran Masi', text: 'Two of my favourite people, one beautiful journey. The giddha will be loud, I promise!' },
+    { name: 'Gurdeep Chacha', text: 'Jodi salamat rahe! Save a plate of sarson da saag for me.' },
+    { name: 'The Gill Parivaar', text: 'Welcome to our family, Harleen. Our door, and our kitchen, are always yours.' },
+  ],
+
+  // People to call for travel, stay and the day itself (whatsapp: international digits, no '+', optional)
+  help: [
+    { label: 'Travel & stay', name: 'Simranjeet Kaur', phone: '+91 98XXX XXXXX', whatsapp: '' },
+    { label: 'On the wedding day', name: 'Arshdeep Singh', phone: '+91 98XXX XXXXX', whatsapp: '' },
   ],
 }

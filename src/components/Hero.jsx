@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
 import { wedding } from '../data/wedding'
+import { guestName } from '../lib/guest'
 import HeroFX from './HeroFX'
 import './Hero.css'
 
 const [yyyy, mm, dd] = wedding.date.slice(0, 10).split('-')
-// personalised link: ?guest=Sardar+Gurpreet+Singh+ji → "Dear Sardar Gurpreet Singh ji"
-const guestName = () => (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('guest')) || 'Family & Friends'
 
 export default function Hero({ play }) {
   const wrap = useRef(null)

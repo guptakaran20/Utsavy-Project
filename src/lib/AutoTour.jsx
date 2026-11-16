@@ -34,6 +34,12 @@ export default function AutoTour({ armed }) {
     const tick = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
+      // a section is holding the page (the envelope opening): wait with it, then carry on from where the page is
+      if (document.documentElement.classList.contains('is-locked')) {
+        pos = window.scrollY
+        raf.current = requestAnimationFrame(tick)
+        return
+      }
       pos += SPEED * dt
       const limit = end()
       if (pos >= limit) {

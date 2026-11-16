@@ -1,0 +1,20 @@
+.ofam { align-items: center; text-align: center; --rose: #a63f5b; --rose-deep: #7d2742; }
+.ofam > :not(.floral-sides) { position: relative; z-index: 2; }
+.ofam__sub { margin: 14px 0 0; font-style: italic; color: var(--ink-soft); }
+.ofam__grid { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: center; justify-items: center; width: 100%; max-width: 980px; margin-top: clamp(36px, 6vw, 64px); }
+@media (min-width: 900px) { .ofam__grid { grid-template-columns: 1fr 120px 1fr; gap: 0; } }
+.ofam__card { position: relative; width: min(100%, 400px); padding: 84px 28px 32px; background: linear-gradient(#fffefb, #fbf5ec); border: 1px solid rgba(184, 134, 47, .55); border-radius: 200px 200px 10px 10px; box-shadow: 0 26px 40px -28px rgba(125, 39, 66, .5); }
+.ofam__card::before { content: ''; position: absolute; inset: 8px; border: 1px dotted rgba(184, 134, 47, .7); border-radius: 192px 192px 6px 6px; pointer-events: none; }
+.ofam__side { display: inline-flex; align-items: center; gap: 10px; font: 500 11px var(--font-display); letter-spacing: .24em; text-transform: uppercase; color: #5d7852; }
+.ofam__side::before, .ofam__side::after { content: ''; width: 22px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-400)); }
+.ofam__side::after { transform: scaleX(-1); }
+.ofam__parents { margin: 16px 0 0; font: 500 16px/1.4 var(--font-display); letter-spacing: .04em; color: var(--ink); text-wrap: balance; }
+.ofam__invite { margin: 8px 0 0; font-style: italic; color: var(--ink-soft); font-size: .95em; }
+.ofam__name { margin: 8px 0 0; font: 400 clamp(40px, 8vw, 50px)/1.1 var(--font-script); color: var(--rose); }
+.ofam__grand { margin: 8px 0 0; font-size: .85em; color: var(--ink-soft); }
+.ofam__blessing { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid rgba(184, 134, 47, .35); font-style: italic; font-size: .92em; color: var(--rose-deep); }
+.ofam__knot { width: 120px; height: 120px; }
+.ofam__knot svg { width: 100%; height: 100%; overflow: visible; }
+@media (max-width: 899px) { .ofam__knot { width: 84px; height: 84px; transform: rotate(90deg); } }
+@media (max-width: 760px) { .ofam.sky-bg { padding-inline: 38px; } }
+.ofam .floral-sides__head { display: none !important; }
