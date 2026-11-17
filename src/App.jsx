@@ -10,6 +10,7 @@ import FloralSides from './components/FloralSides'
 import Couple from './components/Couple'
 import Story from './components/Story'
 import Countdown from './components/Countdown'
+import GarlandBridge from './components/GarlandBridge'
 import Events from './components/Events'
 import GuestNotes from './components/GuestNotes'
 import Rsvp from './components/Rsvp'
@@ -22,8 +23,9 @@ import OurFamilies from './components/OurFamilies'
 import Wishes from './components/Wishes'
 import Contacts from './components/Contacts'
 import MusicToggle from './components/MusicToggle'
-import AutoTour from './lib/AutoTour'
+import FrameScene from './lib/FrameScene'
 import { dhol } from './lib/dhol'
+import { useLineReveal } from './lib/useLineReveal'
 
 // 'plane' = a night flight crosses the sky, then the invitation opens; 'gate' = the haveli doorway (kept intact, switch back any time)
 const INTRO = 'plane'
@@ -31,6 +33,7 @@ const INTRO = 'plane'
 export default function App() {
   const [opened, setOpened] = useState(false)
   const [gateDone, setGateDone] = useState(false)
+  useLineReveal()
 
   useEffect(() => {
     // Web fonts change text heights, which shifts every trigger position
@@ -43,7 +46,7 @@ export default function App() {
         ? <PlaneIntro onTakeoff={() => dhol.prime()} onEnter={() => { setOpened(true); dhol.start() }} onDone={() => setGateDone(true)} />
         : <HaveliGate onEnter={() => setOpened(true)} onDone={() => setGateDone(true)} />)}
       <MusicToggle visible={opened} />
-      <AutoTour armed={opened} />
+      <FrameScene introDone={gateDone} />
       <main>
         <Hero play={opened} />
         <div className="blush-run sky-bg">
@@ -54,6 +57,7 @@ export default function App() {
           <Gallery />
           <Countdown />
         </div>
+        <GarlandBridge />
         {/* its own sheet of blush paper and flowers, held on screen while the days change; the flowers above fade out as these fade in */}
         <Events />
         <Venue />

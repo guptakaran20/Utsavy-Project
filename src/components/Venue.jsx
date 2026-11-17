@@ -18,7 +18,7 @@ export default function Venue() {
   const full = `${venue.name}, ${venue.address}`
   useReveal(root)
 
-  // The pavilion drifts slowly behind the page, the map opens upward like a window, and the details settle in one by one
+  // The pavilion drifts slowly behind the page, and the details settle in one by one
   useGSAP(
     () => {
       const mm = gsap.matchMedia()
@@ -27,8 +27,6 @@ export default function Venue() {
         gsap.from('.venue .floral-sides', { scale: 1.08, autoAlpha: 0.2, duration: 1.8, ease: 'power2.out', scrollTrigger: { trigger: root.current, start: 'top 85%', once: true } })
         const q = (sel) => root.current.querySelector(sel)
         const all = (sel) => root.current.querySelectorAll(sel)
-        gsap.set('.venue__map', { clipPath: 'inset(100% 0% 0% 0%)', scale: 0.94 })
-        gsap.set('.venue__map iframe', { scale: 1.25 })
         gsap.set('.venue__info > *', { y: 28, autoAlpha: 0 })
         gsap.set('.venue__actions .btn', { scale: 0.92, autoAlpha: 0 })
         const io = new IntersectionObserver(
@@ -36,9 +34,7 @@ export default function Venue() {
             if (!entries.some((e) => e.isIntersecting)) return
             io.disconnect()
             const tl = gsap.timeline()
-            tl.to(q('.venue__map'), { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, duration: 1.3, ease: 'power3.out' }, 0)
-              .to(q('.venue__map iframe'), { scale: 1, duration: 2, ease: 'power2.out' }, 0)
-              .to(all('.venue__info > *'), { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.14, ease: 'power3.out' }, 0.3)
+            tl.to(all('.venue__info > *'), { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.14, ease: 'power3.out' }, 0)
               .to(all('.venue__actions .btn'), { scale: 1, autoAlpha: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.6)' }, 0.9)
           },
           { threshold: 0.12 },
@@ -64,15 +60,6 @@ export default function Venue() {
       <FloralSides tiles={3} />
       <SectionTitle eyebrow="ਸਥਾਨ" title="The Venue" />
       <div className="venue__grid">
-        <figure className="venue__map">
-          <iframe
-            title={`Map of ${venue.name}`}
-            loading="eager"
-            referrerPolicy="no-referrer-when-downgrade"
-            src={`https://maps.google.com/maps?q=${q(full)}&output=embed`}
-          />
-          <span className="venue__frame" aria-hidden="true" />
-        </figure>
         <div className="venue__info">
           <h3 className="venue__name">{venue.name}</h3>
           <p className="venue__addr"><PinIcon /> {venue.address}</p>

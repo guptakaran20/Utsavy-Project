@@ -46,7 +46,7 @@ export default function Wishes() {
 
   return (
     <section id="wishes" ref={root} className="section sky-bg wishes chap" data-chapter data-dwell="8">
-      <FloralSides tiles={4} head={false} />
+      <FloralSides tiles={6} head={false} />
       <SectionTitle eyebrow="ਅਸੀਸਾਂ" title="Ashirwad Wall" />
       <p className="wishes__sub reveal">Leave a few words for the couple. Every wish is a blessing.</p>
 

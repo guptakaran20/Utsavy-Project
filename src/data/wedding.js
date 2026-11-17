@@ -12,7 +12,7 @@ export const wedding = {
     fullName: 'Harleen Kaur',
     parents: 'Daughter of Sardarni Manjit Kaur & Sardar Gurpreet Singh Sandhu',
     blurb: 'Architect, chai loyalist and the loudest voice at every giddha circle.',
-    photo: '/photos/bride.jpg', // drop the file in /public/photos (see README there); missing = placeholder
+    photo: '/photos/bride.jpg', focus: '50% 30%', // drop the file in /public/photos (see README there); missing = placeholder
   },
   groom: {
     name: 'Jasraj',
@@ -20,7 +20,7 @@ export const wedding = {
     fullName: 'Jasraj Singh',
     parents: 'Son of Sardarni Rajwinder Kaur & Sardar Harjit Singh Gill',
     blurb: 'Engineer, part-time dhol player, full-time believer in second helpings.',
-    photo: '/photos/groom.jpg',
+    photo: '/photos/groom.jpg', focus: '50% 22%',
   },
 
   // The dhol that plays once the plane has taken off (same recording as the Shahi Haveli invitation)
@@ -48,7 +48,7 @@ export const wedding = {
       year: '2019',
       headline: ['Ik', '& Lohri', 'Mulaqat'],
       place: 'Amritsar · 2019',
-      photo: '/photos/story-1.jpg',
+      photo: '/photos/story-1.jpg', focus: '50% 55%',
       title: 'Ik Mulaqat',
       text: 'A cousin’s Lohri bonfire, one shared plate of gajak and a debate about who makes the better sarson da saag.',
     },
@@ -56,7 +56,7 @@ export const wedding = {
       year: '2023',
       headline: ['The', '& Wagah', 'Question'],
       place: 'Wagah Border · 2023',
-      photo: '/photos/story-2.jpg',
+      photo: '/photos/story-2.jpg', focus: '50% 35%',
       title: 'The Question',
       text: 'Golden hour at Wagah, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.',
     },
@@ -64,7 +64,7 @@ export const wedding = {
       year: '2026',
       headline: ['The Roka', '& chunni', 'Ceremony'],
       place: 'Chandigarh · 2026',
-      photo: '/photos/story-3.jpg',
+      photo: '/photos/story-3.jpg', focus: '50% 50%',
       title: 'Roka & Chunni',
       text: 'Two families, one very long dinner table, and enough laddoos to feed the whole mohalla.',
     },
@@ -74,6 +74,7 @@ export const wedding = {
   events: [
     {
       id: 'mehndi',
+      short: 'Mehndi', // tab label
       start: '2027-02-19T17:00:00+05:30',
       name: 'Mehndi & Sangeet',
       gurmukhi: 'ਮਹਿੰਦੀ ਤੇ ਸੰਗੀਤ',
@@ -87,6 +88,7 @@ export const wedding = {
     },
     {
       id: 'maiyan',
+      short: 'Maiyan', // tab label
       start: '2027-02-20T11:00:00+05:30',
       name: 'Maiyan & Jaggo',
       gurmukhi: 'ਮਾਈਆਂ ਤੇ ਜਾਗੋ',
@@ -100,6 +102,7 @@ export const wedding = {
     },
     {
       id: 'anand-karaj',
+      short: 'Anand Karaj', // tab label
       start: '2027-02-21T09:00:00+05:30',
       name: 'Anand Karaj',
       gurmukhi: 'ਅਨੰਦ ਕਾਰਜ',
@@ -113,6 +116,7 @@ export const wedding = {
     },
     {
       id: 'reception',
+      short: 'Reception', // tab label
       start: '2027-02-21T19:30:00+05:30',
       name: 'Reception',
       gurmukhi: 'ਰਿਸੈਪਸ਼ਨ',
@@ -134,9 +138,9 @@ export const wedding = {
       'In a Punjabi home no guest is ever a stranger. Whether you travel from the next lane or from Brampton, Melbourne or Southall, there is a charpai, a glass of lassi and a seat at the table with your name on it. Come as family — leave as family.',
     signoff: 'With love, the Sandhu & Gill parivaar',
     elders: [
-      { photo: '/photos/family-1.jpg', role: 'Dadi ji & Dada ji', name: 'Bibi Surjit Kaur & S. Balwant Singh' },
-      { photo: '/photos/family-2.jpg', role: 'Bride’s parents', name: 'Manjit Kaur & Gurpreet Singh Sandhu' },
-      { photo: '/photos/family-3.jpg', role: 'Groom’s parents', name: 'Rajwinder Kaur & Harjit Singh Gill' },
+      { photo: '/photos/family-1.jpg', focus: '50% 40%', role: 'Dadi ji & Dada ji', name: 'Bibi Surjit Kaur & S. Balwant Singh' },
+      { photo: '/photos/family-2.jpg', focus: '50% 30%', role: 'Bride’s parents', name: 'Manjit Kaur & Gurpreet Singh Sandhu' },
+      { photo: '/photos/family-3.jpg', focus: '50% 35%', role: 'Groom’s parents', name: 'Rajwinder Kaur & Harjit Singh Gill' },
     ],
   },
 
@@ -149,11 +153,12 @@ export const wedding = {
 
   // Pages of the 'Moments' book. Each page: a photo, a Gurmukhi line, a title, a place and a few words below.
   gallery: [
-    { photo: '/photos/gallery-1.jpg', gurmukhi: 'ਇੱਕ ਮੁਲਾਕਾਤ', caption: 'Ik Mulaqat', place: 'Amritsar · Lohri 2019', text: 'A bonfire, a shared plate of gajak, and a debate about sarson da saag that neither of us has ever won.' },
-    { photo: '/photos/gallery-2.jpg', gurmukhi: 'ਵਾਹਗਾ ਦੀ ਸ਼ਾਮ', caption: 'Chai at Wagah', place: 'Wagah Border · 2022', text: 'Flags, drums and two cups of cutting chai going cold, because we forgot to drink them.' },
-    { photo: '/photos/gallery-3.jpg', gurmukhi: 'ਸਵਾਲ', caption: 'The Question', place: 'Wagah Border · 2023', text: 'Golden hour, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.' },
-    { photo: '/photos/gallery-4.jpg', gurmukhi: 'ਰੋਕਾ', caption: 'Roka & Chunni', place: 'Chandigarh · 2026', text: 'Two families, one very long dinner table, and enough laddoos for the whole mohalla.' },
-    { photo: '/photos/gallery-5.jpg', gurmukhi: 'ਭੰਗੜਾ', caption: 'Bhangra Nights', place: 'Every wedding since', text: 'We have never left a dance floor early. We do not plan to start at our own wedding.' },
+    { photo: '/photos/gallery-6.jpg', focus: '50% 35%', gurmukhi: 'ਪ੍ਰੀ-ਵੈਡਿੰਗ', caption: 'Pre-Wedding, Pink Hour', place: 'Chandigarh · Pre-wedding shoot', text: 'A pink pagg, a phulkari dupatta and one very shy smile when the ring came out.' },
+    { photo: '/photos/gallery-7.jpg', focus: '50% 60%', gurmukhi: 'ਸਰ੍ਹੋਂ ਦੇ ਖੇਤ', caption: 'Sarson Fields', place: 'Punjab · Pre-wedding shoot', text: 'Hand in hand through the mustard fields, chasing the last light of winter.' },
+    { photo: '/photos/gallery-8.jpg', focus: '40% 50%', gurmukhi: 'ਪਹਾੜਾਂ ਵਿੱਚ', caption: 'Pallu in the Wind', place: 'Pre-wedding shoot', text: 'A rock face, a pink drape caught by the wind, and neither of us watching the camera.' },
+    { photo: '/photos/gallery-9.jpg', focus: '50% 40%', gurmukhi: 'ਨੇੜੇ', caption: 'Closer', place: 'Pre-wedding shoot', text: 'Foreheads together, no words needed.' },
+    { photo: '/photos/gallery-10.jpg', focus: '50% 50%', gurmukhi: 'ਸ਼ਾਮ ਦੀ ਸੈਰ', caption: 'Golden Evening', place: 'Pre-wedding shoot', text: 'Lawns, long shadows and the calm before the wedding chaos.' },
+    { photo: '/photos/gallery-3.jpg', focus: '45% 40%', gurmukhi: 'ਸਵਾਲ', caption: 'The Question', place: 'Wagah Border · 2023', text: 'Golden hour, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.' },
   ],
 
   notes: [

@@ -1,6 +1,4 @@
 .venue__grid { max-width: 1100px; margin: 56px auto 0; display: grid; gap: 40px; grid-template-columns: 1.2fr 1fr; align-items: center; }
-.venue__map { position: relative; margin: 0; aspect-ratio: 4/3; border-radius: 999px 999px 18px 18px / 260px 260px 18px 18px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(90,15,28,.55); background: var(--cream); }
-.venue__map iframe { width: 100%; height: 100%; border: 0; filter: sepia(.45) saturate(.8) hue-rotate(-10deg); }
 .venue__frame { position: absolute; inset: 10px; border: 1px solid var(--gold-400); border-radius: inherit; pointer-events: none; }
 .venue__name { margin: 0 0 8px; font-family: var(--font-display); font-weight: 500; color: var(--maroon-700); font-size: clamp(26px, 3.2vw, 38px); letter-spacing: .04em; }
 .venue__addr { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 14px; color: var(--ink-soft); }
@@ -9,9 +7,7 @@
 .venue__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn--outline { background: transparent; color: var(--maroon-700); border-color: var(--maroon-600); box-shadow: none; }
 .btn--outline:hover { background: rgba(122,20,38,.08); box-shadow: none; }
-@media (max-width: 860px) { .venue__grid { grid-template-columns: 1fr; } .venue__map { border-radius: 999px 999px 18px 18px / 180px 180px 18px 18px; } .venue__actions .btn { flex: 1 1 100%; } }
-.venue__map::before { content: 'Opening the map…'; position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-500); }
-.venue__map iframe { position: relative; }
+@media (max-width: 860px) { .venue__grid { grid-template-columns: 1fr; } .venue__actions .btn { flex: 1 1 100%; } }
 
 /* the same blush paper and edge flowers as the invitation pages */
 .venue.sky-bg { background-color: #f6dcd8; }
@@ -61,3 +57,48 @@
 
 /* slow parallax on the pavilion backdrop (driven by --bgy in Venue.jsx) */
 .venue.sky-bg::before { background-position: 47% 50%, 47% calc(50% + var(--bgy, 0px)); }
+
+/* pavilion backdrop sits dead centre, and on phones the details are centred in a column that clears the edge flowers */
+.venue.sky-bg::before { background-position: 50% 50%, 50% calc(50% + var(--bgy, 0px)); }
+@media (max-width: 860px) {
+  .venue__grid { justify-items: center; }
+  .venue__info { text-align: center; max-width: 30ch; margin-inline: auto; }
+  .venue__name { font-size: clamp(22px, 6.4vw, 30px); letter-spacing: .02em; line-height: 1.15; }
+  .venue__addr { justify-content: center; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 16px; }
+  .venue__addr svg { margin-top: 0; }
+  .venue__note { font-size: 16px; line-height: 1.55; }
+  .venue__actions { justify-content: center; }
+}
+@media (max-width: 860px) {
+  .venue__info { max-width: none; width: 100%; }
+  .venue__name, .venue__addr, .venue__note { max-width: min(100%, 230px); margin-inline: auto; }
+}
+/* the details sit on a soft blush card so the edge flowers never fight the text */
+@media (max-width: 860px) {
+  .venue__info { padding: 22px 18px 20px; border-radius: 22px; background: rgba(250, 234, 230, .86); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 18px 40px -24px rgba(90, 15, 28, .45), 0 0 0 1px rgba(184, 134, 47, .35); }
+  .venue__name, .venue__addr, .venue__note { max-width: none; }
+  .venue__addr, .venue__note { color: #5a2a2e; }
+  .venue .venue__name, .venue .venue__addr, .venue .venue__note { text-shadow: none; }
+}
+
+/* no picture and no card: the details sit straight on the blush page, centred in one column */
+.venue__grid { grid-template-columns: 1fr; max-width: 560px; justify-items: center; text-align: center; }
+.venue__info { padding: 0 !important; background: none !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-radius: 0 !important; }
+.venue__addr { justify-content: center; }
+.venue__actions { justify-content: center; }
+.venue .venue__name, .venue .venue__addr, .venue .venue__note { text-shadow: 0 1px 14px rgba(246, 220, 216, .95), 0 0 2px rgba(246, 220, 216, .9) !important; }
+.venue__note { max-width: 30ch; margin-inline: auto; }
+
+/* phones: the chandelier and the aisle sat a little right of centre, so the picture is nudged left to centre them */
+@media (max-width: 860px) { .venue.sky-bg::before { background-position: 51.5% 50%, 51.5% calc(50% + var(--bgy, 0px)); } }
+
+/* stronger, fully opaque text so the details read clearly over the pavilion backdrop */
+.venue .venue__name { color: #4a0d1a; opacity: 1; }
+.venue .venue__addr, .venue .venue__note { color: #3a1519; opacity: 1; font-weight: 500; }
+.venue .venue__addr svg { color: var(--gold-600, #9a6a1f); }
+
+/* even stronger: near-black maroon, heavier weight, and a soft paper halo behind the letters */
+.venue .venue__name { color: #2e0610 !important; font-weight: 700; }
+.venue .venue__addr, .venue .venue__note { color: #1f0a0d !important; font-weight: 600; }
+.venue .venue__addr svg { color: #7a4f10; }
+.venue .venue__name, .venue .venue__addr, .venue .venue__note { text-shadow: 0 0 6px rgba(250, 234, 230, 1), 0 0 14px rgba(250, 234, 230, .95), 0 0 24px rgba(250, 234, 230, .8) !important; }

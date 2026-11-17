@@ -47,3 +47,6 @@
 .env__seal i { font-style: normal; font-size: .7em; padding: 0 .08em; }
 .env__seal:focus-visible { outline: 2px solid #f6deaa; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .env { display: none; } }
+
+/* the date line was removed (it is revealed at the countdown); the city follows the invitation text directly */
+.invite__where { margin-top: 3cqw; }

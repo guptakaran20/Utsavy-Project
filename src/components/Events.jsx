@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { downloadIcs } from '../lib/calendar'
@@ -7,9 +7,9 @@ import { useScrollTo } from '../lib/smoothScroll'
 import { wedding } from '../data/wedding'
 import Mandala from './Mandala'
 import FloralSides from './FloralSides'
-import { LotusGarland } from './Florals'
 import './Florals.css'
 import { ArrowIcon, AttireIcon, CalendarIcon, ClockIcon, PinIcon } from './Icons'
+import './TornPaper.css'
 import './Events.css'
 
 const mapsUrl = (e) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${e.venue}, ${e.address}`)}`
@@ -21,20 +21,22 @@ const monOf = (e) => e.date.split(',')[1].trim().split(' ')[1].slice(0, 3)
 
 // One day's scroll text. Also rendered (invisibly, all days stacked) so the stage always reserves the tallest day's
 // height: the pinned section then never changes size as the scroll unrolls, which is what made scrolling jerk.
+// The quiet card: a title block, then three plain rows (when, where, what to wear) and one button with a text link.
 function EventBody({ ev }) {
   return (
-    <div className="escroll__inner">
-      <p className="ecard__pa gurmukhi">{ev.gurmukhi}</p>
-      <h3 className="ecard__name">{ev.name}</h3>
-      <LotusGarland />
-      <p className="escroll__date">{ev.date}</p>
-      <p className="escroll__time">{ev.time}</p>
-      <p className="ecard__desc">{ev.description}</p>
-      <p className="escroll__venue"><PinIcon /> <span><strong>{ev.venue}</strong><br />{ev.address}</span></p>
-      <p className="escroll__attire"><AttireIcon /> {ev.attire}</p>
-      <div className="ecard__actions">
-        <a className="btn escroll__btn" href={mapsUrl(ev)} target="_blank" rel="noreferrer">View map <ArrowIcon /></a>
-        <button type="button" className="btn escroll__btn escroll__btn--ghost" onClick={() => downloadIcs({ title: ev.name, start: ev.start, location: `${ev.venue}, ${ev.address}`, description: ev.description })}>
+    <div className="eday">
+      <p className="eday__pa gurmukhi">{ev.gurmukhi}</p>
+      <h3 className="eday__name">{ev.name}</h3>
+      <span className="eday__rule" aria-hidden="true" />
+      <p className="eday__desc">{ev.description}</p>
+      <dl className="eday__rows">
+        <div className="eday__row"><dt><ClockIcon /><span className="sr-only">When</span></dt><dd>{ev.date}<small>{ev.time}</small></dd></div>
+        <div className="eday__row"><dt><PinIcon /><span className="sr-only">Where</span></dt><dd>{ev.venue}<small>{ev.address}</small></dd></div>
+        <div className="eday__row"><dt><AttireIcon /><span className="sr-only">Wear</span></dt><dd>{ev.attire}</dd></div>
+      </dl>
+      <div className="eday__actions">
+        <a className="eday__btn" href={mapsUrl(ev)} target="_blank" rel="noreferrer">View map <ArrowIcon /></a>
+        <button type="button" className="eday__link" onClick={() => downloadIcs({ title: ev.name, start: ev.start, location: `${ev.venue}, ${ev.address}`, description: ev.description })}>
           <CalendarIcon /> Add to calendar
         </button>
       </div>
@@ -46,6 +48,7 @@ export default function Events() {
   const root = useRef(null)
   const track = useRef(null)
   const [i, setI] = useState(0)
+  const reduced = useReducedMotion()
   const scrollTo = useScrollTo()
   useReveal(root)
   const ev = wedding.events[i]
@@ -88,6 +91,18 @@ export default function Events() {
       m.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.to('.events__mandala', { rotation: 120, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true } })
       })
+      // the scroll floats gently and tilts towards the pointer, so the rods and the paper show their depth
+      m.add('(prefers-reduced-motion: no-preference) and (hover: hover)', () => {
+        const sc = root.current.querySelector('.events__stage > .escroll:not(.escroll--ghost)')
+        if (!sc) return
+        gsap.set(sc, { transformPerspective: 1300 })
+        const bob = gsap.to(sc, { y: -4, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1 })
+        const ry = gsap.quickTo(sc, 'rotationY', { duration: 0.9, ease: 'power3' })
+        const rx = gsap.quickTo(sc, 'rotationX', { duration: 0.9, ease: 'power3' })
+        const move = (e) => { ry((e.clientX / window.innerWidth - 0.5) * 6); rx(-(e.clientY / window.innerHeight - 0.5) * 4) }
+        window.addEventListener('pointermove', move)
+        return () => { window.removeEventListener('pointermove', move); bob.kill(); gsap.set(sc, { clearProps: 'transform' }) }
+      })
       // progress through the track picks the day; the section is stuck once its bottom (or top, if it fits) reaches the screen
       st.current = ScrollTrigger.create({
         trigger: track.current,
@@ -114,35 +129,34 @@ export default function Events() {
         {wedding.events.map((e, k) => (
           <button key={e.id} role="tab" aria-selected={k === i} className={`etab${k === i ? ' is-on' : ''}`} onClick={() => (st.current ? scrollTo(st.current.start + ((k + 0.5) / n) * (st.current.end - st.current.start)) : setI(k))}>
             {k === i && <motion.span layoutId="etab-pill" className="etab__pill" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
-            <span className="etab__day">{dayOf(e)}<small>{monOf(e)}</small></span>
-            <span className="etab__name">{e.name}</span>
+            <span className="etab__when">{dayOf(e)} {monOf(e)}</span>
+            <span className="etab__short">{e.short}</span>
           </button>
         ))}
       </div>
 
       <div className="events__stage" aria-live="polite">
-        <div className="escroll">
-          <div className="escroll__roller" aria-hidden="true" />
+        {/* One ivory card with a single gold hairline. Changing day fades the old details out and the new ones up. */}
+        <div className="escroll escroll--card torn-shadow">
+          <div className="torn-sides">
           <AnimatePresence mode="wait" initial={false}>
             <motion.article
               key={ev.id}
-              className="escroll__paper"
-              initial={{ height: 0 }}
-              animate={{ height: 'auto' }}
-              exit={{ height: 0 }}
-              transition={{ duration: 0.45, ease: [0.65, 0, 0.35, 1] }}
+              className="eday__card torn"
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, y: -10 }}
+              transition={{ duration: reduced ? 0.2 : 0.32, ease }}
             >
               <EventBody ev={ev} />
             </motion.article>
           </AnimatePresence>
-          <div className="escroll__roller" aria-hidden="true" />
+          </div>
         </div>
-        <div className="escroll escroll--ghost" aria-hidden="true" inert>
-          <div className="escroll__roller" />
-          <div className="escroll__paper escroll__ghostpaper">
+        <div className="escroll escroll--card escroll--ghost" aria-hidden="true" inert>
+          <div className="eday__card torn escroll__ghostpaper">
             {wedding.events.map((e) => <EventBody key={e.id} ev={e} />)}
           </div>
-          <div className="escroll__roller" />
         </div>
       </div>
 

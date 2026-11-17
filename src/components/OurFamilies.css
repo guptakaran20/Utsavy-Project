@@ -18,3 +18,8 @@
 @media (max-width: 899px) { .ofam__knot { width: 84px; height: 84px; transform: rotate(90deg); } }
 @media (max-width: 760px) { .ofam.sky-bg { padding-inline: 38px; } }
 .ofam .floral-sides__head { display: none !important; }
+
+/* no seam under the venue: tuck 2px under its paper so the dark page never shows at the join,
+   and let these flowers rise in where the venue's dissolve, so the two pages read as one run */
+.ofam.sky-bg { margin-top: -2px; }
+.ofam .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 260px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 260px), transparent 100%); }

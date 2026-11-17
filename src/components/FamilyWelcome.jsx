@@ -3,7 +3,6 @@ import { gsap, useGSAP } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
 import Mandala from './Mandala'
-import Flourish from './Flourish'
 import Photo from './Photo'
 import FloralSides from './FloralSides'
 import './FamilyWelcome.css'
@@ -32,18 +31,14 @@ export default function FamilyWelcome() {
 
   return (
     <section id="family" ref={root} className="family sky-bg chap" data-chapter data-dwell="8">
-      <FloralSides tiles={3} head={false} />
+      <FloralSides tiles={6} head={false} />
       <Mandala className="family__mandala" />
       <div className="family__inner">
-        <p className="family__pa gurmukhi reveal">{family.gurmukhi}</p>
-        <Flourish className="reveal" />
-        <h2 className="family__heading reveal">{family.heading}</h2>
-        <p className="family__msg reveal">{family.message}</p>
         <ul className="family__elders">
           {family.elders.map((e) => (
             <li className="elder" key={e.role}>
               <span className="elder__photo">
-                <Photo src={e.photo} alt={e.name} fallback={<i className="gurmukhi" aria-hidden="true">{e.name[0]}</i>} />
+                <Photo src={e.photo} focus={e.focus} alt={e.name} fallback={<i className="gurmukhi" aria-hidden="true">{e.name[0]}</i>} />
               </span>
               <span className="elder__role">{e.role}</span>
               <span className="elder__name">{e.name}</span>

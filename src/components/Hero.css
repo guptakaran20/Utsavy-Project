@@ -161,3 +161,27 @@
   .hero__haveli .gur { inset: auto auto -7vw -30vw; width: 160vw; }
 }
 
+
+/* the plane that writes the date across the sky (see Hero.jsx) */
+.hero__plane { position: absolute; z-index: 4; left: 0; top: 0; width: 260px; height: auto; max-width: none; pointer-events: none; will-change: transform; clip-path: inset(0 0 15% 0); }
+.hero__trail { position: absolute; z-index: 2; left: 0; top: 0; height: 4px; width: 0; border-radius: 4px; pointer-events: none; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .9)); filter: blur(1.4px); will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .hero__plane, .hero__trail { display: none; } }
+
+/* only the city is written under the names now (the date is revealed at the countdown), so it reads a size larger */
+.hero__date em { margin-top: 0; font-size: clamp(12px, 1.6vw, 15px); }
+
+/* "Scroll up" cue at the foot of the hero: two soft chevrons drifting upward over a small caps line */
+.hero__cue { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(28px, 7svh, 64px)); z-index: 6; translate: -50% 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; color: #fff; text-align: center; white-space: nowrap; text-shadow: 0 2px 10px rgba(20, 60, 130, .45); }
+.hero__cue-arrows { position: relative; display: block; width: 22px; height: 26px; }
+.hero__cue-arrows i { position: absolute; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-left: 2px solid currentColor; border-top: 2px solid currentColor; rotate: 45deg; border-radius: 1px; opacity: 0; animation: cue-rise 1.8s ease-in-out infinite; filter: drop-shadow(0 1px 4px rgba(20, 60, 130, .45)); }
+.hero__cue-arrows i:last-child { animation-delay: .9s; }
+@keyframes cue-rise { 0% { top: 16px; opacity: 0; } 30% { opacity: 1; } 100% { top: -2px; opacity: 0; } }
+.hero__cue-text { font-family: 'Cinzel', var(--font-display), serif; font-weight: 500; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; }
+.hero__cue-pa { font-size: 13px; opacity: .9; }
+@media (prefers-reduced-motion: reduce) { .hero__cue-arrows i { animation: none; opacity: 1; top: 4px; } .hero__cue-arrows i:last-child { top: 12px; } }
+.hero__cue-in { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+/* "weds" and the city line: pure white, heavier, with a deeper blue shadow so they read crisply on the sky */
+.hero .hero__weds, .hero .hero__date em, .hero .hero__date { color: #fff !important; opacity: 1; font-weight: 700; text-shadow: 0 1px 3px rgba(15, 40, 100, .75), 0 2px 14px rgba(15, 40, 100, .7) !important; }
+.hero .hero__weds-row i { background: linear-gradient(90deg, transparent, #fff); }
+.hero .hero__weds-row i:last-child { background: linear-gradient(270deg, transparent, #fff); }

@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { gsap, useGSAP } from '../lib/gsap'
+import { LenisContext } from '../lib/smoothScroll'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
-import SectionTitle from './SectionTitle'
 import Mandala from './Mandala'
 import PunjabClock from './PunjabClock'
 import './Countdown.css'
@@ -23,31 +23,32 @@ function useCountdown(target) {
   ]
 }
 
-function Digit({ value }) {
-  return (
-    <span className="digit">
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
-          key={value}
-          className="digit__value"
-          initial={{ y: '100%', opacity: 0 }}
-          animate={{ y: '0%', opacity: 1 }}
-          exit={{ y: '-100%', opacity: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {value}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  )
+// Torn-paper outlines for the four cards: straight sides, ragged top and foot, each one different
+function seeded(a) {
+  return () => {
+    a |= 0; a = (a + 0x6d2b79f5) | 0
+    let t = Math.imul(a ^ (a >>> 15), 1 | a)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
 }
+function tornPath(seed) {
+  const r = seeded(seed)
+  const pts = []
+  const n = 20
+  for (let i = 0; i <= n; i++) pts.push([Math.min(1, Math.max(0, i / n + (i && i < n ? (r() - 0.5) * 0.025 : 0))), 0.012 + r() * r() * 0.035])
+  for (let i = 1; i < 5; i++) pts.push([1 - r() * 0.014, i / 5])
+  for (let i = n; i >= 0; i--) pts.push([Math.min(1, Math.max(0, i / n + (i && i < n ? (r() - 0.5) * 0.025 : 0))), 0.985 - r() * r() * 0.035])
+  for (let i = 4; i >= 1; i--) pts.push([r() * 0.014, i / 5])
+  return `M${pts.map(([x, y]) => `${x.toFixed(3)} ${y.toFixed(3)}`).join('L')}Z`
+}
+const TORN = [11, 29, 47, 83].map(tornPath)
 
-
-// Rose petals that fall from under the guest's finger as the cover is rubbed away
-const PETAL_COLOURS = ['#f2c4cc', '#e9a6b4', '#dc8a9d', '#f6d3d9', '#c9707f', '#f9e3e6']
+// Bits of torn paper that drop from under the guest's finger as the cover is rubbed away
+const PETAL_COLOURS = ['#fffaf2', '#f6ecdf', '#eddcc4', '#e4cfa9', '#fdf3e2'] // torn bits of ivory paper
 function dropPetals(x, y, n = 2) {
   if (typeof window === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  const room = 36 - document.querySelectorAll('.scratch-petal').length // never more than a light flurry at once
+  const room = 48 - document.querySelectorAll('.scratch-petal').length // never more than a light flurry at once
   for (let i = 0; i < Math.min(n, room); i++) {
     const p = document.createElement('i')
     p.className = 'scratch-petal'
@@ -63,7 +64,7 @@ function dropPetals(x, y, n = 2) {
 }
 
 // A gold scalloped seal laid over the number: rub it away with a finger or the mouse to reveal it.
-function ScratchSeal({ revealed, onReveal }) {
+function ScratchSeal({ revealed, onReveal, label = 'TO REVEAL' }) {
   const ref = useRef(null)
   const drawing = useRef(false)
   const moves = useRef(0)
@@ -78,51 +79,60 @@ function ScratchSeal({ revealed, onReveal }) {
     c.height = h * dpr
     const x = c.getContext('2d')
     x.scale(dpr, dpr)
-    // a cover of scattered rose petals on blush, flecked with gold, with "Scratch" written across it
+    // a cover of champagne gold foil: fine grain, a soft diagonal sheen, a tiny lotus, "Scratch" in deep rose
     const g = x.createLinearGradient(0, 0, w, h)
-    g.addColorStop(0, '#f7d9dc'); g.addColorStop(0.5, '#efbcc5'); g.addColorStop(1, '#e3a0b0')
+    g.addColorStop(0, '#e9d09a'); g.addColorStop(0.35, '#d9b76f'); g.addColorStop(0.6, '#ecd8a4'); g.addColorStop(1, '#c79f55')
     x.fillStyle = g
     x.fillRect(0, 0, w, h)
-    const petals = ['#f9e3e6', '#f2c4cc', '#e9a6b4', '#dc8a9d', '#f6d3d9', '#c9707f']
-    const n = Math.round((w * h) / 260)
-    for (let i = 0; i < n; i++) {
-      const px = Math.random() * w
-      const py = Math.random() * h
-      const r = (0.05 + Math.random() * 0.07) * w
-      x.save()
-      x.translate(px, py)
-      x.rotate(Math.random() * Math.PI * 2)
-      x.globalAlpha = 0.55 + Math.random() * 0.4
-      x.fillStyle = petals[i % petals.length]
-      x.beginPath()
-      x.ellipse(0, 0, r, r * 0.52, 0, 0, Math.PI * 2)
-      x.fill()
-      x.globalAlpha = 0.25
-      x.strokeStyle = '#ffffff'
-      x.lineWidth = 0.8
-      x.beginPath()
-      x.moveTo(-r * 0.7, 0)
-      x.quadraticCurveTo(0, -r * 0.18, r * 0.7, 0)
-      x.stroke()
-      x.restore()
+    const sheen = x.createLinearGradient(0, 0, w, h)
+    sheen.addColorStop(0.3, 'rgba(255, 248, 220, 0)'); sheen.addColorStop(0.45, 'rgba(255, 248, 220, .5)'); sheen.addColorStop(0.6, 'rgba(255, 248, 220, 0)')
+    x.fillStyle = sheen
+    x.fillRect(0, 0, w, h)
+    // foil grain
+    for (let i = 0; i < Math.round((w * h) / 14); i++) {
+      x.fillStyle = Math.random() < 0.5 ? 'rgba(255, 244, 205, .35)' : 'rgba(150, 105, 40, .22)'
+      x.fillRect(Math.random() * w, Math.random() * h, 1, 1)
     }
-    for (let i = 0; i < 60; i++) {
-      x.fillStyle = `rgba(226, 183, 101, ${0.4 + Math.random() * 0.5})`
-      x.beginPath()
-      x.arc(Math.random() * w, Math.random() * h, 0.6 + Math.random() * 1.1, 0, Math.PI * 2)
-      x.fill()
+    // fine ivory keyline
+    x.strokeStyle = 'rgba(255, 248, 225, .75)'
+    x.lineWidth = 1
+    x.setLineDash([2, 4])
+    x.strokeRect(w * 0.08, h * 0.1, w * 0.84, h * 0.8)
+    x.setLineDash([])
+    // little lotus above the word
+    x.save()
+    x.translate(w / 2, h * 0.3)
+    x.strokeStyle = 'rgba(125, 39, 66, .6)'
+    x.lineWidth = 1.2
+    const lw = Math.min(w * 0.09, h * 0.11)
+    for (const a of [-0.9, -0.45, 0, 0.45, 0.9]) {
+      x.save(); x.rotate(a); x.beginPath(); x.moveTo(0, 0); x.quadraticCurveTo(lw * 0.5, -lw * 0.9, 0, -lw * 1.5); x.quadraticCurveTo(-lw * 0.5, -lw * 0.9, 0, 0); x.stroke(); x.restore()
     }
-    // soft ivory band for the label
-    const band = x.createLinearGradient(0, h * 0.42, 0, h * 0.62)
-    band.addColorStop(0, 'rgba(255, 250, 246, 0)'); band.addColorStop(0.5, 'rgba(255, 250, 246, .8)'); band.addColorStop(1, 'rgba(255, 250, 246, 0)')
-    x.fillStyle = band
-    x.fillRect(0, h * 0.42, w, h * 0.2)
-    x.fillStyle = '#a63f5b'
-    x.font = `400 ${Math.max(18, w * 0.2)}px "Great Vibes", cursive`
+    x.restore()
+    x.fillStyle = '#7d2742'
+    x.font = `400 ${Math.max(18, Math.min(w * 0.2, h * 0.36))}px "Great Vibes", cursive`
     x.textAlign = 'center'
     x.textBaseline = 'middle'
-    x.fillText('Scratch', w / 2, h * 0.52)
+    x.fillText('Scratch', w / 2, h * 0.55)
+    x.font = `500 ${Math.max(8, Math.min(w * 0.062, h * 0.1))}px "Cinzel", serif`
+    x.fillStyle = 'rgba(125, 39, 66, .75)'
+    x.fillText(label, w / 2, h * 0.74)
   }, [])
+
+  // how much paper is left? sample the middle of the card
+  const checkClear = useCallback(() => {
+    const c = ref.current
+    const x = c.getContext('2d')
+    const d = x.getImageData(c.width * 0.12, c.height * 0.12, c.width * 0.76, c.height * 0.76).data
+    let clear = 0
+    let n = 0
+    for (let i = 3; i < d.length; i += 64) { n++; if (d[i] < 40) clear++ }
+    if (clear / n > 0.5) {
+      if (!revealedRef.current) { const b = c.getBoundingClientRect(); dropPetals(b.left + b.width / 2, b.top + b.height / 2, 14) }
+      revealedRef.current = true
+      onReveal()
+    }
+  }, [onReveal])
 
   const scratch = useCallback((e) => {
     const c = ref.current
@@ -135,19 +145,10 @@ function ScratchSeal({ revealed, onReveal }) {
     x.arc((e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr, Math.max(14, r.width * 0.11) * dpr, 0, Math.PI * 2)
     x.fill()
     x.restore()
-    if (moves.current % 4 === 0) dropPetals(e.clientX, e.clientY, 1)
+    if (moves.current % 2 === 0) dropPetals(e.clientX, e.clientY, 1) // the paper you rub away drops off petal by petal
     if (++moves.current % 6) return
-    // how much gold is left? sample the middle of the seal
-    const d = x.getImageData(c.width * 0.12, c.height * 0.12, c.width * 0.76, c.height * 0.76).data
-    let clear = 0
-    let n = 0
-    for (let i = 3; i < d.length; i += 64) { n++; if (d[i] < 40) clear++ }
-    if (clear / n > 0.5) {
-      if (!revealedRef.current) { const b = c.getBoundingClientRect(); dropPetals(b.left + b.width / 2, b.top + b.height / 2, 14) }
-      revealedRef.current = true
-      onReveal()
-    }
-  }, [onReveal])
+    checkClear()
+  }, [checkClear])
 
   return (
     <canvas
@@ -181,10 +182,30 @@ function calendarUrl() {
 export default function Countdown() {
   const root = useRef(null)
   const units = useCountdown(wedding.date)
-  const [open, setOpen] = useState([false, false, false, false])
-  const reveal = (k) => setOpen((o) => (o[k] ? o : o.map((v, i) => v || i === k)))
-  const allOpen = open.every(Boolean)
+  const [dateOpen, setDateOpen] = useState(false)
+  const [weekday, dayMonthYear] = wedding.dateLabel.split(', ')
   useReveal(root)
+  const lenisRef = useContext(LenisContext)
+
+  // The Date Reveal opens this page. If the guest stops scrolling with its heading tucked under the notch, the page
+  // settles gently back onto its own top so the heading and the card show whole.
+  useEffect(() => {
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+    const settle = () => {
+      const el = root.current
+      if (!el || document.documentElement.classList.contains('is-locked')) return
+      const top = el.getBoundingClientRect().top
+      if (top < -120 || top > -6) return // only when the heading is tucked under the top edge; never pull a reader back from further down
+      const y = top + window.scrollY
+      if (lenisRef.current) lenisRef.current.scrollTo(y, { duration: 0.9, easing: ease })
+      else window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+    // run once scrolling has rested for a moment (Lenis moves the window, so plain scroll events see every frame)
+    let t = 0
+    const onScroll = () => { clearTimeout(t); t = setTimeout(settle, 220) }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { clearTimeout(t); window.removeEventListener('scroll', onScroll) }
+  }, [lenisRef])
 
   useGSAP(
     () => {
@@ -215,34 +236,55 @@ export default function Countdown() {
 
   return (
     <section ref={root} className="section countdown chap sky-bg" data-chapter data-dwell="5">
+      <svg className="torn-defs" width="0" height="0" aria-hidden="true" focusable="false">
+        <defs>
+          {TORN.map((d, k) => <clipPath key={k} id={`torn${k}`} clipPathUnits="objectBoundingBox"><path d={d} /></clipPath>)}
+        </defs>
+      </svg>
       <Mandala className="countdown__mandala" />
       <div className="countdown__inner">
-        <SectionTitle eyebrow="ਉਲਟੀ ਗਿਣਤੀ" title="Counting the Moments" />
-        <p className="countdown__date reveal">{wedding.dateLabel}</p>
+        {/* the date itself is a surprise: rub away the gold foil to reveal it */}
+        <header className="datecard__head reveal">
+          <p className="datecard__head-pa gurmukhi">ਸ਼ੁਭ ਤਾਰੀਖ਼</p>
+          <h3 className="datecard__title">The Date Reveal</h3>
+        </header>
+        <div className={`datecard reveal${dateOpen ? ' is-open' : ''}`}>
+          <div className="datecard__face" aria-label={dateOpen ? wedding.dateLabel : 'Scratch to reveal the date'}>
+            <span className="datecard__eyebrow">Save the date</span>
+            <span className="datecard__day">{weekday}</span>
+            <span className="datecard__date">{dayMonthYear}</span>
+            <span className="datecard__pa gurmukhi">ਸ਼ੁਭ ਦਿਹਾੜਾ</span>
+          </div>
+          <ScratchSeal revealed={dateOpen} onReveal={() => setDateOpen(true)} label="THE DATE" />
+        </div>
+        <p className="countdown__hint datecard__hint">
+          {dateOpen ? 'See you there' : <>Scratch the foil to reveal the date <button type="button" onClick={() => setDateOpen(true)}>Reveal</button></>}
+        </p>
         <PunjabClock />
         <div className="countdown__units" role="timer" aria-live="off">
           {units.map((u, k) => (
             <div className="unit" key={u.label}>
-              <ScratchSeal revealed={open[k]} onReveal={() => reveal(k)} />
-              <span className="unit__diya" aria-hidden="true"><i className="unit__flame" /><b /></span>
-              <div className="unit__digits">
-                {String(u.value)
-                  .padStart(2, '0')
-                  .split('')
-                  .map((d, i, arr) => (
-                    <Digit key={arr.length - i} value={d} />
-                  ))}
-              </div>
-              <i className="unit__rule" aria-hidden="true" />
-              <span className="unit__label">
-                {u.label} <span className="gurmukhi">{u.pa}</span>
-              </span>
+              {/* a fresh card for every new number: the old one drops away and the new one falls into place */}
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={u.value}
+                  className="ucard"
+                  initial={{ y: '-115%', rotate: u.value % 2 ? -7 : 7, opacity: 0 }}
+                  animate={{ y: '0%', rotate: 0, opacity: 1, transition: { duration: 0.6, ease: [0.34, 1.35, 0.64, 1] } }}
+                  exit={{ y: '125%', rotate: u.value % 2 ? 16 : -16, opacity: 0, transition: { duration: 0.55, ease: [0.55, 0.05, 0.95, 0.45] } }}
+                >
+                  <i className="ucard__pin" aria-hidden="true" />
+                  <div className="unit__digits">{String(u.value).padStart(2, '0')}</div>
+                  <i className="unit__rule" aria-hidden="true" />
+                  <span className="unit__label">
+                    {u.label} <span className="gurmukhi">{u.pa}</span>
+                  </span>
+                </motion.div>
+              </AnimatePresence>
             </div>
           ))}
         </div>
-        <p className="countdown__hint reveal">
-          {allOpen ? 'Every moment counted' : <>Scratch to reveal <button type="button" onClick={() => setOpen([true, true, true, true])}>Reveal all</button></>}
-        </p>
+        <p className="countdown__hint reveal">Every moment counted</p>
         <a className="btn btn--ghost reveal" href={calendarUrl()} target="_blank" rel="noreferrer">
           Save the date
         </a>

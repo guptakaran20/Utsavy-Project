@@ -6,26 +6,29 @@ import { LotusGarland } from './Florals'
 import './Florals.css'
 import './ThankYou.css'
 
-// The closing page: the same brass-roller parchment scroll as the celebrations, unrolling as it arrives.
+// The closing page: the same phulkari dupatta as the celebration cards, falling from its gold bar as it arrives.
 export default function ThankYou() {
   const root = useRef(null)
   const seen = useInView(root, { once: true, amount: 0.4 })
   return (
     <footer ref={root} className="thanks sky-bg">
-      <FloralSides tiles={3} head={false} />
-      <div className="escroll thanks__scroll">
-        <div className="escroll__roller" aria-hidden="true" />
-        <motion.div
-          className="escroll__paper"
-          initial={{ height: 0 }}
-          animate={{ height: seen ? 'auto' : 0 }}
-          transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
+      <FloralSides tiles={6} head={false} />
+      {/* the same phulkari dupatta as the celebrations: it falls from a slim gold bar and its bagh border stitches in */}
+      <div className="escroll escroll--dupatta thanks__scroll">
+        <div className="dupatta__bar" aria-hidden="true" />
+        <motion.article
+          className="dupatta__cloth dupatta--anand"
+          style={{ transformOrigin: '50% 0' }}
+          initial={{ clipPath: 'inset(0% -12% 100% -12%)', rotateX: -18 }}
+          animate={seen ? { clipPath: 'inset(0% -12% -14% -12%)', rotateX: 0 } : { clipPath: 'inset(0% -12% 100% -12%)', rotateX: -18 }}
+          transition={{ clipPath: { duration: 1.1, ease: [0.65, 0, 0.35, 1] }, rotateX: { type: 'spring', stiffness: 90, damping: 9 } }}
         >
+          {seen && <span className="dupatta__bagh" aria-hidden="true" />}
           <motion.div
             className="escroll__inner thanks__inner"
             initial={{ opacity: 0, y: 16 }}
             animate={seen ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-            transition={{ delay: 0.7, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.6, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="ecard__pa gurmukhi">ਆਪ ਜੀ ਦੀ ਉਡੀਕ ਵਿੱਚ</p>
             <h2 className="ecard__name">Thank You</h2>
@@ -44,8 +47,7 @@ export default function ThankYou() {
             </div>
             <p className="thanks__love">Made with love <span aria-hidden="true">&hearts;</span> {wedding.city}</p>
           </motion.div>
-        </motion.div>
-        <div className="escroll__roller" aria-hidden="true" />
+        </motion.article>
       </div>
     </footer>
   )

@@ -249,3 +249,7 @@ textarea {
 html { overflow-x: clip; }
 .rsvp { overflow-x: clip; }
 .chap > .notes__grid, .chap > .venue__grid, .chap > .gallery__strip, .chap > .invite__inner { width: 100%; box-sizing: border-box; }
+
+/* Inside the desktop phone frame: no classic mouse scrollbar on the "phone" screen */
+html.is-embedded { scrollbar-width: none; }
+html.is-embedded::-webkit-scrollbar { display: none; }

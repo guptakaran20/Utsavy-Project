@@ -150,7 +150,7 @@ export default function Story() {
         <span className="story__heart" ref={heart} aria-hidden="true"><i /></span>
 
         <header className="story__head">
-          <p className="story__eyebrow">A handful of moments · <span className="gurmukhi">ਮੁੱਠੀ ਭਰ ਪਲ</span></p>
+          <p className="story__eyebrow"><span className="gurmukhi">ਮੁੱਠੀ ਭਰ ਪਲ</span><span>A handful of moments</span></p>
           <h2 className="story__title">Our Story</h2>
           <p className="story__sub">every love story is beautiful, but ours is our favourite</p>
         </header>
@@ -163,7 +163,7 @@ export default function Story() {
                 <path d="M16,16 H234 V232 H16Z" fill="none" stroke="#c9a24d" strokeWidth=".7" strokeDasharray="1.4 3" />
               </svg>
               <div className="story__photo">
-                <Photo src={s.photo} alt={s.title} fallback={<span className="story__ph" aria-hidden="true"><i className="gurmukhi">{CHAPTERS[i]?.[1]?.[0] ?? '✦'}</i></span>} />
+                <Photo src={s.photo} focus={s.focus} alt={s.title} fallback={<span className="story__ph" aria-hidden="true"><i className="gurmukhi">{CHAPTERS[i]?.[1]?.[0] ?? '✦'}</i></span>} />
                 <b className="story__corner story__corner--tl" /><b className="story__corner story__corner--tr" />
                 <b className="story__corner story__corner--bl" /><b className="story__corner story__corner--br" />
               </div>

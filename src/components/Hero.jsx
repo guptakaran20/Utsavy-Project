@@ -5,7 +5,6 @@ import { guestName } from '../lib/guest'
 import HeroFX from './HeroFX'
 import './Hero.css'
 
-const [yyyy, mm, dd] = wedding.date.slice(0, 10).split('-')
 
 export default function Hero({ play }) {
   const wrap = useRef(null)
@@ -28,7 +27,60 @@ export default function Hero({ play }) {
           .from('.hero__rule', { scaleX: 0, autoAlpha: 0, duration: 1, stagger: 0.3, ease: 'power2.out' }, 1)
           .from('.hero__line', { autoAlpha: 0, y: 24, letterSpacing: '0.3em', filter: 'blur(10px)', duration: 1.5, stagger: 0.35, ease: 'power3.out' }, 1.05)
           .from('.hero__weds', { autoAlpha: 0, letterSpacing: '0.9em', duration: 1.4, ease: 'power3.out' }, 1.5)
-          .from('.hero__sub, .hero__dear, .hero__date', { y: 16, autoAlpha: 0, stagger: 0.12, duration: 0.8 }, 1.8)
+          .from('.hero__sub, .hero__dear', { y: 16, autoAlpha: 0, stagger: 0.12, duration: 0.8 }, 1.8)
+          .from('.hero__cue-in', { y: 14, autoAlpha: 0, duration: 0.9 }, 2.6)
+
+        // A small airliner crosses the sky along the date line; the date is written in behind its tail as it passes,
+        // and a soft contrail trails after it. (The plane is the same cut-out as the opening scene.)
+        const q = (sel) => root.current.querySelector(sel)
+        const plane = q('.hero__plane')
+        const trail = q('.hero__trail')
+        const dateEl = q('.hero__date')
+        const RATIO = 667 / 2000 // plane image height / width
+        const TAIL_X = 0.04 // the tail sits this far in from the left of the picture
+        const fly = { p: 0 }
+        let g = null
+        const clipTo = (edge) => { dateEl.style.clipPath = `inset(-40px ${Math.max(0, g.dateRight - edge)}px -40px -60px)` }
+        gsap.set(dateEl, { clipPath: 'inset(-40px 100% -40px -60px)' })
+        gsap.set([plane, trail], { autoAlpha: 0 })
+        intro.current.to(
+          fly,
+          {
+            p: 1,
+            duration: 9.5,
+            ease: 'none',
+            onStart: () => {
+              const h = root.current.getBoundingClientRect()
+              const d = dateEl.getBoundingClientRect()
+                            // the very same size as the plane that took off in the night scene (see PlaneIntro's planeW), so it is clearly the same aircraft
+              const W = window.innerWidth < 700 ? window.innerWidth * 0.98 : Math.min(Math.max(window.innerWidth * 0.7, 340), 1100, (window.innerHeight - 46) * 1.2)
+              g = { hl: h.left, ht: h.top, vw: h.width, W, H: W * RATIO, top: d.bottom - h.top + 4, vh: h.height, dateRight: d.right }
+              gsap.set(plane, { width: W, autoAlpha: 1 })
+              gsap.set(trail, { autoAlpha: 1 })
+            },
+            onUpdate: () => {
+              const { p } = fly
+              const { W, H, vw, hl } = g
+              // continues the night take-off: it arrives still climbing nose-up with its wheels down, then levels out and
+              // tucks its gear away as it settles onto the date line
+              const q = Math.min(1, p / 0.4)
+              const lift = (1 - q) * (1 - q) // 1 at the start, 0 once level
+              const x = -W * 1.1 + p * (vw + W * 2.2)
+              const y = g.top + lift * g.vh * 0.3 - Math.max(0, p - 0.4) * 24 // flies just under the date, so the writing is never hidden by the plane
+              gsap.set(plane, { x, y, rotation: -2 - 15 * lift })
+              plane.style.clipPath = `inset(0 0 ${15 * Math.min(1, Math.max(0, (q - 0.45) / 0.45))}% 0)`
+              const tail = x + TAIL_X * W
+              clipTo(hl + tail)
+              const len = Math.max(0, Math.min(tail, vw * 0.5))
+              gsap.set(trail, { x: tail - len, y: y + H * 0.62, width: len, opacity: Math.min(1, Math.max(0, (p - 0.3) / 0.15)) * (p > 0.88 ? (1 - p) / 0.12 : 1) })
+            },
+            onComplete: () => {
+              gsap.set([plane, trail], { autoAlpha: 0 })
+              gsap.set(dateEl, { clearProps: 'clipPath' })
+            },
+          },
+          0.5,
+        )
         intro.current.timeScale(1.6)
 
         // Scroll = walking in: the hero pins and the camera pushes through the fort's gate, the
@@ -51,6 +103,8 @@ export default function Hero({ play }) {
           // then you walk in: the camera glides to the door and pushes through it into the light
           .to('.hero__haveli .gur', { scale: 5, y: () => 0.14 * imgH() - 0.5 * vh(), transformOrigin: '50% 86%', ease: 'power2.in', duration: 0.4 }, 0.42)
           .to('.hero__text', { yPercent: -8, duration: 0.35 }, 0)
+          // the "scroll up" cue fades as soon as the guest starts scrolling
+          .to('.hero__cue', { autoAlpha: 0, y: -20, duration: 0.06 }, 0)
           .to('.hero__text', { yPercent: -30, autoAlpha: 0, ease: 'power2.in', duration: 0.25 }, 0.35)
           .to('.hero__clouds', { yPercent: 20, autoAlpha: 0, duration: 0.6 }, 0.3)
           // the invitation already sits beneath the hero, so the hero lifts away like a curtain: no blank page, no extra scrolling
@@ -107,12 +161,24 @@ export default function Hero({ play }) {
         <p className="hero__rule" aria-hidden="true"><i /><b /><i /></p>
         <p className="hero__sub gurmukhi">{bride.nameGurmukhi} ਤੇ {groom.nameGurmukhi} · ਵਿਆਹ ਦੀ ਖੁਸ਼ੀ</p>
         <p className="hero__dear">Dear <b>{guestName()}</b>, you are invited</p>
-        <p className="hero__date" aria-label={wedding.dateLabel}>
-          <span>{dd}</span><i aria-hidden="true" /><span>{mm}</span><i aria-hidden="true" /><span>{yyyy}</span>
+        {/* the date is kept a surprise for the countdown's scratch card, so only the city is written here */}
+        <p className="hero__date">
           <em>{wedding.city}</em>
         </p>
       </div>
 
+      {/* a gentle prompt at the foot of the sky: scroll up to walk in */}
+      {/* outer element fades out on scroll, inner one fades in with the intro: separate elements so the two never fight */}
+      <div className="hero__cue" aria-hidden="true">
+        <p className="hero__cue-in">
+          <span className="hero__cue-arrows"><i /><i /></span>
+          <span className="hero__cue-text">Scroll up to step inside</span>
+          <span className="hero__cue-pa gurmukhi">ਅੰਦਰ ਆਓ</span>
+        </p>
+      </div>
+
+      <i className="hero__trail" aria-hidden="true" />
+      <img className="hero__plane" src="/intro/plane-gear.webp" alt="" aria-hidden="true" draggable="false" />
       <HeroFX play={play} />
       <div className="hero__haveli" aria-hidden="true">
         <img className="gur" src="/gurdwara.webp" alt="" width="2470" height="2548" decoding="async" />

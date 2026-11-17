@@ -53,3 +53,12 @@
 /* continues the invitation and couple: the same blush paper, and the flowers run down both sides, tile after tile */
 .story { position: relative; overflow: hidden; background-color: #f6dcd8; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.55' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-size: auto; }
 .story__stage { z-index: 2; }
+
+/* header: Gurmukhi and English on their own lines (one long line ran into the corner roses), the subtitle kept to a
+   comfortable width, and a soft blush wash behind it all so it reads over the flowers */
+.story__head { padding-inline: 28px; isolation: isolate; }
+.story__head::before { content: ''; position: absolute; z-index: -1; inset: -20px -10px -16px; pointer-events: none;
+  background: radial-gradient(ellipse 55% 62% at 50% 50%, rgba(246, 220, 216, .97) 45%, rgba(246, 220, 216, .7) 70%, rgba(246, 220, 216, 0) 100%); }
+.story__eyebrow { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #8f5f12; font-weight: 600; }
+.story__eyebrow .gurmukhi { font-size: 17px; }
+.story__sub { max-width: 24ch; margin-inline: auto; line-height: 1.35; text-wrap: balance; }

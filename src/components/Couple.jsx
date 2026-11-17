@@ -15,6 +15,7 @@ function Person({ person, role, roleGurmukhi, tone }) {
         <Photo
           className="person__img"
           src={person.photo}
+          focus={person.focus}
           alt={person.fullName}
           fallback={
             <div className="person__mono">

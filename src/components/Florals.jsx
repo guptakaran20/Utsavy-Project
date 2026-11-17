@@ -1,3 +1,4 @@
+import { useId } from 'react'
 // Hand-built SVG florals: a rose-and-jasmine corner bouquet and a lotus garland divider.
 const petalRing = (n, rx, ry, dist, fill, rot = 0, op = 1) =>
   Array.from({ length: n }, (_, i) => (
@@ -50,15 +51,17 @@ export function RoseCorner({ className = '' }) {
 
 // lotus in the middle with leaves and jasmine either side
 export function LotusGarland({ className = '' }) {
+  // each garland gets its own gradient id: a shared id resolves to the first copy on the page, which may be hidden
+  const pid = `lt-p-${useId().replace(/:/g, '')}`
   return (
     <svg className={`florals florals--lotus ${className}`} viewBox="0 0 320 100" aria-hidden="true">
       <defs>
-        <linearGradient id="lt-p" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor="#f06292" /><stop offset="1" stopColor="#ffd0dc" /></linearGradient>
+        <linearGradient id={pid} x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor="#f06292" /><stop offset="1" stopColor="#ffd0dc" /></linearGradient>
       </defs>
       {[[-58, 1], [-34, 0.9], [34, 0.9], [58, 1]].map(([r, s], i) => <Leaf key={i} x={160} y={66} r={r > 0 ? -r + 180 : 180 - r} s={s * 1.9} d={i % 2} />)}
-      {[-72, 72].map((a) => <ellipse key={a} cx="160" cy="46" rx="11" ry="28" fill="url(#lt-p)" stroke="#d81b60" strokeWidth=".6" transform={`rotate(${a} 160 74)`} />)}
-      {[-38, 38].map((a) => <ellipse key={a} cx="160" cy="42" rx="12" ry="30" fill="url(#lt-p)" stroke="#d81b60" strokeWidth=".6" transform={`rotate(${a} 160 74)`} />)}
-      <ellipse cx="160" cy="40" rx="13" ry="32" fill="url(#lt-p)" stroke="#d81b60" strokeWidth=".6" />
+      {[-72, 72].map((a) => <ellipse key={a} cx="160" cy="46" rx="11" ry="28" fill={`url(#${pid})`} stroke="#d81b60" strokeWidth=".6" transform={`rotate(${a} 160 74)`} />)}
+      {[-38, 38].map((a) => <ellipse key={a} cx="160" cy="42" rx="12" ry="30" fill={`url(#${pid})`} stroke="#d81b60" strokeWidth=".6" transform={`rotate(${a} 160 74)`} />)}
+      <ellipse cx="160" cy="40" rx="13" ry="32" fill={`url(#${pid})`} stroke="#d81b60" strokeWidth=".6" />
       <ellipse cx="160" cy="66" rx="9" ry="5" fill="#c6a21d" />
       {[[40, 70, .9], [76, 62, 1], [108, 74, .8], [214, 74, .8], [244, 62, 1], [280, 70, .9]].map(([x, y, s], i) => <Jasmine key={i} x={x} y={y} s={s} />)}
       <path d="M8,82 Q80,72 150,84 M170,84 Q240,72 312,82" stroke="#3f9a55" strokeWidth="2.2" fill="none" />

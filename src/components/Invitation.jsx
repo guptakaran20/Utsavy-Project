@@ -1,5 +1,6 @@
 import { useContext, useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
+import { splitLines } from '../lib/useLineReveal'
 import { wedding } from '../data/wedding'
 import { LenisContext } from '../lib/smoothScroll'
 import './Invitation.css'
@@ -60,7 +61,7 @@ export default function Invitation() {
           .from('.invite__amp', { scale: 0, rotation: -90, autoAlpha: 0, duration: 0.8, ease: 'back.out(2)' }, 4.95)
           .from('.invite__rule i', { scaleX: 0, duration: 1, ease: 'power2.inOut' }, 5.35)
           .from('.invite__rule b', { scale: 0, rotation: 180, duration: 0.7, ease: 'back.out(2)' }, 5.55)
-          .from('.invite__tail', { y: 14, autoAlpha: 0, duration: 0.8, stagger: 0.14 }, 5.65)
+          .from('.invite__where', { y: 14, autoAlpha: 0, duration: 0.8 }, 6.4)
 
         // While it opens, the page holds still: bring the envelope to the middle of the screen, pause scrolling,
         // and give scrolling back once the card has finished writing itself.
@@ -68,6 +69,11 @@ export default function Invitation() {
         tl.eventCallback('onComplete', release)
         const open = () => {
           if (tl.progress() > 0) return
+          // the invitation paragraph rises line by line; it is split now (fonts are in by the time the card opens) and put
+          // back to plain text once the card has finished, so it reflows normally afterwards
+          const split = splitLines(root.current.querySelector('.invite__text'))
+          tl.from(split.lines, { yPercent: 105, autoAlpha: 0, duration: 0.8, stagger: 0.13, ease: 'power3.out' }, 5.65)
+          tl.eventCallback('onComplete', () => { split.revert(); release() })
           // the card starts at once, whatever else is happening; the page glides to centre the envelope and then holds
           tl.play()
           const stage = root.current.querySelector('.invite__stage')
@@ -127,7 +133,6 @@ export default function Invitation() {
 
           <p className="invite__rule" aria-hidden="true"><i /><b /><i /></p>
           <p className="invite__text invite__tail">{wedding.invitation}</p>
-          <p className="invite__date invite__tail">{wedding.dateLabel}</p>
           <p className="invite__where invite__tail">{wedding.city}</p>
         </div>
       </div>

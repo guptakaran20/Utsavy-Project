@@ -234,7 +234,7 @@
 @media (max-width: 520px) { .countdown .unit { padding: 16% 8% 10%; } .countdown .unit__digits { font-size: 46px; } }
 
 /* petals that tumble from the scratch card as it is rubbed */
-.scratch-petal { position: fixed; z-index: 60; width: 11px; height: 15px; margin: -7px 0 0 -5px; border-radius: 70% 0 70% 0; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); will-change: transform, opacity; }
+.scratch-petal { position: fixed; z-index: 60; width: 14px; height: 19px; margin: -9px 0 0 -7px; border-radius: 70% 0 70% 0; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); will-change: transform, opacity; }
 
 /* ===== inside each card: a brass diya, the number over a faint lotus, a gold rule, the labels, and a phulkari hem ===== */
 .countdown .unit {
@@ -252,3 +252,120 @@
   radial-gradient(circle, #b98b3e 0 2.2px, transparent 2.6px) center / 7px 7px no-repeat,
   linear-gradient(90deg, transparent, rgba(185, 139, 62, .8) 30%, transparent 46%, transparent 54%, rgba(185, 139, 62, .8) 70%, transparent) center / 100% 1px no-repeat; }
 .countdown .unit .unit__label { margin-top: 2px; }
+
+/* ===== Torn-paper cards: straight sides, a ragged torn top and foot (outlines are the SVG clip paths in Countdown.jsx) ===== */
+.torn-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.countdown .countdown__units { filter: drop-shadow(0 12px 12px rgba(125, 39, 66, .28)) drop-shadow(0 1px 1px rgba(120, 70, 50, .25)); }
+.countdown .unit { aspect-ratio: 1 / 1.12; border: 0; border-radius: 0; box-shadow: none; padding: 15% 8% 13%; transition: transform .5s var(--ease-out); }
+.countdown .unit:nth-child(1) { clip-path: url(#torn0); }
+.countdown .unit:nth-child(2) { clip-path: url(#torn1); }
+.countdown .unit:nth-child(3) { clip-path: url(#torn2); }
+.countdown .unit:nth-child(4) { clip-path: url(#torn3); }
+.countdown .unit:nth-child(even) { transform: rotate(.8deg); }
+.countdown .unit:nth-child(odd) { transform: rotate(-.8deg); }
+@media (hover: hover) { .countdown .unit:hover { transform: translateY(-4px) rotate(0); box-shadow: none; } }
+/* the dotted keyline is now a plain frame inside the torn edge */
+.countdown .unit::after { inset: 11px 8px; border-radius: 2px; }
+/* a little paper grain so each card reads as torn paper, not a flat tile */
+.countdown .unit::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(180deg, rgba(166, 63, 91, .1), transparent 14%, transparent 86%, rgba(166, 63, 91, .12)); }
+.scratchseal { border-radius: 0; }
+
+/* phones: smaller cards in a tidy two-by-two */
+@media (max-width: 640px) {
+  .countdown .countdown__units { width: min(100%, 272px); gap: 10px; margin-block: 22px 18px; }
+  .countdown .unit { padding: 14% 6% 12%; }
+  .countdown .unit__digits { font-size: 32px; }
+  .countdown .unit__rule { display: none; }
+  .countdown .unit .unit__label { font-size: 9px; margin-top: 4px; letter-spacing: .18em; }
+  .countdown .unit .unit__label .gurmukhi { font-size: 1.25em; margin-top: 1px; }
+  .countdown .unit__diya b { width: 20px; height: 7px; }
+  .countdown .unit__flame { width: 7px; height: 11px; margin-bottom: 4px; }
+  .pclock__dial { width: min(70vw, 280px); }
+}
+
+/* ===== Calmer card design: plain ivory torn paper held by a rose washi-tape strip, one big number, quiet labels ===== */
+.countdown .unit {
+  background: linear-gradient(180deg, #fffefb 0, #fcf5ee 70%, #f6e6dc 100%);
+  padding: 20% 6% 12%; justify-content: center; gap: 0;
+}
+.countdown .unit__diya, .countdown .unit::after { display: none; }
+/* washi tape across the top */
+.countdown .unit::before {
+  content: ''; position: absolute; z-index: 5; top: 7px; left: 50%; width: 38%; height: 15px; translate: -50% 0; rotate: -3deg; pointer-events: none; background: none;
+  background: repeating-linear-gradient(90deg, rgba(222, 128, 151, .62) 0 5px, rgba(238, 168, 185, .62) 5px 10px); box-shadow: 0 1px 2px rgba(125, 39, 66, .2);
+  -webkit-mask: linear-gradient(90deg, transparent 0, #000 4px, #000 calc(100% - 4px), transparent 100%); mask: linear-gradient(90deg, transparent 0, #000 4px, #000 calc(100% - 4px), transparent 100%);
+}
+.countdown .unit:nth-child(even)::before { rotate: 3deg; }
+.countdown .unit__digits { font-size: clamp(40px, 6vw, 62px); line-height: 1; margin: 0; }
+.countdown .digit { overflow: visible; height: 1.05em; }
+.countdown .unit__rule { display: block; width: 22%; height: 7px; margin: 8px auto 6px; background: radial-gradient(circle, #b98b3e 0 2px, transparent 2.5px) center / 7px 7px no-repeat, linear-gradient(90deg, transparent, rgba(185, 139, 62, .7) 25%, transparent 42%, transparent 58%, rgba(185, 139, 62, .7) 75%, transparent) center / 100% 1px no-repeat; }
+.countdown .unit .unit__label { margin-top: 0; font-size: 10.5px; letter-spacing: .26em; }
+.countdown .unit .unit__label .gurmukhi { margin-top: 3px; font-size: 1.35em; }
+.countdown .countdown__hint { margin-top: 6px; }
+@media (max-width: 640px) {
+  .countdown .unit { padding: 22% 5% 12%; }
+  .countdown .unit__digits { font-size: 38px; }
+  .countdown .unit__rule { display: block; margin: 6px auto 4px; }
+  .countdown .unit .unit__label { font-size: 9px; }
+}
+
+/* ===== Whole-card swap: the unit is just a frame; the torn ivory card inside it falls away and a new one drops in ===== */
+.countdown .unit:nth-child(n) { clip-path: none; background: none; padding: 0; overflow: visible; isolation: auto; rotate: 0deg; display: block; box-shadow: none; }
+@media (hover: hover) { .countdown .unit:hover { transform: none; } }
+.countdown .unit:nth-child(odd), .countdown .unit:nth-child(even) { transform: none; }
+.countdown .unit::before, .countdown .unit::after { display: none; }
+.ucard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 22% 6% 12%; background: linear-gradient(180deg, #fffefb 0, #fcf5ee 70%, #f6e6dc 100%); will-change: transform; }
+.countdown .unit:nth-child(1) .ucard, .countdown .unit:nth-child(1) .scratchseal { clip-path: url(#torn0); }
+.countdown .unit:nth-child(2) .ucard, .countdown .unit:nth-child(2) .scratchseal { clip-path: url(#torn1); }
+.countdown .unit:nth-child(3) .ucard, .countdown .unit:nth-child(3) .scratchseal { clip-path: url(#torn2); }
+.countdown .unit:nth-child(4) .ucard, .countdown .unit:nth-child(4) .scratchseal { clip-path: url(#torn3); }
+/* a small brass pin holds the card up (no pink tape) */
+.ucard__pin { position: absolute; top: 9%; left: 50%; width: 11px; height: 11px; translate: -50% 0; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff3c4, #e0b25a 45%, #8a6424); box-shadow: 0 2px 3px rgba(90, 40, 30, .4); }
+.scratch-petal { width: 9px; height: 12px; margin: -6px 0 0 -4px; border-radius: 35% 65% 40% 60% / 55% 40% 60% 45%; box-shadow: 0 1px 1px rgba(125, 39, 66, .18); }
+@media (max-width: 640px) { .ucard { padding: 24% 5% 12%; } }
+
+/* the couple scene melts softly into the blush paper; the garland band below picks up from there (see GarlandBridge) */
+.countdown__scene { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24%, #000 76%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 24%, #000 76%, transparent 100%); }
+
+/* ===== Date reveal: a small ivory card under the title, covered in gold foil; rubbing it away reveals the wedding date ===== */
+.countdown .datecard { position: relative; width: min(100%, 330px); margin: clamp(18px, 3vw, 28px) auto 0; border-radius: 14px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(ellipse 90% 70% at 50% 20%, #fffefb, #fdf6ee 60%, #f8ebe4); border: 1px solid rgba(185, 139, 62, .75);
+  box-shadow: 0 18px 30px -18px rgba(125, 39, 66, .45), 0 2px 3px rgba(120, 70, 50, .1); }
+.countdown .datecard::after { content: ''; position: absolute; inset: 6px; z-index: 4; pointer-events: none; border: 1px dotted rgba(185, 139, 62, .8); border-radius: 9px; }
+.datecard__face { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 18px 16px 16px; }
+.datecard__eyebrow { font-family: var(--font-display); font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: #5d7852; }
+.datecard__day { font-family: var(--font-script); font-size: clamp(36px, 9vw, 46px); line-height: 1.05; color: #a63f5b; }
+.datecard__date { font-family: var(--font-display); font-weight: 500; font-size: clamp(15px, 4vw, 18px); letter-spacing: .18em; text-transform: uppercase; color: #7d2742; font-variant-numeric: lining-nums; }
+.datecard__pa { margin-top: 4px; font-size: 15px; color: #b98b3e; }
+.countdown .datecard .scratchseal { border-radius: inherit; }
+/* once revealed, the date settles in with a soft pop */
+.countdown .datecard.is-open .datecard__face > * { animation: date-pop .7s var(--ease-out) both; }
+.countdown .datecard.is-open .datecard__day { animation-delay: .08s; }
+.countdown .datecard.is-open .datecard__date { animation-delay: .16s; }
+.countdown .datecard.is-open .datecard__pa { animation-delay: .24s; }
+@keyframes date-pop { from { opacity: 0; transform: translateY(8px) scale(.96); } }
+.countdown .countdown__hint.datecard__hint { margin: 12px 0 0; }
+/* the countdown tiles no longer carry a scratch cover, so the hint under them is just a line of italics */
+.countdown .countdown__units + .countdown__hint { margin-top: -6px; }
+@media (prefers-reduced-motion: reduce) { .countdown .datecard.is-open .datecard__face > * { animation: none; } }
+/* clip, not hidden: a sideways drag on the date foil could otherwise scroll the whole section sideways */
+.countdown.chap { overflow: clip; }
+
+/* a heading of its own for the date reveal, so the card is never a gold slab with no context */
+.countdown .datecard__head { position: relative; margin: clamp(22px, 4vw, 36px) auto 0; text-align: center; isolation: isolate; }
+.countdown .datecard__head-pa { margin: 0; font-size: 17px; color: #8f5f12; font-weight: 600; }
+.countdown .datecard__title { margin: 0; font-family: var(--font-script); font-weight: 400; font-size: clamp(40px, 10vw, 54px); line-height: 1.1; color: #a63f5b; text-shadow: 0 1px 0 #fff, 0 3px 6px rgba(125, 39, 66, .18); }
+.countdown .datecard { margin-top: 10px; }
+
+/* the section title sits over the corner roses: a soft blush wash behind it keeps it readable */
+.countdown .section-title, .countdown .datecard__head { isolation: isolate; }
+.countdown .section-title::before, .countdown .datecard__head::before { content: ''; position: absolute; z-index: -1; inset: -26px -40px -20px; pointer-events: none;
+  background: radial-gradient(ellipse 58% 60% at 50% 52%, rgba(246, 220, 216, .97) 45%, rgba(246, 220, 216, .75) 70%, rgba(246, 220, 216, 0) 100%); }
+.countdown .section-title { position: relative; }
+.countdown .section-title__eyebrow { color: #8f5f12; font-weight: 600; }
+
+/* with the section title gone, The Date Reveal opens the page: clear the notch and give the thin script more ink */
+.countdown.chap { padding-top: calc(env(safe-area-inset-top, 0px) + clamp(72px, 12vw, 110px)); }
+.countdown .datecard__head { margin-top: 0; }
+.countdown .datecard__head-pa { font-size: 18px; color: #7d4f0c; }
+.countdown .datecard__title { color: #7a1f3a; font-size: clamp(44px, 11.5vw, 60px); text-shadow: 0 1px 0 rgba(255, 255, 255, .9), 0 0 18px rgba(250, 234, 230, .95), 0 2px 6px rgba(122, 31, 58, .2); }

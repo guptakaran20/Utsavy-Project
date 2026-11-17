@@ -1,0 +1,20 @@
+/* The garland takes no room of its own: it is a zero-height layer sitting exactly on the join between the couple
+   scene and The Celebrations, so its flowers overlap the scene's floor above and the Celebrations' corner roses below.
+   The two blush papers meet directly underneath it (the one above ends on a whole 120px pattern tile, bottom-aligned;
+   the one below starts on one, top-aligned), so the damask runs on with no seam. */
+.garland { position: relative; z-index: 4; height: 0; pointer-events: none; }
+.blush-run.sky-bg { background-position: center bottom; }
+.events.sky-bg { background-position: center 2px; } /* The Celebrations is tucked 2px up under the page above; shift its pattern back to match */
+
+/* the image is mostly empty above and below the flowers: centre the flowers on the join. Each half is nudged toward
+   the middle so the two vine tips meet instead of leaving a bare gap in the centre */
+.garland__half { position: absolute; z-index: 1; left: 50%; top: 0; width: max(106%, 440px); max-width: none; height: auto; user-select: none; }
+.garland__half--l { clip-path: inset(0 50% 0 0); transform: translate(calc(-50% + 5.4%), -58%); }
+.garland__half--r { clip-path: inset(0 0 0 50%); transform: translate(calc(-50% - 5.4%), -58%); }
+
+/* The Celebrations' corner roses begin right under the garland's ends instead of fading in after a strip of bare paper */
+.events-track .events .floral-sides--section { top: 0; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 clamp(36px, 5vw, 80px)); mask-image: linear-gradient(to bottom, transparent 0, #000 clamp(36px, 5vw, 80px)); }
+.events-track > .events.sky-bg { padding-top: clamp(56px, 9svh, 110px); }
+
+/* the couple scene's floor holds almost to the join, so the garland lies on it rather than on a pale haze */
+.countdown__scene { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24%, #000 90%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 24%, #000 90%, transparent 100%); }

@@ -6,7 +6,9 @@ let audio = null
 let on = false
 let fade = null
 const subs = new Set()
-const silent = typeof location !== 'undefined' && new URLSearchParams(location.search).has('nosound') // ?nosound: never play (for testing)
+// TEMPORARY: the dhol is switched off everywhere (and its button hidden). Set back to false to bring the music back.
+const MUTED = true
+const silent = MUTED || (typeof location !== 'undefined' && new URLSearchParams(location.search).has('nosound')) // ?nosound: never play (for testing)
 const emit = () => subs.forEach((f) => f(on))
 
 const get = () => {
@@ -35,7 +37,7 @@ const ramp = (to, ms, done) => {
 }
 
 export const dhol = {
-  available: !!wedding.music,
+  available: !!wedding.music && !MUTED,
   get on() { return on },
   subscribe(fn) { subs.add(fn); return () => subs.delete(fn) },
   prime() { // inside the tap: begin loading and playing, silently

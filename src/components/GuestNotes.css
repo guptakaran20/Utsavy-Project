@@ -1,65 +1,31 @@
-.notes__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: clamp(20px, 3vw, 32px);
-  max-width: 1100px;
-  margin: clamp(48px, 7vw, 80px) auto 0;
-}
+/* Good to Know: the section holds still while you scroll, and each note rises into place in turn on torn paper
+   (see TornPaper.css). The Gurmukhi numbers down the left side show which note is on the page. */
+.notes-track { position: relative; z-index: 8; }
+.notes-track > .notes { position: sticky; top: 0; height: 100svh; min-height: 0; justify-content: center; }
+.notes-track > .notes > * { flex-shrink: 0; }
 
-.note {
-  position: relative;
-  padding: 48px 30px 32px;
-  border: 1px solid rgba(212, 162, 76, 0.5);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.65);
-  text-align: center;
-  box-shadow: 0 30px 60px -40px rgba(90, 15, 28, 0.5);
-  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
-}
+.notes__stage { position: relative; width: min(100%, 420px); margin: clamp(28px, 5svh, 56px) auto 0; }
+.notes__cards { display: grid; }
+.notes__cards > * { grid-area: 1 / 1; }
+.notes__ghost { visibility: hidden; pointer-events: none; display: grid; }
+.notes__ghost > * { grid-area: 1 / 1; }
 
-.note:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 40px 70px -40px rgba(90, 15, 28, 0.6);
-}
+.note { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 44px 30px 40px; }
+.note__title { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 19px; letter-spacing: .12em; text-transform: uppercase; color: #7d2742; }
+.note__rule { position: relative; display: block; width: 64px; height: 1px; margin: 14px 0 16px; background: #b98b3e; }
+.note__rule::after { content: ''; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; background: #fbefe9; border: 1px solid #b98b3e; transform: translate(-50%, -50%) rotate(45deg); }
+.note__text { margin: 0; max-width: 32ch; font-family: var(--font-serif); font-size: 18px; line-height: 1.55; color: #45292f; text-wrap: pretty; }
 
-/* Little phulkari stripe on top of each card */
-.note::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 24px;
-  right: 24px;
-  height: 6px;
-  background: repeating-linear-gradient(90deg, var(--pink) 0 12px, var(--saffron) 12px 24px, #ffc107 24px 36px, #34a853 36px 48px);
-  border-radius: 0 0 4px 4px;
-}
+/* the rail: a thin gold line with the three numbers on it, beside the card */
+.notes__rail { position: absolute; z-index: 3; top: 50%; left: -46px; translate: 0 -50%; display: flex; flex-direction: column; gap: 22px; margin: 0; padding: 0; list-style: none; }
+.notes__rail::before { content: ''; position: absolute; left: 50%; top: 10px; bottom: 10px; width: 1px; background: rgba(185, 139, 62, .6); }
 
-.note__num {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  margin: 0 auto 16px;
-  border-radius: 50%;
-  background: var(--maroon-700);
-  color: var(--gold-200);
-  font-size: 24px;
-  box-shadow: 0 0 0 4px var(--ivory), 0 0 0 5px var(--gold-400);
-}
-
-.note__title {
-  margin: 0 0 10px;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 19px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--maroon-700);
-}
-
-.note__text {
-  margin: 0;
-  color: var(--ink-soft);
+@media (max-width: 760px) {
+  .notes__stage { width: calc(100% - 8px); margin-left: 8px; }
+  .notes__rail { left: -40px; gap: 18px; }
+  .note { padding: 40px 22px 36px; }
+  .note__title { font-size: 16px; }
+  .note__text { font-size: 16px; }
 }
 
 /* the same blush paper and edge flowers as the invitation pages */

@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
-import { gsap, useGSAP } from '../lib/gsap'
+import { useContext, useEffect, useRef } from 'react'
+import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
+import { LenisContext } from '../lib/smoothScroll'
 import './PunjabClock.css'
 
 // A Punjabi wall clock in the invitation's colours: Gurmukhi numerals, the twelve desi months between them,
@@ -23,6 +24,7 @@ const istNow = () => {
 
 export default function PunjabClock() {
   const root = useRef(null)
+  const lenis = useContext(LenisContext)
   const hour = useRef(null)
   const minute = useRef(null)
   const second = useRef(null)
@@ -45,12 +47,51 @@ export default function PunjabClock() {
     () => {
       const mm = gsap.matchMedia()
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, scrollTrigger: { trigger: root.current, start: 'top 80%', once: true } })
+        const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } })
         tl.from('.pclock__dial', { scale: 0.85, autoAlpha: 0, rotation: -20, transformOrigin: '50% 50%', duration: 1 })
           .fromTo('.pclock__ring', { strokeDasharray: 1300, strokeDashoffset: 1300 }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' }, 0.1)
-          .from('.pclock__num', { scale: 0, autoAlpha: 0, transformOrigin: '50% 50%', duration: 0.5, stagger: 0.05, ease: 'back.out(2)' }, 0.5)
-          .from('.pclock__month', { autoAlpha: 0, duration: 0.6, stagger: 0.04 }, 0.8)
-          .from('.pclock__hands', { scale: 0, transformOrigin: '50% 50%', duration: 0.7, ease: 'back.out(1.6)' }, 1.2)
+        // the numerals are written in one by one, sweeping clockwise round the dial from 12, each swung in along the rim,
+        // with the month that follows it
+        const nums = gsap.utils.toArray('.pclock__num', root.current)
+        const months = gsap.utils.toArray('.pclock__month', root.current)
+        const STEP = 0.32
+        nums.forEach((el, i) => {
+          tl.from(el, { autoAlpha: 0, scale: 0.4, rotation: -55, svgOrigin: `${C} ${C}`, duration: 0.7, ease: 'back.out(1.5)' }, 0.5 + i * STEP)
+          if (months[i]) tl.from(months[i], { autoAlpha: 0, rotation: -30, svgOrigin: `${C} ${C}`, duration: 0.6, ease: 'power2.out' }, 0.5 + i * STEP + STEP / 2)
+        })
+        tl.from('.pclock__hands', { scale: 0, transformOrigin: '50% 50%', duration: 0.7, ease: 'back.out(1.6)' }, 0.5 + nums.length * STEP + 0.1)
+
+        // While the dial writes itself, the page holds still: glide the clock to the middle of the screen,
+        // pause scrolling, and hand scrolling back once the hands have sprung in.
+        let safety
+        const release = () => {
+          safety?.kill()
+          lenis.current?.start()
+          document.documentElement.classList.remove('is-locked')
+        }
+        tl.eventCallback('onComplete', release)
+        const open = () => {
+          if (tl.progress() > 0) return
+          tl.play()
+          const r = root.current.getBoundingClientRect()
+          // Land on the top of the page the clock sits in, so its heading (The Date Reveal) and the scratch card stay
+          // in view clear of the notch, as long as the whole clock still fits on screen from there; otherwise centre the clock.
+          const page = root.current.closest('section')
+          const p = page?.getBoundingClientRect()
+          const fits = p && r.bottom - p.top <= window.innerHeight - 16
+          const centre = fits ? p.top + window.scrollY : r.top + window.scrollY + r.height / 2 - window.innerHeight / 2
+          document.documentElement.classList.add('is-locked')
+          if (lenis.current) {
+            lenis.current.start()
+            lenis.current.scrollTo(centre, { duration: 1.2, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2), lock: true, force: true })
+            gsap.delayedCall(1.25, () => { if (tl.isActive()) lenis.current?.stop() })
+          } else {
+            window.scrollTo({ top: centre, behavior: 'smooth' })
+          }
+          safety = gsap.delayedCall(10, release) // never leave a guest stuck, whatever happens
+        }
+        const st = ScrollTrigger.create({ trigger: root.current, start: 'top 70%', once: true, onEnter: open })
+        return () => { st.kill(); release() }
       })
     },
     { scope: root },

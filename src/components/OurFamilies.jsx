@@ -41,7 +41,7 @@ export default function OurFamilies() {
 
   return (
     <section id="families" ref={root} className="section sky-bg ofam chap" data-chapter data-dwell="8">
-      <FloralSides tiles={3} head={false} />
+      <FloralSides tiles={6} head={false} />
       <SectionTitle eyebrow="ਦੋਵੇਂ ਪਰਿਵਾਰ" title="Our Families" />
       <p className="ofam__sub reveal">With the blessings of our elders</p>
       <div className="ofam__grid">

@@ -60,7 +60,7 @@ The `extract-design` skill (`.claude/skills/SKILL.md`, `npx designlang <url>`) w
    - `Invitation` — **envelope opening**, then the onion-dome card
    - `Couple` — bride and groom arches
    - `Story` — winding thread, travelling heart, polaroids
-   - `Gallery` — **"Moments" book**
+   - `Gallery` — **"Moments" blossom doorway** (replaced the book; see §4b)
    - `Countdown` — **live Punjab clock** plus **scratch cards**
 4. `Events` — the four celebrations on a brass-roller scroll, held still while the days change
 5. `Venue`
@@ -86,7 +86,7 @@ Overlays: `MusicToggle` (dhol), `AutoTour` (hands-free slow scroll, with Pause /
   - **Envelope:** the card arrives in a blush envelope with a rose wax seal "H&J". The seal breaks, the flap opens in 3D, the card glides out, the envelope melts away, the card settles, then the words animate in.
   - **Scroll hold:** the page glides to centre the envelope and **holds scrolling** (`lenis.stop()` + `html.is-locked`) until the whole animation ends, about 6.5 s. There is a 12 s fail-safe unlock. Tapping the seal opens it at once.
   - **`AutoTour.jsx` change:** the tour now **waits while `html.is-locked` is set**, so it doesn't jump ahead.
-- **Moments book (`Gallery.jsx/.css`):**
+- **Moments book (`Gallery.jsx/.css`)** — *since replaced by the doorway in §4b; kept here for history:*
   - A rose-cloth book that opens, then turns one page per stretch of scroll. It is a sticky stage inside a tall track, scrubbed with GSAP.
   - Each page has a photo in an arched window, then Gurmukhi, a script title, the place, and text.
   - **Background:** the stage has its own blush paper and florals, so the background stays still. The book is up to 560px wide.
@@ -102,6 +102,37 @@ Overlays: `MusicToggle` (dhol), `AutoTour` (hands-free slow scroll, with Pause /
   - `Wishes`: the Ashirwad Wall, with cards pegged on a phulkari string that sway. Guest wishes are saved in localStorage only.
   - `Contacts`: arch cards with a Call button, plus WhatsApp if `whatsapp` is set. Data comes from `wedding.contacts` + `wedding.help`.
 - **Placeholders still in `wedding.js`:** phone numbers (`98XXX XXXXX`), helper contacts, grandparents' names, starter wishes and gallery text are invented, so replace them with real ones.
+
+## 4b. Moments doorway (session of 17 Nov 2026, not committed yet)
+
+The owner asked for something instead of the book. Ideas offered: jharokha windows, polaroids on a string, a timeline path. They picked the jharokha, then steered it step by step to the final design below.
+
+**Final design (`Gallery.jsx`, `Gallery.css`):**
+- **Artwork:** the owner's own image of a **pink double door, wide open**, in an arch wreathed with gold scrollwork and cherry blossoms, on marble steps. It is `public/door/door-open.webp` (900×1350, transparent).
+  - The source image they sent had a fake checkerboard "transparency" painted in. It was removed with a flood-fill script (Pillow + scipy in a scratch venv), and the doorway was cut out.
+  - The doorway sits at about **30–70% across and 27–86% down** the artwork. The photo pane `.jh__pane` is placed behind the image there.
+  - A closed-door image was also supplied, but the owner **didn't want the gate opening/closing animation**, so it was dropped (`door-closed.webp` was deleted).
+- **Layout:**
+  - **Phones / narrow (<1100px):** door centred and as big as the width allows, with the caption, dots and hashtag **below** it. Never put the caption over the photo; the owner disliked that lower-third overlay.
+  - **Wide (≥1100px):** a 3-column grid with the door centred and nearly full height. The left column holds the **story caption** (right-aligned, with a gold divider). The right column holds a **big gold script number "02 of 05"**, vertical dots and the hashtag. The gallery's florals are pushed outward (`img width:132%`) so the side text stays clear. Every grid item needs an explicit `grid-row: 1`; without it, auto-placement drops the caption to row 2.
+  - Note: on desktop the real site renders inside a **phone-frame iframe** (`DesktopFrame`, `?embed=1`), which is what the owner usually looks at. `?full` shows the full-width layout.
+- **Behaviour (final, after several failed attempts):**
+  - The track is just `100svh`, so there is **no scroll-scrubbing**.
+  - When the section's top crosses **35% of the viewport going down**, `open()` runs. It glides the section to the top with Lenis (`scrollTo … onComplete`), then holds the page: `lenis.stop()`, `html.is-locked`, and a `scroll` listener that puts the page back if anything moves it.
+  - **Photos play on a timer:** each one is a ~0.9 s timed GSAP slide. The new photo slides over the old one from below and settles from a 1.08 zoom, and the old photo drifts up 14%. The caption swaps after the photo lands. Each photo holds for `HOLD = 2.6 s`.
+  - **Input:** wheel down / swipe up / arrow keys bring the next photo sooner, through **GSAP `Observer`** (registered in `src/lib/gsap.js`). A 1.2 s gesture cooldown means momentum can't skip photos.
+  - **Release:** about 1.8 s after photo 5 the page unlocks, or at once on a further swipe down. Swiping up on photo 1 also releases. There is a fail-safe release after about 30 s.
+  - The AutoTour already waits while `html.is-locked` is set, so it pauses here and continues afterwards.
+  - **After the first pass:** the dots (now `<button>`s) and tapping the doorway show any photo, without locking.
+  - **Reduced motion:** a plain list of arched photos (`.jh__list`).
+- **What the owner rejected, so don't bring these back:**
+  - The SVG / CSS hand-drawn jharokha and door.
+  - Shutters swinging per photo.
+  - Iris / blurred-circle reveals.
+  - Feathered mask wipes (they looked ghosted).
+  - Scroll-scrubbed photo changes clamped by scroll position (they froze mid-slide and felt jerky).
+- **`.gallery__paper` / `edgeIn` / `edgeOut`:** another edit added a still paper layer whose top and bottom edges (`--gt`, `--gb`) fade into the page florals as the section slides in and out. It is driven by two scrubbed tweens in `Gallery.jsx`. Keep them when editing.
+- **Still to check:** smoothness on a real phone (only checked in a hidden preview pane, where animations are throttled), and how the auto tour behaves at the doorway.
 
 ## 5. Known gaps / ideas not done yet
 
@@ -120,4 +151,9 @@ Overlays: `MusicToggle` (dhol), `AutoTour` (hands-free slow scroll, with Pause /
 - **Language:** Punjabi / Gurmukhi touches are welcome. Ask a native speaker to proofread new Gurmukhi.
 - **Variables:** keep anything that changes per guest or per family in `wedding.js` (guest name from the URL, family names).
 - **Verify before reporting:** check changes in the browser (`npm run dev`, port 5173). If a section seems "not working", first check whether `AutoTour` or the envelope scroll-lock is involved.
+- **Scroll-holding sections:** sections that hold the page (envelope, Punjab clock, Moments doorway) all use the same pattern: glide into place, `lenis.stop()` + `html.is-locked`, timed GSAP animation, release, and a fail-safe. Prefer this over clamping the scroll position.
+- **Testing tips (from the Moments session):**
+  - **Hidden preview pane:** when the Claude browser pane is hidden, `requestAnimationFrame` and scroll events are throttled, so GSAP timers and Lenis barely run. Take screenshots between waits to push frames through, or show the pane.
+  - **Lenis fights scripted scrolls:** pause the AutoTour first (click "Pause"), and re-measure positions after each scroll because the layout keeps shifting.
+  - **Scripted scrolls can trigger other sections:** a forced scroll past the Punjab clock fires its own lock and release, which also clears the gallery's lock.
 - **Testing tips:** the intro locks the page until "Take off" is pressed. In scripts, add `?notour` to the URL to stop the auto-tour. Removing `html.is-locked` lets you scroll. Scripted `window.scrollTo` doesn't fire Lenis/ScrollTrigger updates, so call `ScrollTrigger.update()` (import from `/src/lib/gsap.js`).

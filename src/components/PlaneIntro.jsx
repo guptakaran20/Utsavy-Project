@@ -5,8 +5,8 @@ import { wedding } from '../data/wedding'
 import { guestName } from '../lib/guest'
 import './PlaneIntro.css'
 
-const [year, month, day] = wedding.date.slice(0, 10).split('-')
-const DATE_LINE = `${day} · ${month} · ${year} · ${wedding.city.split(',')[0]}`
+// the date is kept a surprise for the countdown's scratch card, so the boarding line names only the destination
+const DATE_LINE = `Destination · ${wedding.city.split(',')[0]}`
 
 // ---- the artwork (three transparent cut-outs in /public/intro) ------------------------------------------------
 //  plane-gear.webp  – airliner side-on, landing gear down: waits on the runway and rolls

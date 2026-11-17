@@ -18,3 +18,48 @@
 /* keep each flower layer on its own compositing layer so no pale tile edge can show while the page scrolls or pins */
 .floral-sides { transform: translateZ(0); backface-visibility: hidden; }
 .floral-sides span { backface-visibility: hidden; }
+
+/* the blush pages from Our Families to the closing scroll read as one sheet:
+   each page tucks 2px under the one above (so the dark page never shows through a sub-pixel join),
+   the edge flowers run the full height of every page, and they dissolve in at the top and out at the foot,
+   so one page's flowers fade out exactly where the next page's fade in */
+#family, #notes, #rsvp, #wishes, #contacts, .thanks.sky-bg { margin-top: -2px; }
+#families > .floral-sides, #family > .floral-sides, #wishes > .floral-sides, #contacts > .floral-sides, .thanks > .floral-sides {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 260px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 260px), transparent 100%);
+}
+
+/* Family welcome → Guest notes: no empty band at the join. Less padding either side, and the edge flowers
+   carry straight through with only a short crossfade instead of both fading out over a few hundred pixels */
+#family { padding-bottom: 36px; min-height: 0; }
+#notes { padding-top: 44px; }
+#family > .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 50px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 50px), transparent 100%); }
+#notes > .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 50px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 50px, #000 calc(100% - 220px), transparent 100%); }
+
+/* Ashirwad Wall → Contacts: the same treatment, so the flowers run on with no bare band between the wish form and ਸੰਪਰਕ */
+#wishes { padding-bottom: 36px; min-height: 0; }
+#contacts { padding-top: 44px; }
+#wishes > .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 50px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 50px), transparent 100%); }
+#contacts > .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 50px, #000 calc(100% - 260px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 50px, #000 calc(100% - 260px), transparent 100%); }
+
+/* the 50px crossfade read as a hard line: both sides now dissolve over ~150px with an eased curve,
+   so the outgoing flowers are already faint where the incoming ones begin */
+#family > .floral-sides, #wishes > .floral-sides {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 170px), rgba(0,0,0,.45) calc(100% - 80px), rgba(0,0,0,.12) calc(100% - 25px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 170px), rgba(0,0,0,.45) calc(100% - 80px), rgba(0,0,0,.12) calc(100% - 25px), transparent 100%); }
+#notes > .floral-sides {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.12) 25px, rgba(0,0,0,.45) 80px, #000 170px, #000 calc(100% - 220px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.12) 25px, rgba(0,0,0,.45) 80px, #000 170px, #000 calc(100% - 220px), transparent 100%); }
+#contacts > .floral-sides {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.12) 25px, rgba(0,0,0,.45) 80px, #000 170px, #000 calc(100% - 260px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.12) 25px, rgba(0,0,0,.45) 80px, #000 170px, #000 calc(100% - 260px), transparent 100%); }
+
+/* each blush page sits one layer above the page after it, so a card's soft shadow near the foot of a page
+   fades out over the next page's paper instead of being cut off in a straight line where that page begins */
+#families { z-index: 10; }
+#family { z-index: 9; }
+#notes { z-index: 8; }
+#rsvp { z-index: 7; }
+#wishes { z-index: 6; }
+#contacts { z-index: 5; }
+.thanks.sky-bg { z-index: 4; }

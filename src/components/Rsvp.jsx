@@ -6,6 +6,7 @@ import { wedding } from '../data/wedding'
 import SectionTitle from './SectionTitle'
 import Mandala from './Mandala'
 import FloralSides from './FloralSides'
+import './TornPaper.css'
 import './Rsvp.css'
 
 const ease = [0.22, 1, 0.36, 1]
@@ -15,27 +16,17 @@ const CHOICES = [
   { value: 'no', label: 'Regretfully decline' },
 ]
 
-function buildMessage({ name, attending, guests, events, note }) {
-  const lines = [`RSVP — ${wedding.bride.name} & ${wedding.groom.name}`, `Name: ${name}`]
-  if (attending === 'yes') {
-    lines.push(`Attending: Yes (${guests} ${guests === 1 ? 'guest' : 'guests'})`)
-    lines.push(`Events: ${events.join(', ')}`)
-  } else {
-    lines.push('Attending: Sadly no')
-  }
-  if (note) lines.push(`Message: ${note}`)
-  return lines.join('\n')
+function buildMessage({ name, attending }) {
+  return [`RSVP — ${wedding.bride.name} & ${wedding.groom.name}`, `Name: ${name}`, `Attending: ${attending === 'yes' ? 'Yes' : 'Sadly no'}`].join('\n')
 }
 
 export default function Rsvp() {
   const root = useRef(null)
   const [attending, setAttending] = useState('yes')
-  const [guests, setGuests] = useState(1)
-  const [events, setEvents] = useState(() => wedding.events.map((e) => e.id))
   const [sentName, setSentName] = useState(null)
-  const [step, setStep] = useState(0)
-  const [stamping, setStamping] = useState(false)
   const [name, setName] = useState('')
+  const [nameError, setNameError] = useState(false)
+  const nameInput = useRef(null)
   useReveal(root)
 
   // the stage rises slowly into place as you arrive; the flowers at the edges drift a little against it
@@ -51,29 +42,19 @@ export default function Rsvp() {
     { scope: root },
   )
 
-  const toggleEvent = (id) =>
-    setEvents((list) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]))
-
+  // one screen: name and accept/decline, then the reply is sent
   const onSubmit = (e) => {
     e.preventDefault()
-    if (step < 2) return setStep(step + 1)
-    if (stamping) return
-    const form = new FormData(e.currentTarget)
-    const note = String(form.get('note') ?? '').trim()
-    setStamping(true)
-    setTimeout(() => finish(note), 900)
-  }
-
-  const finish = (note) => {
-    setStamping(false)
-    const eventNames = wedding.events.filter((ev) => events.includes(ev.id)).map((ev) => ev.name)
-
+    if (!name.trim()) {
+      setNameError(true)
+      nameInput.current?.focus()
+      return
+    }
     if (wedding.rsvp.whatsapp) {
-      const text = buildMessage({ name, attending, guests, events: eventNames, note })
+      const text = buildMessage({ name, attending })
       window.open(`https://wa.me/${wedding.rsvp.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener')
     }
     setSentName(name.trim().split(' ')[0])
-    setStep(0)
   }
 
   return (
@@ -83,7 +64,10 @@ export default function Rsvp() {
       <SectionTitle eyebrow="ਤੁਹਾਡਾ ਜਵਾਬ" title="Kindly Reply" />
       <p className="rsvp__deadline reveal">{wedding.rsvp.deadline}</p>
 
-      <div className="rsvp__card reveal">
+      <div className="rsvp__wrap reveal">
+      <div className="rsvp__card torn-shadow">
+        <div className="torn-sides">
+        <div className="torn rsvp__sheet">
         <AnimatePresence mode="wait" initial={false}>
           {sentName ? (
             <motion.div
@@ -131,20 +115,17 @@ export default function Rsvp() {
               exit={{ opacity: 0, y: -24 }}
               transition={{ duration: 0.6, ease }}
             >
-              <ol className="rsvp__steps" aria-label={`Step ${step + 1} of 3`}>
-                {['You', 'Celebrations', 'Blessings'].map((t, k) => (
-                  <li key={t} className={k === step ? 'is-now' : k < step ? 'is-done' : ''}>
-                    <span>{k < step ? '✓' : k + 1}</span>
-                    {t}
-                  </li>
-                ))}
-                <i className="rsvp__thread" style={{ '--p': step / 2 }} aria-hidden="true" />
-              </ol>
+              <header className="rsvp__head">
+                <p className="rsvp__head-pa gurmukhi">ਤੁਸੀਂ</p>
+                <h3 className="rsvp__head-title">You</h3>
+                <span className="rsvp__rule" aria-hidden="true" />
+              </header>
 
-              <div className="rsvp__step" hidden={step !== 0} key={`s0-${step === 0}`}>
+              <div className="rsvp__step">
                 <label className="field">
                   <span className="field__label">Your name</span>
-                  <input name="name" required={step === 0} value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" placeholder="e.g. Simran Kaur" />
+                  <input ref={nameInput} name="name" value={name} aria-invalid={nameError || undefined} onChange={(e) => { setName(e.target.value); setNameError(false) }} autoComplete="name" placeholder="e.g. Simran Kaur" />
+                  {nameError && <span className="field__error" role="alert">Add your name to send your reply</span>}
                 </label>
                 <fieldset className="field">
                   <legend className="field__label">Will you be joining us?</legend>
@@ -159,54 +140,15 @@ export default function Rsvp() {
                 </fieldset>
               </div>
 
-              <div className="rsvp__step" hidden={step !== 1} key={`s1-${step === 1}`}>
-                {attending === 'yes' ? (
-                  <>
-                    <div className="field">
-                      <span className="field__label" id="guests-label">Number of guests</span>
-                      <div className="stepper" role="group" aria-labelledby="guests-label">
-                        <button type="button" onClick={() => setGuests((g) => Math.max(1, g - 1))} aria-label="Fewer guests">−</button>
-                        <output>{guests}</output>
-                        <button type="button" onClick={() => setGuests((g) => Math.min(10, g + 1))} aria-label="More guests">+</button>
-                      </div>
-                    </div>
-                    <fieldset className="field">
-                      <legend className="field__label">Which celebrations?</legend>
-                      <div className="chips">
-                        {wedding.events.map((ev) => {
-                          const on = events.includes(ev.id)
-                          return (
-                            <motion.button key={ev.id} type="button" className={`chip${on ? ' is-on' : ''}`} aria-pressed={on} onClick={() => toggleEvent(ev.id)} whileTap={{ scale: 0.94 }}>
-                              {ev.name}
-                            </motion.button>
-                          )
-                        })}
-                      </div>
-                    </fieldset>
-                  </>
-                ) : (
-                  <p className="rsvp__sorry">We will miss you dearly. One last step — send your blessings.</p>
-                )}
-              </div>
-
-              <div className="rsvp__step" hidden={step !== 2} key={`s2-${step === 2}`}>
-                <label className="field">
-                  <span className="field__label">A note for the couple (optional)</span>
-                  <textarea name="note" rows={3} placeholder="Blessings, song requests, dietary needs…" />
-                </label>
-                <button type="submit" className={`seal${stamping ? ' is-stamping' : ''}`} aria-label="Send RSVP">
-                  <span className="seal__ring" aria-hidden="true" />
-                  <span className="seal__disc"><b className="gurmukhi">ਸ਼ੁਭ</b><small>Seal &amp; send</small></span>
-                </button>
-              </div>
-
               <div className="rsvp__nav">
-                {step > 0 && <button type="button" className="rsvp__back" onClick={() => setStep(step - 1)}>← Back</button>}
-                {step < 2 && <button type="submit" className="btn rsvp__submit">Continue <span aria-hidden="true">→</span></button>}
+                <button type="submit" className="btn rsvp__submit">Send reply <span aria-hidden="true">→</span></button>
               </div>
             </motion.form>
           )}
         </AnimatePresence>
+        </div>
+        </div>
+      </div>
       </div>
       <div className="rsvp__stage" aria-hidden="true">
         <motion.img

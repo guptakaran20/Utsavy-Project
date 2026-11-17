@@ -1,57 +1,77 @@
-/* Moments: a rose-pink cloth book on blush paper. It opens, then each page turns as you scroll. */
+/* Moments: a carved jharokha window on blush paper. Its shutters open on one photo, close, and open on the next as you scroll. */
 .gallery { position: relative; padding: 0 !important; overflow: visible !important; min-height: auto !important; display: block !important; background: none; --rose: #a63f5b; --rose-deep: #7d2742; }
-.gallery__track { position: relative; height: calc(100svh + var(--pages, 6) * var(--per, .85) * 100svh); }
-.gallery__stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 2svh, 22px); padding: 14px var(--gutter); overflow: hidden; isolation: isolate; }
-/* the stage carries its own blush paper and flowers, so the background stays still while the pages turn */
-.gallery__stage > :not(.floral-sides) { position: relative; z-index: 2; }
+.gallery__track { position: relative; height: 100svh; }
+.gallery__stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 2svh, 22px); padding: 8px var(--gutter) 60px; overflow: hidden; isolation: isolate; }
+/* the stage carries its own blush paper and flowers, so the background stays still while the pages turn; their top
+   and bottom edges melt into the page's running flowers only while the book slides in or out (see Gallery.jsx) */
+.gallery__stage > :not(.gallery__paper) { position: relative; z-index: 2; }
+.gallery__paper { --gt: 160px; --gb: 160px; position: absolute; inset: 0; z-index: 0; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--gt), #000 calc(100% - var(--gb)), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 var(--gt), #000 calc(100% - var(--gb)), transparent 100%); }
 .gallery__florals { -webkit-mask-image: none !important; mask-image: none !important; z-index: 0; }
 .gallery__head { text-align: center; line-height: 1; }
 .gallery__eyebrow { margin: 0; font-size: clamp(17px, 2vw, 22px); color: var(--gold-500); }
-.gallery__title { margin: 2px 0 0; font: 400 clamp(40px, 7svh, 62px)/1 var(--font-script); color: var(--rose-deep); }
+.gallery__title { margin: 0; font: 400 clamp(30px, 4.6svh, 44px)/1 var(--font-script); color: var(--rose-deep); }
 
-.book { position: relative; width: min(92vw, 560px, calc(72svh * .723)); aspect-ratio: 340 / 470; perspective: 1700px; transform-style: preserve-3d; filter: drop-shadow(0 28px 26px rgba(125, 39, 66, .32)); }
-.book__edge { position: absolute; inset: 3px -6px -5px 5px; border-radius: 3px 8px 8px 3px; background: repeating-linear-gradient(180deg, #f7ecdd 0 2px, #e3d2bb 2px 3px); }
-.book__leaves { position: absolute; inset: 0; }
+.jh { --h: min(calc(100svh - 300px), 150vw); display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+.jh__window { position: relative; width: min(100vw, calc(var(--h) * 2 / 3)); aspect-ratio: 2 / 3; margin-inline: auto; filter: drop-shadow(0 18px 20px rgba(125, 39, 66, .22)); will-change: transform; }
+/* the picture shows through the doorway (30-70% across, 27-86% down the artwork) */
+.jh__pane { position: absolute; inset: 26% 29.6% 13.6% 29.6%; overflow: hidden; border-radius: 50% 50% 0 0 / 24% 24% 0 0; background: #5a1630; }
+.jh__img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; user-select: none; }
+.jh__img--closed { opacity: 1; }
+.jh__glow { position: absolute; inset: 0; opacity: 0; background: radial-gradient(circle at 50% 60%, rgba(243, 214, 138, .5), transparent 70%); z-index: 3; mix-blend-mode: soft-light; pointer-events: none; }
+.jh__photo { position: absolute; inset: 0; overflow: hidden; will-change: transform; }
+.jh__window { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.jh__photo img, .jh__ph { width: 100%; height: 100%; object-fit: cover; display: block; }
+.jh__ph { display: grid; place-content: center; justify-items: center; gap: 6px; background: linear-gradient(160deg, #f6dcd8, #e9b8bf); color: #a63f5b; font: 400 36px var(--font-script); }
+.jh__lotus { width: 64px; color: currentColor; opacity: .85; }
 
-.bkleaf { position: absolute; inset: 0; transform-origin: 0 50%; transform-style: preserve-3d; will-change: transform; }
-.bkleaf__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 3px 8px 8px 3px; overflow: hidden; }
-.bkleaf__back { transform: rotateY(180deg); display: grid; place-items: end center; padding-bottom: 14px; background: linear-gradient(90deg, #efe3d3, #f9f2e6 30%); color: var(--gold-500); font-family: var(--font-display); font-size: 12px; letter-spacing: .2em; }
-.bkleaf__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(90, 30, 40, .5), rgba(90, 30, 40, .05)); opacity: 0; pointer-events: none; }
-
-/* inside page: ivory paper, dotted gold keyline, photo in an arch window, words below */
-.page { display: flex; flex-direction: column; align-items: center; padding: clamp(22px, 4%, 34px) clamp(20px, 5%, 30px) clamp(18px, 3%, 26px) clamp(28px, 7%, 40px); text-align: center; background: linear-gradient(90deg, #f0e4d4, #fffdf8 14%, #fbf5ec); color: var(--ink); }
-.page::before { content: ''; position: absolute; inset: 9px 9px 9px 15px; border: 1px dotted rgba(184, 134, 47, .65); pointer-events: none; }
-.page__photo { flex: 1 1 auto; min-height: 0; width: 100%; border-radius: 999px 999px 6px 6px / 110px 110px 6px 6px; overflow: hidden; background: linear-gradient(160deg, #f6dcd8, #e9b8bf); box-shadow: 0 0 0 1px rgba(184, 134, 47, .6), 0 0 0 5px #fffdf8, 0 0 0 6px rgba(184, 134, 47, .4); }
-.page__photo img, .page__ph { width: 100%; height: 100%; object-fit: cover; display: block; }
-.page__ph { display: grid; place-content: center; justify-items: center; gap: 6px; color: #a63f5b; font: 400 30px var(--font-script); }
-.page__ph .book__lotus { width: 54px; opacity: .8; }
-.page__pa { margin: 12px 0 0; font-size: 15px; color: var(--gold-500); line-height: 1.2; }
-.page__title { margin: 0; font: 400 clamp(28px, 5.2svh, 44px)/1.05 var(--font-script); color: var(--rose); }
-.page__place { margin: 2px 0 0; font: 500 9.5px var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #5d7852; }
-.page__text { margin: 6px 0 0; font-style: italic; font-size: clamp(14px, 2.2svh, 19px); line-height: 1.4; color: var(--ink-soft); text-wrap: pretty; }
-.page__no { position: absolute; right: 18px; bottom: 12px; font: 500 10px var(--font-display); letter-spacing: .14em; color: var(--gold-500); }
-.page--end { justify-content: center; }
-.page--end .page__title { font-size: clamp(30px, 5svh, 40px); margin-top: 6px; }
-.page--end .page__text { margin-top: 12px; }
-.page__tag { margin: 16px 0 0; font: 500 11px var(--font-display); letter-spacing: .2em; color: var(--gold-500); }
-
-/* cover: rose cloth, gold dashed stitching, a lotus, a darker spine band */
-.cover { display: grid; place-items: center; background: repeating-linear-gradient(-58deg, rgba(255, 255, 255, .13) 0 .7px, transparent .7px 2.2px), linear-gradient(160deg, #c45d7f, #8e2e4f); color: #fff3e2; text-shadow: 0 1px rgba(80, 20, 30, .45); }
-.cover::before { content: ''; position: absolute; inset: 14px 14px 14px 26px; border: 1.4px dashed rgba(246, 222, 170, .9); border-radius: 2px 6px 6px 2px; }
-.cover__band { position: absolute; left: 0; top: 0; bottom: 0; width: 18px; background: linear-gradient(90deg, rgba(60, 10, 25, .55), rgba(60, 10, 25, .12)); border-right: 1px solid rgba(246, 222, 170, .5); }
-.cover__in { position: relative; display: grid; justify-items: center; gap: 4px; padding-left: 14px; text-align: center; }
-.book__lotus { width: clamp(62px, 11%, 84px); color: #f6deaa; }
-.cover__pa { margin: 6px 0 0; font-size: 22px; color: #f6deaa; }
-.cover__title { margin: 0; font: 400 clamp(42px, 8svh, 64px)/1 var(--font-script); }
-.cover__names { margin: 8px 0 0; font: 500 11px var(--font-display); letter-spacing: .28em; text-transform: uppercase; color: #f6deaa; }
-
+.jh__meta { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.jh__num { display: none; margin: 0; text-align: center; font-family: var(--font-script); color: var(--gold-500); }
+.jh__num b { display: block; font: 400 clamp(64px, 9svh, 110px)/1 var(--font-script); background: var(--gold-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.jh__num span { font: 500 11px var(--font-display); letter-spacing: .3em; text-transform: uppercase; color: #8a6424; }
+.jh__caps { position: relative; display: grid; width: min(92vw, 440px); min-height: 118px; }
+.jh__cap { grid-area: 1 / 1; text-align: center; will-change: opacity, transform; }
+.jh__pa { margin: 0; font-size: 17px; color: var(--gold-500); line-height: 1.2; }
+.jh__title { margin: 0; font: 400 clamp(28px, 4.2svh, 40px)/1.05 var(--font-script); color: var(--rose); }
+.jh__place { margin: 4px 0 0; font: 500 11px/1.4 var(--font-display); letter-spacing: .2em; text-transform: uppercase; color: #5d7852; }
+.jh__text { margin: 3px 0 0; font-style: italic; font-size: clamp(13px, 1.9svh, 16px); line-height: 1.3; color: var(--ink-soft); text-wrap: pretty; }
+.jh__dots { display: flex; gap: 8px; }
+.jh__dot { position: relative; width: 7px; height: 7px; padding: 0; border: 0; cursor: pointer; border-radius: 50%; background: rgba(184, 134, 47, .35); transition: background .3s, transform .3s; }
+.jh__dot::after { content: ''; position: absolute; inset: -8px; }
+.jh__dot.is-on { background: var(--gold-500); transform: scale(1.35); }
 .gallery__count { margin: 0; font: 500 11px var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #8a6424; min-height: 1.4em; }
+.jh__list { display: none; }
+
+
+
+/* wide screens: the door stays in the middle, the story fills the left and a big photo number fills the right */
+@media (min-width: 1100px) {
+  .jh { --h: clamp(320px, calc(100svh - 170px), 1000px); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: clamp(28px, 4vw, 72px); width: min(96vw, 1500px); }
+  .gallery__florals span img { width: 132%; max-width: none; left: -16%; } /* lean the flowers out so the words beside the door stay clear */
+  .jh__caps { grid-row: 1; grid-column: 1; justify-self: end; width: min(100%, 320px); min-height: 0; }
+  .jh__cap { text-align: right; }
+  .jh__title { font-size: clamp(40px, 5.4svh, 58px); }
+  .jh__pa { font-size: 20px; }
+  .jh__text { font-size: clamp(16px, 2.3svh, 20px); }
+  .jh__place { font-size: 12px; }
+  .jh__caps::after { content: ''; position: absolute; right: calc(-1 * clamp(14px, 2vw, 36px)); top: 4%; bottom: 4%; width: 1px; background: linear-gradient(transparent, rgba(184, 134, 47, .6), transparent); }
+  .jh__window { grid-row: 1; grid-column: 2; }
+  .jh__meta { grid-row: 1; grid-column: 3; justify-self: start; align-items: flex-start; gap: 16px; }
+  .jh__num { display: block; text-align: left; }
+  .jh__dots { flex-direction: column; gap: 12px; padding-left: 10px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .gallery__track { height: auto; }
   .gallery__stage { position: static; height: auto; padding-block: 60px; }
-  .book { width: min(90vw, 340px); aspect-ratio: auto; filter: none; }
-  .book__edge, .bkleaf--cover, .bkleaf__back { display: none; }
-  .book__leaves { position: static; display: flex; flex-direction: column-reverse; gap: 24px; }
-  .bkleaf { position: relative; aspect-ratio: 340 / 470; transform: none !important; }
+  .jh { display: none; }
+  .jh__list { display: grid; gap: 40px; list-style: none; margin: 0; padding: 0; width: min(86vw, 340px); text-align: center; }
+  .jh__listphoto { aspect-ratio: 100 / 130; margin-bottom: 14px; border-radius: 999px 999px 8px 8px / 40% 40% 8px 8px; overflow: hidden; box-shadow: 0 0 0 2px var(--gold-400), 0 0 0 7px #fffdf8; }
+  .jh__listphoto img, .jh__listphoto .jh__ph { width: 100%; height: 100%; object-fit: cover; display: block; }
+}
+
+/* phones: the "Moments" heading sat under the notch / status bar. Keep it clear of the top and give the door the room
+   that is left, so the stack never overflows and gets cut at the top. */
+@media (max-width: 1099px) {
+  .gallery__stage { justify-content: safe center; padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
+  .jh { --h: min(calc(100svh - 370px), 150vw); }
 }

@@ -1,14 +1,23 @@
 # Photo slots
 
-Drop your images in this folder using these exact names (JPG, ~1200px on the long side, under 300 KB each).
-Any missing file simply shows the decorative placeholder, so you can add them one at a time.
+Every photo on the site is described in `src/data/wedding.js` as `photo: '<path or URL>'`, plus an optional
+`focus: 'x% y%'` (the part of the picture to keep when it has to be cropped).
 
-| File | Where it shows | Best crop |
+Because every frame (arches, polaroids, round elder portraits, the book's windows) fills itself with
+`object-fit: cover`, **any size or aspect ratio works**: pictures are cropped to the frame, never stretched.
+Later the same `photo` / `focus` fields can simply be filled from a backend/CMS response, with full URLs.
+A missing or broken picture falls back to the decorative monogram.
+
+| Where | Data field | Frame |
 |---|---|---|
-| bride.jpg | Couple section, bride's arch | 5:7 portrait |
-| groom.jpg | Couple section, groom's arch | 5:7 portrait |
-| story-1.jpg, story-2.jpg, story-3.jpg | Our Story, one per milestone | 4:5 portrait |
-| gallery-1.jpg … gallery-5.jpg | Moments gallery (arch frames) | 4:5 portrait |
-| family-1.jpg, family-2.jpg, family-3.jpg | Family welcome, elders' arches | 1:1 or 4:5 |
+| Couple section | `bride.photo`, `groom.photo` | tall arches (5:7) |
+| Our Story | `story[i].photo` | polaroid windows |
+| Moments book | `gallery[i].photo` | arched window on each page |
+| Family welcome | `family.elders[i].photo` | round portraits |
 
-To use another filename, change the `photo:` value in `src/data/wedding.js`.
+Aim for ~1200–1400 px on the long side, JPG/WebP, under ~400 KB.
+
+## Current pictures are stand-ins
+
+Free-licence stock photos (Pexels licence, no attribution required) so the layout can be judged. Replace them with the
+couple's own photos. Sources are listed in `CREDITS.md`.

@@ -28,7 +28,7 @@ export default function Contacts() {
 
   return (
     <section id="contacts" ref={root} className="section sky-bg contacts chap" data-chapter data-dwell="6">
-      <FloralSides tiles={3} head={false} />
+      <FloralSides tiles={6} head={false} />
       <SectionTitle eyebrow="ਸੰਪਰਕ" title="Get in Touch" />
       <p className="contacts__sub reveal">For travel, stay or anything at all, we are just a call away.</p>
       <div className="contacts__grid">
