@@ -134,13 +134,15 @@ export default function Events() {
       const pos = { s: 0 }
       const camAt = (s) => (s <= stopAt(0) ? 0 : pointAt(segs, s).y - EYE)
       let shownReached = -1
+      let lastTrail = -1
       const render = () => {
         if (!segs.length) return
         const cam = camAt(pos.s)
         const p = pointAt(segs, pos.s)
         heart.current.style.transform = `translate3d(${p.x}px, ${p.y - cam}px, 0)`
         heart.current.style.opacity = Math.min(1, pos.s / 0.08)
-        trail.current.setAttribute('d', trailTo(segs, pos.s))
+        // the dashed trail is a repaint of a page-tall SVG, so redraw it only when the heart has moved a visible amount
+        if (Math.abs(pos.s - lastTrail) > 0.004 || pos.s === 0) { lastTrail = pos.s; trail.current.setAttribute('d', trailTo(segs, pos.s)) }
         page.current.style.transform = `translate3d(0, ${-cam}px, 0)`
         // the pavilions close the page: they scroll up with it and settle at the foot of the screen with the last ceremony
         terrace.current.style.transform = `translate3d(-50%, ${Math.max(0, (n - 1) * ROW - cam)}px, 0)`
@@ -152,12 +154,17 @@ export default function Events() {
       }
       const layout = () => {
         segs = journey(page.current.offsetWidth, n)
+        lastTrail = -1
         render()
       }
       const reduced = prefersReducedMotion()
+      // On a touch screen the finger and the browser's own momentum drive the scroll: the page follows them closely, and
+      // is never pulled to a ceremony afterwards. (The pull fought the finger, and a short swipe snapped straight back to
+      // the same ceremony, so on a phone the later ceremonies could not be reached.)
+      const touch = window.matchMedia('(pointer: coarse)').matches
       // the first arrival (in from the left, under the title) plays as one flight; after that the scroll drives it
       let entry
-      const follow = gsap.quickTo(pos, 's', { duration: reduced ? 0.01 : 0.55, ease: 'power3', onUpdate: render })
+      const follow = gsap.quickTo(pos, 's', { duration: reduced ? 0.01 : touch ? 0.18 : 0.55, ease: touch ? 'power2' : 'power3', onUpdate: render })
       const target = (self) => (self.scroll() < self.start ? 0 : stopAt(0) + self.progress * (n - 1))
       const drive = (self) => {
         const to = target(self)
@@ -179,6 +186,7 @@ export default function Events() {
       // when the guest stops between two ceremonies, glide the last little way to the nearer one
       let settle
       const snap = (self) => {
+        if (touch) return
         clearTimeout(settle)
         settle = setTimeout(() => {
           const l = lenis.current

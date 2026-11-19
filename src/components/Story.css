@@ -65,3 +65,8 @@
 
 /* titles wrap onto two balanced lines in the clear middle, rather than one wide line into the side flowers */
 .story__headline { max-width: min(100%, 290px); margin-inline: auto; text-wrap: balance; }
+
+/* the thread is redrawn on every scroll frame: on its own layer, so each redraw doesn't also repaint the damask paper and
+   the masked edge flowers behind the whole section (that is what made this part of the page stutter on phones) */
+.story__path { will-change: transform; }
+.story__heart { will-change: transform; }

@@ -113,3 +113,16 @@
 
 /* phones: fill the screen even after the address bar slides away (see --full-h in index.css) */
 .cer { height: var(--full-h); }
+
+/* ---- phones: keep the scroll smooth ---- */
+/* the trail is redrawn as the heart moves: on its own layer, so each redraw doesn't repaint the whole page with it */
+.cer-trail { will-change: transform; }
+/* blur and letter-spacing reveals re-lay out and re-blur the page on every frame while the finger is moving;
+   touch screens get the same reveal as a plain fade and settle */
+@media (pointer: coarse) {
+  .cer-art, .cer-name, .cer-pa { filter: none !important; }
+  .cer-name, .is-reached .cer-name { letter-spacing: .12em; }
+  .cer-name, .cer-pa { transition: opacity .9s ease .2s; }
+  .cer-art { transition: opacity 1s ease, scale 1.4s var(--cer-ease); }
+  .cer-img, .cer-decor, .cer-heart svg { filter: none; }
+}

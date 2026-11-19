@@ -6,3 +6,7 @@
 .pclock__cap .gurmukhi { font-size: 16px; color: #b98b3e; }
 .pclock__cap span:last-child { font: 500 10.5px var(--font-label); letter-spacing: .22em; text-transform: uppercase; color: #74535a; }
 .pclock__map { filter: drop-shadow(0 2px 2px rgba(120, 70, 30, .35)); }
+
+/* the hands move every frame while the clock is on screen: keep those redraws on the clock's own layer, away from the
+   paper and flowers behind it */
+.pclock { will-change: transform; }
