@@ -19,7 +19,8 @@ export default function HeroFX({ play }) {
     const parent = fx.parentElement
     const small = window.innerWidth < 640
     const k = small ? 0.62 : 1
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.75)
+    // phones draw the two full-screen canvases at a lower resolution: the sparks and confetti look the same, at a fraction of the cost
+    const dpr = Math.min(window.devicePixelRatio || 1, small ? 1.25 : 1.75)
     let W = 0
     let H = 0
     const fctx = fx.getContext('2d')

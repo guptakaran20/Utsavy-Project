@@ -103,13 +103,13 @@
 .notes__petals i:nth-child(3n) { background: radial-gradient(circle at 30% 30%, #f7c7cf, #e48a9b 75%); }
 .notes.is-open .notes__petals i { animation: notes-petal var(--t) linear calc(2s + var(--d)) infinite; }
 @keyframes notes-petal {
-  0% { top: -6%; opacity: 0; transform: translateX(0) rotate(0deg); }
+  0% { translate: 0 0; opacity: 0; transform: translateX(0) rotate(0deg); }
   10% { opacity: .9; }
   30% { transform: translateX(14px) rotate(var(--r)); }
   55% { transform: translateX(-10px) rotate(calc(180deg - var(--r))); }
   80% { transform: translateX(12px) rotate(calc(var(--r) + 300deg)); }
   90% { opacity: .85; }
-  100% { top: 102%; opacity: 0; transform: translateX(-6px) rotate(420deg); }
+  100% { translate: 0 calc(var(--full-h, 100vh) * 1.17); opacity: 0; transform: translateX(-6px) rotate(420deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {

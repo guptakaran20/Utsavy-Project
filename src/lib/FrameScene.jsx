@@ -29,6 +29,9 @@ export default function FrameScene({ introDone }) {
 
   useEffect(() => {
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', BAR[scene])
+    // Android Chrome paints its bottom navigation bar in the page's background colour, so the page background follows
+    // the scene too (index.css, html[data-scene]); otherwise a blush strip shows under the night sky and the gurdwara
+    document.documentElement.dataset.scene = scene
     if (embedded) window.parent.postMessage({ type: 'utsavy-scene', scene }, location.origin)
   }, [scene])
 

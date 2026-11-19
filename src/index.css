@@ -266,3 +266,8 @@ html.is-embedded::-webkit-scrollbar { display: none; }
    --bar-h is the strip at the foot that the browser's bars may cover: keep buttons and text out of it. */
 :root { --full-h: max(100vh, var(--vh-max, 0px)); --bar-h: 0px; }
 @supports (height: 100lvh) { :root { --full-h: max(100lvh, var(--vh-max, 0px)); --bar-h: max(0px, calc(var(--full-h) - 100svh)); } }
+
+/* the page background follows the scene on screen (FrameScene.jsx): Android Chrome tints its bottom navigation bar with
+   it, so the bar matches the night intro and the sky hero instead of showing a blush strip */
+html[data-scene="night"], html[data-scene="night"] body { background-color: #1c1c1d; }
+html[data-scene="sky"], html[data-scene="sky"] body { background-color: #92c1f1; }

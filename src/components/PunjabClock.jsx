@@ -32,7 +32,10 @@ export default function PunjabClock() {
 
   useEffect(() => {
     let raf = 0
+    let onScreen = false
     const tick = () => {
+      raf = 0
+      if (!onScreen || document.hidden) return
       const { h, m, s } = istNow()
       const sec = Math.floor(s) + Math.min(1, (s % 1) * 4) // a gentle step each second, like a real quartz hand
       second.current?.setAttribute('transform', `rotate(${sec * 6} ${C} ${C})`)
@@ -40,8 +43,15 @@ export default function PunjabClock() {
       hour.current?.setAttribute('transform', `rotate(${((h % 12) + m / 60) * 30} ${C} ${C})`)
       raf = requestAnimationFrame(tick)
     }
+    // the hands only move while the clock is on screen: off screen the loop sleeps instead of redrawing every frame
+    const wake = () => { if (!raf && onScreen && !document.hidden) raf = requestAnimationFrame(tick) }
+    const io = new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; wake() })
+    if (root.current) io.observe(root.current)
+    document.addEventListener('visibilitychange', wake)
+    onScreen = true
     tick()
-    return () => cancelAnimationFrame(raf)
+    onScreen = false
+    return () => { cancelAnimationFrame(raf); io.disconnect(); document.removeEventListener('visibilitychange', wake) }
   }, [])
 
   useGSAP(

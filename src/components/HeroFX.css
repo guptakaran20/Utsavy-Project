@@ -1,3 +1,6 @@
 .herofx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .herofx--sky { z-index: 1; mix-blend-mode: screen; }
 .herofx--party { z-index: 2; }
+/* touch screens: no screen blend over the whole sky (the canvas already draws its sparks additively), so the browser
+   doesn't have to re-blend the full screen on every frame */
+@media (pointer: coarse) { .herofx--sky { mix-blend-mode: normal; } }
