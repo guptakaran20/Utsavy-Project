@@ -6,6 +6,13 @@ import './Story.css'
 
 const CHAPTERS = [['Chapter One', 'ਪਹਿਲਾ ਅਧਿਆਇ'], ['Chapter Two', 'ਦੂਜਾ ਅਧਿਆਇ'], ['Chapter Three', 'ਤੀਜਾ ਅਧਿਆਇ'], ['Chapter Four', 'ਚੌਥਾ ਅਧਿਆਇ']]
 
+// a chapter title with its accent word in script: "Ik <em>Lohri</em> Mulaqat" (no accent, or not found: plain title)
+const Headline = ({ title, accent }) => {
+  const at = accent ? title.indexOf(accent) : -1
+  if (at < 0) return title
+  return <>{title.slice(0, at)}<em>{accent}</em>{title.slice(at + accent.length)}</>
+}
+
 // scalloped, paper-edged polaroid frame (viewBox 0 0 W H), like a postage stamp
 const scallop = (w, h, r) => {
   const nx = Math.round(w / (2 * r))
@@ -120,7 +127,7 @@ export default function Story() {
             .from(card.querySelectorAll('.story__corner'), { scale: 0, duration: 0.3, stagger: 0.07, ease: 'back.out(3)' }, 0.5)
             .fromTo(photo, { clipPath: 'inset(50% 0 50% 0)', filter: 'brightness(2.2) saturate(0) blur(5px)' }, { clipPath: 'inset(0% 0 0% 0)', filter: 'brightness(1) saturate(1) blur(0px)', duration: 1, ease: 'power2.out', clearProps: 'filter,clipPath' }, 0.35)
             .from(card.querySelector('.story__chap'), { autoAlpha: 0, y: 8, duration: 0.5 }, 0.9)
-          gsap.from(card.querySelectorAll('.story__headline, .story__place, .story__text'), {
+          gsap.from(card.querySelectorAll('.story__headline, .story__text'), {
             y: 30, autoAlpha: 0, duration: 0.55, stagger: 0.1, ease: 'power3.out', delay: 0.25,
             scrollTrigger: trigger,
           })
@@ -169,11 +176,7 @@ export default function Story() {
               </div>
               <p className="story__chap">{CHAPTERS[i]?.[0] ?? `Chapter ${i + 1}`}</p>
             </div>
-            <h3 className="story__headline">
-              <span className="sr-only">{s.title}. </span>
-              <span aria-hidden="true">{s.headline?.[0]} <em>{s.headline?.[1]}</em><br />{s.headline?.[2]}</span>
-            </h3>
-            <p className="story__place"><i /> {s.place} <i /></p>
+            <h3 className="story__headline"><Headline title={s.title} accent={s.accent} /></h3>
             <p className="story__text">{s.text}</p>
             <div className="story__node" aria-hidden="true">
               <Leaves /><span className="story__ring"><svg viewBox="0 0 24 24"><path d="M12 20.5C5 15 3 11.5 3 8.6A4.6 4.6 0 0 1 12 6.6a4.6 4.6 0 0 1 9 2C21 11.5 19 15 12 20.5Z" /></svg></span><Leaves />

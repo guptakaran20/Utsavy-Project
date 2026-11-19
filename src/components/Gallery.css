@@ -27,7 +27,7 @@
 .jh__meta { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .jh__num { display: none; margin: 0; text-align: center; font-family: var(--font-script); color: var(--gold-500); }
 .jh__num b { display: block; font: 400 clamp(64px, 9svh, 110px)/1 var(--font-script); background: var(--gold-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.jh__num span { font: 500 11px var(--font-display); letter-spacing: .3em; text-transform: uppercase; color: #8a6424; }
+.jh__num span { font: 500 11px var(--font-label); letter-spacing: .3em; text-transform: uppercase; color: #8a6424; }
 .jh__caps { position: relative; display: grid; width: min(92vw, 440px); min-height: 118px; }
 .jh__cap { grid-area: 1 / 1; text-align: center; will-change: opacity, transform; }
 .jh__pa { margin: 0; font-size: 17px; color: var(--gold-500); line-height: 1.2; }
@@ -38,7 +38,7 @@
 .jh__dot { position: relative; width: 7px; height: 7px; padding: 0; border: 0; cursor: pointer; border-radius: 50%; background: rgba(184, 134, 47, .35); transition: background .3s, transform .3s; }
 .jh__dot::after { content: ''; position: absolute; inset: -8px; }
 .jh__dot.is-on { background: var(--gold-500); transform: scale(1.35); }
-.gallery__count { margin: 0; font: 500 11px var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #8a6424; min-height: 1.4em; }
+.gallery__count { margin: 0; font: 500 11px var(--font-label); letter-spacing: .22em; text-transform: uppercase; color: #8a6424; min-height: 1.4em; }
 .jh__list { display: none; }
 
 
@@ -72,6 +72,22 @@
 /* phones: the "Moments" heading sat under the notch / status bar. Keep it clear of the top and give the door the room
    that is left, so the stack never overflows and gets cut at the top. */
 @media (max-width: 1099px) {
-  .gallery__stage { justify-content: safe center; padding-top: calc(env(safe-area-inset-top, 0px) + 56px); }
-  .jh { --h: min(calc(100svh - 370px), 150vw); }
+  /* the top/bottom gaps are kept small so the doorway can be as big as the screen allows */
+  /* 56px keeps "ਯਾਦਾਂ" clear of the notch / dynamic island; the heading sits snug on the door instead */
+  .gallery__stage { justify-content: safe center; gap: 4px; padding-top: calc(env(safe-area-inset-top, 0px) + 56px); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); }
+  /* the doorway is sized by the screen's height and may run past the sides (the outer blossoms get clipped), so the
+     photo inside it is as big as possible; the caption tucks up onto the bottom step to give the door more room */
+  .jh { --h: min(calc(100svh - 220px), 210vw); gap: 2px; }
+  .jh__window { width: calc(var(--h) * 2 / 3); margin-inline: 0; flex: none; }
+  .jh__caps { margin-top: calc(var(--h) * -0.1); min-height: 84px; }
+}
+
+/* phones: the side flowers reached into the caption and hid its edges. Lean the gallery's flowers further out, keep the
+   words to the clear middle, and lay a soft blush wash behind them so any leaf that still reaches in sits quietly under the type. */
+@media (max-width: 1099px) {
+  .gallery__florals span img { width: 150%; max-width: none; left: -25%; }
+  .jh__caps { width: min(82vw, 420px); isolation: isolate; }
+  .jh__caps::before { content: ''; position: absolute; inset: -14px -10%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(246, 220, 216, .96) 62%, rgba(246, 220, 216, .75) 80%, rgba(246, 220, 216, 0) 100%); }
+  .jh__meta { position: relative; isolation: isolate; }
+  .jh__meta::before { content: ''; position: absolute; inset: -6px -18%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(246, 220, 216, .9) 55%, rgba(246, 220, 216, 0) 100%); }
 }

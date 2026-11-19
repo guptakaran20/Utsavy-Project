@@ -15,7 +15,8 @@
   --ink: #2b1810;
   --ink-soft: #6a4c3b;
 
-  --font-display: 'Cinzel', 'Times New Roman', serif;
+  --font-display: 'Bodoni Moda', Didot, 'Bodoni 72', 'Times New Roman', serif;
+  --font-label: 'Outfit', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-script: 'Great Vibes', cursive;
   --font-gurmukhi: 'Tiro Gurmukhi', 'Noto Serif Gurmukhi', serif;
@@ -40,16 +41,21 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* blush behind everything: most of the invitation is blush, so no maroon strip shows at the
+     top or bottom edge (or at a seam), and no rubber-band overscroll reveals one either */
+  background: #f6dcd8;
+  overscroll-behavior-y: none;
 }
 
-html.is-locked,
-html.is-locked body {
-  overflow: hidden;
-}
+/* body takes `clip`, not `hidden`: `hidden` makes body a scroll box of its own, so every sticky section (Good to Know)
+   lets go of the screen and drops back to the top of its track, leaving a bare band of paper above the held page */
+html.is-locked { overflow: hidden; }
+html.is-locked body { overflow: clip; }
 
 body {
   margin: 0;
-  background: var(--maroon-800);
+  background: #f6dcd8;
+  overscroll-behavior-y: none;
   color: var(--ink);
   font-family: var(--font-serif);
   font-size: clamp(18px, 0.6vw + 14px, 21px);
@@ -184,7 +190,7 @@ textarea {
   border-radius: 999px;
   background: linear-gradient(180deg, #e2b765, #b8862f);
   color: var(--maroon-900);
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.14em;

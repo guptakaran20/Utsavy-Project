@@ -241,9 +241,7 @@ export default function Gallery() {
             <div className="jh__caps">
               {items.map((g, i) => (
                 <div className="jh__cap" key={g.caption} style={i === 0 ? undefined : { opacity: 0 }}>
-                  <p className="jh__pa gurmukhi">{g.gurmukhi}</p>
                   <h3 className="jh__title">{g.caption}</h3>
-                  <p className="jh__place">{g.place}</p>
                   <p className="jh__text">{g.text}</p>
                 </div>
               ))}
@@ -265,9 +263,7 @@ export default function Gallery() {
             {items.map((g) => (
               <li key={g.caption}>
                 <div className="jh__listphoto"><Photo src={g.photo} focus={g.focus} alt={g.caption} fallback={<Placeholder />} /></div>
-                <p className="jh__pa gurmukhi">{g.gurmukhi}</p>
                 <h3 className="jh__title">{g.caption}</h3>
-                <p className="jh__place">{g.place}</p>
                 <p className="jh__text">{g.text}</p>
               </li>
             ))}

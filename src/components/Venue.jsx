@@ -4,6 +4,7 @@ import { useReveal } from '../lib/useReveal'
 import { gsap, useGSAP } from '../lib/gsap'
 import { downloadIcs } from '../lib/calendar'
 import { wedding } from '../data/wedding'
+import { invitationText } from '../lib/invite'
 import SectionTitle from './SectionTitle'
 import FloralSides from './FloralSides'
 import { ArrowIcon, CalendarIcon, PinIcon } from './Icons'
@@ -53,7 +54,7 @@ export default function Venue() {
       setTimeout(() => setCopied(false), 1800)
     } catch {}
   }
-  const wedEvent = wedding.events.find((e) => e.id === 'anand-karaj')
+  const wedEvent = wedding.events.find((e) => e.id === wedding.venue.event) || wedding.events[0]
 
   return (
     <section id="venue" ref={root} className="section sky-bg venue chap" data-chapter data-dwell="6">
@@ -79,7 +80,7 @@ export default function Venue() {
                   title: `${wedding.bride.name} & ${wedding.groom.name} — ${wedEvent.name}`,
                   start: wedding.date,
                   location: `${wedEvent.venue}, ${wedEvent.address}`,
-                  description: wedding.invitation,
+                  description: invitationText(),
                 })
               }
             >

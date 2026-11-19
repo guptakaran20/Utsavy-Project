@@ -4,7 +4,7 @@
 .hero__stars { position: absolute; inset: 0 0 45% 0; opacity: .8; background-image: radial-gradient(1.4px 1.4px at 12% 18%, #fff, transparent), radial-gradient(1px 1px at 28% 8%, #fff9, transparent), radial-gradient(1.4px 1.4px at 44% 22%, #fff, transparent), radial-gradient(1px 1px at 61% 12%, #fff9, transparent), radial-gradient(1.4px 1.4px at 78% 20%, #fff, transparent), radial-gradient(1px 1px at 90% 9%, #fff9, transparent), radial-gradient(1px 1px at 6% 40%, #fff8, transparent), radial-gradient(1.2px 1.2px at 94% 36%, #fff9, transparent), radial-gradient(1px 1px at 52% 42%, #fff6, transparent); animation: twinkle 4.5s ease-in-out infinite alternate; }
 .hero__text { position: relative; z-index: 3; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(96px, 17svh, 170px) var(--gutter) 0; }
 .hero__om { margin: 0; font-size: clamp(24px, 3.6vw, 34px); color: var(--gold-200); line-height: 1; }
-.hero__eyebrow { margin: 6px 0 clamp(8px, 1.8svh, 16px); font-family: var(--font-display); font-size: clamp(9px, 1.2vw, 12px); letter-spacing: .3em; text-transform: uppercase; color: var(--gold-400); }
+.hero__eyebrow { margin: 6px 0 clamp(8px, 1.8svh, 16px); font-family: var(--font-label); font-size: clamp(9px, 1.2vw, 12px); letter-spacing: .3em; text-transform: uppercase; color: var(--gold-400); }
 .hero__names { margin: 0; display: flex; flex-direction: column; align-items: center; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(54px, min(16vw, 11.5svh), 150px); line-height: .92; letter-spacing: -.015em; }
 .hero__mask { display: block; overflow: hidden; padding: .06em .14em .14em; }
 .hero__line { display: block; background: var(--gold-text); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 7s linear infinite; filter: drop-shadow(0 4px 18px rgba(0,0,0,.5)); }
@@ -14,7 +14,7 @@
 .hero__dear b { font-weight: 600; color: var(--gold-200); }
 .hero__date { margin: clamp(14px, 2.6svh, 26px) 0 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; font-family: var(--font-serif); font-weight: 500; font-size: clamp(22px, 3.2vw, 32px); line-height: 1; color: var(--ivory); font-variant-numeric: lining-nums; }
 .hero__date i { width: 1px; height: .9em; background: var(--gold-400); rotate: 18deg; }
-.hero__date em { flex-basis: 100%; margin-top: 8px; font-style: normal; font-family: var(--font-display); font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold-200); }
+.hero__date em { flex-basis: 100%; margin-top: 8px; font-style: normal; font-family: var(--font-label); font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold-200); }
 .hero__haveli { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: var(--scene-h); pointer-events: none; }
 /* the lane in front of the haveli, full-bleed even where the SVG is narrower */
 .hero__haveli::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--scene-h) * .0923); background: #3a2012; border-top: 1px solid #7a4a2a; }
@@ -62,7 +62,7 @@
 .hero__flash { position: absolute; z-index: 6; inset: 0; opacity: 0; visibility: hidden; pointer-events: none; background-color: var(--plaster); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23b8862f' stroke-opacity='.16'%3E%3Cpath d='M30 4l26 26-26 26L4 30z'/%3E%3Cpath d='M30 16l14 14-14 14-14-14z'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,255,255,.7), transparent); background-size: 60px 60px, auto; }
 .hero__bloom { position: absolute; inset: 0; background: radial-gradient(circle at 50% 62%, #fffbe9 0, #fdeab8 38%, rgba(253,234,184,0) 80%); }
 
-/* ---- daytime sky like the reference invite; type set in tracked Cinzel caps that settle into place ---- */
+/* ---- daytime sky like the reference invite; type set in tracked display caps that settle into place ---- */
 .hero__sky { background: linear-gradient(180deg, #4b90e0 0%, #5fa1ea 24%, #86b9f0 50%, #cfd6ee 68%, #f4c8a6 82%, #f6a85e 100%); }
 .hero__stars { display: none; }
 .hero__clouds { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .95; }
@@ -78,7 +78,7 @@
 .hero__rule i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.85)); }
 .hero__rule i:last-child { background: linear-gradient(270deg, transparent, rgba(255,255,255,.85)); }
 .hero__rule b { width: 7px; height: 7px; rotate: 45deg; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,.7); }
-.hero__names { font-family: 'Cinzel', serif; font-style: normal; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; line-height: 1.02; font-size: clamp(38px, min(11.5vw, 9svh), 112px); color: #fff; margin: 4px 0; }
+.hero__names { font-family: var(--font-display); font-style: normal; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; line-height: 1.02; font-size: clamp(38px, min(11.5vw, 9svh), 112px); color: #fff; margin: 4px 0; }
 .hero__line { display: block; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #fff; animation: none; filter: drop-shadow(0 3px 14px rgba(20,60,130,.45)); white-space: nowrap; }
 .hero__weds-row { display: flex; align-items: center; justify-content: center; gap: 14px; width: min(78%, 420px); margin: 4px auto; }
 .hero__weds-row i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.8)); }
@@ -87,7 +87,7 @@
 .hero__sub { color: #fff; text-shadow: 0 1px 10px rgba(20,60,130,.5); }
 .hero__dear { color: rgba(255,255,255,.95); text-shadow: 0 1px 10px rgba(20,60,130,.5); }
 .hero__dear b { color: #fff; }
-.hero__date { color: #fff; text-shadow: 0 2px 12px rgba(20,60,130,.45); font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: .16em; font-size: clamp(18px, 3.4vw, 28px); }
+.hero__date { color: #fff; text-shadow: 0 2px 12px rgba(20,60,130,.45); font-family: var(--font-display); font-weight: 600; letter-spacing: .16em; font-size: clamp(18px, 3.4vw, 28px); }
 .hero__date i { background: rgba(255,255,255,.8); }
 .hero__date em { color: rgba(255,255,255,.92); letter-spacing: .34em; }
 @media (prefers-reduced-motion: reduce) { .hero__clouds .cl { animation: none; } }
@@ -176,7 +176,7 @@
 .hero__cue-arrows i { position: absolute; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-left: 2px solid currentColor; border-top: 2px solid currentColor; rotate: 45deg; border-radius: 1px; opacity: 0; animation: cue-rise 1.8s ease-in-out infinite; filter: drop-shadow(0 1px 4px rgba(20, 60, 130, .45)); }
 .hero__cue-arrows i:last-child { animation-delay: .9s; }
 @keyframes cue-rise { 0% { top: 16px; opacity: 0; } 30% { opacity: 1; } 100% { top: -2px; opacity: 0; } }
-.hero__cue-text { font-family: 'Cinzel', var(--font-display), serif; font-weight: 500; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; }
+.hero__cue-text { font-family: var(--font-label); font-weight: 500; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; }
 .hero__cue-pa { font-size: 13px; opacity: .9; }
 @media (prefers-reduced-motion: reduce) { .hero__cue-arrows i { animation: none; opacity: 1; top: 4px; } .hero__cue-arrows i:last-child { top: 12px; } }
 .hero__cue-in { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
@@ -185,3 +185,15 @@
 .hero .hero__weds, .hero .hero__date em, .hero .hero__date { color: #fff !important; opacity: 1; font-weight: 700; text-shadow: 0 1px 3px rgba(15, 40, 100, .75), 0 2px 14px rgba(15, 40, 100, .7) !important; }
 .hero .hero__weds-row i { background: linear-gradient(90deg, transparent, #fff); }
 .hero .hero__weds-row i:last-child { background: linear-gradient(270deg, transparent, #fff); }
+
+/* the guest's welcome: "Welcome" / GUEST NAME / to the wedding of / HARLEEN & JASRAJ.
+   The name is the big line; a long name ("Sardar Gurpreet Singh ji") shrinks with its length (--len, set in Hero.jsx)
+   and may break onto two balanced lines, so it never runs off the screen. */
+.hero .hero__welcome { margin: 0 0 clamp(4px, 1svh, 10px); font-family: var(--font-label); font-weight: 700; font-size: clamp(12px, 3.2vw, 17px); letter-spacing: .5em; padding-left: .5em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 3px rgba(15, 40, 100, .75), 0 2px 14px rgba(15, 40, 100, .7); }
+.hero .hero__guest { white-space: normal; text-wrap: balance; max-width: 92vw; font-size: min(1em, calc(155vw / var(--len, 10))); line-height: 1.08; }
+@media (min-aspect-ratio: 1/1) { .hero .hero__guest { font-size: min(1em, calc(110vw / var(--len, 10))); } }
+.hero .hero__weds-row { margin-top: clamp(6px, 1.4svh, 14px); }
+.hero .hero__couple { margin: clamp(4px, 1svh, 10px) 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(20px, 6.4vw, 40px); letter-spacing: .1em; text-transform: uppercase; line-height: 1.1; color: #fff; text-shadow: 0 1px 3px rgba(15, 40, 100, .6), 0 3px 16px rgba(20, 60, 130, .55); }
+.hero .hero__amp { font-family: var(--font-serif); font-style: italic; font-weight: 500; text-transform: none; letter-spacing: 0; margin: 0 .1em; }
+.hero .hero__weds-row { width: min(86vw, 520px); }
+.hero .hero__weds { white-space: nowrap; letter-spacing: .22em; font-size: clamp(15px, 4vw, 24px); }

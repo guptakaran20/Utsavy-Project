@@ -1,34 +1,130 @@
 /* Good to Know: the section holds still while you scroll, and each note rises into place in turn on torn paper
    (see TornPaper.css). The Gurmukhi numbers down the left side show which note is on the page. */
 .notes-track { position: relative; z-index: 8; }
-.notes-track > .notes { position: sticky; top: 0; height: 100svh; min-height: 0; justify-content: center; }
+/* the heading sits near the top (just clear of the notch) rather than centred, so it doesn't float low on the page */
+.notes-track > .notes { position: sticky; top: 0; height: 100svh; min-height: 0; justify-content: flex-start; padding-top: calc(env(safe-area-inset-top, 0px) + clamp(80px, 11svh, 120px)); padding-bottom: 0; }
 .notes-track > .notes > * { flex-shrink: 0; }
 
-.notes__stage { position: relative; width: min(100%, 420px); margin: clamp(28px, 5svh, 56px) auto 0; }
+/* the welcome board on its easel is the stage: as wide as the phone allows (a little wider, the trunk's ends may crop),
+   but never so tall that the board slips up behind the heading; it stands on the foot of the held screen */
+.notes__stage { --sw: min(118vw, 480px, calc((100svh - 235px) / 1.185)); position: relative; flex-shrink: 0; align-self: center; width: var(--sw); aspect-ratio: 820 / 1230; margin: auto 0 0; }
+/* the blank face of the board (measured on good-to-know.webp, clear of the roses in its top corners) */
+.notes__board { position: absolute; z-index: 2; left: 26%; top: 17%; width: 48%; height: 36%; display: grid; align-content: center; container-type: inline-size; opacity: 0; transition: opacity .9s ease 1.5s; }
+.notes.is-open .notes__board { opacity: 1; }
 .notes__cards { display: grid; }
 .notes__cards > * { grid-area: 1 / 1; }
 .notes__ghost { visibility: hidden; pointer-events: none; display: grid; }
 .notes__ghost > * { grid-area: 1 / 1; }
 
-.note { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 44px 30px 40px; }
-.note__title { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 19px; letter-spacing: .12em; text-transform: uppercase; color: #7d2742; }
-.note__rule { position: relative; display: block; width: 64px; height: 1px; margin: 14px 0 16px; background: #b98b3e; }
+.note { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 4%; }
+.note__title { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(12px, 7.4cqi, 18px); letter-spacing: .12em; text-transform: uppercase; color: #7d2742; }
+.note__rule { position: relative; display: block; width: 64px; height: 1px; margin: clamp(8px, 5cqi, 14px) 0 clamp(8px, 5.5cqi, 16px); background: #b98b3e; }
 .note__rule::after { content: ''; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; background: #fbefe9; border: 1px solid #b98b3e; transform: translate(-50%, -50%) rotate(45deg); }
-.note__text { margin: 0; max-width: 32ch; font-family: var(--font-serif); font-size: 18px; line-height: 1.55; color: #45292f; text-wrap: pretty; }
+.note__text { margin: 0; max-width: 32ch; font-family: var(--font-serif); font-size: clamp(13px, 7.4cqi, 18px); line-height: 1.5; color: #45292f; text-wrap: pretty; }
 
 /* the rail: a thin gold line with the three numbers on it, beside the card */
-.notes__rail { position: absolute; z-index: 3; top: 50%; left: -46px; translate: 0 -50%; display: flex; flex-direction: column; gap: 22px; margin: 0; padding: 0; list-style: none; }
+.notes__rail { position: absolute; z-index: 3; top: 50%; left: -50px; translate: 0 -50%; display: flex; flex-direction: column; gap: 22px; margin: 0; padding: 0; list-style: none; }
 .notes__rail::before { content: ''; position: absolute; left: 50%; top: 10px; bottom: 10px; width: 1px; background: rgba(185, 139, 62, .6); }
 
 @media (max-width: 760px) {
-  .notes__stage { width: calc(100% - 8px); margin-left: 8px; }
-  .notes__rail { left: -40px; gap: 18px; }
-  .note { padding: 40px 22px 36px; }
-  .note__title { font-size: 16px; }
-  .note__text { font-size: 16px; }
+  .notes__rail { left: -50px; gap: 18px; }
 }
 
 /* the same blush paper and edge flowers as the invitation pages */
 .notes.sky-bg { background-color: #f6dcd8; }
 .notes > :not(.floral-sides) { position: relative; z-index: 2; }
 .notes .floral-sides__head { display: none !important; }
+
+
+/* the welcome doorway as the section's footer, its dome fading up into the page.
+   The art already has a transparent background, so no blend mode: `multiply` here only tinted it pink, and browsers
+   (Safari especially) dropped and re-applied the blend as the held screen let go, so the picture flushed pink mid-scroll. */
+.notes__stage > .notes__scene {
+  position: absolute; inset: 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 9%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 9%);
+}
+.notes__layer { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; filter: saturate(1.08); }
+/* the cut runs just above the welcome table, through the rose bouquets */
+.notes__layer--palki { --cut: 38.5%; }
+.notes__layer--couple { --cut: 61%; }
+
+/* 1 · the doorway rises out of the floor line, uncovered from the bottom up */
+.notes__layer--palki {
+  clip-path: inset(61.5% 0 var(--cut) 0); opacity: 0; transform: translateY(36px) scale(.96); transform-origin: 50% 62%;
+  transition:
+    clip-path 1.6s cubic-bezier(.65, 0, .35, 1) .3s,
+    opacity .7s ease .3s,
+    transform 2s cubic-bezier(.22, 1, .36, 1) .3s;
+}
+.notes.is-open .notes__layer--palki { clip-path: inset(0 0 var(--cut) 0); opacity: 1; transform: none; }
+
+/* 2 · the welcome table settles in front of it, rising a little later and from further down */
+.notes__layer--couple {
+  clip-path: inset(var(--cut) 0 0 0); opacity: 0; transform: translateY(70px);
+  transition: opacity .9s ease 1.3s, transform 1.6s cubic-bezier(.16, 1, .3, 1) 1.3s;
+}
+.notes.is-open .notes__layer--couple { opacity: 1; transform: none; }
+
+/* a warm light inside the doorway that swells once the scene is up, then breathes slowly */
+.notes__glow {
+  position: absolute; inset: 0; mix-blend-mode: screen; opacity: 0; pointer-events: none;
+  background:
+    radial-gradient(22% 12% at 50% 46%, rgba(255, 214, 140, .75), transparent 72%),
+    radial-gradient(30% 10% at 50% 30%, rgba(255, 220, 150, .45), transparent 70%);
+}
+.notes.is-open .notes__glow { animation: notes-glow 5.5s ease-in-out 2s infinite; }
+@keyframes notes-glow { 0%, 100% { opacity: .25; } 50% { opacity: .9; } }
+
+/* gold glints twinkling over the dome and the arch */
+.notes__spark {
+  position: absolute; width: 9px; height: 9px; opacity: 0; translate: -50% -50%; pointer-events: none;
+  background: radial-gradient(circle, #fff8dc 0 18%, rgba(255, 220, 140, .8) 30%, transparent 70%);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+}
+.notes__spark:nth-of-type(1) { left: 50%; top: 8%; }
+.notes__spark:nth-of-type(2) { left: 36%; top: 22%; }
+.notes__spark:nth-of-type(3) { left: 66%; top: 24%; }
+.notes__spark:nth-of-type(4) { left: 23%; top: 52%; }
+.notes__spark:nth-of-type(5) { left: 78%; top: 54%; }
+.notes.is-open .notes__spark { animation: notes-spark 3.6s ease-in-out calc(2.2s + var(--k) * .7s) infinite; }
+@keyframes notes-spark {
+  0%, 60%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); }
+  75% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+}
+
+/* 3 · rose petals drift down over the scene, swaying as they fall */
+.notes__petals { position: absolute; inset: -8% -4% 0; overflow: hidden; pointer-events: none; }
+.notes__petals i {
+  position: absolute; top: -6%; left: var(--x); width: calc(12px * var(--s)); height: calc(9px * var(--s)); opacity: 0;
+  border-radius: 80% 10% 80% 20%;
+  background: radial-gradient(circle at 30% 30%, #e0576b, #b3203a 70%);
+}
+.notes__petals i:nth-child(3n) { background: radial-gradient(circle at 30% 30%, #f7c7cf, #e48a9b 75%); }
+.notes.is-open .notes__petals i { animation: notes-petal var(--t) linear calc(2s + var(--d)) infinite; }
+@keyframes notes-petal {
+  0% { top: -6%; opacity: 0; transform: translateX(0) rotate(0deg); }
+  10% { opacity: .9; }
+  30% { transform: translateX(14px) rotate(var(--r)); }
+  55% { transform: translateX(-10px) rotate(calc(180deg - var(--r))); }
+  80% { transform: translateX(12px) rotate(calc(var(--r) + 300deg)); }
+  90% { opacity: .85; }
+  100% { top: 102%; opacity: 0; transform: translateX(-6px) rotate(420deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notes__layer { transform: none !important; transition: opacity .6s ease; }
+  .notes__layer--palki { clip-path: inset(0 0 var(--cut) 0); }
+  .notes.is-open .notes__petals i { animation: none; }
+  .notes.is-open .notes__glow { animation: none; opacity: .5; }
+  .notes.is-open .notes__spark { animation: none; }
+}
+/* the side flowers give way to the scene at the foot */
+.notes-track .notes .floral-sides {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 88%);
+}
+
+/* the foot of the held screen: the trunk fades into the blush paper beneath a bank of pastel flowers */
+.notes > .notes__fade { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; height: clamp(70px, 12svh, 120px); pointer-events: none; background: linear-gradient(to bottom, rgba(246, 220, 216, 0), #f6dcd8 78%); }
+.notes > .notes__garland { position: absolute; z-index: 4; left: 50%; bottom: -1px; translate: -50% 0; width: max(112%, 440px); max-width: none; height: auto; pointer-events: none; }

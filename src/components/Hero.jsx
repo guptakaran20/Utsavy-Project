@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
+import { LenisContext } from '../lib/smoothScroll'
 import { wedding } from '../data/wedding'
 import { guestName } from '../lib/guest'
 import HeroFX from './HeroFX'
@@ -10,7 +11,9 @@ export default function Hero({ play }) {
   const wrap = useRef(null)
   const root = useRef(null)
   const intro = useRef(null)
+  const lenis = useContext(LenisContext)
   const { bride, groom } = wedding
+  const guest = guestName()
 
   useGSAP(
     () => {
@@ -27,7 +30,9 @@ export default function Hero({ play }) {
           .from('.hero__rule', { scaleX: 0, autoAlpha: 0, duration: 1, stagger: 0.3, ease: 'power2.out' }, 1)
           .from('.hero__line', { autoAlpha: 0, y: 24, letterSpacing: '0.3em', filter: 'blur(10px)', duration: 1.5, stagger: 0.35, ease: 'power3.out' }, 1.05)
           .from('.hero__weds', { autoAlpha: 0, letterSpacing: '0.9em', duration: 1.4, ease: 'power3.out' }, 1.5)
-          .from('.hero__sub, .hero__dear', { y: 16, autoAlpha: 0, stagger: 0.12, duration: 0.8 }, 1.8)
+          .from('.hero__welcome', { y: 10, autoAlpha: 0, letterSpacing: '0.7em', duration: 1.1 }, 0.9)
+          .from('.hero__couple', { y: 16, autoAlpha: 0, filter: 'blur(8px)', duration: 1.2 }, 1.8)
+          .from('.hero__sub', { y: 16, autoAlpha: 0, stagger: 0.12, duration: 0.8 }, 1.8)
           .from('.hero__cue-in', { y: 14, autoAlpha: 0, duration: 0.9 }, 2.6)
 
         // A small airliner crosses the sky along the date line; the date is written in behind its tail as it passes,
@@ -109,6 +114,37 @@ export default function Hero({ play }) {
           .to('.hero__clouds', { yPercent: 20, autoAlpha: 0, duration: 0.6 }, 0.3)
           // the invitation already sits beneath the hero, so the hero lifts away like a curtain: no blank page, no extra scrolling
           .to('.hero', { autoAlpha: 0, ease: 'power1.inOut', duration: 0.12 }, 0.86)
+
+        // A gentle nudge, like a photo sliding up on its own: once the plane scene is over, if the guest just sits
+        // and watches, the page scrolls a little by itself so the gurdwara rises out of the sky behind the names,
+        // then stops and waits. The walk through the door is still the guest's own scroll.
+        // Any wheel, touch or key press hands control straight back.
+        let gliding = false
+        const stopGlide = () => {
+          if (!gliding) return
+          gliding = false
+          lenis.current?.stop() // stop() clears Lenis's running scrollTo animation
+          lenis.current?.start()
+          detach()
+        }
+        const events = ['wheel', 'touchstart', 'keydown', 'pointerdown']
+        const detach = () => events.forEach((e) => window.removeEventListener(e, stopGlide))
+        const glide = () => {
+          const html = document.documentElement
+          if (!lenis.current || window.scrollY > 8 || html.classList.contains('is-locked')) return
+          // 30% of the walk: the gurdwara has risen with its dome behind the names, before the camera heads for the door
+          const target = wrap.current.getBoundingClientRect().top + window.scrollY + 0.3 * window.innerHeight * 2.25
+          gliding = true
+          events.forEach((e) => window.addEventListener(e, stopGlide, { passive: true }))
+          lenis.current.scrollTo(target, {
+            duration: 3.2,
+            easing: (t) => -(Math.cos(Math.PI * t) - 1) / 2, // ease-in-out sine: a slow start, a soft stop
+            onComplete: () => { gliding = false; detach() },
+          })
+        }
+        const nudge = gsap.delayedCall(1.4, glide).pause()
+        intro.current.eventCallback('onComplete', () => nudge.restart(true))
+        return () => { nudge.kill(); stopGlide() }
       })
     },
     { scope: wrap },
@@ -152,15 +188,15 @@ export default function Hero({ play }) {
         <p className="hero__om gurmukhi" aria-hidden="true">{wedding.blessingSymbol}</p>
         <p className="hero__eyebrow">{wedding.blessingEnglish}</p>
         <p className="hero__rule" aria-hidden="true"><i /><b /><i /></p>
+        {/* the guest is greeted by name (from the link, ?guest=…), then whose wedding it is */}
+        <p className="hero__welcome">Welcome</p>
         <h1 className="hero__names">
-          <span className="hero__line">{bride.name}</span>
-          <span className="hero__weds-row" aria-hidden="true"><i /><span className="hero__weds">weds</span><i /></span>
-          <span className="sr-only"> weds </span>
-          <span className="hero__line">{groom.name}</span>
+          <span className="hero__line hero__guest" style={{ '--len': Math.max(10, guest.length) }}>{guest}</span>
         </h1>
+        <p className="hero__weds-row"><i aria-hidden="true" /><span className="hero__weds">to the wedding of</span><i aria-hidden="true" /></p>
+        <p className="hero__couple">{bride.name} <span className="hero__amp">&amp;</span> {groom.name}</p>
         <p className="hero__rule" aria-hidden="true"><i /><b /><i /></p>
         <p className="hero__sub gurmukhi">{bride.nameGurmukhi} ਤੇ {groom.nameGurmukhi} · ਵਿਆਹ ਦੀ ਖੁਸ਼ੀ</p>
-        <p className="hero__dear">Dear <b>{guestName()}</b>, you are invited</p>
         {/* the date is kept a surprise for the countdown's scratch card, so only the city is written here */}
         <p className="hero__date">
           <em>{wedding.city}</em>

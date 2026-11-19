@@ -1,407 +1,112 @@
-.events { --e-bg1: var(--maroon-600); --e-bg2: var(--maroon-900); --e-accent: var(--gold-400); position: relative; overflow: hidden; padding: var(--section-y) var(--gutter); color: var(--ivory); }
-.events--mehndi { --e-bg1: #1f6b50; --e-bg2: #06241d; }
-.events--maiyan { --e-bg1: #c8861b; --e-bg2: #4a2a05; --e-accent: #ffe29a; }
-.events--anand { --e-bg1: #7a1426; --e-bg2: #22050b; }
-.events--reception { --e-bg1: #2b3a69; --e-bg2: #0e1430; }
-.events::before { content: ''; position: absolute; inset: 0; background: inherit; }
-.events__mandala { position: absolute; left: 50%; top: 50%; width: min(1300px, 190vw); translate: -50% -50%; color: var(--gold-200); opacity: .07; pointer-events: none; }
-.events__head { position: relative; text-align: center; }
-.events__eyebrow { margin: 0; color: var(--gold-200); font-size: clamp(20px,2vw,26px); }
-.events__title { margin: 0; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(44px, 7vw, 92px); line-height: 1; }
-.events__tabs { position: relative; display: flex; justify-content: center; gap: 10px; margin: clamp(28px,4vw,48px) auto 0; overflow-x: auto; padding: 4px; max-width: 100%; scrollbar-width: none; }
-.events__tabs::-webkit-scrollbar { display: none; }
-.etab { position: relative; flex: none; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 22px 0 14px; border-radius: 999px; border: 1px solid rgba(243,214,138,.4); background: rgba(0,0,0,.2); color: var(--ivory); cursor: pointer; font-family: var(--font-display); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
-.etab__pill { position: absolute; inset: -1px; border-radius: inherit; background: linear-gradient(180deg,#e2b765,#b8862f); }
-.etab > :not(.etab__pill) { position: relative; }
-.etab.is-on { color: var(--maroon-900); }
-.etab__day { display: flex; flex-direction: column; align-items: center; gap: 3px; font-family: var(--font-serif); font-size: 24px; line-height: 1; font-weight: 600; letter-spacing: 0; }
-.etab__day small { font-family: var(--font-display); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; }
-.events__stage { position: relative; max-width: 1040px; margin: clamp(28px,4vw,52px) auto 0; width: 100%; }
-.ecard { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
-.ecard__arch { width: 100%; filter: drop-shadow(0 30px 40px rgba(0,0,0,.4)); }
-.ecard__art-inner { position: relative; display: grid; place-items: center; width: 100%; height: 100%; align-content: center; padding-top: 14%; }
-.ecard__mandala { position: absolute; width: 150%; color: var(--e-accent); opacity: .22; }
-.ecard__big { position: relative; font-family: var(--font-serif); font-weight: 500; font-size: clamp(90px, 14vw, 170px); line-height: .85; color: var(--gold-200); font-variant-numeric: lining-nums; }
-.ecard__mon { position: relative; font-family: var(--font-display); letter-spacing: .4em; text-transform: uppercase; color: var(--gold-400); margin-right: -.4em; }
-.ecard__pa { margin: 0; color: var(--gold-200); font-size: clamp(20px, 2.2vw, 28px); }
-.ecard__name { margin: 0 0 12px; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(38px, 5.4vw, 68px); line-height: 1; }
-.ecard__desc { margin: 0 0 22px; max-width: 46ch; color: rgba(251,244,230,.88); text-wrap: pretty; }
-.ecard__list { list-style: none; margin: 0 0 28px; padding: 0; display: grid; gap: 14px; }
-.ecard__list li { display: flex; gap: 14px; align-items: flex-start; }
-.ecard__list svg { flex: none; margin-top: 3px; color: var(--gold-400); }
-.ecard__actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.events__cta { position: relative; margin: clamp(32px,5vw,56px) 0 0; text-align: center; }
-.events__cta a { display: inline-flex; gap: 12px; align-items: center; font-family: var(--font-serif); font-style: italic; font-size: clamp(22px, 3vw, 30px); color: var(--gold-200); text-decoration: none; border-bottom: 1px solid var(--gold-500); padding-bottom: 4px; }
-@media (max-width: 760px) {
-  .events { justify-content: flex-start; }
-  .ecard { grid-template-columns: 1fr; text-align: center; justify-items: center; }
-  .ecard__arch { width: min(52vw, 220px); }
-  .ecard__list { text-align: left; } .ecard__desc { margin-inline: auto; }
-  .ecard__actions { justify-content: center; } .ecard__actions .btn { flex: 1 1 100%; }
-  .etab__name { display: none; } .etab { padding: 0 18px; } .events__tabs { justify-content: flex-start; }
+/* The Celebrations: a long sheet of blush paper that the camera travels down, one ceremony per hop (see Events.jsx).
+   Layout and sizes follow the "heart journey" ceremonies page; colours are the invitation's pink and maroon. */
+
+.events-track { position: relative; z-index: 2; margin-top: -2px; }
+
+.cer {
+  --cer-ink: #741e3a; --cer-gold: #a0662a; --cer-text: #2e2621; --cer-ease: cubic-bezier(.16, 1, .3, 1);
+  position: sticky; top: 0; height: 100svh; overflow: hidden; color: var(--cer-text);
+  background-color: #f6dcd8;
 }
+/* the damask paper, on a layer of its own one tile taller than the screen: Events.jsx slides it as the page moves */
+.cer-paper { position: absolute; left: 0; right: 0; top: 0; height: calc(100% + 120px); pointer-events: none; will-change: transform;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.55' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-repeat: repeat; background-position: 0 var(--paper-y, 0); }
+.cer::before { z-index: 1; }
+/* a soft blush wash over the damask, so the illustrations and text read cleanly */
+.cer::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 80% 60% at 50% 45%, rgba(251, 236, 233, .72), rgba(246, 220, 216, .2) 70%, rgba(246, 220, 216, 0)); }
 
-/* parchment scroll on brass rollers; changing day rolls it up and unrolls the next */
-.events__stage { z-index: 2; }
-.escroll { position: relative; width: min(100%, 440px); margin: 0 auto; display: flex; flex-direction: column; align-items: stretch; }
-.escroll__roller { position: relative; z-index: 2; height: 38px; margin: 0 -22px; border-radius: 19px; background: linear-gradient(180deg, #f3e2b4 0, #d9bd7c 38%, #b8975a 70%, #7a5a2a 100%); box-shadow: 0 8px 14px rgba(0,0,0,.4); }
-.escroll__roller::before, .escroll__roller::after { content: ''; position: absolute; top: -4px; bottom: -4px; width: 40px; border-radius: 14px; background: repeating-linear-gradient(135deg, #f6d37a 0 5px, #b0731d 5px 10px); box-shadow: inset 0 0 0 2px #7a4d10, 0 4px 8px rgba(0,0,0,.4); }
-.escroll__roller::before { left: -6px; } .escroll__roller::after { right: -6px; }
-.escroll__paper { position: relative; overflow: hidden; margin: 0 6px; color: #5a3a22; background-color: #f3e5c1;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .35 0 0 0 0 .15 0 0 0 .3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), radial-gradient(ellipse at 20% 10%, rgba(180,130,60,.22), transparent 40%), radial-gradient(ellipse at 85% 70%, rgba(150,100,40,.2), transparent 45%), linear-gradient(90deg, rgba(120,80,30,.35), transparent 8%, transparent 92%, rgba(120,80,30,.35));
-  box-shadow: inset 0 0 0 2px #c9a24d, inset 0 0 0 7px #f3e5c1, inset 0 0 0 8px #c9a24d; }
-.escroll__inner { padding: 34px 26px 28px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-.escroll .ecard__pa { color: #a8762a; margin: 0; }
-.escroll .ecard__name { margin: 4px 0 6px; font-family: var(--font-display); font-style: normal; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: clamp(26px, 6vw, 34px); color: #7a4a30; text-wrap: balance; }
-.escroll .florals--lotus { margin: 4px auto 10px; }
-.escroll__date { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: .14em; font-size: 17px; color: #7a4a30; }
-.escroll__time { margin: 2px 0 10px; font-style: italic; color: #8a6a4a; }
-.escroll .ecard__desc { margin: 0 0 14px; color: #5a3a22; }
-.escroll__venue, .escroll__attire { display: flex; gap: 10px; align-items: flex-start; justify-content: center; margin: 4px 0; text-align: left; font-size: .95em; }
-.escroll__venue svg, .escroll__attire svg { flex: none; margin-top: 3px; color: #a8762a; }
-.escroll .ecard__actions { justify-content: center; margin-top: 18px; }
-.escroll__btn { min-height: 44px; padding: 0 20px; font-size: 12px; border-color: #a8762a; }
-.escroll__btn--ghost { background: transparent; color: #7a4a30; border-color: #7a4a30; box-shadow: none; }
-.escroll__btn--ghost:hover { background: rgba(122,74,48,.08); }
-.events .corner--tl, .events .corner--tr, .events .corner--bl, .events .corner--br { z-index: 1; opacity: .96; }
-@media (max-width: 760px) { .events .florals--corner { width: 34vw; } .escroll { width: min(100%, 360px); } }
+/* one phone-width column of paper, centred on wide screens */
+.cer-viewport { position: relative; width: min(100%, 480px); height: 100%; margin: 0 auto; }
+.cer-page { position: relative; width: 100%; padding-bottom: 12rem; will-change: transform; }
+/* the marble terrace and its pavilions: the foot of the page, arriving with the last ceremony (positioned in Events.jsx) */
+.cer-terrace { position: absolute; left: 50%; bottom: 0; z-index: 3; width: min(122%, 900px); pointer-events: none; transform: translate3d(-50%, 100vh, 0); will-change: transform; }
+/* drawn a little larger than the screen is wide, so the pavilions sit higher while the picture's own marble floor and
+   reflections still run right down to the screen's foot (the outer edges of the side pavilions fall just off screen) */
+.cer-terrace img { display: block; width: 100%; height: auto; filter: saturate(1.08); }
+.cer-viewport { z-index: 4; }
 
-/* phone: the whole pinned page (title, days, scroll) fits one screen, clear of the floating buttons */
-@media (max-width: 760px) {
-  .events.chap { min-height: 100svh; padding: 44px var(--gutter) 88px; justify-content: flex-start; }
-  .events__title { font-size: 40px; }
-  .events__tabs { margin-top: 16px; justify-content: center; }
-  .events__stage { margin-top: 20px; }
-  .escroll__roller { height: 30px; }
-  .escroll__inner { padding: 22px 20px 18px; }
-  .escroll .ecard__desc { margin-bottom: 8px; font-size: 15px; }
-  .escroll .florals--lotus { transform: scale(.8); margin: 0 auto 4px; }
-  .escroll .ecard__actions { margin-top: 12px; gap: 8px; }
-  .escroll__btn { min-height: 40px; }
-  .events__cta { display: none; }
+.cer-decor { position: absolute; top: 0; left: 0; z-index: 5; display: block; width: 100%; height: auto; pointer-events: none; opacity: .98; filter: drop-shadow(0 3px 6px rgba(180, 140, 60, .12)); }
+.cer-trail { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 12; pointer-events: none; overflow: visible; }
+.cer-trail path { fill: none; stroke: rgba(168, 92, 75, .78); stroke-width: 1.6; stroke-dasharray: 4 4; stroke-linecap: round; }
+
+.cer-head { position: relative; z-index: 10; height: 160px; padding-bottom: .5rem; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+.cer-eyebrow { margin: 0; color: #b8862f; font-size: 15px; font-weight: 600; }
+.cer-title { margin: 0; font-family: var(--font-script); font-weight: 400; font-size: clamp(38px, 9.2vw, 46px); line-height: 1.1; color: var(--cer-ink); text-shadow: 0 1px 2px rgba(255, 255, 255, .7); }
+
+/* one ceremony */
+.cer-row { position: relative; width: 100%; height: 400px; }
+.cer-details { position: absolute; top: 50%; z-index: 15; display: flex; flex-direction: column; align-items: flex-start; text-align: left; transform: translateY(-50%); }
+.cer-details--left { left: 4%; width: 48%; }
+.cer-details--right { right: 2.5%; width: 46%; }
+.cer-pa { margin: 0 0 2px; color: #b8862f; font-size: 13px; }
+.cer-name { margin: 0 0 .55rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.05rem, 3.8vw, 1.3rem); line-height: 1.15; letter-spacing: .12em; text-transform: uppercase; color: #3d1424; }
+.cer-info { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .38rem; width: 100%; }
+.cer-info li { display: flex; align-items: flex-start; gap: .45rem; font-size: clamp(.74rem, 2.2vw, .8rem); line-height: 1.35; color: var(--cer-text); }
+.cer-info svg { flex: none; width: 13px; height: 13px; margin-top: 1.5px; color: var(--cer-gold); }
+.cer-strong { font-weight: 600; letter-spacing: .04em; color: #2b1e1a; }
+.cer-info strong { display: block; font-weight: 700; letter-spacing: .04em; color: #2b1e1a; }
+.cer-info small { display: block; font-family: var(--font-serif); font-style: italic; font-size: .78rem; color: #66554b; }
+.cer-dress { font-family: var(--font-serif); font-style: italic; font-weight: 600; font-size: clamp(.84rem, 2.5vw, .92rem); color: var(--cer-gold); }
+.cer-actions { display: flex; flex-direction: column; align-items: flex-start; gap: .45rem; margin-top: .65rem; }
+.cer-link { font-family: var(--font-label); display: inline-flex; align-items: center; gap: .25rem; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--cer-gold); text-decoration: none; transition: color .2s, transform .2s; }
+.cer-link svg { width: 12px; height: 12px; }
+.cer-link:hover { color: var(--cer-ink); transform: translateX(2px); }
+.cer-cal { font-family: var(--font-label); display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .75rem; border: 1px solid rgba(160, 102, 42, .45); border-radius: 999px; background: rgba(255, 255, 255, .85); box-shadow: 0 2px 8px rgba(160, 102, 42, .08); font: inherit; font-size: .65rem; font-weight: 700; letter-spacing: .09em; color: var(--cer-gold); cursor: pointer; transition: .25s; }
+.cer-cal svg { width: 12px; height: 12px; }
+.cer-cal:hover { color: #fff; background: var(--cer-gold); border-color: var(--cer-gold); box-shadow: 0 4px 12px rgba(160, 102, 42, .25); }
+
+/* the illustration, on the side away from the details */
+.cer-media { position: absolute; top: 50%; z-index: 10; height: 100%; pointer-events: none; transform: translateY(-50%); }
+.cer-media--right { right: 0; width: 44%; }
+.cer-media--left { left: 0; width: 36%; }
+.cer-art { position: absolute; top: 50%; z-index: 5; display: flex; justify-content: center; align-items: center; transform: translateY(-50%); }
+.cer-media--right .cer-art { right: -3%; width: clamp(125px, 36vw, 165px); }
+.cer-media--left .cer-art { left: -4%; width: clamp(104px, 28vw, 130px); }
+.cer-img { position: relative; z-index: 2; display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 16px rgba(70, 45, 30, .12)); }
+
+/* where the heart lands: a numbered badge, ripples and a dot on a little stem */
+.cer-marker { position: absolute; top: 50%; z-index: 8; display: flex; flex-direction: column; align-items: center; pointer-events: none; transform: translate(-50%, -50%); }
+.cer-marker--right { left: 72%; }
+.cer-marker--left { left: 25%; }
+.cer-badge { margin-bottom: 2px; white-space: nowrap; font-family: var(--font-label); font-weight: 700; font-size: .74rem; letter-spacing: .16em; color: var(--cer-gold); text-shadow: 0 1px 2px rgba(255, 255, 255, .8); }
+.cer-ripple { position: relative; display: grid; place-items: center; width: 140px; height: 60px; }
+.cer-ripple > svg:first-child { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.cer-ripple ellipse { fill: none; stroke: rgba(244, 114, 182, .55); stroke-width: 1; }
+.cer-ripple ellipse:nth-child(2) { stroke: rgba(244, 114, 182, .7); }
+.cer-ripple ellipse:nth-child(3) { stroke: rgba(236, 72, 153, .8); }
+.cer-dot { position: relative; z-index: 2; width: 10px; height: 10px; border-radius: 50%; background: #f9a8c4; box-shadow: 0 0 8px rgba(236, 72, 153, .5); }
+.cer-stem { position: absolute; top: 60%; left: 50%; width: 14px; height: 32px; opacity: .75; transform: translateX(-50%); }
+.cer-stem path { fill: none; stroke: #4d6849; stroke-width: 1.2; stroke-linecap: round; }
+
+.cer-flourish { position: absolute; bottom: 8px; left: 50%; display: flex; align-items: center; gap: .5rem; font-size: .85rem; color: rgba(180, 140, 60, .45); pointer-events: none; transform: translateX(-50%); }
+.cer-flourish::before, .cer-flourish::after { content: ''; width: 26px; height: 1px; background: linear-gradient(90deg, transparent, rgba(180, 140, 60, .35)); }
+.cer-flourish::after { background: linear-gradient(270deg, transparent, rgba(180, 140, 60, .35)); }
+
+.cer-cta { position: relative; z-index: 16; margin: -2.5rem 0 0; text-align: center; }
+.cer-cta a { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 10px; align-items: center; font-family: var(--font-serif); font-style: italic; font-size: 22px; color: var(--cer-ink); text-decoration: none; border-bottom: 1px solid rgba(116, 30, 58, .4); padding-bottom: 4px; }
+.cer-cta .gurmukhi { font-style: normal; color: #b8862f; }
+
+/* the travelling heart: rides at one height on screen while the page scrolls beneath it */
+.cer-heart { position: absolute; left: 0; top: 0; z-index: 18; width: 26px; height: 26px; margin: -13px 0 0 -13px; display: grid; place-items: center; pointer-events: none; opacity: 0; will-change: transform; }
+.cer-heart svg { width: 100%; height: 100%; fill: #ec5f86; stroke: #b0284f; stroke-width: 1; filter: drop-shadow(0 2px 6px rgba(176, 40, 79, .35)); }
+
+/* reveals: the header blooms in when the section is first reached; each ceremony opens up as the heart arrives */
+.cer-decor, .cer-head { opacity: 0; transition: opacity 1.2s ease .3s, transform 1.6s var(--cer-ease) .3s; }
+.cer-head { transform: translateY(10px); }
+.cer.is-open .cer-decor, .cer.is-open .cer-head { opacity: 1; transform: none; }
+.cer-art { opacity: 0; filter: blur(8px); scale: .95; transition: opacity 1.2s ease, scale 1.7s var(--cer-ease), filter 1.3s ease; }
+.cer-name, .cer-pa { opacity: 0; letter-spacing: .5em; filter: blur(3px); transition: opacity .9s ease .2s, letter-spacing 1.7s var(--cer-ease) .2s, filter 1s ease .2s; }
+.cer-pa { letter-spacing: normal; }
+.cer-info li, .cer-actions { opacity: 0; translate: 0 14px; transition: opacity 1s ease, translate 1.2s var(--cer-ease); }
+.cer-info li { transition-delay: calc(.45s + var(--i, 0) * .12s); }
+.cer-actions { transition-delay: 1s; }
+.cer-flourish span { display: inline-block; opacity: 0; scale: .3; transition: opacity .8s ease 1.2s, scale 1s var(--cer-ease) 1.2s; }
+.is-reached .cer-art { opacity: 1; filter: none; scale: 1; }
+.is-reached .cer-name { opacity: 1; letter-spacing: .12em; filter: none; }
+.is-reached .cer-pa { opacity: 1; filter: none; }
+.is-reached .cer-info li, .is-reached .cer-actions { opacity: 1; translate: 0 0; }
+.is-reached .cer-flourish span { opacity: 1; scale: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cer *, .cer *::before, .cer *::after { transition-duration: .01ms !important; animation: none !important; }
 }
-@media (max-width: 760px) {
-  .events.chap { padding-top: 28px; padding-bottom: 80px; }
-  .events__title { font-size: 36px; }
-  .events__tabs { margin-top: 10px; }
-  .events__stage { margin-top: 14px; }
-  .etab { min-height: 50px; }
-  .escroll .florals--lotus { display: none; }
-  .escroll__inner { padding: 16px 18px 14px; }
-  .escroll .ecard__name { font-size: 24px; margin: 2px 0 4px; }
-  .escroll__date { font-size: 15px; }
-  .escroll__time { margin-bottom: 6px; }
-  .escroll .ecard__desc { font-size: 14px; line-height: 1.4; }
-  .escroll__venue, .escroll__attire { font-size: 14px; margin: 2px 0; }
-  .escroll .ecard__actions { margin-top: 10px; }
-  .escroll__btn { min-height: 38px; }
-}
-
-/* phone: let the card grow to fill whatever height the screen has left */
-@media (max-width: 760px) {
-  .escroll__inner { min-height: calc(100svh - 350px); justify-content: center; }
-}
-@media (max-width: 760px) and (min-height: 820px) {
-  .escroll .florals--lotus { display: block; }
-  .escroll__inner { padding: 24px 20px 22px; min-height: calc(100svh - 370px); }
-  .escroll .ecard__name { font-size: 30px; margin: 4px 0 6px; }
-  .escroll__date { font-size: 17px; }
-  .escroll .ecard__desc { font-size: 16px; line-height: 1.5; margin-bottom: 14px; }
-  .escroll__venue, .escroll__attire { font-size: 16px; margin: 5px 0; }
-  .escroll .ecard__actions { margin-top: 18px; gap: 10px; }
-  .escroll__btn { min-height: 44px; }
-}
-
-/* blush paper and flowers like the invitation pages, whatever the day */
-.events.sky-bg { color: #5a1424; background-color: #f6dcd8; }
-.events.sky-bg::before { display: none; }
-.events.sky-bg > :not(.floral-sides) { position: relative; z-index: 2; }
-.events.sky-bg > .events__mandala.events__mandala { position: absolute; color: #b8862f; opacity: .12; z-index: 1; }
-.events.sky-bg .events__eyebrow { color: #b8862f; }
-.events.sky-bg .etab { color: #5a1424; background: rgba(255,253,248,.6); border-color: rgba(184,134,47,.7); }
-.events.sky-bg .etab.is-on { color: var(--maroon-900); }
-.events.sky-bg .escroll__roller, .events.sky-bg .escroll__paper { box-shadow: 0 10px 20px rgba(90,20,30,.28); }
-.events.sky-bg .escroll__paper { box-shadow: inset 0 0 0 2px #c9a24d, inset 0 0 0 7px #f3e5c1, inset 0 0 0 8px #c9a24d, 0 10px 20px rgba(90,20,30,.2); }
-.events .floral-sides__head { display: none; }
-.events .floral-sides > img.floral-sides__head { display: none !important; }
-
-/* the stage reserves the tallest day's height (see EventBody) so nothing below or around it moves while pinned */
-.events__stage { display: grid; }
-.events__stage > .escroll { grid-area: 1 / 1; align-self: start; }
-.escroll--ghost { visibility: hidden; pointer-events: none; }
-.escroll__ghostpaper { display: grid; }
-.escroll__ghostpaper > * { grid-area: 1 / 1; }
-
-/* the call-to-action sits at the foot of the pinned section: always visible, and no big empty gap before the next band */
-.events { padding-bottom: clamp(40px, 6vw, 88px); }
-
-/* sticky hold: the section sticks at the top, or, when taller than the screen, with its bottom at the screen's bottom */
-.events-track { position: relative; z-index: 2; }
-.events-track > .events { position: sticky; top: 0; height: 100svh; min-height: 0; justify-content: flex-start; padding-block: clamp(14px, 3svh, 32px); }
-
-/* the call-to-action sits on the pink sky, so it needs dark ink (the pale gold was made for the old maroon background) */
-.events__cta a { color: var(--maroon-700); border-bottom-color: var(--maroon-600); }
-.events__cta a .gurmukhi { color: var(--maroon-600); font-style: normal; }
-.events__cta a:hover { color: var(--maroon-900); }
-
-.events .floral-sides--section { -webkit-mask-image: none; mask-image: none; z-index: 0; }
-
-/* one screen: nothing in the held section may squash (the tab row was being clipped), and on wide screens it is laid out
-   compactly with a wider scroll, so all four days sit comfortably on screen at full size */
-.events-track > .events > * { flex-shrink: 0; }
-.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16%); mask-image: linear-gradient(to bottom, transparent 0, #000 16%); }
-@media (min-width: 900px) {
-  /* wide screens: heading, day list and link on the left, the scroll on the right: nothing needs to shrink to fit the height */
-  .events-track > .events { display: grid; grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1fr); grid-template-rows: auto auto auto; grid-template-areas: "head stage" "tabs stage" "cta stage"; align-content: center; column-gap: clamp(28px, 5vw, 80px); padding-inline: max(var(--gutter), 14vw); }
-  .events-track .events__head { grid-area: head; text-align: left; }
-  .events-track .events__title { font-size: clamp(36px, 4.4vw, 64px); }
-  .events-track .events__eyebrow { font-size: clamp(16px, 1.5vw, 22px); }
-  .events-track .events__tabs { grid-area: tabs; flex-direction: column; align-items: stretch; justify-content: flex-start; overflow: visible; gap: 10px; margin: clamp(16px, 3svh, 32px) 0 0; padding: 4px; }
-  .events-track .etab { width: 100%; }
-  .events-track .events__stage { grid-area: stage; align-self: center; margin: 0; }
-  .events-track .events__cta { grid-area: cta; text-align: left; margin-top: clamp(16px, 3svh, 32px); }
-  .events-track .escroll { width: min(100%, 560px); }
-}
-@media (min-width: 900px) {
-  .events-track > .events { padding-inline: max(var(--gutter), 17vw); }
-  .events-track .events__cta a { font-size: clamp(18px, 1.8vw, 24px); flex-wrap: wrap; }
-}
-
-@media (min-width: 900px) {
-  .events-track > .events { grid-template-columns: minmax(300px, 440px) minmax(0, 1fr); column-gap: clamp(32px, 6vw, 120px); padding-inline: max(var(--gutter), 18vw); }
-  .events-track .events__tabs { max-width: 440px; }
-  .events-track .events__cta { max-width: 440px; }
-  .events-track .escroll { width: min(100%, 600px); margin-inline: auto; }
-}
-
-/* the big mandala watermarks fade out toward their rim instead of being sliced off at the section edge, which drew a
-   straight line across the page where the countdown meets the celebrations */
-.events__mandala, .countdown__mandala { -webkit-mask-image: radial-gradient(closest-side, #000 15%, transparent 58%); mask-image: radial-gradient(closest-side, #000 15%, transparent 58%); }
-
-/* overlap the sheet above by a hair so no sliver of the page behind can show between the two papers */
-.events-track { margin-top: -2px; }
-
-/* the new paper melts into the sheet above over its last stretch (same paper, same pattern), hiding the old edge completely */
-.events__fade { position: absolute; left: 0; right: 0; top: -110px; height: 112px; z-index: 3; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 90%); mask-image: linear-gradient(to bottom, transparent, #000 90%); }
-.events-track > .events { padding-top: clamp(48px, 9svh, 110px); padding-bottom: clamp(20px, 3.5svh, 44px); }
-
-/* no hazy half-faded flowers at the seam: a clean strip of plain paper, then the flowers begin crisply */
-.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 90px, #000 150px); mask-image: linear-gradient(to bottom, transparent 0, transparent 90px, #000 150px); }
-
-/* seam: no overlay wash, a short crisp fade, and flowers that start right away: less haze and less empty paper */
-.events__fade { display: none; }
-.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px); mask-image: linear-gradient(to bottom, transparent 0, #000 70px); }
-.events-track > .events { padding-top: clamp(36px, 7svh, 84px); }
-@media (min-width: 900px) { .events-track .events__head { margin-top: clamp(28px, 7svh, 80px); } }
-
-/* the heading often lands on the edge flowers: a soft blush wash behind it, and a deeper gold for the small label */
-.events-track .events__head { isolation: isolate; }
-.events-track .events__head::before { content: ''; position: absolute; z-index: -1; inset: -34px -70px -26px -50px; pointer-events: none; background: radial-gradient(ellipse 60% 62% at 50% 52%, rgba(246, 220, 216, .97) 42%, rgba(246, 220, 216, .75) 68%, rgba(246, 220, 216, 0) 100%); }
-.events.sky-bg .events__eyebrow { color: #8f5f12; font-weight: 600; }
-
-
-
-/* the flowers dissolve at the foot of this page so the next page can begin with no hard seam */
-.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); }
-.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 340px), transparent calc(100% - 120px)); mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 340px), transparent calc(100% - 120px)); }
-
-.events .floral-sides--section { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 70px, #000 calc(100% - 220px), transparent 100%); }
-
-/* Chrome: a masked, flipped flower layer on a pinned page can leave a pale rectangular tile while scrolling.
-   So the layer carries no mask here; plain paper-coloured gradients fade the flowers at the top and foot instead. */
-.events .floral-sides--section { -webkit-mask-image: none !important; mask-image: none !important; transform: none; backface-visibility: visible; will-change: auto; }
-.events .floral-sides--section span { backface-visibility: visible; }
-.events.sky-bg::before { content: ''; display: block; position: absolute; left: 0; right: 0; top: 0; height: 90px; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, #f6dcd8, rgba(246, 220, 216, 0)); }
-.events.sky-bg::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 240px; z-index: 1; pointer-events: none; background: linear-gradient(to top, #f6dcd8 10%, rgba(246, 220, 216, 0)); }
-
-/* ===== The scroll, in the invitation's own language: ivory paper, a thin gold outline with a dotted keyline, rose-silk rods
-   with gold finials, rose script titles and a phulkari hem. 3D: round rods float in front of the paper and the whole thing tilts. ===== */
-.events.sky-bg .events__stage { perspective: 1400px; }
-.events.sky-bg .escroll:not(.escroll--ghost) { transform-style: preserve-3d; will-change: transform; }
-
-/* rose-silk rod with gold bands near each end */
-.events.sky-bg .escroll__roller {
-  height: 40px; margin: 0 -28px; border-radius: 20px; transform: translateZ(22px);
-  background:
-    linear-gradient(90deg, transparent 0 34px, #e9c777 34px 37px, #b98b3e 37px 39px, transparent 39px calc(100% - 39px), #b98b3e calc(100% - 39px) calc(100% - 37px), #e9c777 calc(100% - 37px) calc(100% - 34px), transparent calc(100% - 34px)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, .1) 0 1px, transparent 1px 4px),
-    linear-gradient(180deg, #5c1830 0, #a63f5b 10%, #e58aa1 22%, #fbd0da 30%, #cf5877 46%, #a03455 68%, #6c1f3b 90%, #451126 100%);
-  box-shadow: 0 16px 22px -8px rgba(125, 39, 66, .55), inset 0 1px 1px rgba(255, 235, 240, .8), inset 0 -2px 3px rgba(60, 10, 30, .5);
-}
-/* gold ball finials */
-.events.sky-bg .escroll__roller::before, .events.sky-bg .escroll__roller::after {
-  top: -9px; bottom: -9px; width: 50px; border-radius: 50%;
-  background:
-    radial-gradient(ellipse 30% 24% at 34% 26%, rgba(255, 255, 245, .95), rgba(255, 255, 245, 0)),
-    radial-gradient(ellipse at 40% 32%, #fbe7a6 0, #e6bd62 34%, #b98b3e 66%, #6a4712 100%);
-  box-shadow: 0 10px 14px rgba(90, 30, 40, .4), inset 0 0 0 1.5px rgba(120, 80, 20, .5);
-}
-.events.sky-bg .escroll__roller::before { left: -12px; }
-.events.sky-bg .escroll__roller::after { right: -12px; }
-
-/* ivory card paper, gold outline, soft rose depth; it curves away under the rods */
-.events.sky-bg .escroll__paper {
-  margin: 0 10px; color: #45292f;
-  background: radial-gradient(ellipse at 20% 0, rgba(246, 220, 216, .55), transparent 55%), radial-gradient(ellipse at 90% 100%, rgba(246, 220, 216, .45), transparent 55%), linear-gradient(180deg, #fffefb, #fbf3ea);
-  box-shadow: inset 0 0 0 1px #b98b3e, inset 18px 0 24px -20px rgba(125, 39, 66, .3), inset -18px 0 24px -20px rgba(125, 39, 66, .3), 0 22px 30px -12px rgba(125, 39, 66, .4);
-}
-.events.sky-bg .escroll__paper::before, .events.sky-bg .escroll__paper::after { content: ''; position: absolute; left: 0; right: 0; height: 40px; z-index: 3; pointer-events: none; }
-.events.sky-bg .escroll__paper::before { top: 0; background: linear-gradient(180deg, rgba(125, 39, 66, .3), rgba(125, 39, 66, .08) 45%, rgba(125, 39, 66, 0)); }
-.events.sky-bg .escroll__paper::after { bottom: 0; background: linear-gradient(0deg, rgba(125, 39, 66, .3), rgba(125, 39, 66, .08) 45%, rgba(125, 39, 66, 0)); }
-
-.events.sky-bg .escroll__inner { position: relative; z-index: 1; padding: 44px 34px 46px; }
-/* dotted gold keyline inside the outline, and a phulkari diamond hem along the foot */
-.events.sky-bg .escroll__inner::before { content: ''; position: absolute; inset: 12px; border: 1px dotted rgba(185, 139, 62, .85); pointer-events: none; }
-.events.sky-bg .escroll__inner::after { content: ''; position: absolute; left: 26px; right: 26px; bottom: 20px; height: 8px; pointer-events: none; opacity: .75;
-  background: linear-gradient(135deg, transparent 42%, #b98b3e 42% 58%, transparent 58%) 0 0 / 8px 8px, linear-gradient(45deg, transparent 42%, #a63f5b 42% 58%, transparent 58%) 0 0 / 8px 8px; }
-
-.events.sky-bg .escroll .ecard__pa { color: #b98b3e; font-size: 20px; }
-.events.sky-bg .escroll .ecard__name { margin: 2px 0 4px; font-family: var(--font-script); font-weight: 400; letter-spacing: 0; text-transform: none; font-size: clamp(44px, 11vw, 62px); line-height: 1.02; color: #a63f5b; text-shadow: 0 1px 0 #fff, 0 3px 6px rgba(125, 39, 66, .18); }
-.events.sky-bg .escroll__date { font-family: var(--font-display); font-weight: 500; letter-spacing: .2em; font-size: 14px; text-transform: uppercase; color: #7d2742; }
-.events.sky-bg .escroll__time { margin: 4px 0 12px; font-style: italic; font-size: 1.1em; color: #74535a; }
-.events.sky-bg .escroll .ecard__desc { color: #45292f; font-style: italic; font-size: 1.08em; line-height: 1.45; }
-.events.sky-bg .escroll__venue, .events.sky-bg .escroll__attire { color: #45292f; }
-.events.sky-bg .escroll__venue strong { font-weight: 600; color: #7d2742; font-family: var(--font-display); font-size: .86em; letter-spacing: .1em; text-transform: uppercase; }
-.events.sky-bg .escroll__venue svg, .events.sky-bg .escroll__attire svg { color: #b98b3e; }
-.events.sky-bg .escroll__attire { color: #5d7852; font-style: italic; }
-.events.sky-bg .escroll .escroll__btn { border: 1px solid #b98b3e; color: #fff; background: linear-gradient(180deg, #b84b69, #7d2742); box-shadow: 0 8px 14px rgba(125, 39, 66, .35), inset 0 1px 0 rgba(255, 220, 230, .4); letter-spacing: .16em; }
-.events.sky-bg .escroll .escroll__btn--ghost { background: transparent; color: #7d2742; border-color: #a63f5b; box-shadow: none; }
-.events.sky-bg .escroll .escroll__btn--ghost:hover { background: rgba(166, 63, 91, .08); }
-
-/* pearl-and-rose tassels hanging from the foot rod */
-.events.sky-bg .escroll:not(.escroll--ghost)::before, .events.sky-bg .escroll:not(.escroll--ghost)::after {
-  content: ''; position: absolute; bottom: -64px; width: 18px; height: 66px; z-index: 3; transform: translateZ(18px); transform-origin: 50% 0; animation: tassel 4.6s ease-in-out infinite;
-  background:
-    radial-gradient(circle at 50% 7px, #f4dd96 0 4.5px, #b98b3e 5px, transparent 5.6px),
-    radial-gradient(circle at 50% 19px, #fff 0 4px, #e7d4c6 5px, transparent 5.6px),
-    linear-gradient(90deg, transparent 0 5px, #c4506d 5px 13px, transparent 13px) 0 26px / 100% 10px no-repeat,
-    repeating-linear-gradient(90deg, #d9657f 0 2px, #9a3150 2px 3px) 0 36px / 100% 30px no-repeat;
-  -webkit-mask: linear-gradient(#000, #000) top / 100% 38px no-repeat, linear-gradient(#000 60%, transparent) bottom / 100% 28px no-repeat;
-  mask: linear-gradient(#000, #000) top / 100% 38px no-repeat, linear-gradient(#000 60%, transparent) bottom / 100% 28px no-repeat;
-}
-.events.sky-bg .escroll:not(.escroll--ghost)::before { left: 6px; }
-.events.sky-bg .escroll:not(.escroll--ghost)::after { right: 6px; animation-delay: -2.3s; }
-@keyframes tassel { 0%, 100% { rotate: 2.5deg; } 50% { rotate: -2.5deg; } }
-
-@media (max-width: 760px) {
-  .events.sky-bg .escroll:not(.escroll--ghost)::before, .events.sky-bg .escroll:not(.escroll--ghost)::after { display: none; }
-  .events.sky-bg .escroll__roller { height: 30px; margin: 0 -20px; }
-  .events.sky-bg .escroll__roller::before, .events.sky-bg .escroll__roller::after { width: 40px; top: -8px; bottom: -8px; }
-  .events.sky-bg .escroll__roller { background-size: auto; }
-  .events.sky-bg .escroll__inner { padding: 26px 22px 34px; }
-  .events.sky-bg .escroll__inner::before { inset: 8px; }
-  .events.sky-bg .escroll__inner::after { bottom: 14px; left: 20px; right: 20px; }
-  .events.sky-bg .escroll .ecard__name { font-size: 38px; }
-  .events.sky-bg .escroll .ecard__pa { font-size: 17px; }
-  .events.sky-bg .escroll__date { font-size: 12.5px; }
-}
-@media (prefers-reduced-motion: reduce) { .events.sky-bg .escroll::before, .events.sky-bg .escroll::after { animation: none; } }
-
-/* ===== Phulkari dupatta: the day's details sit on an ivory patch sewn onto a dupatta of that ceremony's colour, hanging
-   from a slim gold bar. A bagh border of golden-silk diamonds stitches itself in row by row; a thread fringe hangs below. ===== */
-.events .escroll--dupatta::before, .events .escroll--dupatta::after { display: none !important; }
-.events .escroll--dupatta { --bagh: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 1.5 22.5 12 12 22.5 1.5 12Z' fill='none' stroke='%23f3cf6e' stroke-width='1.3' stroke-dasharray='2.2 1.1'/%3E%3Cpath d='M12 6 18 12 12 18 6 12Z' fill='%23fff1d6' fill-opacity='.92'/%3E%3Cpath d='M8.6 10.4h6.8M7.2 12h9.6M8.6 13.6h6.8' stroke='%23c94f72' stroke-width='.75'/%3E%3Cpath d='M12 9.6 14.4 12 12 14.4 9.6 12Z' fill='%23e8a13a'/%3E%3Ccircle cx='0' cy='0' r='1.3' fill='%23f3cf6e'/%3E%3Ccircle cx='24' cy='0' r='1.3' fill='%23f3cf6e'/%3E%3Ccircle cx='0' cy='24' r='1.3' fill='%23f3cf6e'/%3E%3Ccircle cx='24' cy='24' r='1.3' fill='%23f3cf6e'/%3E%3C/svg%3E"); }
-
-/* the slim gold bar with ball finials */
-.events .escroll--dupatta .dupatta__bar { position: relative; z-index: 4; height: 10px; margin: 0 -14px; border-radius: 5px;
-  background: linear-gradient(180deg, #fbe7a6 0, #e6bd62 38%, #b98b3e 70%, #6a4712 100%);
-  box-shadow: 0 7px 10px -3px rgba(90, 30, 40, .5), inset 0 1px 0 rgba(255, 250, 230, .8); transform: translateZ(18px); }
-.events .escroll--dupatta .dupatta__bar::before, .events .escroll--dupatta .dupatta__bar::after { content: ''; position: absolute; top: -6px; width: 22px; height: 22px; border-radius: 50%;
-  background: radial-gradient(ellipse 34% 28% at 36% 30%, rgba(255, 255, 245, .95), rgba(255, 255, 245, 0)), radial-gradient(circle at 40% 34%, #fbe7a6 0, #e6bd62 34%, #b98b3e 66%, #6a4712 100%);
-  box-shadow: 0 5px 8px rgba(90, 30, 40, .4); }
-.events .escroll--dupatta .dupatta__bar::before { left: -10px; }
-.events .escroll--dupatta .dupatta__bar::after { right: -10px; }
-
-/* the cloth: a soft khaddar weave in the ceremony's colour, a little darker at the edges where it turns */
-.dupatta__cloth { --cloth: #b8445f; --cloth-dk: #7d2742; position: relative; margin: -3px 0 0; padding: 16px 16px 22px;
-  background:
-    linear-gradient(90deg, rgba(40, 5, 15, .22), transparent 9%, transparent 91%, rgba(40, 5, 15, .22)),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, .05) 0 1px, transparent 1px 3px),
-    var(--cloth);
-  box-shadow: 0 26px 34px -16px rgba(90, 20, 40, .55); }
-.dupatta--mehndi { --cloth: #5d7852; --cloth-dk: #3a5233; }
-.dupatta--maiyan { --cloth: #d39328; --cloth-dk: #94620f; }
-.dupatta--anand { --cloth: #b8445f; --cloth-dk: #7d2742; }
-.dupatta--reception { --cloth: #6e1f3d; --cloth-dk: #44102a; }
-
-/* gathered pleats where the cloth hangs from the bar */
-.dupatta__cloth::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 44px; z-index: 1; pointer-events: none;
-  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .16) 0 5px, rgba(30, 0, 10, .16) 5px 11px, transparent 11px 14px);
-  -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
-
-/* thread fringe with a row of gold beads, swaying a little */
-.dupatta__cloth::after { content: ''; position: absolute; top: 100%; left: 6px; right: 6px; height: 24px; pointer-events: none; transform-origin: 50% 0; animation: fringe 4.2s ease-in-out infinite;
-  background: radial-gradient(circle, #f3cf6e 0 2.2px, #b98b3e 2.6px, transparent 3px) 2px 1px / 12px 7px repeat-x, repeating-linear-gradient(90deg, var(--cloth-dk) 0 2px, transparent 2px 4px);
-  -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent); }
-@keyframes fringe { 0%, 100% { transform: skewX(3deg); } 50% { transform: skewX(-3deg); } }
-
-/* the bagh border: golden-silk diamonds over the whole cloth (the ivory patch covers the middle), stitched in row by row */
-.dupatta__bagh { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--bagh) 0 0 / 24px 24px; opacity: .95; animation: bagh-stitch 1.2s .5s steps(16, end) both; }
-@keyframes bagh-stitch { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-
-/* the ivory patch, sewn on with a running stitch */
-.events.sky-bg .escroll--dupatta .escroll__inner { z-index: 2; background: radial-gradient(ellipse at 20% 0, rgba(246, 220, 216, .5), transparent 55%), linear-gradient(180deg, #fffefb, #fbf3ea);
-  box-shadow: 0 0 0 1px #b98b3e, 0 3px 8px rgba(50, 5, 20, .35); outline: 1.5px dashed rgba(255, 241, 214, .9); outline-offset: 5px; }
-.events.sky-bg .escroll--dupatta .escroll__ghostpaper .escroll__inner { box-shadow: none; outline: 0; }
-
-@media (max-width: 760px) {
-  .dupatta__cloth { padding: 15px 14px 22px; }
-  .events .escroll--dupatta .dupatta__bar { margin: 0 -8px; height: 9px; }
-  .events.sky-bg .escroll--dupatta .escroll__inner { outline-offset: 4px; }
-}
-@media (prefers-reduced-motion: reduce) { .dupatta__bagh, .dupatta__cloth::after { animation: none; } }
-
-/* ===== Quiet card (redesign): one ivory card with a single gold hairline, a title block, three plain detail rows and one
-   button with a text link. Replaces the phulkari dupatta; its old rules no longer match anything. ===== */
-.events .escroll--card::before, .events .escroll--card::after { display: none !important; }
-.events-track .escroll--card { width: min(100%, 420px); }
-
-.eday__card { position: relative; }
-.eday { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 28px 26px 24px; color: #45292f; }
-.eday__pa { margin: 0; color: #b98b3e; font-size: 17px; line-height: 1.3; }
-.eday__name { margin: 2px 0 0; font-family: var(--font-script); font-weight: 400; font-size: clamp(40px, 10vw, 54px); line-height: 1.05; color: #a63f5b; text-wrap: balance; }
-.eday__rule { position: relative; display: block; width: 72px; height: 1px; margin: 12px 0 14px; background: #b98b3e; }
-.eday__rule::after { content: ''; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; background: #fffcf6; border: 1px solid #b98b3e; transform: translate(-50%, -50%) rotate(45deg); }
-.eday__desc { margin: 0 0 18px; max-width: 32ch; font-family: var(--font-serif); font-style: italic; font-size: 17px; line-height: 1.45; color: #74535a; text-wrap: pretty; }
-
-.eday__rows { width: 100%; margin: 0; padding: 0; text-align: left; }
-.eday__row { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; padding: 10px 2px; border-top: 1px solid rgba(185, 139, 62, .3); }
-.eday__row:last-child { border-bottom: 1px solid rgba(185, 139, 62, .3); }
-.eday__row dt { display: flex; padding-top: 2px; color: #b98b3e; }
-.eday__row dt svg { width: 18px; height: 18px; }
-.eday__row dd { margin: 0; font-family: var(--font-serif); font-size: 17px; line-height: 1.3; color: #45292f; }
-.eday__row small { display: block; margin-top: 2px; font-size: 15px; color: #74535a; }
-
-.eday__actions { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; margin-top: 20px; }
-.eday__btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 46px; border-radius: 999px;
-  background: #a63f5b; color: #fff; text-decoration: none; font-family: var(--font-display); font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
-  transition: background-color .2s ease, transform .15s ease; }
-.eday__btn:hover { background: #7d2742; }
-.eday__btn:active { transform: scale(.98); }
-.eday__link { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 10px; border: 0; background: none; cursor: pointer;
-  color: #7d2742; font-family: var(--font-serif); font-size: 16px; text-decoration: underline; text-decoration-color: rgba(166, 63, 91, .4); text-underline-offset: 4px; }
-.eday__link:hover { text-decoration-color: currentColor; }
-.eday__link svg, .eday__btn svg { width: 16px; height: 16px; }
-
-/* tabs: the event's name under a small date, so the two 21 Feb days can be told apart */
-.events .etab { flex-direction: column; justify-content: center; gap: 2px; min-height: 52px; padding: 6px 18px; }
-.etab__when { font-family: var(--font-display); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; opacity: .8; }
-.etab__short { font-family: var(--font-serif); font-size: 17px; font-weight: 600; letter-spacing: 0; text-transform: none; line-height: 1.1; white-space: nowrap; }
-@media (min-width: 900px) { .events-track .etab { align-items: flex-start; padding: 8px 22px; } }
-
-@media (max-width: 760px) {
-  .events .events__tabs { gap: 4px; justify-content: center; padding-inline: 0; }
-  .events .etab { flex: 0 1 auto; min-width: 0; min-height: 46px; padding: 5px 9px; }
-  .etab__when { font-size: 9px; letter-spacing: .12em; }
-  .etab__short { font-size: 14px; }
-  .eday { padding: 22px 18px 18px; }
-  .eday__name { font-size: 40px; }
-  .eday__desc { font-size: 16px; margin-bottom: 14px; }
-  .eday__row { padding: 8px 2px; }
-  .eday__row dd { font-size: 16px; }
-  .eday__row small { font-size: 14px; }
-  .eday__actions { margin-top: 16px; }
-}
-
-.eday { padding: 40px 26px 36px; }

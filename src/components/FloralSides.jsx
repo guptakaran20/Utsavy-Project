@@ -8,7 +8,9 @@ export default function FloralSides({ tiles = 24, head = true, className = '' })
     <div className={`floral-sides ${className}`} aria-hidden="true">
       {head && <img className="floral-sides__head" src="/florals.webp" alt="" width="1024" height="1536" decoding="async" />}
       {Array.from({ length: tiles }, (_, i) => (
-        <span key={i}><img src="/florals.webp" alt="" width="1024" height="1536" loading="lazy" decoding="async" /></span>
+        // Every tile is the same picture, so it's fetched once anyway; loading it eagerly means the browser has it
+        // decoded before a page scrolls in, instead of leaving the edges bare for a moment while it catches up.
+        <span key={i}><img src="/florals.webp" alt="" width="1024" height="1536" loading="eager" decoding="async" /></span>
       ))}
     </div>
   )

@@ -2,6 +2,7 @@ import { useContext, useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { splitLines } from '../lib/useLineReveal'
 import { wedding } from '../data/wedding'
+import { invitationText } from '../lib/invite'
 import { LenisContext } from '../lib/smoothScroll'
 import './Invitation.css'
 
@@ -62,6 +63,8 @@ export default function Invitation() {
           .from('.invite__rule i', { scaleX: 0, duration: 1, ease: 'power2.inOut' }, 5.35)
           .from('.invite__rule b', { scale: 0, rotation: 180, duration: 0.7, ease: 'back.out(2)' }, 5.55)
           .from('.invite__where', { y: 14, autoAlpha: 0, duration: 0.8 }, 6.4)
+          .from('.invite__coda-orn', { scaleX: 0.2, autoAlpha: 0, duration: 1, ease: 'power2.inOut' }, 6.6)
+          .from('.invite__hashtag', { y: 10, autoAlpha: 0, duration: 0.8 }, 6.9)
 
         // While it opens, the page holds still: bring the envelope to the middle of the screen, pause scrolling,
         // and give scrolling back once the card has finished writing itself.
@@ -132,7 +135,7 @@ export default function Invitation() {
           </h2>
 
           <p className="invite__rule" aria-hidden="true"><i /><b /><i /></p>
-          <p className="invite__text invite__tail">{wedding.invitation}</p>
+          <p className="invite__text invite__tail">{invitationText()}</p>
           <p className="invite__where invite__tail">{wedding.city}</p>
         </div>
       </div>
@@ -156,6 +159,20 @@ export default function Invitation() {
       <button type="button" className="env env__seal" aria-label="Open the invitation">
         <span>{bride.name[0]}<i>&amp;</i>{groom.name[0]}</span>
       </button>
+      </div>
+
+      {/* a small gold closing flourish under the card, so the paper below it isn't left bare */}
+      <div className="invite__coda" aria-hidden="true">
+        <svg className="invite__coda-orn" viewBox="0 0 240 40">
+          <g fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round">
+            <path d="M8 20h70M162 20h70" strokeDasharray="1 5" />
+            <path d="M78 20c10-9 20-9 26 0-6 9-16 9-26 0zM162 20c-10-9-20-9-26 0 6 9 16 9 26 0z" />
+            <path d="M120 4c7 7 7 15 0 22-7-7-7-15 0-22z" />
+            <path d="M120 26c-8 0-14-4-17-10 8-1 14 3 17 10zM120 26c8 0 14-4 17-10-8-1-14 3-17 10z" />
+            <circle cx="120" cy="33" r="1.8" fill="currentColor" />
+          </g>
+        </svg>
+        <p className="invite__hashtag">{wedding.hashtag}</p>
       </div>
     </section>
   )

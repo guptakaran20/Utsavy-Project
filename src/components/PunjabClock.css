@@ -4,5 +4,5 @@
 .pclock__month { font-size: 13.5px; fill: #8a6424; }
 .pclock__cap { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 12px; }
 .pclock__cap .gurmukhi { font-size: 16px; color: #b98b3e; }
-.pclock__cap span:last-child { font: 500 10.5px var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #74535a; }
+.pclock__cap span:last-child { font: 500 10.5px var(--font-label); letter-spacing: .22em; text-transform: uppercase; color: #74535a; }
 .pclock__map { filter: drop-shadow(0 2px 2px rgba(120, 70, 30, .35)); }

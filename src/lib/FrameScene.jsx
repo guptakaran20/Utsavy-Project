@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import { gsap } from './gsap'
 
-// When the site runs inside the desktop phone frame, tell the frame which of the three looks is
-// on screen so its backdrop can follow: 'night' (plane intro), 'sky' (gurdwara hero), 'blush' (the rest).
+// Follows which of the three looks is on screen: 'night' (plane intro), 'sky' (gurdwara hero), 'blush' (the rest).
+// The browser's own bar (theme-color) takes that colour, so a phone never shows a maroon strip over the blush
+// pages; and inside the desktop phone frame, the frame's backdrop follows it too.
 const embedded = typeof window !== 'undefined' && window.self !== window.top
+const BAR = { night: '#060b1f', sky: '#14030a', blush: '#f6dcd8' }
 
 export default function FrameScene({ introDone }) {
   const [pastHero, setPastHero] = useState(false)
 
   useEffect(() => {
-    if (!embedded || !introDone) return
+    if (!introDone) return
     // The blush sections sit tucked under the pinned hero, and the hero's walk-in ends by fading the
     // hero away (Hero.jsx). So follow that fade itself: sky while the hero shows, blush once it's gone.
     // Reads GSAP's inline opacity only, so no layout work per frame.
@@ -26,6 +28,7 @@ export default function FrameScene({ introDone }) {
   const scene = !introDone ? 'night' : pastHero ? 'blush' : 'sky'
 
   useEffect(() => {
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', BAR[scene])
     if (embedded) window.parent.postMessage({ type: 'utsavy-scene', scene }, location.origin)
   }, [scene])
 

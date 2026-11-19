@@ -8,9 +8,9 @@
 .person__mono { position: relative; width: 100%; height: 100%; display: grid; place-items: center; }
 .person__mandala { position: absolute; width: 130%; color: var(--gold-400); opacity: .22; }
 .person__mono .gurmukhi { position: relative; font-size: clamp(70px, 12vw, 130px); color: var(--gold-200); line-height: 1; }
-.person__role { margin: 0; font-family: var(--font-display); font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold-500); }
+.person__role { margin: 0; font-family: var(--font-label); font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: #8a5a12; font-weight: 600; opacity: 1; }
 .person__name { margin: 4px 0 0; font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(44px, 6vw, 76px); line-height: 1; color: var(--maroon-700); }
-.person__full { margin: 6px 0 0; font-family: var(--font-display); letter-spacing: .12em; font-size: 13px; color: var(--ink-soft); text-transform: uppercase; }
+.person__full { margin: 6px 0 0; font-family: var(--font-label); letter-spacing: .12em; font-size: 13px; color: var(--ink-soft); text-transform: uppercase; }
 .person__parents { margin: 14px 0 0; max-width: 30ch; font-style: italic; color: var(--ink-soft); text-wrap: balance; }
 .person__blurb { margin: 8px 0 0; max-width: 34ch; color: var(--ink); text-wrap: pretty; }
 @media (max-width: 760px) { .couple__grid { grid-template-columns: 1fr; gap: 8px; } .couple__and { font-size: 64px; justify-self: center; } .person__arch { width: min(78vw, 300px); } }
@@ -20,7 +20,7 @@
 .couple > :not(.floral-sides) { position: relative; z-index: 2; }
 
 /* one continuous sheet of blush paper from the invitation through the couple: pattern only, no per-section highlight */
-.invite.chap, .couple.section--ivory { background-color: #f6dcd8; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.55' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-size: auto; }
+.invite.chap, .couple.section--ivory { background-color: #f6dcd8; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.3' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-size: auto; }
 
 /* the photo fills the WHOLE arch (cusped top and all) instead of sitting in a padded rectangle, and the gold hairlines are drawn over it */
 .person__arch .arch__body { padding: 0; display: block; }

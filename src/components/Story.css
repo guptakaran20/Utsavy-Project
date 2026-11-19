@@ -13,7 +13,7 @@
 .story__heart i { position: absolute; left: -11px; top: -10px; width: 22px; height: 20px; background: #d6102e; clip-path: path('M11 19.5C4.4 14.6 1 11 1 7.4A4.6 4.6 0 0 1 11 5.6a4.6 4.6 0 0 1 10 1.8c0 3.6-3.4 7.2-10 12.1Z'); filter: drop-shadow(0 0 6px rgba(214,16,46,.7)); animation: heartBeat 1.6s ease-in-out infinite; }
 @keyframes heartBeat { 50% { transform: scale(1.18); } }
 .story__head { position: relative; z-index: 1; text-align: center; padding-bottom: 8px; }
-.story__eyebrow { margin: 0; font-family: var(--font-display); font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: #a8762a; }
+.story__eyebrow { margin: 0; font-family: var(--font-label); font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: #a8762a; }
 .story__eyebrow .gurmukhi { letter-spacing: 0; text-transform: none; font-size: 1.3em; }
 .story__title { margin: 4px 0 0; font-family: var(--font-script); font-weight: 400; font-size: clamp(64px, 19vw, 112px); line-height: 1; color: #7a1426; text-shadow: 0 2px 0 rgba(255,255,255,.4); }
 .story__sub { margin: 6px 0 0; font-style: italic; font-size: clamp(17px, 2.4vw, 21px); color: #5a4332; }
@@ -37,7 +37,7 @@
 .story__chap { position: absolute; left: 0; right: 0; bottom: 4.4%; margin: 0; font-family: var(--font-script); font-size: clamp(26px, 6.6vw, 34px); line-height: 1; color: #7a1426; }
 .story__headline { margin: 26px 0 0; font-family: var(--font-serif); font-weight: 500; font-size: clamp(30px, 8vw, 40px); line-height: 1.15; color: #2b1810; }
 .story__headline em { font-family: var(--font-script); font-style: normal; font-size: 1.25em; color: #2f6a4a; }
-.story__place { margin: 10px 0 0; display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: #8a6a3a; }
+.story__place { margin: 10px 0 0; display: flex; align-items: center; gap: 10px; font-family: var(--font-label); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: #8a6a3a; }
 .story__place i { width: 26px; height: 1px; background: #c9a24d; }
 .story__text { margin: 14px 0 0; max-width: 34ch; text-wrap: pretty; color: #4a3626; }
 .story__node { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; gap: 16px; color: #5d8a5c; }
@@ -62,3 +62,6 @@
 .story__eyebrow { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #8f5f12; font-weight: 600; }
 .story__eyebrow .gurmukhi { font-size: 17px; }
 .story__sub { max-width: 24ch; margin-inline: auto; line-height: 1.35; text-wrap: balance; }
+
+/* titles wrap onto two balanced lines in the clear middle, rather than one wide line into the side flowers */
+.story__headline { max-width: min(100%, 290px); margin-inline: auto; text-wrap: balance; }

@@ -1,64 +1,77 @@
-/* closing page: blush paper, edge flowers, a parchment scroll */
-.thanks { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100svh; padding: clamp(60px, 9vw, 120px) var(--gutter); background-color: #f6dcd8; isolation: isolate; }
-.thanks > :not(.floral-sides) { position: relative; z-index: 2; }
-.thanks .floral-sides { z-index: 1; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 120px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 120px), transparent 100%); }
-.thanks__scroll { width: min(100%, 460px); filter: drop-shadow(0 24px 30px rgba(90, 20, 30, .28)); }
-.thanks__inner { padding: 40px 28px 36px; }
-.thanks .ecard__name { font-size: clamp(30px, 6vw, 40px); }
-.thanks__line { margin: 6px 0 20px; font-style: italic; color: #5a3a22; line-height: 1.55; text-wrap: balance; }
-.thanks__names { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: clamp(20px, 4.4vw, 26px); color: #7a4a30; text-wrap: balance; }
-.thanks__love { margin: 12px 0 0; font-style: italic; color: #7a4a30; }
-.thanks__love span { color: #c0243c; }
-.thanks__tag { margin: 18px 0 0; font-family: var(--font-display); letter-spacing: .24em; font-size: 12px; text-transform: uppercase; color: #a8762a; }
-@media (max-width: 760px) { .thanks { padding-inline: 38px; } }
-
-.thanks__contacts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin: 20px 0 4px; padding-top: 18px; border-top: 1px solid rgba(168, 118, 42, .45); }
-.thanks__contact { display: flex; flex-direction: column; gap: 3px; }
-.thanks__contact-label { font-family: var(--font-display); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #a8762a; }
-.thanks__contact-name { color: #5a3a22; font-size: 1.02em; }
-.thanks__contact a { color: #7a4a30; text-decoration: none; font-size: .95em; }
-.thanks__love { margin-top: 18px; font-size: .92em; }
-.thanks__tag { margin-top: 10px; }
-.thanks { min-height: 100svh; }
-.thanks__scroll { width: min(100%, 540px); }
-
-/* ===== the closing card wears the celebrations' phulkari dupatta (rose cloth, gold bar, bagh border, ivory patch, fringe) ===== */
-.thanks .escroll--dupatta { width: min(100%, 460px); filter: none; perspective: 900px; --bagh: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 1.5 22.5 12 12 22.5 1.5 12Z' fill='none' stroke='%23f3cf6e' stroke-width='1.3' stroke-dasharray='2.2 1.1'/%3E%3Cpath d='M12 6 18 12 12 18 6 12Z' fill='%23fff1d6' fill-opacity='.92'/%3E%3Cpath d='M8.6 10.4h6.8M7.2 12h9.6M8.6 13.6h6.8' stroke='%23c94f72' stroke-width='.75'/%3E%3Cpath d='M12 9.6 14.4 12 12 14.4 9.6 12Z' fill='%23e8a13a'/%3E%3Ccircle cx='0' cy='0' r='1.3' fill='%23f3cf6e'/%3E%3Ccircle cx='24' cy='0' r='1.3' fill='%23f3cf6e'/%3E%3Ccircle cx='0' cy='24' r='1.3' fill='%23f3cf6e'/%3E%3Ccircle cx='24' cy='24' r='1.3' fill='%23f3cf6e'/%3E%3C/svg%3E"); }
-.thanks .dupatta__bar { position: relative; z-index: 4; height: 10px; margin: 0 -14px; border-radius: 5px;
-  background: linear-gradient(180deg, #fbe7a6 0, #e6bd62 38%, #b98b3e 70%, #6a4712 100%);
-  box-shadow: 0 7px 10px -3px rgba(90, 30, 40, .5), inset 0 1px 0 rgba(255, 250, 230, .8); }
-.thanks .dupatta__bar::before, .thanks .dupatta__bar::after { content: ''; position: absolute; top: -6px; width: 22px; height: 22px; border-radius: 50%;
-  background: radial-gradient(ellipse 34% 28% at 36% 30%, rgba(255, 255, 245, .95), rgba(255, 255, 245, 0)), radial-gradient(circle at 40% 34%, #fbe7a6 0, #e6bd62 34%, #b98b3e 66%, #6a4712 100%);
-  box-shadow: 0 5px 8px rgba(90, 30, 40, .4); }
-.thanks .dupatta__bar::before { left: -10px; }
-.thanks .dupatta__bar::after { right: -10px; }
-.thanks .dupatta__cloth { margin-bottom: 26px; }
-
-/* the ivory patch, sewn on with a running stitch */
-.thanks .escroll--dupatta .escroll__inner { position: relative; z-index: 2; padding: 30px 22px 26px; color: #45292f;
-  background: radial-gradient(ellipse at 20% 0, rgba(246, 220, 216, .5), transparent 55%), linear-gradient(180deg, #fffefb, #fbf3ea);
-  box-shadow: 0 0 0 1px #b98b3e, 0 3px 8px rgba(50, 5, 20, .35); outline: 1.5px dashed rgba(255, 241, 214, .9); outline-offset: 5px; }
-
-/* type in the celebration card's voice: gold Gurmukhi, rose script heading, maroon details */
-.thanks .escroll .ecard__pa { color: #b98b3e; font-size: 20px; }
-.thanks .escroll .ecard__name { margin: 2px 0 4px; font-family: var(--font-script); font-weight: 400; letter-spacing: 0; text-transform: none; font-size: clamp(46px, 12vw, 62px); line-height: 1.05; color: #a63f5b; text-shadow: 0 1px 0 #fff, 0 3px 6px rgba(125, 39, 66, .18); }
-.thanks .thanks__line { color: #45292f; font-size: 1.08em; line-height: 1.45; }
-.thanks .thanks__names { color: #7d2742; letter-spacing: .1em; }
-.thanks .thanks__tag { color: #a63f5b; }
-.thanks .thanks__contacts { border-top-color: rgba(185, 139, 62, .55); }
-.thanks .thanks__contact-label { color: #b98b3e; }
-.thanks .thanks__contact-name { color: #45292f; }
-.thanks .thanks__contact a { color: #7d2742; }
-.thanks .thanks__love { color: #7d2742; }
-
-@media (max-width: 760px) {
-  .thanks .dupatta__bar { margin: 0 -8px; height: 9px; }
-  .thanks .escroll--dupatta .escroll__inner { outline-offset: 4px; padding: 26px 16px 22px; }
+/* ===== closing page: full-screen end titles on blush, flowers in the bottom corners, drifting petals ===== */
+.thanks {
+  position: relative; overflow: hidden; isolation: isolate; margin-top: -2px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100svh; padding: 96px var(--gutter) 40px; text-align: center;
+  /* the same paper as the painting and as the foot of Contacts above, so the two pages meet on one plain sheet */
+  /* (the painting's paper, enlarged from its open middle exactly as on Contacts, so the texture runs on too) */
+  background: #fdc6b8 url("/contacts-art.webp") 50% 50% / 400% auto no-repeat;
 }
-/* keep the lotus garland under the heading, like the celebration card, and let the two family columns sit level */
-.thanks .escroll .florals--lotus { display: block; transform: none; width: min(230px, 66%); margin: 2px auto 12px; }
-.thanks .thanks__contact-label { letter-spacing: .14em; white-space: nowrap; font-size: 9.5px; }
-.thanks .thanks__contact a { white-space: nowrap; font-size: .9em; }
-.thanks .thanks__contacts { gap: 12px; }
-.thanks .thanks__contacts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (max-width: 760px) { .thanks .thanks__contacts { grid-template-columns: 1fr; gap: 14px; } .thanks .thanks__contact-label { font-size: 10px; letter-spacing: .18em; } }
+
+/* the painted scene fills the page below a 40px strip of plain paper, which (with the 44px at the foot of Contacts)
+   keeps a calm band of paper between the writing ledge above and this page's arch */
+.thanks__art {
+  position: absolute; top: 40px; bottom: 0; left: 50%; z-index: 0; width: 100%; transform: translateX(-50%); pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 30px);
+}
+.thanks__art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+/* wide screens: keep the scene a tall column in the middle, its sides melting into the damask */
+@media (min-aspect-ratio: 3/4) {
+  .thanks__art { width: min(100%, 62svh); }
+  .thanks__art {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30px), linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 30px), linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+    mask-composite: intersect;
+  }
+}
+
+/* petals */
+.thanks__petals { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.thanks__petals i {
+  position: absolute; top: -24px; width: 10px; height: 13px; border-radius: 80% 0 80% 0; opacity: 0;
+  box-shadow: inset -2px -2px 3px rgba(160, 50, 80, .22);
+  animation: thanks-petal linear infinite; animation-play-state: paused;
+}
+.thanks.is-live .thanks__petals i { animation-play-state: running; }
+@keyframes thanks-petal {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  8% { opacity: .85; }
+  50% { transform: translate3d(28px, 52svh, 0) rotate(200deg); }
+  90% { opacity: .7; }
+  100% { transform: translate3d(-12px, 104svh, 0) rotate(420deg); opacity: 0; }
+}
+
+/* the type */
+.thanks__body { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; max-width: 30ch; margin-top: -12svh; }
+.thanks__pa { margin: 0 0 4px; font-family: var(--font-gurmukhi); font-size: 20px; color: #b98b3e; }
+.thanks__title {
+  margin: 0; font-family: var(--font-script); font-weight: 400; letter-spacing: 0;
+  font-size: clamp(56px, 17vw, 96px); line-height: 1.1; white-space: nowrap; color: #a63f5b;
+  text-shadow: 0 1px 0 #fff, 0 4px 14px rgba(125, 39, 66, .16);
+}
+.thanks__rule {
+  display: block; width: 96px; height: 9px; margin: 18px auto 20px;
+  background:
+    radial-gradient(circle, #b98b3e 2.6px, transparent 3px) center / 9px 9px no-repeat,
+    linear-gradient(90deg, transparent, #b98b3e 30%, transparent 44%, transparent 56%, #b98b3e 70%, transparent) center / 100% 1px no-repeat;
+}
+.thanks__line { margin: 0 0 22px; font-family: var(--font-serif); font-style: italic; font-size: clamp(18px, 4.6vw, 21px); line-height: 1.45; color: #5a3540; text-wrap: balance; }
+.thanks__names { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(19px, 5vw, 24px); letter-spacing: .12em; text-transform: uppercase; color: #7d2742; }
+.thanks__names span { font-family: var(--font-script); text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 1.3em; color: #b98b3e; padding: 0 .1em; }
+.thanks__tag { margin: 10px 0 0; font-family: var(--font-label); font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: #a63f5b; }
+
+/* foot: back to top + sign-off, set in the open paper under the names (clear of the railing and pond below) */
+.thanks__foot { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 30px; }
+.thanks__top {
+  appearance: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(185, 139, 62, .7); border-radius: 999px;
+  background: transparent; padding: 0 18px; min-height: 38px; font: 500 10.5px/1 var(--font-label); letter-spacing: .24em; text-transform: uppercase; color: #7d2742;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color .2s ease, transform .16s ease;
+}
+.thanks__top span { font-size: 12px; letter-spacing: 0; color: #b98b3e; }
+.thanks__top:active { transform: scale(.97); }
+@media (hover: hover) { .thanks__top:hover { background: rgba(255, 250, 243, .55); } }
+.thanks__love { margin: 0; font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: #7d4a58; }
+
+@media (prefers-reduced-motion: reduce) { .thanks__petals { display: none; } }

@@ -1,25 +1,62 @@
-.ofam { align-items: center; text-align: center; --rose: #a63f5b; --rose-deep: #7d2742; }
+.ofam {
+  align-items: center; text-align: center; --rose: #a63f5b; --rose-deep: #7d2742; --leaf: #5d7852;
+}
 .ofam > :not(.floral-sides) { position: relative; z-index: 2; }
 .ofam__sub { margin: 14px 0 0; font-style: italic; color: var(--ink-soft); }
-.ofam__grid { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: center; justify-items: center; width: 100%; max-width: 980px; margin-top: clamp(36px, 6vw, 64px); }
-@media (min-width: 900px) { .ofam__grid { grid-template-columns: 1fr 120px 1fr; gap: 0; } }
-.ofam__card { position: relative; width: min(100%, 400px); padding: 84px 28px 32px; background: linear-gradient(#fffefb, #fbf5ec); border: 1px solid rgba(184, 134, 47, .55); border-radius: 200px 200px 10px 10px; box-shadow: 0 26px 40px -28px rgba(125, 39, 66, .5); }
-.ofam__card::before { content: ''; position: absolute; inset: 8px; border: 1px dotted rgba(184, 134, 47, .7); border-radius: 192px 192px 6px 6px; pointer-events: none; }
-.ofam__side { display: inline-flex; align-items: center; gap: 10px; font: 500 11px var(--font-display); letter-spacing: .24em; text-transform: uppercase; color: #5d7852; }
-.ofam__side::before, .ofam__side::after { content: ''; width: 22px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-400)); }
-.ofam__side::after { transform: scaleX(-1); }
-.ofam__parents { margin: 16px 0 0; font: 500 16px/1.4 var(--font-display); letter-spacing: .04em; color: var(--ink); text-wrap: balance; }
-.ofam__invite { margin: 8px 0 0; font-style: italic; color: var(--ink-soft); font-size: .95em; }
-.ofam__name { margin: 8px 0 0; font: 400 clamp(40px, 8vw, 50px)/1.1 var(--font-script); color: var(--rose); }
-.ofam__grand { margin: 8px 0 0; font-size: .85em; color: var(--ink-soft); }
-.ofam__blessing { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid rgba(184, 134, 47, .35); font-style: italic; font-size: .92em; color: var(--rose-deep); }
-.ofam__knot { width: 120px; height: 120px; }
-.ofam__knot svg { width: 100%; height: 100%; overflow: visible; }
-@media (max-width: 899px) { .ofam__knot { width: 84px; height: 84px; transform: rotate(90deg); } }
-@media (max-width: 760px) { .ofam.sky-bg { padding-inline: 38px; } }
+
+.ofam__threads { position: relative; width: min(100%, 520px); margin-top: clamp(14px, 3vw, 28px); }
+/* a soft cream glow behind the text so it reads over the pattern, without drawing a box */
+.ofam__threads::before {
+  content: ''; position: absolute; inset: 4% -6% 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 252, 246, .85), rgba(255, 252, 246, .5) 60%, transparent);
+  filter: blur(6px);
+}
+
+/* the families stack: the bride's first, an ampersand rule, then the groom's */
+.ofam__side { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.ofam__join { display: flex; align-items: center; justify-content: center; gap: 14px; width: min(64%, 260px); margin: clamp(26px, 6vw, 38px) auto !important; }
+.ofam__join i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-400)); }
+.ofam__join i:last-child { background: linear-gradient(90deg, var(--gold-400), transparent); }
+.ofam__join b { font: 400 clamp(30px, 8vw, 38px)/1 var(--font-script); color: var(--gold-500); }
+
+/* the family portrait: its own place at the head of the section, above the families */
+.ofam__photo { position: relative; margin: clamp(6px, 2vw, 14px) 0 clamp(22px, 5vw, 34px); pointer-events: none; }
+.ofam__photo img { display: block; width: min(calc(100% + 40px), 600px); max-width: none; height: auto; margin-left: 50%; translate: -50% 0; transform-origin: 50% 50%; will-change: transform, opacity; filter: drop-shadow(0 18px 18px rgba(125, 39, 66, .18)); }
+
+/* the seal at the head of each family */
+.ofam__seal {
+  will-change: transform;
+  position: relative; display: grid; place-items: center; width: clamp(76px, 20vw, 96px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fffefb, #f7ecd9);
+  border: 1.5px solid var(--gold-400);
+  box-shadow: 0 0 0 4px rgba(255, 252, 246, .9), 0 0 0 5px rgba(184, 134, 47, .55), 0 14px 22px -12px rgba(125, 39, 66, .55);
+}
+.ofam__seal::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; border: 1px dotted rgba(184, 134, 47, .8); }
+.ofam__seal-g { font: 400 clamp(26px, 7vw, 34px)/1 var(--font-gurmukhi); color: var(--gold-500); transform: translateY(2px); }
+
+.ofam__family { margin: 16px 0 0; font: 500 clamp(18px, 4.8vw, 23px)/1.2 var(--font-display); letter-spacing: .08em; color: var(--rose-deep); }
+.ofam__label { margin-top: 4px; font: 500 clamp(9px, 2.4vw, 10.5px)/1.5 var(--font-label); letter-spacing: .18em; text-transform: uppercase; color: var(--leaf); text-wrap: balance; }
+.ofam__parents { display: flex; flex-direction: column; margin: 12px 0 0; font: 500 clamp(15px, 3.9vw, 18px)/1.3 var(--font-serif); color: var(--ink); text-wrap: balance; }
+.ofam__amp { margin: 1px 0; font-style: italic; color: var(--gold-500); }
+.ofam__grand { display: flex; flex-direction: column; gap: 2px; margin: 12px 0 0; font-size: clamp(12.5px, 3.3vw, 14.5px); line-height: 1.35; color: var(--ink-soft); text-wrap: balance; }
+.ofam__grand em { font-size: .92em; color: var(--rose); }
+
+.ofam__couple { display: flex; flex-direction: column; align-items: center; margin-top: clamp(40px, 9vw, 60px); }
+.ofam__invite { margin: 0 0 6px; max-width: 26ch; font-style: italic; color: var(--ink-soft); font-size: clamp(15px, 3.9vw, 17px); text-wrap: balance; }
+.ofam__name { margin: 0; font: 400 clamp(40px, 10.5vw, 56px)/1.05 var(--font-script); color: var(--rose); }
+.ofam__and { margin: 2px 0; font: 500 14px var(--font-display); letter-spacing: .2em; color: var(--gold-500); }
+
+.ofam__blessings { display: flex; flex-direction: column; align-items: center; gap: 12px; width: min(100%, 290px); margin-top: clamp(20px, 5vw, 28px); padding: 14px 18px; border-radius: 14px; background: radial-gradient(closest-side, rgba(255, 252, 246, .9), rgba(255, 252, 246, .6) 70%, rgba(255, 252, 246, 0)); }
+.ofam__blessing { margin: 0; max-width: 24ch; font-style: italic; font-size: clamp(15px, 4vw, 17px); line-height: 1.45; color: var(--rose-deep); text-wrap: balance; }
+.ofam__gem { flex: none; width: 7px; height: 7px; transform: rotate(45deg); border: 1px solid var(--gold-400); }
+
+@media (max-width: 760px) { .ofam.sky-bg { padding-inline: 30px; } }
 .ofam .floral-sides__head { display: none !important; }
 
 /* no seam under the venue: tuck 2px under its paper so the dark page never shows at the join,
    and let these flowers rise in where the venue's dissolve, so the two pages read as one run */
 .ofam.sky-bg { margin-top: -2px; }
 .ofam .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 260px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 260px), transparent 100%); }
+
+/* overflow: hidden would make the section its own scroll box and stop the portrait sticking; clip trims the edges the same way */
+.ofam.chap { overflow: clip; }

@@ -16,7 +16,6 @@ import GuestNotes from './components/GuestNotes'
 import Rsvp from './components/Rsvp'
 import ThankYou from './components/ThankYou'
 import Marquee from './components/Marquee'
-import FamilyWelcome from './components/FamilyWelcome'
 import Venue from './components/Venue'
 import Gallery from './components/Gallery'
 import OurFamilies from './components/OurFamilies'
@@ -24,6 +23,7 @@ import Wishes from './components/Wishes'
 import Contacts from './components/Contacts'
 import MusicToggle from './components/MusicToggle'
 import FrameScene from './lib/FrameScene'
+import IdleNudge from './lib/IdleNudge'
 import { dhol } from './lib/dhol'
 import { useLineReveal } from './lib/useLineReveal'
 
@@ -47,6 +47,8 @@ export default function App() {
         : <HaveliGate onEnter={() => setOpened(true)} onDone={() => setGateDone(true)} />)}
       <MusicToggle visible={opened} />
       <FrameScene introDone={gateDone} />
+      {/* if the guest sits still for 3 s once everything has played, the page drifts on a little by itself */}
+      <IdleNudge enabled={gateDone} />
       <main>
         <Hero play={opened} />
         <div className="blush-run sky-bg">
@@ -62,7 +64,6 @@ export default function App() {
         <Events />
         <Venue />
         <OurFamilies />
-        <FamilyWelcome />
         <GuestNotes />
         <Rsvp />
         <Wishes />

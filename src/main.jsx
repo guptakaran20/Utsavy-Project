@@ -1,5 +1,9 @@
 import { StrictMode, lazy, Suspense, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { wedding } from './data/wedding'
+
+// the tab title follows the couple's names in wedding.js
+document.title = `${wedding.bride.name} & ${wedding.groom.name} · ਸ਼ੁਭ ਵਿਆਹ`
 
 // Always start at the gate, not wherever the last visit left off
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual'

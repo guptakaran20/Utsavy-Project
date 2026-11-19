@@ -9,7 +9,7 @@
 .invite__inner { position: absolute; inset: 0; padding: 27cqw 11cqw 8cqw; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; color: var(--ink); }
 .invite__inner p { margin: 0; }
 .invite__ik { font-size: 8.5cqw; line-height: 1; color: #b98b3e; }
-.invite__bless { max-width: 46%; line-height: 1.7; margin-top: 2.4cqw !important; font: 500 2.4cqw var(--font-display); letter-spacing: .22em; text-transform: uppercase; color: #8a6424; }
+.invite__bless { max-width: 46%; line-height: 1.7; margin-top: 2.4cqw !important; font: 500 2.4cqw var(--font-label); letter-spacing: .22em; text-transform: uppercase; color: #8a6424; }
 .invite__motif { width: 26cqw; margin: 2cqw 0 2.4cqw; color: #c79d4f; }
 .invite__welcome { font-size: 5.6cqw; line-height: 1.2; color: #7d2742; }
 .invite__together { margin-top: 1.6cqw !important; font-style: italic; font-size: 4.4cqw; color: #74535a; }
@@ -50,3 +50,8 @@
 
 /* the date line was removed (it is revealed at the countdown); the city follows the invitation text directly */
 .invite__where { margin-top: 3cqw; }
+
+/* closing flourish under the card: a gold lotus rule and the wedding hashtag */
+.invite__coda { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: clamp(26px, 6vw, 40px); color: #b98b3e; }
+.invite__coda-orn { width: min(62vw, 260px); height: auto; }
+.invite__hashtag { margin: 0; font: 500 clamp(13px, 3.6vw, 15px) var(--font-label); letter-spacing: .14em; color: #8a6424; }

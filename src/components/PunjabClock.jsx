@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { LenisContext } from '../lib/smoothScroll'
+import { wedding } from '../data/wedding'
 import './PunjabClock.css'
 
 // A Punjabi wall clock in the invitation's colours: Gurmukhi numerals, the twelve desi months between them,
@@ -98,7 +99,7 @@ export default function PunjabClock() {
   )
 
   return (
-    <figure ref={root} className="pclock" aria-label="Clock showing the time in Amritsar">
+    <figure ref={root} className="pclock" aria-label={`Clock showing the time in ${wedding.town}`}>
       <svg className="pclock__dial" viewBox="0 0 400 400" role="img" aria-hidden="true">
         <defs>
           <radialGradient id="pcFace" cx="50%" cy="42%" r="62%">
@@ -164,8 +165,8 @@ export default function PunjabClock() {
         </g>
       </svg>
       <figcaption className="pclock__cap">
-        <span className="gurmukhi">ਅੰਮ੍ਰਿਤਸਰ ਦਾ ਸਮਾਂ</span>
-        <span>Live time in Amritsar</span>
+        <span className="gurmukhi">{wedding.townGurmukhi} ਦਾ ਸਮਾਂ</span>
+        <span>Live time in {wedding.town}</span>
       </figcaption>
     </figure>
   )

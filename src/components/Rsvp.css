@@ -64,7 +64,7 @@
 
 .field__label {
   padding: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: 12px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -254,7 +254,7 @@
   border-bottom: 1px solid currentColor;
   background: none;
   cursor: pointer;
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: 12px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -268,7 +268,7 @@
 }
 
 /* ---- stepper + wax seal ---- */
-.rsvp__steps { position: relative; list-style: none; margin: 0 0 30px; padding: 0; display: flex; justify-content: space-between; font-family: var(--font-display); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
+.rsvp__steps { position: relative; list-style: none; margin: 0 0 30px; padding: 0; display: flex; justify-content: space-between; font-family: var(--font-label); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
 .rsvp__steps li { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
 .rsvp__steps li span { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 1px solid currentColor; background: var(--ivory); font-family: var(--font-serif); font-size: 16px; letter-spacing: 0; transition: all .5s var(--ease-out); }
 .rsvp__steps .is-now, .rsvp__steps .is-done { color: var(--maroon-700); }
@@ -281,11 +281,11 @@
 .rsvp__sorry { text-align: center; font-style: italic; margin: 20px 0 30px; }
 .rsvp__nav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
 .rsvp__nav .rsvp__submit { margin-left: auto; }
-.rsvp__back { background: none; border: 0; color: var(--maroon-700); cursor: pointer; font-family: var(--font-display); letter-spacing: .15em; font-size: 12px; text-transform: uppercase; min-height: 48px; }
+.rsvp__back { background: none; border: 0; color: var(--maroon-700); cursor: pointer; font-family: var(--font-label); letter-spacing: .15em; font-size: 12px; text-transform: uppercase; min-height: 48px; }
 .seal { position: relative; display: block; margin: 22px auto 6px; width: 118px; height: 118px; border: 0; background: none; cursor: pointer; }
 .seal__disc { position: absolute; inset: 8px; border-radius: 52% 48% 54% 46% / 48% 54% 46% 52%; background: radial-gradient(circle at 35% 30%, #c8323f, #7a1426 60%, #4a0b17); box-shadow: 0 10px 24px rgba(0,0,0,.5), inset 0 2px 4px rgba(255,255,255,.25), inset 0 -3px 6px rgba(0,0,0,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold-200); transition: transform .3s var(--ease-out); }
 .seal__disc b { font-size: 30px; line-height: 1; font-weight: 400; }
-.seal__disc small { font-family: var(--font-display); font-size: 8px; letter-spacing: .2em; text-transform: uppercase; margin-top: 4px; }
+.seal__disc small { font-family: var(--font-label); font-size: 8px; letter-spacing: .2em; text-transform: uppercase; margin-top: 4px; }
 .seal__ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--gold-400); opacity: .0; }
 .seal:hover .seal__disc { transform: scale(1.05) rotate(-3deg); }
 .seal:not(.is-stamping) .seal__ring { animation: sealHint 2.4s ease-out infinite; }
@@ -297,8 +297,8 @@
 
 /* the reply page wears the blush paper and flowers; the couple stands on the stage beneath the card */
 .rsvp.sky-bg { background-color: #f6dcd8; color: #5a1424; isolation: isolate; padding-bottom: 0; }
-.rsvp.sky-bg > :not(.floral-sides):not(.rsvp__mandala) { position: relative; z-index: 2; }
-.rsvp.sky-bg .floral-sides { z-index: 1; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 360px), transparent calc(100% - 120px)); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 360px), transparent calc(100% - 120px)); }
+.rsvp.sky-bg > :not(.floral-sides):not(.rsvp__mandala):not(.rsvp__envelope) { position: relative; z-index: 2; }
+.rsvp.sky-bg .floral-sides { z-index: 1; -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 360px), transparent calc(100% - 120px)); mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 360px), transparent calc(100% - 120px)); }
 .rsvp.sky-bg .rsvp__mandala { color: #b8862f; opacity: .1; z-index: 0; }
 .rsvp.sky-bg .rsvp__deadline { color: #8a4a3a; }
 .rsvp.sky-bg .rsvp__card { box-shadow: 0 30px 60px -28px rgba(90, 20, 30, .5), 0 0 0 1px rgba(184, 134, 47, .6); }
@@ -378,7 +378,7 @@
 /* one rose button, the same as View map; Back is a quiet text link */
 .rsvp__sheet .rsvp__nav { margin-top: 4px; }
 .rsvp.sky-bg .rsvp__sheet .rsvp__submit { min-width: 0; min-height: 46px; padding: 0 26px; border: 0; border-radius: 999px; background: #a63f5b; color: #fff; box-shadow: none;
-  font-family: var(--font-display); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
+  font-family: var(--font-label); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
 .rsvp.sky-bg .rsvp__sheet .rsvp__submit:hover { background: #7d2742; }
 .rsvp.sky-bg .rsvp__sheet .rsvp__submit::after { display: none; }
 .rsvp__sheet .rsvp__back { color: #7d2742; font-size: 11px; }
@@ -396,3 +396,143 @@
 /* one screen now: a single full-width rose send button, like View map on the Celebrations card */
 .rsvp__sheet .rsvp__nav { justify-content: center; margin-top: 8px; }
 .rsvp.sky-bg .rsvp__sheet .rsvp__nav .rsvp__submit { width: 100%; margin: 0; justify-content: center; }
+
+/* no name to ask for: the card greets the guest from the invitation link and asks one thing */
+.rsvp__head { animation: none; }
+.rsvp__head-pa { font-size: 17px; }
+.rsvp.sky-bg .rsvp__head-title { font-size: clamp(38px, 10vw, 54px); line-height: 1.15; padding: 0 .15em; text-wrap: balance; }
+.rsvp__ask { margin: 14px auto 18px; max-width: 30ch; text-align: center; }
+.rsvp__ask-q { margin: 0; font: 500 clamp(19px, 5vw, 23px)/1.35 var(--font-serif); color: #5a1424; text-wrap: balance; }
+.rsvp__ask-note { margin: 8px 0 0; font-style: italic; font-size: clamp(15px, 3.9vw, 17px); color: #8a4a3a; text-wrap: balance; }
+.rsvp.sky-bg .rsvp__sheet .rsvp__submit { gap: 10px; letter-spacing: .2em; }
+/* keep the button clear of the torn bottom edge of the paper */
+.rsvp__sheet .rsvp__nav { margin-bottom: clamp(26px, 6vw, 36px); }
+
+/* ---------- the Accept moment ---------- */
+.rsvp { position: relative; }
+.rsvp__envelope {
+  position: absolute; left: 0; top: 0; z-index: 6; width: clamp(42px, 11vw, 54px); height: auto; overflow: visible;
+  visibility: hidden; pointer-events: none; filter: drop-shadow(0 8px 10px rgba(90, 20, 30, .3));
+}
+.rsvp__envelope-flap, .rsvp__envelope-bead { transform-box: fill-box; }
+.rsvp__envelope-flap { transform-origin: 50% 0%; }
+.rsvp__envelope-bead { transform-origin: 50% 50%; }
+/* a warm glow over each lamp, dark until the guest accepts */
+.rsvp__lamp {
+  position: absolute; z-index: 1; width: 7%; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+  translate: -50% -50%; transform: scale(.4); opacity: 0; visibility: hidden; mix-blend-mode: screen;
+  background: radial-gradient(circle, rgba(255, 246, 214, 1) 0%, rgba(255, 216, 140, .75) 30%, rgba(255, 200, 120, 0) 70%);
+}
+.rsvp.is-celebrated .rsvp__lamp { opacity: .9; visibility: visible; transform: none; }
+.rsvp__petal {
+  position: absolute; top: -4%; z-index: 4; width: 11px; height: 14px; pointer-events: none;
+  border-radius: 80% 0 80% 0; box-shadow: inset -2px -2px 3px rgba(160, 50, 80, .25); visibility: hidden;
+}
+
+/* the thank-you's wax seal, in place of a tick */
+.rsvp__seal { display: block; width: 84px; height: 84px; margin: 0 auto 14px; overflow: visible; filter: drop-shadow(0 8px 10px rgba(110, 31, 54, .35)); }
+/* the thank-you sits in the middle of the sheet, which keeps the form's height */
+.rsvp__sheet.is-sent { display: flex; flex-direction: column; justify-content: center; }
+
+/* ===== the new Accept moment ===== */
+/* the card turns over in 3D: keep its paper from being clipped while it is edge-on */
+.rsvp__wrap { perspective: 1100px; }
+.rsvp__card { will-change: transform; }
+
+/* the thank-you side is solid paper, not the see-through sheet of the form: no blurred flowers behind it */
+.rsvp__sheet.is-sent {
+  background: radial-gradient(ellipse 120% 70% at 50% 0%, #fffdf9 0%, #fdf4ec 55%, #f9e9e1 100%);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  padding-top: 46px; padding-bottom: 44px;
+}
+.rsvp__sheet.is-sent::after {
+  content: ''; position: absolute; inset: 22px 14px; pointer-events: none;
+  border: 1px solid rgba(185, 139, 62, .45); border-radius: 4px;
+}
+.rsvp__thanks { position: relative; z-index: 1; }
+.rsvp__seal { width: 92px; height: 92px; }
+.rsvp__thanks-pa { font-size: 22px; color: #b98b3e; }
+
+/* "Shukriya": a gold shimmer passes over it once, after it has been written */
+.rsvp__thanks-title {
+  background: linear-gradient(110deg, #7d2742 0%, #7d2742 42%, #e8c675 50%, #7d2742 58%, #7d2742 100%) 100% 0 / 300% 100% no-repeat;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: rsvpShimmer 1.8s ease-in-out 1.5s both;
+  padding: 0 .12em;
+}
+@keyframes rsvpShimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+.rsvp__thanks-text { font-size: clamp(16px, 4.2vw, 18px); }
+
+/* the guest's entry pass: a ticket. A rose band with their name in script, notched and torn along a gold
+   perforation, over an ivory stub with the day, the time and the place, and a way to save it */
+.rsvp__pass {
+  --cut: 112px; /* the band's height: where the ticket tears */
+  --notch: radial-gradient(circle 10px at 0 var(--cut), transparent 97%, #000 100%) left / 51% 100% no-repeat,
+           radial-gradient(circle 10px at 100% var(--cut), transparent 97%, #000 100%) right / 51% 100% no-repeat;
+  position: relative; max-width: 330px; margin: 24px auto 0; border-radius: 14px; overflow: hidden;
+  text-align: left; transform-origin: 50% 0;
+  background: #fffaf3;
+  box-shadow: inset 0 0 0 1px rgba(185, 139, 62, .55);
+  -webkit-mask: var(--notch); mask: var(--notch);
+  filter: drop-shadow(0 10px 18px rgba(125, 39, 66, .18));
+}
+.rsvp__pass-band {
+  position: relative; display: grid; place-content: center; justify-items: center; gap: 2px;
+  height: var(--cut); padding: 0 22px; text-align: center; color: #fbefe0;
+  background: linear-gradient(160deg, #b9506d 0%, #933550 55%, #7a2742 100%);
+}
+.rsvp__pass-band::before { /* a fine gold keyline inside the band */
+  content: ''; position: absolute; inset: 7px 7px 0; border: 1px solid rgba(232, 198, 117, .55); border-bottom: 0; border-radius: 9px 9px 0 0; pointer-events: none;
+}
+.rsvp__pass-label { font-family: var(--font-display); font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: #e8c675; }
+.rsvp__pass-label .gurmukhi { letter-spacing: 0; font-size: 12px; }
+.rsvp__pass-name {
+  max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  font-family: var(--font-script); font-weight: 400; font-size: 38px; line-height: 1.15; padding: 0 .15em; color: #fffaf1;
+  text-shadow: 0 2px 6px rgba(70, 10, 30, .35);
+}
+.rsvp__pass-status { font-style: italic; font-size: 13.5px; color: rgba(251, 239, 224, .85); }
+.rsvp__pass-status span { color: #e8c675; font-style: normal; }
+/* the perforation, along the tear */
+.rsvp__pass::before {
+  content: ''; position: absolute; z-index: 1; left: 14px; right: 14px; top: var(--cut); height: 0;
+  border-top: 2px dotted rgba(185, 139, 62, .8);
+}
+.rsvp__pass-body { padding: 16px 18px 18px; color: #45292f; }
+.rsvp__pass-event {
+  display: flex; align-items: baseline; justify-content: center; gap: 8px; margin: 0 0 12px;
+  font-family: var(--font-display); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: #a63f5b;
+}
+.rsvp__pass-event .gurmukhi { font-family: inherit; letter-spacing: 0; font-size: 14px; text-transform: none; color: #b98b3e; }
+.rsvp__pass-event .gurmukhi::after { content: '·'; margin-left: 8px; color: #b98b3e; }
+.rsvp__pass-info { display: grid; gap: 12px; margin: 0 0 16px; padding: 0; list-style: none; }
+.rsvp__pass-info li { display: grid; grid-template-columns: 30px 1fr; align-items: start; gap: 10px; }
+.rsvp__pass-info li + li { padding-top: 12px; border-top: 1px solid rgba(185, 139, 62, .25); }
+.rsvp__pass-info svg { width: 30px; height: 30px; padding: 7px; border-radius: 50%; background: rgba(166, 63, 91, .1); color: #a63f5b; }
+.rsvp__pass-info b { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 16px; line-height: 1.3; color: #5a1424; }
+.rsvp__pass-info small { display: block; margin-top: 1px; font-size: 13.5px; line-height: 1.35; color: #8a5a50; }
+.rsvp__pass-cal {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 44px; padding: 0 18px;
+  border: 1px solid #a63f5b; border-radius: 999px; background: transparent; color: #a63f5b; cursor: pointer;
+  font-family: var(--font-display); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+  transition: background-color .25s, color .25s, transform .15s;
+}
+.rsvp__pass-cal:hover { background: #a63f5b; color: #fff; }
+.rsvp__pass-cal:active { transform: scale(.97); }
+.rsvp__pass-cal svg { width: 16px; height: 16px; }
+
+/* the envelope, about twice as big as before so it reads on the stage */
+.rsvp__envelope { width: clamp(64px, 18vw, 92px); }
+.rsvp__envelope-heart { transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; visibility: hidden; }
+
+/* the hearts out of the button, and the gold sparkles behind the envelope */
+.rsvp__spark-heart { position: absolute; z-index: 7; font-size: 18px; line-height: 1; pointer-events: none; visibility: hidden; text-shadow: 0 2px 4px rgba(110, 31, 54, .25); }
+.rsvp__sparkle {
+  position: absolute; z-index: 5; width: 12px; height: 12px; margin: -6px 0 0 -6px; pointer-events: none; visibility: hidden;
+  background: radial-gradient(circle, #fff8dc 0 18%, #f2c75c 30%, transparent 62%);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+}
+/* cannon petals start at the stage's corners, a little bigger than the drifting ones */
+.rsvp__petal.is-burst { width: 12px; height: 15px; }
+
+@media (prefers-reduced-motion: reduce) { .rsvp__thanks-title { animation: none; background-position: 0 0; } }

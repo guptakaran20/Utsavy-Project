@@ -2,19 +2,123 @@
 .wishes > :not(.floral-sides) { position: relative; z-index: 2; }
 .wishes .floral-sides__head { display: none !important; }
 .wishes__sub { margin: 14px 0 0; font-style: italic; color: var(--ink-soft); }
-/* phulkari-coloured string the cards hang from */
-.wishes__line { width: min(100%, 980px); height: 8px; margin-top: clamp(40px, 6vw, 64px); border-radius: 4px; background: repeating-linear-gradient(90deg, #d81b74 0 14px, #e8751a 14px 28px, #ffc107 28px 42px, #34a853 42px 56px); box-shadow: 0 3px 4px -2px rgba(90, 30, 40, .4); }
-.wishes__row { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 22px; width: min(100%, 980px); margin: 0; padding: 0 0 8px; }
-.wcard { position: relative; width: min(100%, 220px); margin-top: -2px; padding: 34px 18px 20px; background: linear-gradient(#fffefb, #fbf5ec); border: 1px solid rgba(184, 134, 47, .5); border-radius: 4px; box-shadow: 0 18px 26px -20px rgba(125, 39, 66, .55); transform-origin: 50% 0; rotate: var(--tilt); animation: sway 5s ease-in-out infinite alternate; animation-delay: var(--d); }
-.wcard::before { content: ''; position: absolute; inset: 7px; border: 1px dotted rgba(184, 134, 47, .6); pointer-events: none; }
-.wcard__peg { position: absolute; top: -16px; left: 50%; translate: -50% 0; width: 12px; height: 30px; border-radius: 3px; background: linear-gradient(90deg, #d9a85a, #b8862f); box-shadow: 0 2px 3px rgba(60, 30, 20, .35); }
-.wcard__text { margin: 0; font-style: italic; font-size: .95em; line-height: 1.45; color: var(--ink); text-wrap: pretty; }
-.wcard__name { display: block; margin-top: 10px; font: 400 26px/1.1 var(--font-script); color: var(--rose); }
-@keyframes sway { from { rotate: calc(var(--tilt) - 1.4deg); } to { rotate: calc(var(--tilt) + 1.4deg); } }
-@media (prefers-reduced-motion: reduce) { .wcard { animation: none; } }
-.wishes__form { display: flex; flex-direction: column; gap: 12px; width: min(100%, 480px); margin-top: clamp(40px, 6vw, 60px); padding: 26px 22px 20px; border: 1px solid rgba(184, 134, 47, .5); border-radius: 6px; background: rgba(255, 252, 246, .78); backdrop-filter: blur(3px); }
-.wishes__form-title { margin: 0; font: 400 34px/1 var(--font-script); color: var(--rose); }
-.wishes__form input, .wishes__form textarea { width: 100%; padding: 12px 14px; border: 1px solid rgba(184, 134, 47, .55); border-radius: 3px; background: rgba(255, 255, 255, .85); resize: vertical; }
-.wishes__form .btn { align-self: center; }
-.wishes__sent { min-height: 1.3em; margin: 0; font-style: italic; color: #5d7852; }
-@media (max-width: 760px) { .wishes.sky-bg { padding-inline: 38px; } }
+
+/* ---------- stage: cards | gaagar | cards ---------- */
+.gaagar__stage { display: grid; grid-template-columns: 1fr minmax(260px, 340px) 1fr; grid-auto-flow: dense; align-items: center; gap: 0 clamp(16px, 3vw, 40px); width: min(100%, 1060px); margin-top: clamp(36px, 5vw, 56px); }
+.gaagar__cards { display: contents; list-style: none; margin: 0; padding: 0; }
+.gaagar__cards > .gcard:nth-child(odd) { grid-column: 1; justify-self: end; }
+.gaagar__cards > .gcard:nth-child(even) { grid-column: 3; justify-self: start; }
+.gaagar__cards > .gcard:nth-child(4n + 3) { margin-inline-end: 44px; }
+.gaagar__cards > .gcard:nth-child(4n + 4) { margin-inline-start: 44px; }
+.gaagar__cards > .gcard:not(:nth-child(-n + 2)) { margin-top: -34px; }
+.gaagar__center { grid-column: 2; grid-row: 1 / span 3; position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+/* ---------- wish cards ---------- */
+.gcard { container-type: inline-size; position: relative; display: flex; flex-direction: column; justify-content: center; width: min(100%, 210px); aspect-ratio: 3 / 4; padding: 18% 15% 16%; rotate: var(--tilt, 0deg); background: #fffaf2; border: 2px dashed #d98a9c; outline: 7px solid #fffaf2; outline-offset: 0; border-radius: 4px; box-shadow: 0 0 0 9px #efd9b4, 0 22px 30px -18px rgba(125, 39, 66, .55); transition: rotate .4s var(--ease-out), translate .4s var(--ease-out); }
+.gcard:nth-child(3n + 2) { border-color: #c9a25e; }
+.gcard:nth-child(3n + 3) { border-color: #9db08f; }
+.gcard--art { padding: 21% 19% 19%; background: url(/wishes/card.webp) center / 100% 100% no-repeat; border: 0; outline: 0; box-shadow: none; filter: drop-shadow(0 16px 16px rgba(125, 39, 66, .28)); }
+.gcard:hover { rotate: 0deg; translate: 0 -6px; z-index: 3; }
+.gcard__text { margin: 0; font-style: italic; font-size: clamp(13px, 7.4cqi, 17px); line-height: 1.38; color: var(--ink); text-wrap: pretty; display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden; }
+.gcard__name { display: block; margin-top: 8px; font: 400 clamp(20px, 12cqi, 28px)/1.05 var(--font-script); color: var(--rose); }
+
+/* ---------- the gaagar ---------- */
+.gaagar__pot { position: relative; width: min(100%, 320px); aspect-ratio: 1; animation: gaagar-float 4.5s ease-in-out infinite alternate; }
+.gaagar__pot img, .gaagar__pot svg { position: relative; z-index: 2; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 24px 22px rgba(90, 30, 20, .3)); }
+.gaagar__mouth { position: absolute; left: 50%; top: 27%; width: 30%; height: 6%; translate: -50% 0; pointer-events: none; }
+/* folded chits poking out of the mouth, behind the rim */
+.gaagar__peek { position: absolute; z-index: 1; top: 12%; left: 50%; width: 15%; height: 15%; background: #fffaf2; border: 1px solid #d4a24c; border-radius: 2px; transform-origin: 50% 100%; animation: gaagar-peek 3.6s ease-in-out infinite alternate; }
+.gaagar__peek--1 { translate: -120% 0; rotate: -18deg; border-top: 3px solid #d81b74; }
+.gaagar__peek--2 { translate: -50% -14%; rotate: 4deg; border-top: 3px solid #f29b1d; animation-delay: -1.2s; }
+.gaagar__peek--3 { translate: 20% 4%; rotate: 20deg; border-top: 3px solid #3f8f55; animation-delay: -2.4s; }
+.gaagar__count { margin: 0; font-family: var(--font-display); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-500); }
+.btn--maroon { background: #fffaf3; color: var(--rose); border-color: rgba(201, 162, 94, .8); box-shadow: 0 12px 24px -14px rgba(166, 63, 91, .7); }
+.btn--maroon:hover { background: #fff; }
+
+/* the pulled chit opens over the pot */
+.gaagar__chit { position: absolute; z-index: 5; top: 2%; left: 50%; margin-left: -115px; width: 230px; rotate: 0deg; }
+.gaagar__chit:hover { translate: none; }
+.gaagar__chit { cursor: pointer; }
+.gaagar__close { position: absolute; z-index: 2; top: -10px; right: -10px; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 1px solid rgba(201, 162, 94, .8); border-radius: 50%; background: #fffaf3; color: var(--rose); font-size: 22px; line-height: 1; cursor: pointer; box-shadow: 0 6px 14px -6px rgba(122, 20, 38, .5); }
+.gaagar__close:hover { background: #fff; }
+.gaagar__close:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+
+
+@keyframes gaagar-float { from { translate: 0 0; } to { translate: 0 -8px; } }
+@keyframes gaagar-peek { from { margin-top: 0; } to { margin-top: -6px; } }
+@media (prefers-reduced-motion: reduce) { .gaagar__pot, .gaagar__peek { animation: none; } }
+
+/* ---------- the blessing note (form) ---------- */
+.wnote { position: relative; display: flex; flex-direction: column; gap: 18px; width: min(100%, 440px); margin-top: clamp(70px, 9vw, 90px); padding: 58px clamp(22px, 5vw, 36px) 26px; text-align: left; background:
+    radial-gradient(circle at 0 0, rgba(233, 184, 191, .35), transparent 38%),
+    radial-gradient(circle at 100% 100%, rgba(157, 176, 143, .22), transparent 40%),
+    #fffaf3;
+  border-radius: 14px; box-shadow: 0 1px 0 #fff inset, 0 0 0 1px rgba(201, 162, 94, .35), 0 30px 50px -30px rgba(122, 20, 38, .45); }
+/* dotted zari line stitched just inside the edge */
+.wnote::before { content: ''; position: absolute; inset: 9px; border: 1.5px dotted rgba(201, 162, 94, .75); border-radius: 9px; pointer-events: none; }
+/* the little gaagar sitting on the top edge like a seal */
+.wnote__seal { position: absolute; top: 0; left: 50%; width: 92px; height: 92px; translate: -50% -52%; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle, #fff6f2 55%, #f4d9d6); box-shadow: 0 0 0 1.5px rgba(201, 162, 94, .6), 0 0 0 6px #fffaf3, 0 0 0 7px rgba(217, 138, 156, .45), 0 12px 22px -10px rgba(122, 20, 38, .45); }
+.wnote__seal img, .wnote__seal svg { width: 78%; height: 78%; object-fit: contain; }
+.wnote__eyebrow { margin: 0 0 -14px; text-align: center; font-family: var(--font-gurmukhi); font-size: 15px; color: var(--gold-500); }
+.wnote__title { margin: 0; text-align: center; font: 400 clamp(32px, 8vw, 40px)/1.1 var(--font-script); color: var(--rose); }
+.wnote__field { position: relative; display: flex; flex-direction: column; gap: 2px; }
+.wnote__label { font-family: var(--font-display); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #a8845a; }
+/* written straight onto the paper: no boxes, just ruled lines */
+.wnote input, .wnote textarea { width: 100%; padding: 6px 2px; border: 0; border-radius: 0; background: transparent; font-size: 19px; color: var(--ink); outline: none; }
+.wnote input { border-bottom: 1.5px dashed rgba(217, 138, 156, .7); transition: border-color .25s; }
+.wnote textarea { --lh: 34px; min-height: calc(var(--lh) * 3 + 6px); line-height: var(--lh); padding-top: 0; resize: none; background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--lh) - 1.5px), rgba(217, 138, 156, .55) calc(var(--lh) - 1.5px) var(--lh)); background-attachment: local; }
+.wnote input::placeholder, .wnote textarea::placeholder { color: #c3aaa0; font-style: italic; }
+.wnote input:focus { border-bottom-color: var(--rose); border-bottom-style: solid; }
+.wnote textarea:focus { background-image: repeating-linear-gradient(to bottom, transparent 0 calc(var(--lh) - 1.5px), rgba(166, 63, 91, .6) calc(var(--lh) - 1.5px) var(--lh)); }
+.wnote__count { align-self: flex-end; font-family: var(--font-display); font-size: 11px; letter-spacing: .1em; color: #b9a08a; }
+.wnote__send { align-self: center; display: inline-flex; align-items: center; gap: 10px; min-height: 50px; margin-top: 4px; padding: 0 22px; border: 1px solid rgba(201, 162, 94, .8); border-radius: 999px; background: linear-gradient(180deg, #c46b80, #a63f5b); color: #fff6ef; font-family: var(--font-display); font-size: 12.5px; letter-spacing: .12em; white-space: nowrap; text-transform: uppercase; cursor: pointer; box-shadow: 0 1px 0 rgba(255, 255, 255, .35) inset, 0 14px 26px -14px rgba(166, 63, 91, .9); transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out); }
+.wnote__send:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255, 255, 255, .35) inset, 0 18px 30px -14px rgba(166, 63, 91, 1); }
+.wnote__send:active { transform: scale(.97); }
+.wnote__send:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+.wnote { transition: filter .7s ease .25s; }
+/* while its paper copy folds and flies, the note itself steps aside, then comes back blank */
+.wnote.is-folding { filter: opacity(0); transition: none; }
+.wnote__sign { margin: -8px 0 0; text-align: right; font: 400 24px/1.1 var(--font-script); color: var(--rose); }
+.wnote__sent { min-height: 1.3em; margin: -6px 0 0; text-align: center; font-style: italic; color: #6f8a62; }
+
+/* ---------- phones: gaagar on top, cards swipe sideways ---------- */
+@media (max-width: 760px) {
+  .wishes.sky-bg { padding-inline: 38px; }
+  .gaagar__stage { display: flex; flex-direction: column; align-items: stretch; }
+  .gaagar__center { order: -1; }
+  .gaagar__pot { width: min(78vw, 280px); }
+  .gaagar__cards { display: flex; gap: 22px; margin: 28px -38px 0; padding: 18px 38px 26px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .gaagar__cards::-webkit-scrollbar { display: none; }
+  .gaagar__cards > .gcard { flex: 0 0 min(56vw, 200px); margin: 0 !important; scroll-snap-align: center; }
+  .gcard:hover { rotate: var(--tilt); translate: none; }
+}
+
+/* ---------- the note folding into a square (built by lib/foldNote.js) ---------- */
+.fold { position: fixed; z-index: 80; perspective: 1600px; pointer-events: none; }
+.fold__sheet, .fold__col, .fold__row { position: absolute; transform-style: preserve-3d; }
+.fold__sheet { inset: 0; }
+.fold__col { top: 0; width: var(--w); height: 100%; }
+.fold__col--l { left: 0; }
+.fold__col--r { left: var(--w); transform-origin: 0 50%; }
+.fold__row { left: 0; width: 100%; height: var(--h); }
+.fold__row--t { top: 0; transform-origin: 50% 100%; }
+.fold__row--m { top: var(--h); }
+.fold__row--b { top: calc(var(--h) * 2); transform-origin: 50% 0; }
+.fold__face { position: absolute; inset: 0; overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.fold__front { box-shadow: inset 0 0 0 .5px rgba(201, 162, 94, .18); }
+/* the outside of the folded note: blush paper, a stitched edge and a faint phulkari diamond grid */
+.fold__back { transform: rotateY(180deg); display: grid; place-items: center; background:
+    repeating-linear-gradient(45deg, transparent 0 13px, rgba(201, 162, 94, .14) 13px 14px),
+    repeating-linear-gradient(-45deg, transparent 0 13px, rgba(201, 162, 94, .14) 13px 14px),
+    linear-gradient(160deg, #f8e3e0, #efc9cb);
+  box-shadow: inset 0 0 0 4px #f8e3e0, inset 0 0 0 5.5px rgba(201, 162, 94, .6), inset 0 0 18px rgba(166, 63, 91, .18); }
+.fold__seal { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle at 38% 34%, #d77f93, #a63f5b 62%, #84304a); color: #f6dca4; font-size: 26px; line-height: 1; box-shadow: 0 0 0 3px rgba(166, 63, 91, .35), 0 3px 6px rgba(90, 20, 40, .35), inset 0 1px 2px rgba(255, 255, 255, .35); }
+/* the whole written page; each panel shows its own piece of it */
+.fold__letter { position: absolute; left: 0; top: 0; padding: 58px clamp(22px, 5vw, 36px) 26px; text-align: left; border-radius: 14px; background:
+    radial-gradient(circle at 0 0, rgba(233, 184, 191, .35), transparent 38%),
+    radial-gradient(circle at 100% 100%, rgba(157, 176, 143, .22), transparent 40%),
+    #fffaf3; }
+.fold__letter::before { content: ''; position: absolute; inset: 9px; border: 1.5px dotted rgba(201, 162, 94, .75); border-radius: 9px; }
+.fold__eyebrow { margin: 0 0 14px; text-align: center; font-family: var(--font-gurmukhi); font-size: 15px; color: var(--gold-500); }
+.fold__text { --lh: 34px; margin: 0; font-style: italic; font-size: 21px; line-height: var(--lh); color: var(--ink); overflow-wrap: anywhere; background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--lh) - 1.5px), rgba(217, 138, 156, .45) calc(var(--lh) - 1.5px) var(--lh)); }
+.fold__sign { margin: 14px 0 0; text-align: right; font: 400 26px/1.1 var(--font-script); color: var(--rose); }

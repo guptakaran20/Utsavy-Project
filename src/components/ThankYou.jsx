@@ -1,53 +1,58 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { wedding } from '../data/wedding'
-import FloralSides from './FloralSides'
-import { LotusGarland } from './Florals'
-import './Florals.css'
+import { useScrollTo } from '../lib/smoothScroll'
 import './ThankYou.css'
 
-// The closing page: the same phulkari dupatta as the celebration cards, falling from its gold bar as it arrives.
+// a few rose petals that drift down the closing page on a slow loop: [left %, delay s, duration s, colour]
+const PETALS = [
+  [8, 0, 13, '#f4a7b9'], [22, 5.5, 15, '#fbd9df'], [37, 2.2, 12, '#e88aa0'], [51, 8, 16, '#f7c4cf'],
+  [64, 3.6, 14, '#f3b6c2'], [78, 9.4, 13, '#f4a7b9'], [90, 1.2, 15, '#fbd9df'], [30, 11, 14, '#f7c4cf'],
+]
+
+const rise = {
+  hidden: { opacity: 0, y: 18 },
+  shown: (i) => ({ opacity: 1, y: 0, transition: { delay: 0.15 + i * 0.18, duration: 0.9, ease: [0.22, 1, 0.36, 1] } }),
+}
+
+// The closing page, like a film's end titles: no card, just a big "Thank You", the couple's names,
+// set in a painted scene (garlanded arch above, lotus pond below) with petals drifting down.
 export default function ThankYou() {
   const root = useRef(null)
-  const seen = useInView(root, { once: true, amount: 0.4 })
+  const seen = useInView(root, { once: true, amount: 0.35 })
+  const inView = useInView(root, { amount: 0.1 })
+  const scrollTo = useScrollTo()
+  const state = seen ? 'shown' : 'hidden'
+
   return (
-    <footer ref={root} className="thanks sky-bg">
-      <FloralSides tiles={6} head={false} />
-      {/* the same phulkari dupatta as the celebrations: it falls from a slim gold bar and its bagh border stitches in */}
-      <div className="escroll escroll--dupatta thanks__scroll">
-        <div className="dupatta__bar" aria-hidden="true" />
-        <motion.article
-          className="dupatta__cloth dupatta--anand"
-          style={{ transformOrigin: '50% 0' }}
-          initial={{ clipPath: 'inset(0% -12% 100% -12%)', rotateX: -18 }}
-          animate={seen ? { clipPath: 'inset(0% -12% -14% -12%)', rotateX: 0 } : { clipPath: 'inset(0% -12% 100% -12%)', rotateX: -18 }}
-          transition={{ clipPath: { duration: 1.1, ease: [0.65, 0, 0.35, 1] }, rotateX: { type: 'spring', stiffness: 90, damping: 9 } }}
-        >
-          {seen && <span className="dupatta__bagh" aria-hidden="true" />}
-          <motion.div
-            className="escroll__inner thanks__inner"
-            initial={{ opacity: 0, y: 16 }}
-            animate={seen ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-            transition={{ delay: 0.6, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <p className="ecard__pa gurmukhi">ਆਪ ਜੀ ਦੀ ਉਡੀਕ ਵਿੱਚ</p>
-            <h2 className="ecard__name">Thank You</h2>
-            <LotusGarland />
-            <p className="thanks__line">Awaiting your gracious presence. Together with our families, we cannot wait to share our wedding with you.</p>
-            <p className="thanks__names">{wedding.bride.name} &amp; {wedding.groom.name}</p>
-            <p className="thanks__tag">{wedding.hashtag}</p>
-            <div className="thanks__contacts">
-              {wedding.contacts.map((c) => (
-                <div key={c.label} className="thanks__contact">
-                  <span className="thanks__contact-label">{c.label}</span>
-                  <span className="thanks__contact-name">{c.name}</span>
-                  <a href={`tel:${c.phone.replace(/[^\d+]/g, '')}`}>{c.phone}</a>
-                </div>
-              ))}
-            </div>
-            <p className="thanks__love">Made with love <span aria-hidden="true">&hearts;</span> {wedding.city}</p>
-          </motion.div>
-        </motion.article>
+    <footer ref={root} className={`thanks${inView ? ' is-live' : ''}`}>
+      {/* the painted closing scene: a jharokha of hanging garlands above, a lotus pond with diyas below, open paper between */}
+      <div className="thanks__art" aria-hidden="true">
+        <img src="/thanks-art.webp" alt="" width="941" height="1672" decoding="async" loading="lazy" />
+      </div>
+      <div className="thanks__petals" aria-hidden="true">
+        {PETALS.map(([left, delay, dur, bg], i) => (
+          <i key={i} style={{ left: `${left}%`, animationDelay: `${delay}s`, animationDuration: `${dur}s`, background: bg }} />
+        ))}
+      </div>
+
+      <div className="thanks__body">
+        <motion.p className="thanks__pa gurmukhi" variants={rise} custom={0} initial="hidden" animate={state}>ਧੰਨਵਾਦ</motion.p>
+        <motion.h2 className="thanks__title" variants={rise} custom={1} initial="hidden" animate={state}>Thank You</motion.h2>
+        <motion.span className="thanks__rule" aria-hidden="true" variants={rise} custom={2} initial="hidden" animate={state} />
+        <motion.p className="thanks__line" variants={rise} custom={3} initial="hidden" animate={state}>
+          We can’t wait to celebrate with you.
+        </motion.p>
+        <motion.p className="thanks__names" variants={rise} custom={4} initial="hidden" animate={state}>
+          {wedding.bride.name} <span>&amp;</span> {wedding.groom.name}
+        </motion.p>
+        <motion.p className="thanks__tag" variants={rise} custom={5} initial="hidden" animate={state}>{wedding.hashtag}</motion.p>
+        <motion.div className="thanks__foot" variants={rise} custom={6} initial="hidden" animate={state}>
+          <button type="button" className="thanks__top" onClick={() => scrollTo(0)}>
+            <span aria-hidden="true">↑</span> Back to top
+          </button>
+          <p className="thanks__love">Made with love in {wedding.town}</p>
+        </motion.div>
       </div>
     </footer>
   )

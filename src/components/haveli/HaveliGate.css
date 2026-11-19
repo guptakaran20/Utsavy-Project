@@ -104,7 +104,7 @@
 }
 
 .haveli-kicker {
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: clamp(0.66rem, 0.56rem + 0.4vw, 0.86rem);
   line-height: 1.5;
   letter-spacing: 0.2em;
@@ -132,7 +132,7 @@
 }
 
 .haveli-date {
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: clamp(0.64rem, 0.58rem + 0.25vw, 0.8rem);
   line-height: 1.6;
   letter-spacing: 0.3em;
@@ -410,7 +410,7 @@
   gap: 0.7em;
   margin: 0;
   padding-top: 0.25rem;
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: clamp(0.66rem, 0.6rem + 0.25vw, 0.78rem);
   line-height: 1.5;
   letter-spacing: 0.24em;
@@ -493,7 +493,7 @@
     0 0 0 3px rgba(122, 20, 38, 0.35),
     inset 0 1px 0 rgba(255, 236, 190, 0.25);
   color: var(--gold-100);
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: 0.7rem;
   line-height: 1.25;
   letter-spacing: 0.16em;
@@ -643,7 +643,7 @@
   border-radius: 999px;
   background: linear-gradient(180deg, #e9bf6c, #b8862f);
   color: var(--maroon-900);
-  font-family: var(--font-display);
+  font-family: var(--font-label);
   font-size: clamp(0.78rem, 0.7rem + 0.3vw, 0.92rem);
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -683,7 +683,7 @@
 @keyframes doriHalo { 0%, 100% { transform: scale(.7); opacity: .35; } 50% { transform: scale(1.15); opacity: 1; } }
 .haveli-rope__tassel:focus-visible { outline: 2px solid var(--gold-200); outline-offset: 4px; border-radius: 6px; }
 @keyframes ropeSway { from { rotate: -7deg; } to { rotate: 7deg; } }
-.haveli-pull { position: relative; z-index: 5; flex: none; margin: 0.3rem 0 0; display: flex; align-items: center; gap: .7em; font-family: var(--font-display); font-size: clamp(.72rem, .66rem + .3vw, .9rem); letter-spacing: .28em; text-transform: uppercase; color: var(--gold-200); text-shadow: 0 1px 10px rgba(10,2,4,.9); }
+.haveli-pull { position: relative; z-index: 5; flex: none; margin: 0.3rem 0 0; display: flex; align-items: center; gap: .7em; font-family: var(--font-label); font-size: clamp(.72rem, .66rem + .3vw, .9rem); letter-spacing: .28em; text-transform: uppercase; color: var(--gold-200); text-shadow: 0 1px 10px rgba(10,2,4,.9); }
 .haveli-pull > span:first-child { animation: pullArrow 1.6s ease-in-out infinite; }
 .haveli-pull__pa { font-family: var(--font-gurmukhi); letter-spacing: 0; text-transform: none; font-size: 1.15em; padding-left: .8em; border-left: 1px solid rgba(243,214,138,.4); }
 @keyframes pullArrow { 50% { transform: translateY(5px); } }

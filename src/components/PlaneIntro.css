@@ -4,12 +4,12 @@
 @keyframes piTwinkle { to { opacity: .55; } }
 .pi-heading { position: absolute; top: clamp(80px, 26svh, 260px); left: 0; right: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 var(--gutter); }
 .pi-heading p { margin: 0; }
-.pi-kicker { font-family: var(--font-display); font-size: clamp(.66rem, .56rem + .4vw, .86rem); letter-spacing: .2em; line-height: 1.5; color: rgba(251, 236, 196, .85); text-shadow: 0 1px 10px rgba(4, 8, 22, .9); text-wrap: balance; }
+.pi-kicker { font-family: var(--font-label); font-size: clamp(.66rem, .56rem + .4vw, .86rem); letter-spacing: .2em; line-height: 1.5; color: rgba(251, 236, 196, .85); text-shadow: 0 1px 10px rgba(4, 8, 22, .9); text-wrap: balance; }
 .pi-names { padding: .04em .35em .1em; font-family: var(--font-script); font-size: clamp(2.4rem, min(11vw, 8svh), 4.6rem); line-height: 1.15; background: var(--gold-text); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 12px rgba(4, 8, 22, .7)); }
 .pi-names span { padding: 0 .3em; font-size: .78em; }
-.pi-date { font-family: var(--font-display); font-size: clamp(.64rem, .58rem + .25vw, .8rem); letter-spacing: .3em; color: rgba(243, 214, 138, .88); text-shadow: 0 1px 10px rgba(4, 8, 22, .9); }
+.pi-date { font-family: var(--font-label); font-size: clamp(.64rem, .58rem + .25vw, .8rem); letter-spacing: .3em; color: rgba(243, 214, 138, .88); text-shadow: 0 1px 10px rgba(4, 8, 22, .9); }
 .pi-trail { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
-.pi-skip { position: absolute; left: 0; right: 0; bottom: clamp(18px, 5svh, 44px); margin: 0; text-align: center; font-family: var(--font-display); font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(243, 214, 138, .5); }
+.pi-skip { position: absolute; left: 0; right: 0; bottom: clamp(18px, 5svh, 44px); margin: 0; text-align: center; font-family: var(--font-label); font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(243, 214, 138, .5); }
 @media (prefers-reduced-motion: reduce) { .pi-stars, .pi-takeoff { animation: none; } .pi-ground, .pi-cta { display: none; } }
 
 /* ---- the airfield: photographic runway + plane cut-outs, driven frame by frame from PlaneIntro.jsx ---- */
@@ -25,13 +25,13 @@
 .pi-cta { position: absolute; left: auto; right: clamp(16px, 5vw, 80px); bottom: 12px; z-index: 4; display: flex; flex-direction: column; align-items: center; gap: .9rem; pointer-events: none; }
 .plane-intro.is-ready .pi-cta { opacity: 1; transition: opacity 1s ease .5s; }
 .plane-intro.is-rolling .pi-cta { opacity: 0 !important; transition: opacity .4s ease !important; }
-.pi-takeoff { pointer-events: auto; cursor: pointer; display: inline-flex; align-items: center; gap: .7rem; padding: .95rem 2.1rem; border-radius: 999px; border: 1px solid rgba(243, 214, 138, .7); background: linear-gradient(180deg, rgba(243, 214, 138, .22), rgba(184, 134, 47, .22)); color: #fff4d4; font-family: var(--font-display); font-size: clamp(.8rem, .74rem + .3vw, 1rem); letter-spacing: .32em; text-transform: uppercase; backdrop-filter: blur(6px); box-shadow: 0 0 0 0 rgba(243, 214, 138, .5), 0 8px 30px rgba(0, 0, 0, .45); animation: piPulse 2.4s ease-out infinite; transition: transform .25s cubic-bezier(.2, .7, .2, 1), background .25s; }
+.pi-takeoff { pointer-events: auto; cursor: pointer; display: inline-flex; align-items: center; gap: .7rem; padding: .95rem 2.1rem; border-radius: 999px; border: 1px solid rgba(243, 214, 138, .7); background: linear-gradient(180deg, rgba(243, 214, 138, .22), rgba(184, 134, 47, .22)); color: #fff4d4; font-family: var(--font-label); font-size: clamp(.8rem, .74rem + .3vw, 1rem); letter-spacing: .32em; text-transform: uppercase; backdrop-filter: blur(6px); box-shadow: 0 0 0 0 rgba(243, 214, 138, .5), 0 8px 30px rgba(0, 0, 0, .45); animation: piPulse 2.4s ease-out infinite; transition: transform .25s cubic-bezier(.2, .7, .2, 1), background .25s; }
 .pi-takeoff svg { transform: rotate(-12deg); }
 .pi-takeoff:hover { transform: translateY(-2px) scale(1.03); background: linear-gradient(180deg, rgba(243, 214, 138, .38), rgba(184, 134, 47, .34)); }
 .pi-takeoff:active { transform: scale(.97); }
 .pi-takeoff:focus-visible { outline: 2px solid #fff4d4; outline-offset: 4px; }
 @keyframes piPulse { 70%, 100% { box-shadow: 0 0 0 22px rgba(243, 214, 138, 0), 0 8px 30px rgba(0, 0, 0, .45); } }
-.pi-hint { margin: 0; font-family: var(--font-display); font-size: .66rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(243, 214, 138, .55); }
+.pi-hint { margin: 0; font-family: var(--font-label); font-size: .66rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(243, 214, 138, .55); }
 .pi-skip { opacity: 0; transition: opacity .8s ease 1.5s; }
 .plane-intro.is-rolling .pi-skip { opacity: 1; }
 

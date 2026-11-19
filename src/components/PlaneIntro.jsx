@@ -43,6 +43,7 @@ export default function PlaneIntro({ onEnter, onDone, onTakeoff }) {
     let started = false
     let tookOff = false
     let tl = null
+    let autoT = 0 // takes off on its own if the guest hasn't tapped within a few seconds of the button showing
     const ctx = gsap.context(() => {})
 
     const finish = () => {
@@ -158,12 +159,17 @@ export default function PlaneIntro({ onEnter, onDone, onTakeoff }) {
     Promise.race([
       Promise.all([decode(imgG), decode(runwayImg)]).then(() => null),
       new Promise((r) => window.setTimeout(r, 4000)),
-    ]).then(() => { if (!finished) { layout(); place(); el.classList.add('is-ready') } })
+    ]).then(() => {
+      if (finished) return
+      layout(); place(); el.classList.add('is-ready')
+      autoT = window.setTimeout(() => takeoff(), 3000)
+    })
 
     // ---- the takeoff ---------------------------------------------------------------------------------------------
     const takeoff = () => {
       if (tookOff || finished || !el.classList.contains('is-ready')) return
       tookOff = true
+      window.clearTimeout(autoT)
       cbs.current.onTakeoff?.() // the tap: browsers allow audio to start from here
       el.classList.add('is-rolling')
       const dist = rw() * 1.8
@@ -199,6 +205,7 @@ export default function PlaneIntro({ onEnter, onDone, onTakeoff }) {
     window.addEventListener('keydown', onKey)
     window.addEventListener('wheel', onWheel, { passive: false })
     return () => {
+      window.clearTimeout(autoT)
       tl?.kill()
       gsap.ticker.lagSmoothing(500, 33)
       gsap.killTweensOf(el)
