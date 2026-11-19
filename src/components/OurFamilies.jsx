@@ -90,6 +90,8 @@ export default function OurFamilies() {
   return (
     <section id="families" ref={root} className="section sky-bg ofam chap" data-chapter data-dwell="8">
       <FloralSides tiles={6} head={false} />
+      {/* a painted toran of marigolds, roses and mango leaves with brass bells, hung across the top of the page */}
+      <img className="ofam__toran" src="/families-toran.webp" alt="" width="1536" height="640" decoding="async" aria-hidden="true" />
       <SectionTitle eyebrow="ਦੋਵੇਂ ਪਰਿਵਾਰ" title="Our Families" />
       <p className="ofam__sub reveal">With the blessings of our elders</p>
 
@@ -115,6 +117,8 @@ export default function OurFamilies() {
           </div>
         </div>
       </div>
+      {/* a painted flower-petal rangoli with brass diyas and lotuses, laid along the foot of the page */}
+      <img className="ofam__rangoli" src="/families-rangoli.webp" alt="" width="1536" height="400" loading="lazy" decoding="async" aria-hidden="true" />
     </section>
   )
 }

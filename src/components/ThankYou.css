@@ -5,24 +5,22 @@
   min-height: 100svh; padding: 96px var(--gutter) 40px; text-align: center;
   /* the same paper as the painting and as the foot of Contacts above, so the two pages meet on one plain sheet */
   /* (the painting's paper, enlarged from its open middle exactly as on Contacts, so the texture runs on too) */
-  background: #fdc6b8 url("/contacts-art.webp") 50% 50% / 400% auto no-repeat;
+  background: #f6dcd8 url("/contacts-art.webp") 50% 50% / 400% auto no-repeat;
 }
 
-/* the painted scene fills the page below a 40px strip of plain paper, which (with the 44px at the foot of Contacts)
-   keeps a calm band of paper between the writing ledge above and this page's arch */
+/* the painted scene fills the page from its very top edge, so its arch sits straight on the Contacts writing ledge */
 .thanks__art {
-  position: absolute; top: 40px; bottom: 0; left: 50%; z-index: 0; width: 100%; transform: translateX(-50%); pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30px);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 30px);
+  position: absolute; top: 0; bottom: 0; left: 50%; z-index: 0; width: 100%; transform: translateX(-50%); pointer-events: none;
 }
-.thanks__art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+/* (cover crops from the top, not the middle, so the arch's top edge is always the page's top edge) */
+.thanks__art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
 /* wide screens: keep the scene a tall column in the middle, its sides melting into the damask */
 @media (min-aspect-ratio: 3/4) {
   .thanks__art { width: min(100%, 62svh); }
   .thanks__art {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30px), linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+    -webkit-mask-image: linear-gradient(#000, #000), linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to bottom, transparent 0, #000 30px), linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+    mask-image: linear-gradient(#000, #000), linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
     mask-composite: intersect;
   }
 }

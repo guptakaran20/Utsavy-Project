@@ -102,3 +102,12 @@
 .venue .venue__addr, .venue .venue__note { color: #1f0a0d !important; font-weight: 600; }
 .venue .venue__addr svg { color: #7a4f10; }
 .venue .venue__name, .venue .venue__addr, .venue .venue__note { text-shadow: 0 0 6px rgba(250, 234, 230, 1), 0 0 14px rgba(250, 234, 230, .95), 0 0 24px rgba(250, 234, 230, .8) !important; }
+
+/* ===== the flower band along the foot (public/venue-footer.webp, paper recoloured to the blush): the same width and
+   centring as the toran at the top of Our Families, which continues it, so the two read as one garland ===== */
+#venue.venue > .venue__garland {
+  position: absolute; z-index: 3; bottom: 0; left: 50%; translate: -50% 0; width: max(112%, 440px); max-width: none; height: auto; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 34%); mask-image: linear-gradient(to bottom, transparent 0, #000 34%);
+}
+/* room above the flowers for the Save the Date button */
+#venue.venue { padding-bottom: calc(max(112vw, 440px) * .22 + 24px); }

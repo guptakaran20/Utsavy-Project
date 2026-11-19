@@ -338,6 +338,9 @@ export default function Rsvp() {
   return (
     <section id="rsvp" ref={root} className="section sky-bg rsvp chap" data-chapter="stop">
       <FloralSides tiles={5} head={false} />
+      {/* the rose-and-pearl garland that ends the Good to Know page carries on here: its strands of pearls,
+          jasmine and rosebuds hang down from the join, so the two pages read as one sheet */}
+      <img className="rsvp__garland" src="/rsvp-garland.webp" alt="" width="1536" height="660" decoding="async" aria-hidden="true" />
       <Mandala className="rsvp__mandala" />
       <SectionTitle eyebrow="ਤੁਹਾਡਾ ਜਵਾਬ" title="Kindly Reply" />
       <p className="rsvp__deadline reveal">{wedding.rsvp.deadline}</p>

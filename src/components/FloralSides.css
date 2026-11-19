@@ -37,7 +37,7 @@
 #notes > .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 50px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 50px, #000 calc(100% - 220px), transparent 100%); }
 
 /* Ashirwad Wall → Contacts: the same treatment, so the flowers run on with no bare band between the wish form and ਸੰਪਰਕ */
-#wishes { padding-bottom: 36px; min-height: 0; }
+#wishes { padding-bottom: 64px; min-height: 0; } /* (clear of the Contacts garland valance, which starts right at the foot) */
 #wishes > .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 50px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 240px, #000 calc(100% - 50px), transparent 100%); }
 
 /* the 50px crossfade read as a hard line: both sides now dissolve over ~150px with an eased curve,
@@ -66,3 +66,6 @@
   mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.12) 25px, rgba(0,0,0,.45) 80px, #000 170px, #000 100%); }
 .notes-track > .notes { padding-bottom: 16px; }
 #rsvp { padding-top: 14px; }
+
+/* the artwork's centre tassel hangs ~3.75% left of the image's middle; stretch from the left edge so the tassel lands on the true centre (the extra on the right is clipped) */
+.floral-sides.floral-sides--centered { transform: translateZ(0) scaleX(1.081); transform-origin: 0 0; }

@@ -1,21 +1,16 @@
-.contacts { align-items: center; text-align: center; --rose: #a63f5b; --paper: #fdc6b8; }
+.contacts { align-items: center; text-align: center; --rose: #a63f5b; --paper: #f6dcd8; }
 .contacts > :not(.contacts__art) { position: relative; z-index: 2; }
 
-/* ---- the painted scene (public/contacts-art.webp, 941x1672) ----
-   The page is the painting's own paper colour. Its first 130px carry on the blush damask of the Wishes page above,
-   warming into the paper, before the garland begins; the scene itself is fully opaque, so nothing shows through the garland or the ledge.
-   The foot ends on 44px of plain paper, which the Thank You page below carries on before its arch begins. */
+/* ---- the painted scene (public/contacts-art.webp, 941x1672, its paper recoloured to the site's blush) ----
+   The garland's carved valance starts at the very top of the page, right under the Wishes page, and the writing
+   ledge runs to the foot, straight onto the Thank You page's arch below: no strips of paper between the pages. */
 #contacts.sky-bg {
-  /* starts on the same blush as the Wishes page above, then warms into the painting's paper over 130px */
-  background-color: #f6dcd8;
-  background-image: linear-gradient(to bottom, rgba(253, 198, 184, 0) 0, rgba(253, 198, 184, .35) 50px, var(--paper) 130px), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.55' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: no-repeat, repeat; background-size: 100% 100%, 120px 120px; background-position: 0 0, 0 var(--damask-y, 0px);
+  background: var(--paper);
   /* room above the title for the garland, and below the card for the writing ledge */
-  padding-top: clamp(236px, 64vw, 310px); padding-bottom: clamp(232px, 63vw, 300px);
+  padding-top: clamp(150px, 41vw, 220px); padding-bottom: clamp(232px, 63vw, 300px);
 }
 .contacts__art {
-  position: absolute; top: 100px; bottom: 0; left: 50%; z-index: 0; width: 100%; transform: translateX(-50%); pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30px); mask-image: linear-gradient(to bottom, transparent 0, #000 30px);
+  position: absolute; top: 0; bottom: 0; left: 50%; z-index: 0; width: 100%; transform: translateX(-50%); pointer-events: none;
 }
 .contacts__art > span { position: absolute; left: 0; right: 0; background-image: url("/contacts-art.webp"); background-repeat: no-repeat; }
 /* the open paper from the middle of the painting, enlarged so none of the garland or ledge shows */
@@ -25,22 +20,21 @@
   top: 0; aspect-ratio: 941 / 385; background-size: 100% auto; background-position: 50% 0;
   -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent);
 }
-/* the ledge, set 44px above the foot; its own bottom rows (a gold rule at the painting's edge) melt into the paper */
+/* the ledge runs right to the foot of the page, where the Thank You page's arch begins with no gap */
 .contacts__art-foot {
-  bottom: 44px; aspect-ratio: 941 / 535; background-size: 100% auto; background-position: 50% 100%;
-  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 7%, #000 70%, transparent);
-  mask-image: linear-gradient(to top, transparent 0, #000 7%, #000 70%, transparent);
+  bottom: 0; aspect-ratio: 941 / 535; background-size: 100% auto; background-position: 50% 100%;
+  -webkit-mask-image: linear-gradient(to top, #000 70%, transparent); mask-image: linear-gradient(to top, #000 70%, transparent);
 }
 /* wide screens: the scene is a column in the middle, its sides melting into the plain paper */
 @media (min-width: 600px) {
   .contacts__art { width: min(100%, 560px); }
   .contacts__art {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30px), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(#000, #000), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to bottom, transparent 0, #000 30px), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(#000, #000), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
     mask-composite: intersect;
   }
-  #contacts.sky-bg { padding-top: 310px; padding-bottom: 330px; }
+  #contacts.sky-bg { padding-top: 220px; padding-bottom: 330px; }
 }
 .contacts__sub { margin: 14px 0 0; font-style: italic; color: var(--ink-soft); }
 
@@ -95,13 +89,9 @@
 .contacts__group-title::after { transform: scaleX(-1); }
 .contacts__list { list-style: none; margin: 0; padding: 0; }
 
-/* each person is set like a family on Our Families: cord, seal, name, role, call */
+/* each person is set like a family on Our Families: seal, name, role, call */
 .contacts__list { display: grid; grid-template-columns: 1fr 1fr; }
-.contact { display: flex; flex-direction: column; align-items: center; min-width: 0; padding: 0 clamp(4px, 2vw, 14px) 8px; text-align: center; }
-.contact__cord { display: block; width: 3px; height: 22px; border-radius: 2px; background: #c0243c; }
-.contact:nth-child(2) .contact__cord { background: #d9a92a; }
-.contacts__group--help .contact__cord { background: #b8862f; opacity: .7; }
-
+.contact { display: flex; flex-direction: column; align-items: center; min-width: 0; padding: 12px clamp(4px, 2vw, 14px) 8px; text-align: center; }
 .contact__seal {
   position: relative; display: grid; place-items: center; width: clamp(52px, 13.5vw, 66px); aspect-ratio: 1; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #fffefb, #f7ecd9);

@@ -536,3 +536,27 @@
 .rsvp__petal.is-burst { width: 12px; height: 15px; }
 
 @media (prefers-reduced-motion: reduce) { .rsvp__thanks-title { animation: none; background-position: 0 0; } }
+
+/* ===== the reply form shows its words straight on the page: no torn sheet, no blur, no shadow behind them.
+   (The thank-you side that turns over after accepting keeps its solid paper.) ===== */
+.rsvp .torn-shadow:not(:has(.is-sent)) { filter: none; }
+.rsvp .torn-sides:not(:has(.is-sent)) { -webkit-mask: none; mask: none; }
+.rsvp__sheet.torn:not(.is-sent) { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; -webkit-mask: none; mask: none; }
+.rsvp__sheet.torn:not(.is-sent)::before { display: none; }
+.rsvp.sky-bg .rsvp__card:not(:has(.is-sent)) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* the greeting reads larger now it sits straight on the page */
+.rsvp__head-pa { font-size: clamp(21px, 5.6vw, 26px); }
+.rsvp.sky-bg .rsvp__head-title { font-size: clamp(56px, 15vw, 76px); }
+
+/* ===== the hanging garland at the top: the same width and centring as the rose band at the foot of Good to Know
+   (.notes__garland). It starts 48px above this page, over the foot of that band, and fades in across those 48px,
+   so the two paintings dissolve into one garland instead of meeting on a straight cut; the hanging tips melt
+   into the damask below. ===== */
+#rsvp.rsvp { z-index: 9; overflow: visible; clip-path: inset(-48px 0 0 0); } /* (above Good to Know, and drawn 48px above its own top) */
+#rsvp.rsvp > .rsvp__garland {
+  position: absolute; z-index: 3; top: -48px; left: 50%; translate: -50% 0; width: max(112%, 440px); max-width: none; height: auto; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 62%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 62%, transparent 100%);
+}
+/* room under the garland for the heading */
+#rsvp.rsvp { padding-top: calc(max(112vw, 440px) * .4 - 40px); }

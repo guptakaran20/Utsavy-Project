@@ -60,3 +60,25 @@
 
 /* overflow: hidden would make the section its own scroll box and stop the portrait sticking; clip trims the edges the same way */
 .ofam.chap { overflow: clip; }
+
+/* ===== the painted toran across the top (public/families-toran.webp, its paper recoloured to the site's blush):
+   the same width and centring as the hanging garland on the reply page; its bells and strands melt into the damask ===== */
+/* it starts 48px above the page, over the foot of the Venue page's flower band, and fades in across those 48px,
+   so the two paintings dissolve into one garland instead of meeting on a straight cut */
+#families.ofam { overflow: visible; clip-path: inset(-48px 0 0 0); }
+#families.ofam > .ofam__toran {
+  position: absolute; z-index: 3; top: -48px; left: 50%; translate: -50% 0; width: max(112%, 440px); max-width: none; height: auto; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 64%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 48px, #000 64%, transparent 100%);
+}
+/* room under the toran for the heading */
+#families.ofam { padding-top: calc(max(112vw, 440px) * .38 - 40px); }
+
+/* ===== the painted rangoli along the foot (public/families-rangoli.webp, paper recoloured to the blush): rises out of
+   the paper at its top and settles back into it at the very bottom, so the next page begins on plain paper ===== */
+#families.ofam > .ofam__rangoli {
+  position: absolute; z-index: 3; bottom: 0; left: 50%; translate: -50% 0; width: max(112%, 440px); max-width: none; height: auto; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 84%, transparent 100%);
+}
+/* room above the rangoli for the closing lines */
+#families.ofam { padding-bottom: calc(max(112vw, 440px) * .3); }

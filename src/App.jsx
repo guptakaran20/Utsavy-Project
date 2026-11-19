@@ -52,7 +52,7 @@ export default function App() {
       <main>
         <Hero play={opened} />
         <div className="blush-run sky-bg">
-          <FloralSides tiles={40} />
+          <FloralSides tiles={40} className="floral-sides--centered" />
           <Invitation />
           <Couple />
           <Story />

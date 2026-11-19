@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
 import { absTop, lockedTimeline } from '../lib/lockedTimeline'
 import { LenisContext } from '../lib/smoothScroll'
@@ -18,13 +18,12 @@ const ChatIcon = () => (
   <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19.1Z" /><path d="M9.5 9.5c0 2.5 2.5 5 5 5l1-1.2-1.8-.9-.8.7a4 4 0 0 1-2-2l.7-.8-.9-1.8Z" fill="currentColor" stroke="none" /></svg>
 )
 
-// One person, set like a family on the Our Families page: a short cord, a round seal with their initials,
+// One person, set like a family on the Our Families page: a round seal with their initials,
 // the name, who they are to the wedding, and a button to call them.
 function Person({ c }) {
   const tel = c.phone.replace(/[^\d+]/g, '')
   return (
     <li className="contact">
-      <span className="contact__cord" aria-hidden="true" />
       <span className="contact__seal" aria-hidden="true"><span>{initials(c.name)}</span></span>
       <h3 className="contact__name">{c.name}</h3>
       <span className="contact__label">{c.label}</span>
@@ -55,20 +54,6 @@ export default function Contacts() {
   const lenis = useContext(LenisContext)
   const { bride, groom } = wedding
   useReveal(root)
-
-  // The damask at the top of this page must carry on the Wishes page's damask in step, or its 120px tiles restart
-  // and draw a line where the pages meet. Wishes tiles from its own top, and this page tucks 2px under its foot,
-  // so shift this page's tiles by the part of a tile Wishes ends on (kept current as Wishes changes height).
-  useLayoutEffect(() => {
-    const el = root.current
-    const prev = el?.previousElementSibling
-    if (!prev) return undefined
-    const sync = () => el.style.setProperty('--damask-y', `${-((prev.getBoundingClientRect().height - 2) % 120)}px`)
-    sync()
-    const ro = new ResizeObserver(sync)
-    ro.observe(prev)
-    return () => ro.disconnect()
-  }, [])
 
   useGSAP(
     () => {
@@ -115,8 +100,7 @@ export default function Contacts() {
           .to(q('.contacts__back, .contacts__front, .contacts__flap'), { y: 90, autoAlpha: 0, duration: 0.9, ease: 'power2.in' }, 3.2)
           .set(card, { clipPath: 'none' }, 3.7)
         glide(secondStop, { duration: 1.2, ease: 'sine.inOut' }, 2.6)
-        tl.from(q('.contacts__card .contact__cord'), { scaleY: 0, transformOrigin: '50% 0%', stagger: 0.12, duration: 0.5, ease: 'power2.out' }, 3.6)
-          .fromTo(q('.contacts__crest'), { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.7, ease: 'back.out(2)' }, 3.4)
+        tl.fromTo(q('.contacts__crest'), { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.7, ease: 'back.out(2)' }, 3.4)
           .fromTo(q('.contacts__card .contact, .contacts__group-title, .contacts__foot'), { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.12, duration: 0.6, ease: 'power2.out' }, 3.6)
           .from(q('.contacts__card .contact__seal'), { scale: 0, stagger: 0.05, duration: 0.45, ease: 'back.out(2)' }, 3.75)
 

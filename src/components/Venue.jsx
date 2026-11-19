@@ -89,6 +89,8 @@ export default function Venue() {
           </div>
         </div>
       </div>
+      {/* a band of marigolds, roses and jasmine along the foot: the start of the toran that hangs at the top of Our Families */}
+      <img className="venue__garland" src="/venue-footer.webp" alt="" width="1536" height="380" loading="lazy" decoding="async" aria-hidden="true" />
     </section>
   )
 }
