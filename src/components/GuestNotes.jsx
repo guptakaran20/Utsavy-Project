@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
-import { ScrollTrigger, useGSAP } from '../lib/gsap'
+import { ScrollTrigger, useGSAP, onViewportResize } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { useScrollTo } from '../lib/smoothScroll'
 import { wedding } from '../data/wedding'
@@ -52,8 +52,7 @@ export default function GuestNotes() {
   useLayoutEffect(() => {
     const measure = () => setVh((p) => (p === window.innerHeight ? p : window.innerHeight))
     measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
+    return onViewportResize(measure)
   }, [])
   useEffect(() => { if (vh) ScrollTrigger.refresh() }, [vh])
 
@@ -84,7 +83,7 @@ export default function GuestNotes() {
   const extra = Math.round(vh * PER_NOTE * (n - 1))
 
   return (
-    <div className="notes-track" ref={track} style={{ height: vh ? `calc(100svh + ${extra}px)` : undefined }}>
+    <div className="notes-track" ref={track} style={{ height: vh ? `calc(var(--full-h) + ${extra}px)` : undefined }}>
       <section id="notes" ref={root} className={`section sky-bg notes chap${sceneIn ? ' is-open' : ''}`} data-chapter data-dwell="7">
         <FloralSides tiles={6} head={false} />
         <SectionTitle eyebrow="ਮਹਿਮਾਨਾਂ ਲਈ" title="Good to Know" />

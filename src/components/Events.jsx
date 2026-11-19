@@ -1,6 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useInView } from 'framer-motion'
-import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP } from '../lib/gsap'
+import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP, onViewportResize } from '../lib/gsap'
 import { downloadIcs } from '../lib/calendar'
 import { pointAt, trailTo } from '../lib/heartPath'
 import { LenisContext, useScrollTo } from '../lib/smoothScroll'
@@ -120,8 +120,7 @@ export default function Events() {
       setVh(window.innerHeight)
     }
     measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
+    return onViewportResize(measure)
   }, [])
   const extra = ROW * (n - 1) // one row of scrolling per ceremony: the page moves exactly as far as the finger does
   useEffect(() => { if (vh) ScrollTrigger.refresh() }, [vh])
@@ -204,7 +203,7 @@ export default function Events() {
   )
 
   return (
-    <div className="events-track" ref={track} style={{ height: vh ? vh + extra : undefined }}>
+    <div className="events-track" ref={track} style={{ height: vh ? `calc(var(--full-h) + ${extra}px)` : undefined }}>
       <section id="events" ref={root} className={`cer${opened ? ' is-open' : ''}`} data-chapter data-dwell="7">
         <div className="cer-paper" ref={paper} aria-hidden="true" />
         <div className="cer-viewport">

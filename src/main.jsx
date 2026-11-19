@@ -8,6 +8,17 @@ document.title = `${wedding.bride.name} & ${wedding.groom.name} · ਸ਼ੁਭ 
 // Always start at the gate, not wherever the last visit left off
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
 
+// The tallest the screen has been at this width (phone address bar hidden): full-screen scenes size to it (--full-h)
+let vhMaxW = 0
+let vhMax = 0
+const trackViewport = () => {
+  if (innerWidth !== vhMaxW) { vhMaxW = innerWidth; vhMax = 0 }
+  const h = Math.max(innerHeight, window.visualViewport?.height || 0)
+  if (h > vhMax) { vhMax = h; document.documentElement.style.setProperty('--vh-max', `${Math.round(h)}px`) }
+}
+trackViewport()
+addEventListener('resize', trackViewport)
+
 // On a desktop the invitation runs inside a phone on a soft backdrop (DesktopFrame loads
 // this same page in an iframe with ?embed=1). Phones, tablets and the iframe itself get the
 // site directly. Add ?full to the URL to see the full-width desktop layout instead.

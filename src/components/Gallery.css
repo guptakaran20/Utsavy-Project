@@ -91,3 +91,12 @@
   .jh__meta { position: relative; isolation: isolate; }
   .jh__meta::before { content: ''; position: absolute; inset: -6px -18%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(246, 220, 216, .9) 55%, rgba(246, 220, 216, 0) 100%); }
 }
+
+/* phones: fill the screen even after the address bar slides away (see --full-h in index.css); content stays clear of the bar */
+@media (prefers-reduced-motion: no-preference) {
+  .gallery__track, .gallery__stage { height: var(--full-h); }
+  .gallery__stage { padding-bottom: calc(60px + var(--bar-h)); }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 1099px) {
+  .gallery__stage { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px + var(--bar-h)); }
+}

@@ -110,3 +110,6 @@
 @media (prefers-reduced-motion: reduce) {
   .cer *, .cer *::before, .cer *::after { transition-duration: .01ms !important; animation: none !important; }
 }
+
+/* phones: fill the screen even after the address bar slides away (see --full-h in index.css) */
+.cer { height: var(--full-h); }

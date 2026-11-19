@@ -158,24 +158,28 @@ export default function Hero({ play }) {
     <div ref={wrap} className="hero-wrap">
     <section id="top" ref={root} className="hero chap" data-chapter data-dwell="4">
       <div className="hero__sky" aria-hidden="true" />
-      <svg className="hero__clouds" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs>
-          <filter id="cloud" x="-30%" y="-40%" width="160%" height="180%">
-            <feTurbulence type="fractalNoise" baseFrequency=".011" numOctaves="5" seed="7" result="n" />
-            <feDisplacementMap in="SourceGraphic" in2="n" scale="110" />
-            <feGaussianBlur stdDeviation="3" />
-          </filter>
-        </defs>
-        <g className="cl cl--a" filter="url(#cloud)">
-          {[[110, 190, 120, 34, '#fff'], [210, 230, 90, 26, '#ffe9f0'], [60, 290, 110, 28, '#fff'], [250, 150, 70, 22, '#ffdfe9'], [170, 330, 80, 22, '#ffe9f0'], [30, 420, 90, 22, '#fff']].map(([x, y, rx, ry, c], i) => <ellipse key={i} cx={x} cy={y} rx={rx} ry={ry} fill={c} />)}
-        </g>
-        <g className="cl cl--b" filter="url(#cloud)">
-          {[[880, 120, 110, 30, '#fff'], [800, 200, 90, 24, '#ffe9f0'], [930, 260, 100, 28, '#fff'], [840, 340, 80, 22, '#ffdfe9'], [960, 400, 80, 20, '#fff']].map(([x, y, rx, ry, c], i) => <ellipse key={i} cx={x} cy={y} rx={rx} ry={ry} fill={c} />)}
-        </g>
-        <g className="cl cl--c" filter="url(#cloud)">
-          {[[520, 70, 120, 20, '#fff'], [420, 110, 80, 16, '#ffe9f0']].map(([x, y, rx, ry, c], i) => <ellipse key={i} cx={x} cy={y} rx={rx} ry={ry} fill={c} opacity=".8" />)}
-        </g>
-      </svg>
+      {/* each cloud bank is its own SVG layer: the noise filter is drawn once, then the layer just glides (a cheap GPU move)
+          instead of the filter being redrawn on every frame, which made phones stutter */}
+      <div className="hero__clouds" aria-hidden="true">
+        {[
+          ['a', [[110, 190, 120, 34, '#fff'], [210, 230, 90, 26, '#ffe9f0'], [60, 290, 110, 28, '#fff'], [250, 150, 70, 22, '#ffdfe9'], [170, 330, 80, 22, '#ffe9f0'], [30, 420, 90, 22, '#fff']], 1],
+          ['b', [[880, 120, 110, 30, '#fff'], [800, 200, 90, 24, '#ffe9f0'], [930, 260, 100, 28, '#fff'], [840, 340, 80, 22, '#ffdfe9'], [960, 400, 80, 20, '#fff']], 1],
+          ['c', [[520, 70, 120, 20, '#fff'], [420, 110, 80, 16, '#ffe9f0']], 0.8],
+        ].map(([id, blobs, op]) => (
+          <svg key={id} className={`cl cl--${id}`} viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <filter id={`cloud-${id}`} x="-30%" y="-40%" width="160%" height="180%">
+                <feTurbulence type="fractalNoise" baseFrequency=".011" numOctaves="4" seed="7" result="n" />
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="110" />
+                <feGaussianBlur stdDeviation="3" />
+              </filter>
+            </defs>
+            <g filter={`url(#cloud-${id})`}>
+              {blobs.map(([x, y, rx, ry, c], i) => <ellipse key={i} cx={x} cy={y} rx={rx} ry={ry} fill={c} opacity={op} />)}
+            </g>
+          </svg>
+        ))}
+      </div>
       <div className="hero__sun" aria-hidden="true" />
       <div className="hero__rays" aria-hidden="true" />
       <svg className="hero__birds" viewBox="0 0 120 30" aria-hidden="true">
@@ -217,7 +221,7 @@ export default function Hero({ play }) {
       <img className="hero__plane" src="/intro/plane-gear.webp" alt="" aria-hidden="true" draggable="false" />
       <HeroFX play={play} />
       <div className="hero__haveli" aria-hidden="true">
-        <img className="gur" src="/gurdwara.webp" alt="" width="2470" height="2548" decoding="async" />
+        <img className="gur" src="/gurdwara.webp" srcSet="/gurdwara-1600.webp 1600w, /gurdwara.webp 2470w" sizes="(max-aspect-ratio: 1/1) 160vw, 112vw" alt="" width="2470" height="2548" decoding="async" />
       </div>
       <div className="hero__flash" aria-hidden="true"><i className="hero__bloom" /></div>
     </section>

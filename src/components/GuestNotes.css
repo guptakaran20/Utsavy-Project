@@ -128,3 +128,7 @@
 /* the foot of the held screen: the trunk fades into the blush paper beneath a bank of pastel flowers */
 .notes > .notes__fade { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; height: clamp(70px, 12svh, 120px); pointer-events: none; background: linear-gradient(to bottom, rgba(246, 220, 216, 0), #f6dcd8 78%); }
 .notes > .notes__garland { position: absolute; z-index: 4; left: 50%; bottom: -1px; translate: -50% 0; width: max(112%, 440px); max-width: none; height: auto; pointer-events: none; }
+
+/* phones: fill the screen even after the address bar slides away (see --full-h in index.css); the easel stands on the
+   foot of the visible screen, not under the bar */
+.notes-track > .notes { height: var(--full-h); padding-bottom: var(--bar-h); }
