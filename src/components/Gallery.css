@@ -46,7 +46,7 @@
 /* wide screens: the door stays in the middle, the story fills the left and a big photo number fills the right */
 @media (min-width: 1100px) {
   .jh { --h: clamp(320px, calc(100svh - 170px), 1000px); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: clamp(28px, 4vw, 72px); width: min(96vw, 1500px); }
-  .gallery__florals span img { width: 132%; max-width: none; left: -16%; } /* lean the flowers out so the words beside the door stay clear */
+  .gallery__florals .floral-sides__run { background-size: 132% auto; } /* lean the flowers out so the words beside the door stay clear */
   .jh__caps { grid-row: 1; grid-column: 1; justify-self: end; width: min(100%, 320px); min-height: 0; }
   .jh__cap { text-align: right; }
   .jh__title { font-size: clamp(40px, 5.4svh, 58px); }
@@ -85,7 +85,7 @@
 /* phones: the side flowers reached into the caption and hid its edges. Lean the gallery's flowers further out, keep the
    words to the clear middle, and lay a soft blush wash behind them so any leaf that still reaches in sits quietly under the type. */
 @media (max-width: 1099px) {
-  .gallery__florals span img { width: 150%; max-width: none; left: -25%; }
+  .gallery__florals .floral-sides__run { background-size: 150% auto; }
   .jh__caps { width: min(82vw, 420px); isolation: isolate; }
   .jh__caps::before { content: ''; position: absolute; inset: -14px -10%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(246, 220, 216, .96) 62%, rgba(246, 220, 216, .75) 80%, rgba(246, 220, 216, 0) 100%); }
   .jh__meta { position: relative; isolation: isolate; }

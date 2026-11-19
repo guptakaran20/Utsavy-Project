@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger, Observer, useGSAP } from '../lib/gsap'
 import { LenisContext } from '../lib/smoothScroll'
 import { wedding } from '../data/wedding'
@@ -33,6 +33,20 @@ const Placeholder = () => (
 // photo the page is handed back. Each change is a short timed animation, never tied to the scroll position.
 export default function Gallery() {
   const root = useRef(null)
+
+  // Get the photos and the doorway fully downloaded AND decoded while the guest is still a few screens away, so no photo
+  // slides in blank (a phone decodes a big JPEG on demand otherwise, and under memory pressure it can come up empty)
+  useEffect(() => {
+    const el = root.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return
+      io.disconnect()
+      el.querySelectorAll('img').forEach((img) => { img.loading = 'eager'; img.decode?.().catch(() => {}) })
+    }, { rootMargin: '250% 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
   const track = useRef(null)
   const api = useRef({})
   const lenisRef = useContext(LenisContext)

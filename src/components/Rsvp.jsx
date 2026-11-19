@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useReveal } from '../lib/useReveal'
 import { gsap, useGSAP } from '../lib/gsap'
@@ -150,6 +150,20 @@ function dholHit() {
 
 export default function Rsvp() {
   const root = useRef(null)
+
+  // The stage and the couple stay hidden until "Joyfully accept" is tapped, then rise at once. Fetch and decode them
+  // while the guest is still a couple of screens away, so on a slow phone connection they never come up as empty boxes.
+  useEffect(() => {
+    const el = root.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return
+      io.disconnect()
+      el.querySelectorAll('.rsvp__stage img').forEach((img) => { img.loading = 'eager'; img.decode?.().catch(() => {}) })
+    }, { rootMargin: '200% 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
   const lenis = useContext(LenisContext)
   const [sent, setSent] = useState(false)
   const name = guestName()
