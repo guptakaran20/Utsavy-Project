@@ -116,8 +116,8 @@ export default function Contacts() {
           along the foot, open paper between; the bands keep their shape however tall the section grows */}
       <div className="contacts__art" aria-hidden="true">
         <span className="contacts__art-paper" />
-        <span className="contacts__art-top" />
-        <span className="contacts__art-foot" />
+        <span className="contacts__art-top art-sway" data-art="drop" />
+        <span className="contacts__art-foot" data-art="rise" />
       </div>
       <SectionTitle eyebrow="ਸੰਪਰਕ" title="Get in Touch" />
       <p className="contacts__sub reveal">For travel, stay or anything at all, we are just a call away.</p>

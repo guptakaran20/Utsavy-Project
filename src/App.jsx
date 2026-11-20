@@ -26,6 +26,7 @@ import FrameScene from './lib/FrameScene'
 import IdleNudge from './lib/IdleNudge'
 import { dhol } from './lib/dhol'
 import { useLineReveal } from './lib/useLineReveal'
+import { useArtReveal } from './lib/useArtReveal'
 
 // 'plane' = a night flight crosses the sky, then the invitation opens; 'gate' = the haveli doorway (kept intact, switch back any time)
 const INTRO = 'plane'
@@ -34,6 +35,7 @@ export default function App() {
   const [opened, setOpened] = useState(false)
   const [gateDone, setGateDone] = useState(false)
   useLineReveal()
+  useArtReveal()
 
   useEffect(() => {
     // Web fonts change text heights, which shifts every trigger position

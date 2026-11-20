@@ -6,7 +6,6 @@ import { downloadIcs } from '../lib/calendar'
 import { wedding } from '../data/wedding'
 import { invitationText } from '../lib/invite'
 import SectionTitle from './SectionTitle'
-import FloralSides from './FloralSides'
 import { ArrowIcon, CalendarIcon, PinIcon } from './Icons'
 import './Venue.css'
 
@@ -25,7 +24,6 @@ export default function Venue() {
       const mm = gsap.matchMedia()
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         gsap.fromTo(root.current, { '--bgy': '-60px' }, { '--bgy': '60px', ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true } })
-        gsap.from('.venue .floral-sides', { scale: 1.08, autoAlpha: 0.2, duration: 1.8, ease: 'power2.out', scrollTrigger: { trigger: root.current, start: 'top 85%', once: true } })
         const q = (sel) => root.current.querySelector(sel)
         const all = (sel) => root.current.querySelectorAll(sel)
         gsap.set('.venue__info > *', { y: 28, autoAlpha: 0 })
@@ -58,7 +56,17 @@ export default function Venue() {
 
   return (
     <section id="venue" ref={root} className="section sky-bg venue chap" data-chapter data-dwell="6">
-      <FloralSides tiles={3} />
+      {/* the painted scene: the gurdwara at dawn across its sarovar, seen through a carved arch hung with roses */}
+      <div className="venue__scene" data-art="fade" aria-hidden="true">
+        <img className="art-drift" src="/venue-scene.webp" alt="" width="948" height="790" decoding="async" />
+        {/* the low sun glows, and a few rose petals drift down through the arch (sun centre measured on the painting) */}
+        <span className="art-sun" style={{ left: '28.7%', top: '46.8%' }} />
+        <span className="art-petals">
+          {[[14, 0, 11], [33, 3.4, 13], [58, 1.6, 12], [76, 5.2, 14], [88, 2.4, 11], [46, 7, 13]].map(([x, d, t]) => (
+            <i key={x} style={{ left: `${x}%`, animationDelay: `${d}s`, animationDuration: `${t}s` }} />
+          ))}
+        </span>
+      </div>
       <SectionTitle eyebrow="ਸਥਾਨ" title="The Venue" />
       <div className="venue__grid">
         <div className="venue__info">
@@ -90,7 +98,7 @@ export default function Venue() {
         </div>
       </div>
       {/* a band of marigolds, roses and jasmine along the foot: the start of the toran that hangs at the top of Our Families */}
-      <img className="venue__garland" src="/venue-footer.webp" alt="" width="1536" height="380" loading="lazy" decoding="async" aria-hidden="true" />
+      <img className="venue__garland" data-art="rise" src="/venue-footer.webp" alt="" width="1536" height="380" loading="lazy" decoding="async" aria-hidden="true" />
     </section>
   )
 }

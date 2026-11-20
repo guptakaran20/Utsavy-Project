@@ -27,8 +27,10 @@ export default function ThankYou() {
   return (
     <footer ref={root} className={`thanks${inView ? ' is-live' : ''}`}>
       {/* the painted closing scene: a jharokha of hanging garlands above, a lotus pond with diyas below, open paper between */}
-      <div className="thanks__art" aria-hidden="true">
-        <img src="/thanks-art.webp" alt="" width="941" height="1672" decoding="async" loading="lazy" />
+      <div className="thanks__art" data-art="fade" aria-hidden="true">
+        <img className="art-drift" src="/thanks-art.webp" alt="" width="941" height="1672" decoding="async" loading="lazy" />
+        {/* the site's floral paper over the painting's plain middle, faded out before the garlands above and the pond below */}
+        <span className="thanks__paper" />
       </div>
       <div className="thanks__petals" aria-hidden="true">
         {PETALS.map(([left, delay, dur, bg], i) => (

@@ -13,6 +13,11 @@
   position: absolute; top: 0; bottom: 0; left: 50%; z-index: 0; width: 100%; transform: translateX(-50%); pointer-events: none;
 }
 /* (cover crops from the top, not the middle, so the arch's top edge is always the page's top edge) */
+.thanks__paper {
+  position: absolute; inset: 0; background: url("/paper-floral.webp") 0 0 / var(--paper-tile) repeat;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 35%, #000 44%, #000 57%, transparent 64%);
+  mask-image: linear-gradient(to bottom, transparent 0, transparent 35%, #000 44%, #000 57%, transparent 64%);
+}
 .thanks__art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
 /* wide screens: keep the scene a tall column in the middle, its sides melting into the damask */
 @media (min-aspect-ratio: 3/4) {

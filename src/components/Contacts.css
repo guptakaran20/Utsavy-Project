@@ -14,7 +14,8 @@
 }
 .contacts__art > span { position: absolute; left: 0; right: 0; background-image: url("/contacts-art.webp"); background-repeat: no-repeat; }
 /* the open paper from the middle of the painting, enlarged so none of the garland or ledge shows */
-.contacts__art-paper { top: 0; bottom: 0; background-size: 400% auto; background-position: 50% 50%; }
+/* the open paper between the garland and the ledge: the site's own floral paper, so this page matches the rest */
+.contacts__art > .contacts__art-paper { top: 0; bottom: 0; background: url("/paper-floral.webp") 0 0 / var(--paper-tile) repeat; }
 /* the garland band (top 23% of the painting) and the ledge band (bottom 32%), each at full width */
 .contacts__art-top {
   top: 0; aspect-ratio: 941 / 385; background-size: 100% auto; background-position: 50% 0;

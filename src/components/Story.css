@@ -51,7 +51,7 @@
 @media (prefers-reduced-motion: reduce) { .story__heart i { animation: none; } }
 
 /* continues the invitation and couple: the same blush paper, and the flowers run down both sides, tile after tile */
-.story { position: relative; overflow: hidden; background-color: #f6dcd8; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.55' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-size: auto; }
+.story { position: relative; overflow: hidden; background-color: #f6dcd8; background-image: url("/paper-floral.webp"); background-size: var(--paper-tile); }
 .story__stage { z-index: 2; }
 
 /* header: Gurmukhi and English on their own lines (one long line ran into the corner roses), the subtitle kept to a
@@ -70,3 +70,10 @@
    the masked edge flowers behind the whole section (that is what made this part of the page stutter on phones) */
 .story__path { will-change: transform; }
 .story__heart { will-change: transform; }
+
+/* the painted keepsake garland across the top, the same width as the other hanging pieces */
+#story.story > .story__header {
+  position: absolute; z-index: 1; top: 0; left: 50%; translate: -50% 0; width: max(112vw, 440px); max-width: 760px; height: auto; pointer-events: none;
+}
+/* the heading sits just below its longest strands */
+#story.story { padding-top: calc(min(max(112vw, 440px), 760px) * .24 + 14px); }

@@ -369,3 +369,17 @@
 .countdown .datecard__head { margin-top: 0; }
 .countdown .datecard__head-pa { font-size: 18px; color: #7d4f0c; }
 .countdown .datecard__title { color: #7a1f3a; font-size: clamp(44px, 11.5vw, 60px); text-shadow: 0 1px 0 rgba(255, 255, 255, .9), 0 0 18px rgba(250, 234, 230, .95), 0 2px 6px rgba(122, 31, 58, .2); }
+
+/* the painted swag between the Moments and the date */
+/* strung right across the page: its bows sit at the very edges of the screen, among the edge flowers, so it reads as
+   hung between them rather than floating; a soft shadow lays it on the paper */
+.countdown__divider {
+  display: block; position: relative; left: 50%; translate: -50% 0; width: max(132vw, 500px); max-width: 780px; height: auto;
+  /* pulled up through this page's top padding (and the strip the phone's bars may cover, where the Moments footer
+     sits higher), so its bows hang right under the petals at the foot of the Moments */
+  margin: calc(-136px - var(--bar-h, 0px)) 0 clamp(6px, 2vw, 16px); pointer-events: none;
+  filter: drop-shadow(0 6px 6px rgba(125, 39, 66, .16)) drop-shadow(0 1px 1px rgba(125, 39, 66, .12));
+}
+/* the swag reaches up above this page's top edge (onto the foot of the Moments), so let the page draw up there,
+   still clipping its sides */
+.countdown.chap.sky-bg { overflow: visible; clip-path: inset(-240px 0 0 0); }

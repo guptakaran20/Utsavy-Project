@@ -149,6 +149,9 @@ export default function Story() {
       <svg width="0" height="0" aria-hidden="true">
         <defs><path id="story-frame" d={FRAME} /></defs>
       </svg>
+      {/* a garland of keepsakes across the top: roses on a gold thread, with blank polaroids, sealed letters, hearts,
+          pearls and a bell pegged to it (painted, its paper cut away) */}
+      <img className="story__header art-sway" data-art="drop" src="/story-header.webp" alt="" width="1000" height="240" decoding="async" aria-hidden="true" />
       <div className="story__stage" ref={stage}>
         <svg className="story__path" ref={svg} aria-hidden="true">
           <path ref={path} className="story__dash" fill="none" />

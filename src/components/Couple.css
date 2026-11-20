@@ -20,7 +20,7 @@
 .couple > :not(.floral-sides) { position: relative; z-index: 2; }
 
 /* one continuous sheet of blush paper from the invitation through the couple: pattern only, no per-section highlight */
-.invite.chap, .couple.section--ivory { background-color: #f6dcd8; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.3' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-size: auto; }
+.invite.chap, .couple.section--ivory { background-color: #f6dcd8; background-image: url("/paper-floral.webp"); background-size: var(--paper-tile); }
 
 /* the photo fills the WHOLE arch (cusped top and all) instead of sitting in a padded rectangle, and the gold hairlines are drawn over it */
 .person__arch .arch__body { padding: 0; display: block; }

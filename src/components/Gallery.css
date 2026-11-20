@@ -100,3 +100,37 @@
 @media (prefers-reduced-motion: no-preference) and (max-width: 1099px) {
   .gallery__stage { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px + var(--bar-h)); }
 }
+
+/* the painted footer along the foot of the held doorway page: kept above the strip the browser's bars may cover, and
+   melting into the paper at its bottom edge so it never ends on a straight line */
+.gallery__stage > .gallery__footer {
+  position: absolute; z-index: 1; bottom: var(--bar-h, 0px); left: 50%; translate: -50% 0; width: max(112vw, 440px); max-width: 760px; height: auto; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent); mask-image: linear-gradient(to bottom, #000 78%, transparent);
+}
+/* phones: the doorway gives up the footer's height (the shoes and petals take the lower ~3/4 of it), so the caption,
+   the dots and the hashtag always end above them */
+@media (max-width: 1099px) {
+  .gallery { --foot: calc(max(112vw, 440px) * .13); }
+  .gallery__stage.gallery__stage { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--bar-h, 0px) + var(--foot) + 10px); }
+  .jh.jh { --h: min(calc(100svh - 220px - var(--foot)), 210vw); }
+}
+/* the doorway page's own sheet of paper fades in at its top and out at its foot into the sheet beneath, so where the Date Reveal's swag
+   hangs right under the footer there is no line where the two sheets' print falls out of step */
+.gallery__stage > .gallery__paper {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 calc(100% - 110px - var(--bar-h, 0px)), transparent calc(100% - var(--bar-h, 0px)));
+  mask-image: linear-gradient(to bottom, transparent 0, #000 120px, #000 calc(100% - 110px - var(--bar-h, 0px)), transparent calc(100% - var(--bar-h, 0px)));
+}
+/* (and fades in at its top the same way, so the Our Story page above runs straight into it) */
+
+/* the painted canopy across the top of the doorway page, above "ਯਾਦਾਂ / Moments" */
+.gallery__stage > .gallery__header {
+  position: absolute; z-index: 1; top: 0; left: 50%; translate: -50% 0; width: max(112vw, 440px); max-width: 760px; pointer-events: none;
+}
+.gallery__header img { display: block; width: 100%; height: auto; }
+.gallery__header .gallery__lantern { width: 9%; }
+/* phones: the heading drops below the canopy's longest strands; the doorway gives up that height */
+@media (max-width: 1099px) {
+  .gallery { --head: calc(max(112vw, 440px) * .2); }
+  .gallery__stage.gallery__stage { padding-top: calc(env(safe-area-inset-top, 0px) + var(--head)); }
+  .jh.jh { --h: min(calc(100svh - 220px - var(--foot) - var(--head) + 56px), 210vw); }
+}

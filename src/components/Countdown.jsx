@@ -243,6 +243,9 @@ export default function Countdown() {
       </svg>
       <Mandala className="countdown__mandala" />
       <div className="countdown__inner">
+        {/* a painted swag of peonies, pearls and bells between the Moments and the date (its paper cut away, so it
+            hangs straight on the page) */}
+        <img className="countdown__divider art-sway" data-art="drop" src="/moments-divider.webp" alt="" width="1000" height="257" loading="lazy" decoding="async" aria-hidden="true" />
         {/* the date itself is a surprise: rub away the gold foil to reveal it */}
         <header className="datecard__head reveal">
           <p className="datecard__head-pa gurmukhi">ਸ਼ੁਭ ਤਾਰੀਖ਼</p>

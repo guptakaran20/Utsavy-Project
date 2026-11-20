@@ -141,7 +141,7 @@ export default function GuestNotes() {
         {/* the picture runs off the foot of the held screen: it fades into the paper there, under a bank of flowers,
             so the section ends on a garland instead of a hard cut through the trunk */}
         <span className="notes__fade" aria-hidden="true" />
-        <img className="notes__garland" src="/notes-garland.webp" alt="" width="1200" height="400" decoding="async" aria-hidden="true" />
+        <img className="notes__garland" data-art="rise" src="/notes-garland.webp" alt="" width="1200" height="400" decoding="async" aria-hidden="true" />
       </section>
     </div>
   )

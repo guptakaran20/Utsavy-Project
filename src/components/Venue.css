@@ -42,7 +42,7 @@
 .venue.sky-bg { background: none; margin-top: -220px; padding-top: calc(var(--section-y) + 220px); pointer-events: none; }
 .venue.sky-bg > * { pointer-events: auto; }
 .venue.sky-bg > .floral-sides { pointer-events: none; }
-.venue.sky-bg::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: #f6dcd8; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23d9a5a0' stroke-opacity='.55' stroke-width='1.2'%3E%3Cpath d='M60 8c10 14 10 26 0 38-10-12-10-24 0-38zM60 74c10 14 10 26 0 38-10-12-10-24 0-38zM8 60c14-10 26-10 38 0-12 10-24 10-38 0zM74 60c14-10 26-10 38 0-12 10-24 10-38 0z'/%3E%3Ccircle cx='60' cy='60' r='9'/%3E%3Cpath d='M30 30q8 6 0 14M90 30q-8 6 0 14M30 90q8-6 0-14M90 90q-8-6 0-14'/%3E%3C/g%3E%3C/svg%3E"); background-repeat: repeat; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 200px); mask-image: linear-gradient(to bottom, transparent 0, #000 200px); }
+.venue.sky-bg::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: #f6dcd8; background-image: url("/paper-floral.webp"); background-size: var(--paper-tile); background-repeat: repeat; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 200px); mask-image: linear-gradient(to bottom, transparent 0, #000 200px); }
 
 /* the two flower pages overlap: the flowers above dissolve exactly where these rise in, so they read as one run */
 .venue .floral-sides { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%); }
@@ -111,3 +111,28 @@
 }
 /* room above the flowers for the Save the Date button */
 #venue.venue { padding-bottom: calc(max(112vw, 440px) * .22 + 24px); }
+
+/* ===== the painted venue scene (public/venue-scene.webp, paper recoloured to the blush): replaces the faded pavilion
+   photo, the edge flowers and the frosted card. It starts at the top of the page and fades in across the 90px this page
+   overlaps the foot of the Celebrations, then settles into the floral paper, where the details sit as plain text. ===== */
+.venue.sky-bg::before { display: none; }
+#venue.venue > .venue__scene {
+  position: absolute; z-index: 1; top: 0; left: 50%; translate: -50% 0; width: 100%; max-width: none; height: auto; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 90px, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 90px, #000 86%, transparent 100%);
+}
+/* the heading sits just below the water */
+#venue.venue.sky-bg { padding-top: calc(min(100vw, 560px) * .74); }
+@media (min-width: 600px) {
+  #venue.venue > .venue__scene { width: min(100%, 560px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 90px, #000 86%, transparent 100%), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 90px, #000 86%, transparent 100%), linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-composite: intersect; }
+}
+/* the details as plain text on the paper: no frosted card */
+.venue .venue__info { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+.venue .venue__name, .venue .venue__addr, .venue .venue__note { text-shadow: none; }
+/* (the scene is a wrapper now, holding the painting, its sun glow and the falling petals) */
+#venue.venue > .venue__scene { overflow: hidden; }
+#venue.venue > .venue__scene img { display: block; width: 100%; height: auto; }

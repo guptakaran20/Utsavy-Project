@@ -235,6 +235,13 @@ export default function Gallery() {
           <div className="gallery__paper sky-bg" aria-hidden="true">
             <FloralSides tiles={3} head={false} className="gallery__florals" />
           </div>
+          {/* a canopy of blossom branches with gold lanterns, bells and pearl strands hung across the top (painted, its
+              paper cut away); the lanterns glow */}
+          <div className="gallery__header art-sway" data-art="drop" aria-hidden="true">
+            <img src="/moments-header.webp" alt="" width="1000" height="235" decoding="async" />
+            <span className="art-flame gallery__lantern" style={{ left: '27.2%', top: '46%' }} />
+            <span className="art-flame gallery__lantern" style={{ left: '72.6%', top: '46%', animationDelay: '-1.2s' }} />
+          </div>
           <header className="gallery__head">
             <p className="gallery__eyebrow gurmukhi">ਯਾਦਾਂ</p>
             <h2 className="gallery__title">Moments</h2>
@@ -271,6 +278,10 @@ export default function Gallery() {
               <p className="gallery__count" aria-live="polite">{hint}</p>
             </div>
           </div>
+
+          {/* the foot of the doorway: fallen blossom and rose petals, a pair of bridal jutti, blossom branches either side
+              (painted, its paper cut away so it lies straight on the page) */}
+          <img className="gallery__footer" data-art="rise" src="/moments-footer.webp" alt="" width="1000" height="168" loading="lazy" decoding="async" aria-hidden="true" />
 
           {/* reduced motion: no held doorway, just the photos one after another */}
           <ul className="jh__list">

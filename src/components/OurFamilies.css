@@ -82,3 +82,5 @@
 }
 /* room above the rangoli for the closing lines */
 #families.ofam { padding-bottom: calc(max(112vw, 440px) * .3); }
+/* (the rangoli is a wrapper now, holding the painting and its diya glows) */
+#families.ofam > .ofam__rangoli img { display: block; width: 100%; height: auto; }

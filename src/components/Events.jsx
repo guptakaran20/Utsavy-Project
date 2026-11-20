@@ -8,6 +8,9 @@ import { wedding } from '../data/wedding'
 import { ArrowIcon, AttireIcon, CalendarIcon, ClockIcon, PinIcon } from './Icons'
 import './Events.css'
 
+// the size the paper tile is drawn at (--paper-tile in index.css)
+const PAPER_TILE = 480
+
 const mapsUrl = (e) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${e.venue}, ${e.address}`)}`
 
 // The page of ceremonies, laid out like a long sheet: a header, then one 400px row per ceremony, the illustration
@@ -15,6 +18,10 @@ const mapsUrl = (e) => `https://www.google.com/maps/search/?api=1&query=${encode
 const HEAD = 160 // header height
 const ROW = 400 // one ceremony
 const EYE = HEAD + ROW / 2 // the marker's height in the first row, and the height on screen the heart rides at
+// Scroll needed to travel one ceremony. On a touch screen the browser's momentum carries a flick a long way, so at 1:1
+// a small swipe raced past several ceremonies; there the page is geared down to move at about half the finger's speed.
+const isTouch = () => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+const stepFor = (touch) => (touch ? ROW * 2.2 : ROW)
 
 // each ceremony's illustration
 const ART = {
@@ -116,13 +123,14 @@ export default function Events() {
     const measure = () => {
       // continue the damask of the sheet above, so the seam between the two papers shows no line
       const prev = el.parentElement.previousElementSibling
-      el.style.setProperty('--paper-y', `${prev ? -(prev.offsetHeight % 120) : 0}px`)
+      el.style.setProperty('--paper-y', `${prev ? -(prev.offsetHeight % PAPER_TILE) : 0}px`)
       setVh(window.innerHeight)
     }
     measure()
     return onViewportResize(measure)
   }, [])
-  const extra = ROW * (n - 1) // one row of scrolling per ceremony: the page moves exactly as far as the finger does
+  const [step] = useState(() => stepFor(isTouch()))
+  const extra = step * (n - 1) // one step of scrolling per ceremony
   useEffect(() => { if (vh) ScrollTrigger.refresh() }, [vh])
 
   useGSAP(
@@ -146,8 +154,8 @@ export default function Events() {
         page.current.style.transform = `translate3d(0, ${-cam}px, 0)`
         // the pavilions close the page: they scroll up with it and settle at the foot of the screen with the last ceremony
         terrace.current.style.transform = `translate3d(-50%, ${Math.max(0, (n - 1) * ROW - cam)}px, 0)`
-        // the damask is its own layer, moved (not repainted): one 120px tile of travel is all it ever needs
-        paper.current.style.transform = `translate3d(0, ${-(((cam % 120) + 120) % 120)}px, 0)`
+        // (the paper holds still behind the moving page: its painted flowers sliding by on every hop read as the
+        // background changing between ceremonies)
         // a ceremony opens up as the heart arrives at it
         const r = Math.floor(pos.s + 0.12) - 2
         if (r > shownReached) { shownReached = r; setReached(r) }
@@ -161,49 +169,55 @@ export default function Events() {
       // On a touch screen the finger and the browser's own momentum drive the scroll: the page follows them closely, and
       // is never pulled to a ceremony afterwards. (The pull fought the finger, and a short swipe snapped straight back to
       // the same ceremony, so on a phone the later ceremonies could not be reached.)
-      const touch = window.matchMedia('(pointer: coarse)').matches
-      // the first arrival (in from the left, under the title) plays as one flight; after that the scroll drives it
-      let entry
-      const follow = gsap.quickTo(pos, 's', { duration: reduced ? 0.01 : touch ? 0.18 : 0.55, ease: touch ? 'power2' : 'power3', onUpdate: render })
-      const target = (self) => (self.scroll() < self.start ? 0 : stopAt(0) + self.progress * (n - 1))
-      const drive = (self) => {
-        const to = target(self)
-        if (to === 0) { entry?.kill(); entry = null; follow(0); return }
-        if (pos.s < stopAt(0) - 0.01 || entry?.isActive()) {
-          // still coming in: finish the entry flight, then hand over to the scroll
-          if (!entry || !entry.isActive()) {
-            follow.tween.pause()
-            entry = gsap.to(pos, { s: stopAt(0), duration: reduced ? 0.01 : 1.6, ease: 'power1.inOut', onUpdate: render, onComplete: () => follow(target(self)) })
-          }
-          return
-        }
-        follow(to)
+      const touch = isTouch()
+      // Everything is driven by the scroll position, the first arrival included: while the section rises into view the
+      // heart flies in from the left to the first ceremony, so it is already there when the section holds still. (It
+      // used to play as a timed flight once the section stuck, and the scroll ran on underneath it, so the first ceremony
+      // was skipped on the way down and the flight played backwards, glitching, on the way up.)
+      const step = stepFor(touch)
+      let pin0 = 0 // the scroll at which the section sticks: the first ceremony
+      const follow = gsap.quickTo(pos, 's', { duration: reduced ? 0.01 : touch ? 0.32 : 0.55, ease: touch ? 'power2' : 'power3', onUpdate: render })
+      const target = (self) => {
+        const y = self.scroll()
+        if (y <= self.start) return 0
+        if (y < pin0) return (stopAt(0) * (y - self.start)) / (pin0 - self.start)
+        return Math.min(stopAt(n - 1), stopAt(0) + (y - pin0) / step)
       }
+      const drive = (self) => follow(target(self))
       layout()
       const ro = new ResizeObserver(layout)
       ro.observe(page.current)
 
-      // when the guest stops between two ceremonies, glide the last little way to the nearer one
+      // When the guest stops between two ceremonies, glide the rest of the way: on to the next one in the direction they
+      // were scrolling once they have moved a little (so a single wheel notch advances instead of snapping back).
       let settle
       const snap = (self) => {
-        if (touch) return
+        if (touch || reduced) return
         clearTimeout(settle)
+        const dir = self.direction
         settle = setTimeout(() => {
           const l = lenis.current
-          if (!l || !self.isActive || reduced) return
-          const steps = n - 1
-          const k = Math.round(self.progress * steps)
-          const y = self.start + (k / steps) * (self.end - self.start)
-          if (Math.abs(y - self.scroll()) > 2) l.scrollTo(y, { duration: 0.7, easing: (t) => 1 - (1 - t) ** 3 })
-        }, 180)
+          const y = self.scroll()
+          // only while the section holds still, or in the last stretch of it rising into view
+          // (and never on the way out: heading up past the first ceremony is leaving the section, not a stop)
+          if (!l || y >= self.end || y < pin0 - (pin0 - self.start) * 0.35 || (dir < 0 && y < pin0)) return
+          const f = (y - pin0) / step
+          const k = Math.max(0, Math.min(n - 1, dir > 0 ? Math.ceil(f - 0.15) : Math.floor(f + 0.15)))
+          const to = pin0 + k * step
+          if (Math.abs(to - y) > 2) l.scrollTo(to, { duration: 0.7, easing: (t) => 1 - (1 - t) ** 3 })
+        }, 160)
       }
 
       ScrollTrigger.create({
         trigger: track.current,
-        start: 'top top',
-        end: () => `+=${ROW * (n - 1)}`,
+        // the heart's flight in starts when the section's top is halfway up the screen
+        start: () => {
+          pin0 = Math.round(track.current.getBoundingClientRect().top + window.scrollY)
+          return Math.max(0, pin0 - Math.round(window.innerHeight * 0.5))
+        },
+        end: () => pin0 + step * (n - 1),
         onUpdate: (self) => { drive(self); snap(self) },
-        onRefresh: (self) => { entry?.kill(); entry = null; pos.s = target(self); render() },
+        onRefresh: (self) => { follow.tween?.pause(); pos.s = target(self); render() },
       })
       return () => { ro.disconnect(); clearTimeout(settle) }
     },

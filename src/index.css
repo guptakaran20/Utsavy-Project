@@ -1,4 +1,6 @@
 :root {
+  /* the site's paper: a seamless watercolour-floral blush tile (public/paper-floral.webp), drawn at this size everywhere */
+  --paper-tile: 480px;
   --maroon-900: #22050b;
   --maroon-800: #3a0811;
   --maroon-700: #5a0f1c;
@@ -271,3 +273,52 @@ html.is-embedded::-webkit-scrollbar { display: none; }
    it, so the bar matches the night intro and the sky hero instead of showing a blush strip */
 html[data-scene="night"], html[data-scene="night"] body { background-color: #1c1c1d; }
 html[data-scene="sky"], html[data-scene="sky"] body { background-color: #92c1f1; }
+
+/* ===== motion for the painted header and footer pieces (see lib/useArtReveal.js) =====
+   drop: a hanging garland unrolls downward from its top edge; rise: a footer band grows up from its foot;
+   fade: a scene comes in softly. Then a few gentle idle motions: hanging pieces breathe as if swaying, scenes drift,
+   diya flames flicker, a sun glows, petals fall. */
+[data-art] { transition: clip-path 1.6s cubic-bezier(.22, 1, .36, 1), opacity 1.4s ease, scale 1.8s cubic-bezier(.22, 1, .36, 1); }
+[data-art="drop"] { clip-path: inset(0 0 100% 0); }
+[data-art="rise"] { clip-path: inset(100% 0 0 0); }
+[data-art="fade"] { opacity: 0; scale: 1.04; transform-origin: 50% 0; }
+[data-art].is-in { clip-path: inset(0 0 0 0); opacity: 1; scale: 1; }
+
+/* a hanging garland's strands lengthen and settle very slightly, as if moving in a breeze (its top edge stays put) */
+.art-sway { transform-origin: 50% 0; animation: art-sway 6.5s ease-in-out infinite alternate; }
+@keyframes art-sway { from { transform: scaleY(1); } to { transform: scaleY(1.028); } }
+/* a painted scene drifts in very slowly (from its top edge, so the join above never moves) */
+.art-drift { transform-origin: 50% 0; animation: art-drift 26s ease-in-out infinite alternate; }
+@keyframes art-drift { from { transform: scale(1); } to { transform: scale(1.045); } }
+/* a diya flame's glow */
+.art-flame {
+  position: absolute; width: 7%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(circle, rgba(255, 236, 170, .95) 0, rgba(255, 196, 90, .55) 32%, rgba(255, 170, 60, 0) 70%);
+  animation: art-flame 2.4s ease-in-out infinite alternate;
+}
+@keyframes art-flame { 0% { opacity: .55; scale: .9; } 40% { opacity: .95; scale: 1.08; } 70% { opacity: .7; scale: .97; } 100% { opacity: 1; scale: 1.12; } }
+/* a low sun's glow */
+.art-sun {
+  position: absolute; width: 26%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(circle, rgba(255, 242, 214, .9) 0, rgba(255, 214, 170, .45) 30%, rgba(255, 200, 170, 0) 68%);
+  animation: art-sun 5s ease-in-out infinite alternate;
+}
+@keyframes art-sun { from { opacity: .5; scale: .92; } to { opacity: 1; scale: 1.08; } }
+/* rose petals drifting down across a scene */
+.art-petals { position: absolute; inset: 0; overflow: hidden; pointer-events: none; container-type: size; }
+.art-petals i {
+  position: absolute; top: -6%; width: 9px; height: 12px; border-radius: 80% 0 80% 0; opacity: 0;
+  background: #f2a7b6; box-shadow: inset -2px -2px 3px rgba(160, 50, 80, .2);
+  animation: art-petal linear infinite;
+}
+@keyframes art-petal {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: .85; }
+  85% { opacity: .7; }
+  100% { transform: translate3d(26px, 95cqh, 0) rotate(380deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-art] { clip-path: none !important; opacity: 1 !important; scale: 1 !important; transition: none; }
+  .art-sway, .art-drift, .art-flame, .art-sun { animation: none; }
+  .art-petals { display: none; }
+}

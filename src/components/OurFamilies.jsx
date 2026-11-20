@@ -91,7 +91,7 @@ export default function OurFamilies() {
     <section id="families" ref={root} className="section sky-bg ofam chap" data-chapter data-dwell="8">
       <FloralSides tiles={6} head={false} />
       {/* a painted toran of marigolds, roses and mango leaves with brass bells, hung across the top of the page */}
-      <img className="ofam__toran" src="/families-toran.webp" alt="" width="1536" height="640" decoding="async" aria-hidden="true" />
+      <img className="ofam__toran art-sway" data-art="drop" src="/families-toran.webp" alt="" width="1536" height="640" decoding="async" aria-hidden="true" />
       <SectionTitle eyebrow="ਦੋਵੇਂ ਪਰਿਵਾਰ" title="Our Families" />
       <p className="ofam__sub reveal">With the blessings of our elders</p>
 
@@ -118,7 +118,13 @@ export default function OurFamilies() {
         </div>
       </div>
       {/* a painted flower-petal rangoli with brass diyas and lotuses, laid along the foot of the page */}
-      <img className="ofam__rangoli" src="/families-rangoli.webp" alt="" width="1536" height="400" loading="lazy" decoding="async" aria-hidden="true" />
+      <div className="ofam__rangoli" data-art="rise" aria-hidden="true">
+        <img src="/families-rangoli.webp" alt="" width="1536" height="400" loading="lazy" decoding="async" />
+        {/* the five diya flames glow and flicker (centres measured on the painting) */}
+        {[8.6, 28.5, 50, 71.6, 91.4].map((x, i) => (
+          <span key={x} className="art-flame" style={{ left: `${x}%`, top: '23%', animationDelay: `${i * -0.53}s`, animationDuration: `${2.1 + (i % 3) * 0.35}s` }} />
+        ))}
+      </div>
     </section>
   )
 }
