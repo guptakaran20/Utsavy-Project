@@ -378,7 +378,6 @@
   /* pulled up through this page's top padding (and the strip the phone's bars may cover, where the Moments footer
      sits higher), so its bows hang right under the petals at the foot of the Moments */
   margin: calc(-136px - var(--bar-h, 0px)) 0 clamp(6px, 2vw, 16px); pointer-events: none;
-  filter: drop-shadow(0 6px 6px rgba(125, 39, 66, .16)) drop-shadow(0 1px 1px rgba(125, 39, 66, .12));
 }
 /* the swag reaches up above this page's top edge (onto the foot of the Moments), so let the page draw up there,
    still clipping its sides */

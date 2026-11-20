@@ -3,7 +3,7 @@
 | File | Pexels photo id |
 |---|---|
 | bride.jpg | 12411105 |
-| groom.jpg | 12713394 |
+| groom.jpg | 20610660 (Sikh groom, pink pagg, by Love Deep) |
 | story-1.jpg | 1416901 (bonfire) |
 | story-2.jpg | 19733687 |
 | story-3.jpg | 7182054 (sweets) |

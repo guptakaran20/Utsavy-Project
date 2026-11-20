@@ -60,3 +60,50 @@
 /* the card's peak hangs straight under the long pearl-and-rose tassel, which sits ~3.75% of the frame's width left of the frame's centre */
 .invite.chap { container-type: inline-size; }
 /* florals are re-centred in FloralSides.css, so the card sits dead centre under the tassel */
+
+/* ---- painted redesign: the card, crest, wax seal, flower spray and diya are painted pieces (public/invite-*.webp) ---- */
+/* the card's own painted shape (1024 x 1536); every size inside is a share of its width (cqw) */
+.invite__arch { aspect-ratio: 1024 / 1536; filter: drop-shadow(0 22px 26px rgba(125, 39, 66, .2)) drop-shadow(0 2px 2px rgba(120, 70, 50, .1)); }
+.invite__card { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; user-select: none; }
+/* the words sit on the blank ivory: under the dome's peak (18cqw) and clear of the corner bouquets (from 117cqw down, outer thirds) */
+.invite__inner { padding: 19.5cqw 13cqw 8cqw; }
+.invite__crest { display: grid; place-items: center; width: 13cqw; aspect-ratio: 420 / 433; background: url("/invite-crest.webp") center / contain no-repeat; }
+.invite__ik { font-size: 5.6cqw; margin-bottom: 1.4cqw !important; color: #a3782f; }
+.invite__bless { max-width: 34%; margin-top: 1.2cqw !important; font-size: 2.2cqw; line-height: 1.55; }
+.invite__motif { width: 20cqw; margin: 1.2cqw 0 1.6cqw; }
+.invite__welcome { font-size: 5.2cqw; }
+.invite__names { margin-top: 1.4cqw; }
+.invite__name { font-size: 11.6cqw; }
+.invite__amp { font-size: 7.6cqw; margin: -1.2cqw 0; }
+.invite__rule { margin: 3cqw 0 2.6cqw !important; }
+.invite__text { max-width: 84%; font-size: 3.45cqw; line-height: 1.48; }
+.invite__where { margin-top: 2cqw !important; font-size: 3.5cqw; }
+
+/* the wax seal: the painted seal (ribbon tails hang below), the initials pressed into its blank centre (45% across, 39% down) */
+.env__seal { width: 25cqw; height: auto; aspect-ratio: 420 / 477; translate: -45% -39%; background: none; box-shadow: none; clip-path: none; border-radius: 0; display: block; filter: drop-shadow(0 6px 8px rgba(90, 20, 40, .35)); }
+.env__seal img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.env__seal span { position: absolute; left: 45%; top: 39%; translate: -50% -50%; font-size: 5.6cqw; color: #f3d48e; text-shadow: 0 1px 0 rgba(60, 10, 25, .55), 0 -1px 0 rgba(255, 220, 200, .25); }
+.env__seal:focus-visible { outline-offset: -2px; border-radius: 50%; }
+/* the flower spray tucked across the envelope pocket, under the seal */
+.env__sprig { left: 50%; top: 95cqw; width: 64cqw; height: auto; translate: -50% 0; rotate: -3deg; z-index: 5; pointer-events: none; filter: drop-shadow(0 4px 5px rgba(90, 20, 40, .18)); }
+
+/* the closing piece: the painted diya and marigold strings, its flame glowing */
+.invite__coda-orn { position: relative; width: min(90vw, 440px); }
+.invite__coda-orn img { display: block; width: 100%; height: auto; }
+.invite__flame { left: 50%; top: 15%; width: 10%; }
+
+/* ੴ centred in the medallion's blank disc (50% across, 49% down the painting) */
+.invite__crest { display: grid; place-items: center; }
+/* (no CSS translate here: the pop-in animation on ੴ resets it.) ੴ's ink sits 0.16em right of and 0.2em above its text box
+   (its tail and top bar overhang it), so it is nudged back (measured) with left/top onto the disc's centre (49% down) */
+.invite__crest .invite__ik { position: relative; left: -.22em; top: calc(.2em - 1%); margin: 0 !important; font-size: 5cqw; line-height: 1; }
+
+/* the diya sits at the very foot of the page, straight on top of the next page's garland; the hashtag goes above it */
+.invite.chap { padding-bottom: 0; }
+.invite__coda { margin-top: auto; padding-top: clamp(26px, 6vw, 40px); gap: clamp(14px, 4vw, 22px); }
+.invite__coda-orn { margin-bottom: -2px; }
+
+/* the diya's petals overlap the top of the next page's garland, so the two read as one piece: the page lets the diya hang
+   past its foot (sideways it still clips) and sits above the Bride & Groom page */
+.invite.chap { overflow-x: clip; overflow-y: visible; z-index: 3; }
+.invite__coda-orn { margin-bottom: calc(min(90vw, 440px) * -0.07); }

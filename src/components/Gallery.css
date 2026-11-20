@@ -134,3 +134,7 @@
   .gallery__stage.gallery__stage { padding-top: calc(env(safe-area-inset-top, 0px) + var(--head)); }
   .jh.jh { --h: min(calc(100svh - 220px - var(--foot) - var(--head) + 56px), 210vw); }
 }
+
+/* the doorway takes sideways swipes for the photos; up / down swipes still scroll the page */
+.jh__window { touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
+.jh__window img { -webkit-user-drag: none; }

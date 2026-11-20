@@ -77,3 +77,8 @@
 }
 /* the heading sits just below its longest strands */
 #story.story { padding-top: calc(min(max(112vw, 440px), 760px) * .24 + 14px); }
+/* the garland starts 26px above this page, under the diyas and petals along the foot of the Bride & Groom page (which
+   is drawn in front, see Couple.css), so its flat painted top edge never shows as a line */
+#story.story { overflow: visible; clip-path: inset(-26px 0 0 0); }
+#story.story > .story__header { top: -26px; }
+#story.story { padding-top: calc(min(max(112vw, 440px), 760px) * .24 - 12px); }

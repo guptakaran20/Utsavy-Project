@@ -28,7 +28,7 @@ const groom = {
   grandmother: 'Gurdev Kaur',
   grandfather: 'Mohinder Singh Gill',
   blurb: 'Engineer, part-time dhol player, full-time believer in second helpings.',
-  photo: '/photos/groom.jpg', focus: '50% 22%',
+  photo: '/photos/groom.jpg', focus: '46% 24%',
 }
 // "Sardarni Manjit Kaur & Sardar Gurpreet Singh Sandhu"
 const parentsOf = (p) => `Sardarni ${p.mother} & Sardar ${p.father}`

@@ -6,8 +6,9 @@ import { invitationText } from '../lib/invite'
 import { LenisContext } from '../lib/smoothScroll'
 import './Invitation.css'
 
-// Your onion-dome (mandap) arch. The outline is drawn on, then the words settle in one after another.
-const OGEE = 'M14,636 V270 C14,214 62,200 104,156 C146,112 186,78 200,10 C214,78 254,112 296,156 C338,200 386,214 386,270 V636Z'
+// The welcome card: a painted onion-dome (mandap) arch of ivory paper in a gold frame, roses and marigolds on its
+// shoulders and corners (public/invite-card.webp, 1024 x 1536). It rises out of an envelope sealed with painted wax,
+// then the words settle in one after another on the blank paper.
 
 const Motif = () => (
   <svg className="invite__motif" viewBox="0 0 120 24" aria-hidden="true">
@@ -29,9 +30,9 @@ export default function Invitation() {
     () => {
       const m = gsap.matchMedia()
       m.add('(prefers-reduced-motion: no-preference)', () => {
-        // Sizes are shares of the stage width (W): card height 1.625W, envelope 0.66W tall, its top at 0.4825W.
+        // Sizes are shares of the stage width (W): card height 1.5W, envelope 0.66W tall, its top at 0.4825W.
         const W = () => root.current.querySelector('.invite__stage').offsetWidth
-        const H = 1.625, ENV_T = 0.4825, ENV_H = 0.66
+        const H = 1.5, ENV_T = 0.4825, ENV_H = 0.66
         const y0 = ENV_T + 0.06 * ENV_H // card tucked just under the envelope's top edge
         const below = (y) => Math.max(0, y + H - (ENV_T + ENV_H) + 0.02) // card height hanging below the envelope, hidden
         const rise = -0.4
@@ -51,12 +52,13 @@ export default function Invitation() {
           .to('.env', { y: () => 0.35 * W(), autoAlpha: 0, duration: 1.1, ease: 'power2.inOut' }, 2.95)
           .to('.invite__arch', { clipPath: 'inset(0px 0px 0px 0px)', duration: 1.1, ease: 'power1.inOut' }, 2.95)
           .set('.invite__arch', { zIndex: 5 }, 4.05)
+          // once fully out, drop the clip: even at inset(0) it cut the card's soft shadow off in a hard band along its foot
+          .set('.invite__arch', { clearProps: 'clipPath' }, 4.06)
           .to('.invite__arch', { y: 0, duration: 1.3, ease: 'power2.inOut', force3D: true }, 3.35)
           .set('.env', { display: 'none' }, 4.1)
         // 4. the words settle in, as before
-          .fromTo('.invite__line', { strokeDasharray: 2600, strokeDashoffset: 2600 }, { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut', stagger: 0.2 }, 3.65)
-          .from('.invite__keyline', { autoAlpha: 0, duration: 0.8 }, 4.55)
-          .from('.invite__ik', { scale: 0.4, autoAlpha: 0, duration: 0.9, ease: 'back.out(2)' }, 3.85)
+          .from('.invite__crest', { scale: 0.4, rotation: -40, autoAlpha: 0, duration: 1, ease: 'back.out(1.8)' }, 3.75)
+          .from('.invite__ik', { scale: 0.4, autoAlpha: 0, duration: 0.8, ease: 'back.out(2)' }, 4.05)
           .from('.invite__seq', { y: 18, autoAlpha: 0, duration: 0.8, stagger: 0.12 }, 4.05)
           .fromTo('.invite__name', { clipPath: 'inset(-20% 100% -20% 0)' }, { clipPath: 'inset(-20% 0% -20% 0)', duration: 1.4, ease: 'power2.inOut', stagger: 0.55 }, 4.35)
           .from('.invite__amp', { scale: 0, rotation: -90, autoAlpha: 0, duration: 0.8, ease: 'back.out(2)' }, 4.95)
@@ -80,7 +82,7 @@ export default function Invitation() {
           // the card starts at once, whatever else is happening; the page glides to centre the envelope and then holds
           tl.play()
           const stage = root.current.querySelector('.invite__stage')
-          const centre = stage.getBoundingClientRect().top + window.scrollY + 0.8125 * W() - window.innerHeight / 2
+          const centre = stage.getBoundingClientRect().top + window.scrollY + 0.75 * W() - window.innerHeight / 2
           document.documentElement.classList.add('is-locked')
           if (lenis.current) {
             lenis.current.start()
@@ -107,22 +109,11 @@ export default function Invitation() {
       {/* the envelope: back panel, the card, then the front pocket and the flap with its wax seal */}
       <div className="env env__back" aria-hidden="true" />
       <div className="invite__arch">
-        <svg className="invite__shape" viewBox="0 0 400 650" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="invPaper" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#fffefb" /><stop offset="1" stopColor="#fbf3ea" />
-            </linearGradient>
-            <linearGradient id="invGold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#e2c27a" /><stop offset=".5" stopColor="#b98b3e" /><stop offset="1" stopColor="#d9b56a" />
-            </linearGradient>
-          </defs>
-          <path d={OGEE} fill="url(#invPaper)" />
-          <path className="invite__line" d={OGEE} fill="none" stroke="url(#invGold)" strokeWidth="2.2" vectorEffect="non-scaling-stroke" />
-          <path className="invite__keyline" d={OGEE} fill="none" stroke="#b98b3e" strokeOpacity=".75" strokeWidth="1.2" strokeDasharray="1 5" strokeLinecap="round" vectorEffect="non-scaling-stroke" transform="translate(200 323) scale(.94 .955) translate(-200 -323)" />
-        </svg>
+        <img className="invite__card" src="/invite-card.webp" alt="" width="1024" height="1536" decoding="async" aria-hidden="true" />
 
         <div className="invite__inner">
-          <p className="invite__ik gurmukhi" aria-hidden="true">{wedding.blessingSymbol}</p>
+          {/* ੴ sits in a painted gold lotus medallion */}
+          <div className="invite__crest" aria-hidden="true"><p className="invite__ik gurmukhi">{wedding.blessingSymbol}</p></div>
           <p className="invite__bless invite__seq">|| {wedding.blessingEnglish} ||</p>
           <Motif />
           <p className="invite__welcome gurmukhi invite__seq">ਜੀ ਆਇਆਂ ਨੂੰ</p>
@@ -156,23 +147,23 @@ export default function Invitation() {
           <path d="M8 4 H392 L200 150Z" fill="none" stroke="#b98b3e" strokeOpacity=".75" strokeWidth="1.2" strokeDasharray="1 5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
         </svg>
       </div>
+      {/* a painted spray of roses, marigolds and jasmine tied with ribbon, tucked across the pocket */}
+      <img className="env env__sprig" src="/invite-sprig.webp" alt="" width="1000" height="421" decoding="async" aria-hidden="true" />
+      {/* painted wax seal with gold ribbon; the couple's initials are pressed into its blank centre */}
       <button type="button" className="env env__seal" aria-label="Open the invitation">
+        <img src="/invite-seal.webp" alt="" width="420" height="477" decoding="async" />
         <span>{bride.name[0]}<i>&amp;</i>{groom.name[0]}</span>
       </button>
       </div>
 
-      {/* a small gold closing flourish under the card, so the paper below it isn't left bare */}
+      {/* under the card: the hashtag, then the painted diya, which rests on the Bride & Groom page's marigold garland */}
       <div className="invite__coda" aria-hidden="true">
-        <svg className="invite__coda-orn" viewBox="0 0 240 40">
-          <g fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round">
-            <path d="M8 20h70M162 20h70" strokeDasharray="1 5" />
-            <path d="M78 20c10-9 20-9 26 0-6 9-16 9-26 0zM162 20c-10-9-20-9-26 0 6 9 16 9 26 0z" />
-            <path d="M120 4c7 7 7 15 0 22-7-7-7-15 0-22z" />
-            <path d="M120 26c-8 0-14-4-17-10 8-1 14 3 17 10zM120 26c8 0 14-4 17-10-8-1-14 3-17 10z" />
-            <circle cx="120" cy="33" r="1.8" fill="currentColor" />
-          </g>
-        </svg>
         <p className="invite__hashtag">{wedding.hashtag}</p>
+        {/* a painted brass diya on rose petals, with marigold-and-pearl strings either side; its flame glows */}
+        <div className="invite__coda-orn">
+          <img src="/invite-coda.webp" alt="" width="1000" height="196" decoding="async" loading="lazy" />
+          <span className="art-flame invite__flame" />
+        </div>
       </div>
     </section>
   )
