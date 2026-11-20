@@ -159,7 +159,7 @@ export default function Wishes() {
           <div className="gaagar__pot">
             {!potArt && [1, 2, 3].map((n) => <span key={n} className={`gaagar__peek gaagar__peek--${n}`} aria-hidden="true" />)}
             {potArt
-              ? <img src={POT} alt="A brass gaagar wrapped in phulkari, full of folded blessings" width="800" height="800" decoding="async" />
+              ? <img src={POT} alt="A brass gaagar wrapped in phulkari, full of folded blessings" width="800" height="800" decoding="async" loading="lazy" />
               : <PotFallback />}
             <span className="gaagar__mouth" aria-hidden="true" />
           </div>
@@ -179,7 +179,7 @@ export default function Wishes() {
       {/* a blessing note: written on ruled lines, sealed with a little gaagar, then folded into the pot */}
       <form className={`wnote reveal${folding ? ' is-folding' : ''}`} onSubmit={submit}>
         <span className="wnote__seal" aria-hidden="true">
-          {potArt ? <img src={POT} alt="" width="800" height="800" decoding="async" /> : <PotFallback />}
+          {potArt ? <img src={POT} alt="" width="800" height="800" decoding="async" loading="lazy" /> : <PotFallback />}
         </span>
         <p className="wnote__eyebrow">ਅਸੀਸ ਲਿਖੋ</p>
         <h3 className="wnote__title">Fold in your blessing</h3>

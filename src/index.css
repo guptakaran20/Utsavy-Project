@@ -332,3 +332,13 @@ html[data-scene="sky"], html[data-scene="sky"] body { background-color: #92c1f1;
   .art-sway, .art-drift, .art-flame, .art-sun { animation: none; }
   .art-petals { display: none; }
 }
+
+/* ===== lite mode: low-end phones and slow / data-saver connections (lib/device.js sets html.lite) =====
+   The look stays the same; what goes is the work the phone does every frame while nothing is happening:
+   the endless idle loops (swaying garlands, drifting scenes and clouds, floating cards, falling petals) and the
+   glass blur behind a few panels. Entrances, the scroll story and the fireworks (at half the sparks) all still play. */
+html.lite *, html.lite *::before, html.lite *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+html.lite .art-sway, html.lite .art-drift, html.lite .art-petals i, html.lite .art-sun, html.lite .art-flame,
+html.lite .hero__clouds .cl, html.lite .hero__rays, html.lite .hero__birds, html.lite .bird,
+html.lite .story__polaroid.is-open, html.lite .gaagar__pot, html.lite .rsvp__couple img,
+html.lite .notes.is-open .notes__petals i, html.lite .notes.is-open .notes__spark, html.lite .notes.is-open .notes__glow { animation: none !important; }

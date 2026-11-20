@@ -15,7 +15,7 @@ A missing or broken picture falls back to the decorative monogram.
 | Moments book | `gallery[i].photo` | arched window on each page |
 | Family welcome | `family.elders[i].photo` | round portraits |
 
-Aim for ~1200–1400 px on the long side, JPG/WebP, under ~400 KB.
+Aim for ~1200–1400 px on the long side, WebP (or JPG), under ~250 KB. Convert with `cwebp -q 74 -resize 1100 0 in.jpg -o out.webp`.
 
 ## Current pictures are stand-ins
 

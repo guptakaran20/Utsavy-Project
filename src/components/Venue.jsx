@@ -58,7 +58,7 @@ export default function Venue() {
     <section id="venue" ref={root} className="section sky-bg venue chap" data-chapter data-dwell="6">
       {/* the painted scene: the gurdwara at dawn across its sarovar, seen through a carved arch hung with roses */}
       <div className="venue__scene" data-art="fade" aria-hidden="true">
-        <img className="art-drift" src="/venue-scene.webp" alt="" width="948" height="790" decoding="async" />
+        <img className="art-drift" src="/venue-scene.webp" alt="" width="948" height="790" decoding="async" loading="lazy" />
         {/* the low sun glows, and a few rose petals drift down through the arch (sun centre measured on the painting) */}
         <span className="art-sun" style={{ left: '28.7%', top: '46.8%' }} />
         <span className="art-petals">

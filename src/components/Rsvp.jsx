@@ -354,7 +354,7 @@ export default function Rsvp() {
       <FloralSides tiles={5} head={false} />
       {/* the rose-and-pearl garland that ends the Good to Know page carries on here: its strands of pearls,
           jasmine and rosebuds hang down from the join, so the two pages read as one sheet */}
-      <img className="rsvp__garland art-sway" data-art="drop" src="/rsvp-garland.webp" alt="" width="1536" height="660" decoding="async" aria-hidden="true" />
+      <img className="rsvp__garland art-sway" data-art="drop" src="/rsvp-garland.webp" alt="" width="1536" height="660" decoding="async" loading="lazy" aria-hidden="true" />
       <Mandala className="rsvp__mandala" />
       <SectionTitle eyebrow="ਤੁਹਾਡਾ ਜਵਾਬ" title="Kindly Reply" />
       <p className="rsvp__deadline reveal">{wedding.rsvp.deadline}</p>

@@ -14,7 +14,7 @@ const bride = {
   grandmother: 'Surjit Kaur',
   grandfather: 'Balwant Singh Sandhu',
   blurb: 'Architect, chai loyalist and the loudest voice at every giddha circle.',
-  photo: '/photos/bride.jpg', focus: '50% 30%', // drop the file in /public/photos (see README there); missing = placeholder
+  photo: '/photos/bride.webp', focus: '50% 30%', // drop the file in /public/photos (see README there); missing = placeholder
 }
 const groom = {
   name: 'Jasraj',
@@ -28,7 +28,7 @@ const groom = {
   grandmother: 'Gurdev Kaur',
   grandfather: 'Mohinder Singh Gill',
   blurb: 'Engineer, part-time dhol player, full-time believer in second helpings.',
-  photo: '/photos/groom.jpg', focus: '46% 24%',
+  photo: '/photos/groom.webp', focus: '46% 24%',
 }
 // "Sardarni Manjit Kaur & Sardar Gurpreet Singh Sandhu"
 const parentsOf = (p) => `Sardarni ${p.mother} & Sardar ${p.father}`
@@ -86,7 +86,7 @@ export const wedding = {
     {
       year: '2019',
       place: 'Amritsar · 2019',
-      photo: '/photos/story-1.jpg', focus: '50% 55%',
+      photo: '/photos/story-1.webp', focus: '50% 55%',
       title: 'Ik Lohri Mulaqat',
       accent: 'Lohri', // the word in the title written in green script
       text: 'A cousin’s Lohri bonfire, one shared plate of gajak and a debate about who makes the better sarson da saag.',
@@ -94,7 +94,7 @@ export const wedding = {
     {
       year: '2023',
       place: 'Wagah Border · 2023',
-      photo: '/photos/story-2.jpg', focus: '50% 35%',
+      photo: '/photos/story-2.webp', focus: '50% 35%',
       title: 'The Wagah Question',
       accent: 'Wagah',
       text: 'Golden hour at Wagah, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.',
@@ -102,7 +102,7 @@ export const wedding = {
     {
       year: '2026',
       place: 'Chandigarh · 2026',
-      photo: '/photos/story-3.jpg', focus: '50% 50%',
+      photo: '/photos/story-3.webp', focus: '50% 50%',
       title: 'The Roka & Chunni Ceremony',
       accent: 'Chunni',
       text: 'Two families, one very long dinner table, and enough laddoos to feed the whole mohalla.',
@@ -177,9 +177,9 @@ export const wedding = {
       'In a Punjabi home no guest is ever a stranger. Whether you travel from the next lane or from Brampton, Melbourne or Southall, there is a charpai, a glass of lassi and a seat at the table with your name on it. Come as family — leave as family.',
     signoff: `With love, the ${bride.family} & ${groom.family} parivaar`,
     elders: [
-      { photo: '/photos/family-1.jpg', focus: '50% 40%', role: 'Dadi ji & Dada ji', name: grandparentsOf(bride) },
-      { photo: '/photos/family-2.jpg', focus: '50% 30%', role: 'Bride’s parents', name: `${bride.mother} & ${bride.father}` },
-      { photo: '/photos/family-3.jpg', focus: '50% 35%', role: 'Groom’s parents', name: `${groom.mother} & ${groom.father}` },
+      { photo: '/photos/family-1.webp', focus: '50% 40%', role: 'Dadi ji & Dada ji', name: grandparentsOf(bride) },
+      { photo: '/photos/family-2.webp', focus: '50% 30%', role: 'Bride’s parents', name: `${bride.mother} & ${bride.father}` },
+      { photo: '/photos/family-3.webp', focus: '50% 35%', role: 'Groom’s parents', name: `${groom.mother} & ${groom.father}` },
     ],
   },
 
@@ -192,11 +192,11 @@ export const wedding = {
 
   // Pages of the 'Moments' book. Each page: a photo, a Gurmukhi line, a title, a place and a few words below.
   gallery: [
-    { photo: '/photos/gallery-6.jpg', focus: '50% 35%', gurmukhi: 'ਪ੍ਰੀ-ਵੈਡਿੰਗ', caption: 'Pre-Wedding, Pink Hour', place: 'Chandigarh · Pre-wedding shoot', text: 'A pink pagg, a phulkari dupatta and one very shy smile when the ring came out.' },
-    { photo: '/photos/gallery-8.jpg', focus: '40% 50%', gurmukhi: 'ਪਹਾੜਾਂ ਵਿੱਚ', caption: 'Pallu in the Wind', place: 'Pre-wedding shoot', text: 'A rock face, a pink drape caught by the wind, and neither of us watching the camera.' },
-    { photo: '/photos/gallery-9.jpg', focus: '50% 40%', gurmukhi: 'ਨੇੜੇ', caption: 'Closer', place: 'Pre-wedding shoot', text: 'Foreheads together, no words needed.' },
-    { photo: '/photos/gallery-10.jpg', focus: '50% 50%', gurmukhi: 'ਸ਼ਾਮ ਦੀ ਸੈਰ', caption: 'Golden Evening', place: 'Pre-wedding shoot', text: 'Lawns, long shadows and the calm before the wedding chaos.' },
-    { photo: '/photos/gallery-3.jpg', focus: '45% 40%', gurmukhi: 'ਸਵਾਲ', caption: 'The Question', place: 'Wagah Border · 2023', text: 'Golden hour, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.' },
+    { photo: '/photos/gallery-6.webp', focus: '50% 35%', gurmukhi: 'ਪ੍ਰੀ-ਵੈਡਿੰਗ', caption: 'Pre-Wedding, Pink Hour', place: 'Chandigarh · Pre-wedding shoot', text: 'A pink pagg, a phulkari dupatta and one very shy smile when the ring came out.' },
+    { photo: '/photos/gallery-8.webp', focus: '40% 50%', gurmukhi: 'ਪਹਾੜਾਂ ਵਿੱਚ', caption: 'Pallu in the Wind', place: 'Pre-wedding shoot', text: 'A rock face, a pink drape caught by the wind, and neither of us watching the camera.' },
+    { photo: '/photos/gallery-9.webp', focus: '50% 40%', gurmukhi: 'ਨੇੜੇ', caption: 'Closer', place: 'Pre-wedding shoot', text: 'Foreheads together, no words needed.' },
+    { photo: '/photos/gallery-10.webp', focus: '50% 50%', gurmukhi: 'ਸ਼ਾਮ ਦੀ ਸੈਰ', caption: 'Golden Evening', place: 'Pre-wedding shoot', text: 'Lawns, long shadows and the calm before the wedding chaos.' },
+    { photo: '/photos/gallery-3.webp', focus: '45% 40%', gurmukhi: 'ਸਵਾਲ', caption: 'The Question', place: 'Wagah Border · 2023', text: 'Golden hour, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.' },
   ],
 
   notes: [

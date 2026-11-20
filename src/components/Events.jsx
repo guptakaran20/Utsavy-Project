@@ -246,7 +246,7 @@ export default function Events() {
           </div>
         </div>
         <div className="cer-terrace" ref={terrace} aria-hidden="true">
-          <img src="/thanks-pavilions.webp" alt="" width="1247" height="680" decoding="async" />
+          <img src="/thanks-pavilions.webp" alt="" width="1247" height="680" decoding="async" loading="lazy" />
         </div>
       </section>
     </div>

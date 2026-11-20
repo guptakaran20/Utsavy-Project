@@ -91,14 +91,14 @@ export default function OurFamilies() {
     <section id="families" ref={root} className="section sky-bg ofam chap" data-chapter data-dwell="8">
       <FloralSides tiles={6} head={false} />
       {/* a painted toran of marigolds, roses and mango leaves with brass bells, hung across the top of the page */}
-      <img className="ofam__toran art-sway" data-art="drop" src="/families-toran.webp" alt="" width="1536" height="640" decoding="async" aria-hidden="true" />
+      <img className="ofam__toran art-sway" data-art="drop" src="/families-toran.webp" alt="" width="1536" height="640" decoding="async" loading="lazy" aria-hidden="true" />
       <SectionTitle eyebrow="ਦੋਵੇਂ ਪਰਿਵਾਰ" title="Our Families" />
       <p className="ofam__sub reveal">With the blessings of our elders</p>
 
       <div className="ofam__threads">
         {/* the family portrait: shown big first, then it settles into its place here, above the families */}
         <div className="ofam__photo" aria-hidden="true">
-          <img src="/families.webp" alt="" width="1280" height="834" decoding="async" />
+          <img src="/families.webp" alt="" width="1280" height="834" decoding="async" loading="lazy" />
         </div>
 
         <Side f={bride} side="bride" />

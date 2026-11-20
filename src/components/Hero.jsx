@@ -221,7 +221,7 @@ export default function Hero({ play }) {
       <img className="hero__plane" src="/intro/plane-gear.webp" alt="" aria-hidden="true" draggable="false" />
       <HeroFX play={play} />
       <div className="hero__haveli" aria-hidden="true">
-        <img className="gur" src="/gurdwara.webp" srcSet="/gurdwara-1600.webp 1600w, /gurdwara.webp 2470w" sizes="(max-aspect-ratio: 1/1) 160vw, 112vw" alt="" width="2470" height="2548" decoding="async" />
+        <img className="gur" src="/gurdwara-1600.webp" srcSet="/gurdwara-1100.webp 1100w, /gurdwara-1600.webp 1600w, /gurdwara.webp 2470w" sizes="(max-aspect-ratio: 1/1) 160vw, 112vw" alt="" width="2470" height="2548" decoding="async" />
       </div>
       <div className="hero__flash" aria-hidden="true"><i className="hero__bloom" /></div>
     </section>

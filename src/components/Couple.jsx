@@ -51,7 +51,7 @@ export default function Couple() {
   return (
     <section id="couple" ref={root} className="section section--ivory couple chap" data-chapter data-dwell="6">
       {/* a garland of roses, peonies and marigolds with bells, jasmine strands and a pair of kaleere at its centre */}
-      <img className="couple__header art-sway" data-art="drop" src="/couple-header.webp" alt="" width="1000" height="240" decoding="async" aria-hidden="true" />
+      <img className="couple__header art-sway" data-art="drop" src="/couple-header.webp" alt="" width="1000" height="240" decoding="async" loading="lazy" aria-hidden="true" />
       <SectionTitle eyebrow="ਲਾੜੀ ਤੇ ਲਾੜਾ" title="The Bride & Groom" />
       <div className="couple__grid">
         <Person person={wedding.bride} role="The Bride" roleGurmukhi="ਲਾੜੀ" tone="bride" />

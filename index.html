@@ -3,19 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- the edge flowers used down every blush page: fetched up front so no page shows bare edges while it loads -->
-    <link rel="preload" as="image" href="/florals.webp" type="image/webp" />
-    <link rel="preload" as="image" href="/florals-tile.webp" type="image/webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#060b1f" />
     <meta name="description" content="You are invited to the wedding of Harleen & Jasraj — Amritsar, February 2027." />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/cinzel-latin.woff2" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- the script and Gurmukhi fonts load without blocking first paint (a slow connection shows the intro at once,
+         in fallback type, and swaps the fonts in when they arrive). The edge flowers are no longer preloaded here:
+         they would compete with the site's own code on a slow connection, and the intro gives them time to arrive. -->
     <link
       href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Tiro+Gurmukhi:ital@0;1&display=swap"
-      rel="stylesheet"
+      rel="stylesheet" media="print" onload="this.media='all'"
     />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Tiro+Gurmukhi:ital@0;1&display=swap" rel="stylesheet" /></noscript>
     <!-- first paint is the night of the plane intro, never the blush of the pages beneath it (index.css loads a moment
          before the intro draws; html[data-scene] there keeps it dark, and this covers the instant before index.css).
          Desktops skip it: they show the phone-frame backdrop instead. -->

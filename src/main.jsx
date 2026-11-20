@@ -1,9 +1,13 @@
 import { StrictMode, lazy, Suspense, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { wedding } from './data/wedding'
+import { isLite } from './lib/device'
 
 // the tab title follows the couple's names in wedding.js
 document.title = `${wedding.bride.name} & ${wedding.groom.name} · ਸ਼ੁਭ ਵਿਆਹ`
+
+// low-end phones and slow connections get the lighter version of the effects (lib/device.js, html.lite in index.css)
+if (isLite) document.documentElement.classList.add('lite')
 
 // Always start at the gate, not wherever the last visit left off
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual'

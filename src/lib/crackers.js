@@ -1,5 +1,7 @@
 // Celebration "crackers": confetti cannons from the bottom corners, a gold rain from above and
 // sparkler bursts, all on one throw-away full-screen canvas that cleans itself up.
+import { isLite } from './device'
+
 const COLORS = ['#f3d68a', '#d4a24c', '#fff4d4', '#f29b1d', '#ffb300', '#d81b74', '#e0218a', '#1f9d73', '#c8323f']
 const rnd = (a, b) => a + Math.random() * (b - a)
 const pick = (arr) => arr[(Math.random() * arr.length) | 0]
@@ -7,8 +9,8 @@ const pick = (arr) => arr[(Math.random() * arr.length) | 0]
 export function fireCrackers() {
   if (typeof window === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   const small = window.innerWidth < 640
-  const k = small ? 0.6 : 1
-  const dpr = Math.min(window.devicePixelRatio || 1, 2)
+  const k = (small ? 0.6 : 1) * (isLite ? 0.5 : 1)
+  const dpr = isLite ? 1 : Math.min(window.devicePixelRatio || 1, 2)
   const cv = document.createElement('canvas')
   Object.assign(cv.style, { position: 'fixed', inset: '0', width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99999 })
   const W = (cv.width = window.innerWidth * dpr)

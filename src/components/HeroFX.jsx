@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './HeroFX.css'
+import { isLite } from '../lib/device'
 
 const GOLDS = ['#ffd36a', '#ffe9a8', '#ffb300', '#fff4d4']
 const PARTY = ['#ffd36a', '#ff6fa8', '#e0218a', '#1f9d73', '#f28c28', '#6ec1ff', '#fff4d4', '#c8323f']
@@ -18,9 +19,9 @@ export default function HeroFX({ play }) {
     const cf = cfRef.current
     const parent = fx.parentElement
     const small = window.innerWidth < 640
-    const k = small ? 0.62 : 1
+    const k = (small ? 0.62 : 1) * (isLite ? 0.5 : 1)
     // phones draw the two full-screen canvases at a lower resolution: the sparks and confetti look the same, at a fraction of the cost
-    const dpr = Math.min(window.devicePixelRatio || 1, small ? 1.25 : 1.75)
+    const dpr = isLite ? 1 : Math.min(window.devicePixelRatio || 1, small ? 1.25 : 1.75)
     let W = 0
     let H = 0
     const fctx = fx.getContext('2d')

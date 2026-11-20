@@ -92,8 +92,8 @@ export default function GuestNotes() {
           {/* the welcome board on its easel (with the guests' travel trunk in front) rises from the foot of the held screen; the notes are written on the board */}
           <div className="notes__scene" aria-hidden="true">
             {/* the same picture twice: the board rises first, then the trunk settles in front of it; at rest they meet seamlessly */}
-            <img className="notes__layer notes__layer--palki" src="/good-to-know.webp" alt="" width="820" height="1230" decoding="async" />
-            <img className="notes__layer notes__layer--couple" src="/good-to-know.webp" alt="" width="820" height="1230" decoding="async" />
+            <img className="notes__layer notes__layer--palki" src="/good-to-know.webp" alt="" width="820" height="1230" decoding="async" loading="lazy" />
+            <img className="notes__layer notes__layer--couple" src="/good-to-know.webp" alt="" width="820" height="1230" decoding="async" loading="lazy" />
             <span className="notes__glow" />
             {[0, 1, 2, 3, 4].map((k) => <i key={k} className="notes__spark" style={{ '--k': k }} />)}
             <div className="notes__petals">
@@ -141,7 +141,7 @@ export default function GuestNotes() {
         {/* the picture runs off the foot of the held screen: it fades into the paper there, under a bank of flowers,
             so the section ends on a garland instead of a hard cut through the trunk */}
         <span className="notes__fade" aria-hidden="true" />
-        <img className="notes__garland" data-art="rise" src="/notes-garland.webp" alt="" width="1200" height="400" decoding="async" aria-hidden="true" />
+        <img className="notes__garland" data-art="rise" src="/notes-garland.webp" alt="" width="1200" height="400" decoding="async" loading="lazy" aria-hidden="true" />
       </section>
     </div>
   )
