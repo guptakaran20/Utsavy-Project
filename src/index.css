@@ -19,7 +19,7 @@
 
   --font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
   --font-label: var(--font-display);
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-serif: var(--font-display);
   --font-script: 'Great Vibes', cursive;
   --font-gurmukhi: 'Tiro Gurmukhi', 'Noto Serif Gurmukhi', serif;
   --green-800: #0a3d33;
@@ -60,6 +60,7 @@ body {
   overscroll-behavior-y: none;
   color: var(--ink);
   font-family: var(--font-serif);
+  font-synthesis-style: none; /* Cinzel has no italic: keep "italic" text upright instead of a fake slant */
   font-size: clamp(18px, 0.6vw + 14px, 21px);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
