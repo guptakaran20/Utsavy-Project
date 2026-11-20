@@ -124,7 +124,7 @@ export default function Casing() {
       <circle cx="100" cy="21" r="2.1" fill="url(#hv-stud)" />
       <circle cx="200" cy="21" r="2.1" fill="url(#hv-stud)" />
       {/* a lit lower edge makes the letters read as engraved */}
-      <g fontFamily="'Noto Serif Gurmukhi', serif" fontSize="13" fontWeight="600" textAnchor="middle">
+      <g fontFamily="'Tiro Gurmukhi', 'Noto Serif Gurmukhi', serif" fontSize="13" fontWeight="600" textAnchor="middle">
         <text x="150" y="26.2" lang="pa" fill="rgba(255,240,200,.45)">
           ਜੀ ਆਇਆਂ ਨੂੰ
         </text>
