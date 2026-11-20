@@ -41,7 +41,7 @@ What the site actually looks like:
   | `--font-script` Great Vibes | names, titles |
   | `--font-display` Cinzel | names in caps, small spaced caps headings, and numbers (Cormorant's old-style numerals read badly) |
   | `--font-serif` Cormorant Garamond | body, italics |
-  | `--font-label` Jost | tiny sans labels, buttons, eyebrows |
+  | `--font-label` Cinzel (same as display) | tiny labels, buttons, eyebrows |
   | `--font-gurmukhi` Tiro Gurmukhi | every Punjabi line (class `gurmukhi`) |
 - **Card language:** ivory paper, a thin gold outline plus a **dotted gold inner keyline**, soft rose shadows (`rgba(125,39,66,.2–.5)`), arch or onion-dome tops, gold used as hairlines not fills. Small Punjabi touches: phulkari diamond borders, diyas, lotus motifs, Gurmukhi eyebrows on every section.
 - **Motion style:** GSAP timelines that play once on scroll-in (`once: true`), staggered fade-ups, names written in with a `clip-path` wipe, gold outlines drawing on (`strokeDashoffset`), gentle `back.out` pops. Always wrap in `gsap.matchMedia('(prefers-reduced-motion: no-preference)')`.

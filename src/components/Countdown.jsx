@@ -114,7 +114,7 @@ function ScratchSeal({ revealed, onReveal, label = 'TO REVEAL' }) {
     x.textAlign = 'center'
     x.textBaseline = 'middle'
     x.fillText('Scratch', w / 2, h * 0.55)
-    x.font = `500 ${Math.max(8, Math.min(w * 0.062, h * 0.1))}px "Jost", sans-serif`
+    x.font = `500 ${Math.max(8, Math.min(w * 0.062, h * 0.1))}px "Cinzel", serif`
     x.fillStyle = 'rgba(125, 39, 66, .75)'
     x.fillText(label, w / 2, h * 0.74)
   }, [])

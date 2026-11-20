@@ -18,7 +18,7 @@
   --ink-soft: #6a4c3b;
 
   --font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
-  --font-label: 'Jost', 'Futura', ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-display);
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-script: 'Great Vibes', cursive;
   --font-gurmukhi: 'Tiro Gurmukhi', 'Noto Serif Gurmukhi', serif;
