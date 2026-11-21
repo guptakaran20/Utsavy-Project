@@ -21,8 +21,10 @@ export function splitLines(el) {
   return SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'line', aria: 'auto' })
 }
 
-export function useLineReveal() {
+// `ready` waits for the lower sections (Later.jsx), which arrive as a separate download and hold most of these paragraphs
+export function useLineReveal(ready = true) {
   useGSAP(() => {
+    if (!ready) return
     const mm = gsap.matchMedia()
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       const splits = []
@@ -48,5 +50,5 @@ export function useLineReveal() {
       else document.fonts?.ready.then(start)
       return () => splits.forEach((s) => s.revert())
     })
-  })
+  }, { dependencies: [ready] })
 }

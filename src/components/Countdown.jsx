@@ -471,7 +471,7 @@ export default function Countdown() {
         </a>
         {/* a pale painted charkha under the countdown */}
         <div className="punjabi-pair" data-art="bloom" aria-hidden="true">
-          <img className="art-float" src="/punjabi/charkha.webp" alt="" width="900" height="900" loading="lazy" decoding="async" />
+          <img className="art-float" src="/punjabi/charkha.webp" alt="" width="680" height="680" loading="lazy" decoding="async" />
         </div>
       </div>
       <img className="countdown__scene" data-art="fade" src="/wedding-scene.webp" alt="" aria-hidden="true" width="1644" height="957" loading="lazy" decoding="async" />

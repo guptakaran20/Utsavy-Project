@@ -61,7 +61,7 @@ export default function Couple() {
         <img className="couple__and art-sway" data-art="drop" src="/couple-divider.webp" alt="and" width="500" height="394" decoding="async" loading="lazy" />
         <Person person={wedding.groom} role="The Groom" roleGurmukhi="ਲਾੜਾ" tone="groom" />
       </div>
-      <img className="punjabi-chooda art-float" data-art="bloom" src="/punjabi/chooda.webp" alt="" width="900" height="900" loading="lazy" decoding="async" aria-hidden="true" />
+      <img className="punjabi-chooda art-float" data-art="bloom" src="/punjabi/chooda.webp" alt="" width="540" height="540" loading="lazy" decoding="async" aria-hidden="true" />
       {/* five lit diyas between marigolds and petals along the foot (flame centres measured on the painting) */}
       <div className="couple__footer" data-art="rise" aria-hidden="true">
         <img src="/couple-footer.webp" alt="" width="1000" height="138" decoding="async" loading="lazy" />

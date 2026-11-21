@@ -9,18 +9,9 @@ import Invitation from './components/Invitation'
 import FloralSides from './components/FloralSides'
 import Couple from './components/Couple'
 import Story from './components/Story'
-import Countdown from './components/Countdown'
 import GarlandBridge from './components/GarlandBridge'
-import Events from './components/Events'
-import GuestNotes from './components/GuestNotes'
-import Rsvp from './components/Rsvp'
-import ThankYou from './components/ThankYou'
 import Marquee from './components/Marquee'
-import Venue from './components/Venue'
 import Gallery from './components/Gallery'
-import OurFamilies from './components/OurFamilies'
-import Wishes from './components/Wishes'
-import Contacts from './components/Contacts'
 import MusicToggle from './components/MusicToggle'
 import FrameScene from './lib/FrameScene'
 import IdleNudge from './lib/IdleNudge'
@@ -34,8 +25,23 @@ const INTRO = 'plane'
 export default function App() {
   const [opened, setOpened] = useState(false)
   const [gateDone, setGateDone] = useState(false)
-  useLineReveal()
+  // the sections from the countdown down (Later.jsx): fetched straight away, drawn once they arrive
+  const [later, setLater] = useState(null)
+  useLineReveal(!!later)
   useArtReveal()
+
+  useEffect(() => {
+    let alive = true
+    import('./Later').then((m) => { if (alive) setLater(m) })
+    return () => { alive = false }
+  }, [])
+
+  // the page just grew: every trigger below the hero needs its position again
+  useEffect(() => {
+    if (!later) return
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh())
+    return () => cancelAnimationFrame(id)
+  }, [later])
 
   useEffect(() => {
     // Web fonts change text heights, which shifts every trigger position
@@ -59,19 +65,12 @@ export default function App() {
           <Couple />
           <Story />
           <Gallery />
-          <Countdown />
+          {later && <later.Countdown />}
         </div>
         <GarlandBridge />
-        {/* its own sheet of blush paper and flowers, held on screen while the days change; the flowers above fade out as these fade in */}
-        <Events />
-        <Venue />
-        <OurFamilies />
-        <GuestNotes />
-        <Rsvp />
-        <Wishes />
-        <Contacts />
+        {later && <later.LowerSections />}
       </main>
-      <ThankYou />
+      {later && <later.ThankYou />}
     </SmoothScroll>
   )
 }
