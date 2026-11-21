@@ -129,3 +129,19 @@
 
 @media (max-width: 760px) { .contacts.sky-bg { padding-inline: 20px; } }
 @media (max-width: 380px) { .contacts.sky-bg { padding-inline: 14px; } }
+
+/* the seals are the painted gold-and-peony medallion from Our Families (public/family-seal.webp); the initials sit in
+   its ivory centre (the disc's centre is ~2% above the picture's, hence the lift) */
+.contact__seal { width: clamp(80px, 22vw, 96px); border: 0; border-radius: 0; box-shadow: none; background: url('/family-seal.webp') center / contain no-repeat; filter: drop-shadow(0 8px 10px rgba(125, 39, 66, .18)); }
+.contact__seal::before { display: none; }
+.contact__seal span { font-size: clamp(16px, 4.4vw, 19px); transform: translateY(-2px); }
+
+/* the two people side by side share rows (subgrid), so a name that wraps onto two lines no longer pushes its role
+   below its neighbour's: seals, names, roles and Call buttons each line up across the row */
+.contacts__list { grid-auto-rows: auto; }
+.contact { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; justify-items: center; align-content: start; }
+.contact > .contact__seal { grid-row: 1; }
+.contact > .contact__name { grid-row: 2; align-self: start; }
+.contact > .contact__label { grid-row: 3; align-self: start; }
+.contact > .contact__num { grid-row: 4; }
+.contact > .contact__actions { grid-row: 5; align-self: end; margin-top: 0; }

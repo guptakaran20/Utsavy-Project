@@ -4,6 +4,7 @@ import { splitLines } from '../lib/useLineReveal'
 import { wedding } from '../data/wedding'
 import { invitationText } from '../lib/invite'
 import { LenisContext } from '../lib/smoothScroll'
+import { hurryOnInput } from '../lib/lockedTimeline'
 import './Invitation.css'
 
 // The welcome card: a painted onion-dome (mandap) arch of ivory paper in a gold frame, roses and marigolds on its
@@ -79,8 +80,10 @@ export default function Invitation() {
           const split = splitLines(root.current.querySelector('.invite__text'))
           tl.from(split.lines, { yPercent: 105, autoAlpha: 0, duration: 0.8, stagger: 0.13, ease: 'power3.out' }, 5.65)
           tl.eventCallback('onComplete', () => { split.revert(); release() })
-          // the card starts at once, whatever else is happening; the page glides to centre the envelope and then holds
-          tl.play()
+          // the card starts at once, whatever else is happening; the page glides to centre the envelope and then holds.
+          // Written as a 7.5 s sequence, it plays in about 5 s, and a guest who tries to scroll on gets the rest at triple speed.
+          tl.timeScale(1.5).play()
+          hurryOnInput(tl)
           const stage = root.current.querySelector('.invite__stage')
           const centre = stage.getBoundingClientRect().top + window.scrollY + 0.75 * W() - window.innerHeight / 2
           document.documentElement.classList.add('is-locked')
@@ -91,7 +94,7 @@ export default function Invitation() {
           } else {
             window.scrollTo({ top: centre, behavior: 'smooth' })
           }
-          gsap.delayedCall(12, release) // never leave a guest stuck, whatever happens
+          gsap.delayedCall(9, release) // never leave a guest stuck, whatever happens
         }
         // opens on its own a moment after the envelope is on screen (so the sealed envelope is seen), or at once on a tap of the seal
         const st = ScrollTrigger.create({ trigger: '.invite__stage', start: 'top 45%', once: true, onEnter: () => gsap.delayedCall(0.6, open) })

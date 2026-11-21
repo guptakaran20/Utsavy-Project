@@ -63,10 +63,17 @@ function dropPetals(x, y, n = 2) {
   }
 }
 
+// a short vibration where the phone supports it (Android browsers; iPhone Safari has no web vibration, so it just stays silent)
+const buzz = (pattern) => { try { navigator.vibrate?.(pattern) } catch { /* not allowed here */ } }
+
 // A gold scalloped seal laid over the number: rub it away with a finger or the mouse to reveal it.
-function ScratchSeal({ revealed, onReveal, label = 'TO REVEAL' }) {
+function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL' }) {
   const ref = useRef(null)
+  const handRef = useRef(null)
+  const [touched, setTouched] = useState(false) // the hand hint bows out as soon as the guest starts rubbing
+  const lastBuzz = useRef(0)
   const drawing = useRef(false)
+  const lastPt = useRef(null) // the previous rub point, so a quick swipe scratches a continuous stroke, not a row of dots
   const moves = useRef(0)
   const revealedRef = useRef(false)
 
@@ -119,6 +126,64 @@ function ScratchSeal({ revealed, onReveal, label = 'TO REVEAL' }) {
     x.fillText(label, w / 2, h * 0.74)
   }, [])
 
+  // The hand hint: once the card is on screen, a finger rubs to and fro across the foil. On its first pass it really
+  // scratches, rubbing a clear strip through the gold so a sliver of the date peeks out and the guest sees what happens; after that it keeps rubbing
+  // as a hint without scratching any more. It stops the moment the guest touches the card.
+  useEffect(() => {
+    if (!hint || revealed || touched) return
+    const c = ref.current
+    const hand = handRef.current
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const TIP = { x: 22, y: 10 } // fingertip inside the 46 px hand picture
+    const place = (x, y, rot) => { hand.style.transform = `translate(${x - TIP.x}px, ${y - TIP.y}px) rotate(${rot}deg)` }
+    if (reduced) { place(c.offsetWidth / 2, c.offsetHeight * 0.6, 0); return }
+    const PERIOD = 2.2
+    const SCRATCH = [0.05, 0.05 + PERIOD * 0.24] // the first sweep, centre to right, rubs a strip through
+    let dab = null
+    let raf = 0
+    let start = null
+    let visible = false
+    let last = null
+    const tick = (now) => {
+      raf = 0
+      if (!visible) { start = null; return }
+      if (start == null) start = now - (last?.t ?? 0) * 1000
+      const t = (now - start) / 1000
+      const w = c.offsetWidth
+      const h = c.offsetHeight
+      const ph = (t / PERIOD) * Math.PI * 2
+      const x = w / 2 + Math.sin(ph) * w * 0.24
+      const y = h * 0.6 + Math.cos(ph * 2) * h * 0.05
+      place(x, y, Math.sin(ph) * 12)
+      if (t > SCRATCH[0] && t < SCRATCH[1]) {
+        // dabs spaced half a stroke apart, so each spot is rubbed about twice: the strip is mostly through, enough to tease
+        // a sliver of the date without giving it away
+        const lw = Math.max(12, w * 0.08)
+        if (!dab || Math.hypot(x - dab.x, y - dab.y) >= lw * 0.5) {
+          const k = c.width / w
+          const x2 = c.getContext('2d')
+          x2.save()
+          x2.setTransform(1, 0, 0, 1, 0, 0) // the foil was painted with a dpr scale; erase in raw canvas pixels
+          x2.globalCompositeOperation = 'destination-out'
+          x2.globalAlpha = 0.7
+          x2.beginPath()
+          x2.arc(x * k, y * k, (lw / 2) * k, 0, Math.PI * 2)
+          x2.fill()
+          x2.restore()
+          dab = { x, y }
+        }
+      }
+      last = { x, y, t }
+      raf = requestAnimationFrame(tick)
+    }
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting
+      if (visible && !raf) raf = requestAnimationFrame(tick)
+    }, { threshold: 0.6 })
+    io.observe(c)
+    return () => { io.disconnect(); cancelAnimationFrame(raf) }
+  }, [hint, revealed, touched])
+
   // how much paper is left? sample the middle of the card
   const checkClear = useCallback(() => {
     const c = ref.current
@@ -129,6 +194,7 @@ function ScratchSeal({ revealed, onReveal, label = 'TO REVEAL' }) {
     for (let i = 3; i < d.length; i += 64) { n++; if (d[i] < 40) clear++ }
     if (clear / n > 0.5) {
       if (!revealedRef.current) { const b = c.getBoundingClientRect(); dropPetals(b.left + b.width / 2, b.top + b.height / 2, 14) }
+      if (!revealedRef.current) buzz([18, 50, 28]) // a little double pulse as the foil gives way
       revealedRef.current = true
       onReveal()
     }
@@ -140,26 +206,54 @@ function ScratchSeal({ revealed, onReveal, label = 'TO REVEAL' }) {
     const x = c.getContext('2d')
     const dpr = c.width / r.width
     x.save()
+    x.setTransform(1, 0, 0, 1, 0, 0) // the foil was painted with a dpr scale; without this the rub landed at 2× the finger's spot on phones
     x.globalCompositeOperation = 'destination-out'
+    const px = (e.clientX - r.left) * dpr
+    const py = (e.clientY - r.top) * dpr
+    const rad = Math.max(14, r.width * 0.11) * dpr
+    const from = lastPt.current ?? { x: px, y: py }
+    // a round-capped line from the last point: pointer events arrive every few px when slow but 30-60 px apart on a quick
+    // swipe, which used to leave the foil dotted with holes instead of rubbed through
+    x.lineCap = 'round'
+    x.lineJoin = 'round'
+    x.lineWidth = rad * 2
     x.beginPath()
-    x.arc((e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr, Math.max(14, r.width * 0.11) * dpr, 0, Math.PI * 2)
-    x.fill()
+    x.moveTo(from.x, from.y)
+    x.lineTo(px + 0.01, py)
+    x.stroke()
     x.restore()
+    lastPt.current = { x: px, y: py }
+    // a fine grain under the finger while rubbing: short ticks, at most every 70 ms
+    const t = performance.now()
+    if (t - lastBuzz.current > 70) { lastBuzz.current = t; buzz(7) }
     if (moves.current % 2 === 0) dropPetals(e.clientX, e.clientY, 1) // the paper you rub away drops off petal by petal
     if (++moves.current % 6) return
     checkClear()
   }, [checkClear])
 
   return (
+    <>
     <canvas
       ref={ref}
       className={`scratchseal${revealed ? ' is-gone' : ''}`}
-      onPointerDown={(e) => { drawing.current = true; e.currentTarget.setPointerCapture(e.pointerId); scratch(e) }}
-      onPointerMove={(e) => drawing.current && scratch(e)}
-      onPointerUp={() => { drawing.current = false }}
-      onPointerCancel={() => { drawing.current = false }}
+      onPointerDown={(e) => { drawing.current = true; lastPt.current = null; e.currentTarget.setPointerCapture(e.pointerId); setTouched(true); scratch(e) }}
+      // with a mouse or trackpad, simply moving across the foil rubs it too: many laptop users "tap to click" and never
+      // hold the button down while dragging, so press-and-drag alone left them rubbing at a card that did nothing
+      onPointerMove={(e) => {
+        if (drawing.current) return scratch(e)
+        if (e.pointerType === 'mouse' && !revealed) { if (!touched) setTouched(true); scratch(e) }
+      }}
+      onPointerUp={() => { drawing.current = false; lastPt.current = null }}
+      onPointerLeave={() => { if (!drawing.current) lastPt.current = null }}
+      onPointerCancel={() => { drawing.current = false; lastPt.current = null }}
       aria-hidden="true"
     />
+    {hint && (
+      <span ref={handRef} className={`scratch-hand${touched || revealed ? ' is-gone' : ''}`} aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z" /></svg>
+      </span>
+    )}
+    </>
   )
 }
 
@@ -258,7 +352,7 @@ export default function Countdown() {
             <span className="datecard__date">{dayMonthYear}</span>
             <span className="datecard__pa gurmukhi">ਸ਼ੁਭ ਦਿਹਾੜਾ</span>
           </div>
-          <ScratchSeal revealed={dateOpen} onReveal={() => setDateOpen(true)} label="THE DATE" />
+          <ScratchSeal revealed={dateOpen} onReveal={() => setDateOpen(true)} hint label="THE DATE" />
         </div>
         <p className="countdown__hint datecard__hint">
           {dateOpen ? 'See you there' : <>Scratch the foil to reveal the date <button type="button" onClick={() => setDateOpen(true)}>Reveal</button></>}

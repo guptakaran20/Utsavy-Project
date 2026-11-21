@@ -5,7 +5,7 @@ import Photo from './Photo'
 import FloralSides from './FloralSides'
 import './Gallery.css'
 
-const HOLD = 2.6 // seconds each photo stays before the next one slides in by itself
+const HOLD = 4 // seconds each photo stays before the next one slides in by itself
 
 const Lotus = () => (
   <svg className="jh__lotus" viewBox="0 0 100 70" aria-hidden="true">
@@ -155,6 +155,8 @@ export default function Gallery() {
         api.current = {
           dot: (i) => goTo(i),
           tap: () => { if (!moved) next() },
+          next,
+          prev,
         }
 
         // the still paper's top/bottom edges melt into the page's running flowers only while the section slides in or out
@@ -181,7 +183,7 @@ export default function Gallery() {
     { scope: root },
   )
 
-  const hint = swiped ? wedding.hashtag : 'Swipe for more moments'
+  const hint = swiped ? wedding.hashtag : 'Swipe for more'
 
   return (
     <section id="gallery" ref={root} className="gallery chap" data-chapter data-dwell="8">
@@ -231,7 +233,20 @@ export default function Gallery() {
                   <button type="button" key={g.caption} className={`jh__dot${i === 0 ? ' is-on' : ''}`} aria-label={`Photo ${i + 1}: ${g.caption}`} onClick={() => api.current.dot?.(i)} />
                 ))}
               </div>
-              <p className="gallery__count" aria-live="polite">{hint}</p>
+              {/* a small "‹ Swipe for more ›" pill under the doorway (never on the photo). Its arrows are real previous / next
+                  buttons (they looked like buttons, so guests tapped them); once the guest has moved on a photo, the words
+                  give way to the hashtag but the arrows stay */}
+              <div className="gallery__count">
+                <span className={`jh__swipe${swiped ? ' is-used' : ''}`}>
+                  <button type="button" className="jh__arrow" aria-label="Previous photo" onClick={() => { if (api.current.prev?.()) setSwiped(true) }}>
+                    <svg viewBox="0 0 10 16" aria-hidden="true"><path d="M8 2 2 8l6 6" /></svg>
+                  </button>
+                  <span className="jh__swipe-text" aria-live="polite">{hint}</span>
+                  <button type="button" className="jh__arrow" aria-label="Next photo" onClick={() => { if (api.current.next?.()) setSwiped(true) }}>
+                    <svg viewBox="0 0 10 16" aria-hidden="true"><path d="M2 2l6 6-6 6" /></svg>
+                  </button>
+                </span>
+              </div>
             </div>
           </div>
 

@@ -80,7 +80,7 @@ export default function Contacts() {
         // envelope sits near the foot of the screen (but never so far that the heading leaves the top), the seal
         // breaks, the flap lifts and the card rises out above it, the envelope falls away, and the rows are
         // written in before scrolling returns.
-        const { tl, glide, cam, cleanup } = lockedTimeline(lenis, { trigger: env, start: 'top 75%', safety: 10 })
+        const { tl, glide, cam, cleanup } = lockedTimeline(lenis, { trigger: env, start: 'top 75%', safety: 10, speed: 1.3 })
         const firstStop = () => Math.min(
           absTop(env) + env.offsetHeight - window.innerHeight + 24,
           absTop(q('.section-title')[0]) - 54, // (clear of a phone's notch)

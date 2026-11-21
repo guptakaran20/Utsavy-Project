@@ -7,8 +7,9 @@ import { LenisContext } from './smoothScroll'
 // Any wheel, touch, key or tap hands control straight back. Nothing happens while a section holds the page
 // (html.is-locked: the envelope, the Moments doorway, the Punjab clock), while typing in a form, or at the end.
 // Add ?noauto (or ?notour) to the URL to switch it off, e.g. for testing.
-const IDLE = 3000
-const STEP = 0.45 // how far each nudge scrolls, as a share of the screen height
+// (long enough to read a paragraph: at 3 s the page moved away while guests were still reading)
+const IDLE = 6500
+const STEP = 0.35 // how far each nudge scrolls, as a share of the screen height
 const DURATION = 2.4
 
 // a GSAP animation that is still playing out. Ambient loops (repeat: -1) never "finish", so they don't count, and

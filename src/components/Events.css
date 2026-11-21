@@ -92,16 +92,16 @@
 .cer-heart svg { width: 100%; height: 100%; fill: #ec5f86; stroke: #b0284f; stroke-width: 1; filter: drop-shadow(0 2px 6px rgba(176, 40, 79, .35)); }
 
 /* reveals: the header blooms in when the section is first reached; each ceremony opens up as the heart arrives */
-.cer-decor, .cer-head { opacity: 0; transition: opacity 1.2s ease .3s, transform 1.6s var(--cer-ease) .3s; }
+.cer-decor, .cer-head { opacity: 0; transition: opacity .9s ease .15s, transform 1.1s var(--cer-ease) .15s; }
 .cer-head { transform: translateY(10px); }
 .cer.is-open .cer-decor, .cer.is-open .cer-head { opacity: 1; transform: none; }
-.cer-art { opacity: 0; filter: blur(8px); scale: .95; transition: opacity 1.2s ease, scale 1.7s var(--cer-ease), filter 1.3s ease; }
-.cer-name, .cer-pa { opacity: 0; letter-spacing: .5em; filter: blur(3px); transition: opacity .9s ease .2s, letter-spacing 1.7s var(--cer-ease) .2s, filter 1s ease .2s; }
+.cer-art { opacity: 0; filter: blur(8px); scale: .95; transition: opacity .8s ease, scale 1.1s var(--cer-ease), filter .8s ease; }
+.cer-name, .cer-pa { opacity: 0; letter-spacing: .5em; filter: blur(3px); transition: opacity .7s ease .1s, letter-spacing 1.1s var(--cer-ease) .1s, filter .7s ease .1s; }
 .cer-pa { letter-spacing: normal; }
-.cer-info li, .cer-actions { opacity: 0; translate: 0 14px; transition: opacity 1s ease, translate 1.2s var(--cer-ease); }
-.cer-info li { transition-delay: calc(.45s + var(--i, 0) * .12s); }
-.cer-actions { transition-delay: 1s; }
-.cer-flourish span { display: inline-block; opacity: 0; scale: .3; transition: opacity .8s ease 1.2s, scale 1s var(--cer-ease) 1.2s; }
+.cer-info li, .cer-actions { opacity: 0; translate: 0 14px; transition: opacity .6s ease, translate .8s var(--cer-ease); }
+.cer-info li { transition-delay: calc(.25s + var(--i, 0) * .07s); }
+.cer-actions { transition-delay: .5s; }
+.cer-flourish span { display: inline-block; opacity: 0; scale: .3; transition: opacity .6s ease .6s, scale .8s var(--cer-ease) .6s; }
 .is-reached .cer-art { opacity: 1; filter: none; scale: 1; }
 .is-reached .cer-name { opacity: 1; letter-spacing: .12em; filter: none; }
 .is-reached .cer-pa { opacity: 1; filter: none; }
@@ -123,7 +123,7 @@
 @media (pointer: coarse) {
   .cer-art, .cer-name, .cer-pa { filter: none !important; }
   .cer-name, .is-reached .cer-name { letter-spacing: .12em; }
-  .cer-name, .cer-pa { transition: opacity .9s ease .2s; }
-  .cer-art { transition: opacity 1s ease, scale 1.4s var(--cer-ease); }
+  .cer-name, .cer-pa { transition: opacity .7s ease .1s; }
+  .cer-art { transition: opacity .8s ease, scale 1.1s var(--cer-ease); }
   .cer-img, .cer-decor, .cer-heart svg { filter: none; }
 }

@@ -1,7 +1,9 @@
 /* Moments: a carved jharokha window on blush paper. Its shutters open on one photo, close, and open on the next as you scroll. */
 .gallery { position: relative; padding: 0 !important; overflow: visible !important; min-height: auto !important; display: block !important; background: none; --rose: #a63f5b; --rose-deep: #7d2742; }
 .gallery__track { position: relative; height: 100svh; }
-.gallery__stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 2svh, 22px); padding: 8px var(--gutter) 60px; overflow: hidden; isolation: isolate; }
+.gallery__stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 2svh, 22px); padding: 8px var(--gutter) 60px; overflow: hidden; overflow: clip; isolation: isolate; }
+/* (clip, not just hidden: a hidden box can still be scrolled sideways, and a sideways swipe on the photos did exactly that,
+   leaving the doorway, dots and arrows stuck ~30px off centre; a clipped box can't scroll at all) */
 /* the stage carries its own blush paper and flowers, so the background stays still while the pages turn; their top
    and bottom edges melt into the page's running flowers only while the book slides in or out (see Gallery.jsx) */
 .gallery__stage > :not(.gallery__paper) { position: relative; z-index: 2; }
@@ -138,3 +140,19 @@
 /* the doorway takes sideways swipes for the photos; up / down swipes still scroll the page */
 .jh__window { touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
 .jh__window img { -webkit-user-drag: none; }
+
+/* "‹ Swipe for more ›" pill under the doorway, kept off the photo; its arrows drift gently sideways until the guest swipes once */
+.jh__swipe { position: relative; display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; background: var(--rose-deep); color: #fff; box-shadow: 0 4px 12px rgba(125, 39, 66, .25); }
+.jh__swipe svg { width: 7px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.jh__swipe-text { font-family: var(--font-label); font-weight: 600; font-size: 10px; letter-spacing: .24em; padding-left: .24em; text-transform: uppercase; line-height: 1; }
+/* the arrows are buttons: a 40 px tap area around the small chevron, pulled in so the pill keeps its size */
+.jh__arrow { display: grid; place-items: center; width: 36px; height: 36px; margin: -11px -10px; padding: 0; border: 0; border-radius: 50%; background: none; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color .2s ease, scale .15s ease; }
+.jh__arrow:hover { background: rgba(255, 255, 255, .14); }
+.jh__arrow:active { scale: .88; }
+.jh__arrow:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+/* the chevrons drift sideways as a hint until the guest has moved on a photo, then sit still */
+.jh__swipe:not(.is-used) .jh__arrow:first-child svg { animation: jhNudgeL 1.6s ease-in-out infinite; }
+.jh__swipe:not(.is-used) .jh__arrow:last-child svg { animation: jhNudgeR 1.6s ease-in-out infinite; }
+@keyframes jhNudgeL { 0%, 100% { translate: 0 0; opacity: .6; } 50% { translate: -3px 0; opacity: 1; } }
+@keyframes jhNudgeR { 0%, 100% { translate: 0 0; opacity: .6; } 50% { translate: 3px 0; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .jh__swipe svg { animation: none !important; } }

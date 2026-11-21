@@ -8,13 +8,13 @@ export function useReveal(scope) {
       const mm = gsap.matchMedia()
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const els = gsap.utils.toArray('.reveal', scope.current)
-        gsap.set(els, { y: 26, autoAlpha: 0 })
+        gsap.set(els, { y: 20, autoAlpha: 0 })
         ScrollTrigger.batch(els, {
           start: 'top 92%',
           once: true,
           interval: 0.08,
           onEnter: (batch) =>
-            gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.55, ease: 'power3.out', stagger: 0.09, overwrite: true }),
+            gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.6, ease: 'power3.out', stagger: 0.07, overwrite: true }),
         })
       })
     },

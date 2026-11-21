@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { LenisContext } from '../lib/smoothScroll'
+import { hurryOnInput } from '../lib/lockedTimeline'
 import { wedding } from '../data/wedding'
 import './PunjabClock.css'
 
@@ -59,13 +60,14 @@ export default function PunjabClock() {
       const mm = gsap.matchMedia()
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } })
-        tl.from('.pclock__dial', { scale: 0.85, autoAlpha: 0, rotation: -20, transformOrigin: '50% 50%', duration: 1 })
-          .fromTo('.pclock__ring', { strokeDasharray: 1300, strokeDashoffset: 1300 }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' }, 0.1)
+        tl.from('.pclock__dial', { scale: 0.85, autoAlpha: 0, rotation: -20, transformOrigin: '50% 50%', duration: 0.8 })
+          .fromTo('.pclock__ring', { strokeDasharray: 1300, strokeDashoffset: 1300 }, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut' }, 0.1)
         // the numerals are written in one by one, sweeping clockwise round the dial from 12, each swung in along the rim,
         // with the month that follows it
         const nums = gsap.utils.toArray('.pclock__num', root.current)
         const months = gsap.utils.toArray('.pclock__month', root.current)
-        const STEP = 0.32
+        // (a quick sweep round the dial: the page is held still while it writes, so the whole clock takes about 2.5 s)
+        const STEP = 0.17
         nums.forEach((el, i) => {
           tl.from(el, { autoAlpha: 0, scale: 0.4, rotation: -55, svgOrigin: `${C} ${C}`, duration: 0.7, ease: 'back.out(1.5)' }, 0.5 + i * STEP)
           if (months[i]) tl.from(months[i], { autoAlpha: 0, rotation: -30, svgOrigin: `${C} ${C}`, duration: 0.6, ease: 'power2.out' }, 0.5 + i * STEP + STEP / 2)
@@ -84,6 +86,7 @@ export default function PunjabClock() {
         const open = () => {
           if (tl.progress() > 0) return
           tl.play()
+          hurryOnInput(tl)
           const r = root.current.getBoundingClientRect()
           // Land on the top of the page the clock sits in, so its heading (The Date Reveal) and the scratch card stay
           // in view clear of the notch, as long as the whole clock still fits on screen from there; otherwise centre the clock.
@@ -99,7 +102,7 @@ export default function PunjabClock() {
           } else {
             window.scrollTo({ top: centre, behavior: 'smooth' })
           }
-          safety = gsap.delayedCall(10, release) // never leave a guest stuck, whatever happens
+          safety = gsap.delayedCall(6, release) // never leave a guest stuck, whatever happens
         }
         const st = ScrollTrigger.create({ trigger: root.current, start: 'top 70%', once: true, onEnter: open })
         return () => { st.kill(); release() }

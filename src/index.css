@@ -288,7 +288,7 @@ html[data-scene="sky"], html[data-scene="sky"] body { background-color: #92c1f1;
    drop: a hanging garland unrolls downward from its top edge; rise: a footer band grows up from its foot;
    fade: a scene comes in softly. Then a few gentle idle motions: hanging pieces breathe as if swaying, scenes drift,
    diya flames flicker, a sun glows, petals fall. */
-[data-art] { transition: clip-path 1.6s cubic-bezier(.22, 1, .36, 1), opacity 1.4s ease, scale 1.8s cubic-bezier(.22, 1, .36, 1); }
+[data-art] { transition: clip-path 1.15s cubic-bezier(.22, 1, .36, 1), opacity .9s ease, scale 1.3s cubic-bezier(.22, 1, .36, 1); }
 [data-art="drop"] { clip-path: inset(0 0 100% 0); }
 [data-art="rise"] { clip-path: inset(100% 0 0 0); }
 [data-art="fade"] { opacity: 0; scale: 1.04; transform-origin: 50% 0; }

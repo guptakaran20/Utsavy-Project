@@ -162,10 +162,6 @@
 }
 
 
-/* the plane that writes the date across the sky (see Hero.jsx) */
-.hero__plane { position: absolute; z-index: 4; left: 0; top: 0; width: 260px; height: auto; max-width: none; pointer-events: none; will-change: transform; clip-path: inset(0 0 15% 0); }
-.hero__trail { position: absolute; z-index: 2; left: 0; top: 0; height: 4px; width: 0; border-radius: 4px; pointer-events: none; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .9)); filter: blur(1.4px); will-change: transform; }
-@media (prefers-reduced-motion: reduce) { .hero__plane, .hero__trail { display: none; } }
 
 /* only the city is written under the names now (the date is revealed at the countdown), so it reads a size larger */
 .hero__date em { margin-top: 0; font-size: clamp(12px, 1.6vw, 15px); }
@@ -215,3 +211,11 @@
 /* the chevrons rise with translate (GPU) from a fixed top, not by animating top (layout every frame) */
 .hero__cue-arrows i { top: 0; }
 @media (prefers-reduced-motion: reduce) { .hero__cue-arrows i { translate: 0 4px; } .hero__cue-arrows i:last-child { translate: 0 12px; } }
+
+/* Punjabi and English mixed: the welcome and the families' invitation are in Gurmukhi (no wide tracking or capitals,
+   which break the script's joined letters) */
+.hero .hero__welcome.gurmukhi { font-family: var(--font-gurmukhi); letter-spacing: 0; word-spacing: normal; padding-left: 0; text-transform: none; font-weight: 600; font-size: clamp(17px, 4.6vw, 24px); }
+.hero .hero__sub { display: block; font-family: var(--font-gurmukhi); letter-spacing: 0; margin: clamp(6px, 1.4svh, 14px) 0 0; font-weight: 600; font-size: clamp(15px, 4.2vw, 21px); color: #fff; text-shadow: 0 1px 3px rgba(15, 40, 100, .75), 0 2px 14px rgba(15, 40, 100, .7); }
+
+/* the gurdwara stands in front of the writing: where they meet, the text goes behind it, and as it rises on scroll it covers the words */
+.hero__haveli { z-index: 4; }

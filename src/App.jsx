@@ -45,11 +45,11 @@ export default function App() {
   return (
     <SmoothScroll locked={!opened}>
       {!gateDone && (INTRO === 'plane'
-        ? <PlaneIntro onTakeoff={() => dhol.prime()} onEnter={() => { setOpened(true); dhol.start() }} onDone={() => setGateDone(true)} />
+        ? <PlaneIntro onEnter={() => { setOpened(true); dhol.start() }} onDone={() => setGateDone(true)} />
         : <HaveliGate onEnter={() => setOpened(true)} onDone={() => setGateDone(true)} />)}
       <MusicToggle visible={opened} />
       <FrameScene introDone={gateDone} />
-      {/* if the guest sits still for 3 s once everything has played, the page drifts on a little by itself */}
+      {/* if the guest sits still for a few seconds once everything has played, the page drifts on a little by itself */}
       <IdleNudge enabled={gateDone} />
       <main>
         <Hero play={opened} />

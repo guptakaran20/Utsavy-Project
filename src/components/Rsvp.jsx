@@ -179,7 +179,7 @@ export default function Rsvp() {
         // The page holds still while the reply card opens: it glides to the heading, the arch rises and the
         // guest's name is written in, then it drifts down as the stage and the couple come up beneath the card,
         // and hands scrolling back with the Accept button ready.
-        const { tl, glide, cam, prime, cleanup } = lockedTimeline(lenis, { trigger: q('.rsvp__card')[0], start: 'top 75%' })
+        const { tl, glide, cam, prime, cleanup } = lockedTimeline(lenis, { trigger: q('.rsvp__card')[0], start: 'top 75%', speed: 1.5 })
         const firstStop = () => absTop(q('.section-title')[0]) - 64
         const secondStop = () => {
           const stage = q('.rsvp__stage')[0]
@@ -246,6 +246,7 @@ export default function Rsvp() {
     const card = q('.rsvp__card')[0]
     const { tl, glide, cam, play } = lockedTimeline(lenis, {
       safety: 16,
+      speed: 1.15,
       // once it has all played: the lamps keep a soft flicker and the envelope bobs where it landed
       onDone: () => {
         gsap.to(q('.rsvp__lamp'), { opacity: () => gsap.utils.random(0.65, 1), duration: () => gsap.utils.random(1.2, 2.4), ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: 0.2, from: 'random' } })
@@ -331,7 +332,7 @@ export default function Rsvp() {
       .to(q('.rsvp__lamp'), { autoAlpha: 1, scale: 1, duration: 0.6, ease: 'power2.out', stagger: 0.05 }, 4.9)
       .add(() => petalCannons(q('.rsvp__stage')[0]), 5.6)
       .add(() => rainPetals(q('.rsvp__stage')[0]), 6.3)
-      .to({}, { duration: 1.6 }) // let the petals fall a while before handing scrolling back
+      .to({}, { duration: 0.8 }) // let the petals fall a moment before handing scrolling back
     play()
   })
 

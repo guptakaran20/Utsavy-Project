@@ -52,6 +52,13 @@ export default function Wishes() {
   const { contextSafe } = useGSAP(
     () => {
       const mm = gsap.matchMedia()
+      // the gaagar is set down on the page as it scrolls in: it rises, lands with a little settle, and its glow comes up
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.timeline({ scrollTrigger: { trigger: '.gaagar__pot', start: 'top 80%', once: true } })
+          .from('.gaagar__body', { y: 70, scale: 0.8, autoAlpha: 0, duration: 0.9, ease: 'back.out(1.6)', transformOrigin: '50% 92%' })
+          .from('.gaagar__glow', { scale: 0.4, autoAlpha: 0, duration: 1.1, ease: 'power2.out' }, 0.2)
+          .fromTo('.gaagar__body', { rotation: 0 }, { rotation: 3, duration: 0.12, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 0.75)
+      })
       mm.add('(prefers-reduced-motion: no-preference) and (min-width: 761px)', () => {
         gsap.from('.gcard', {
           x: (i, el) => (el.dataset.side === 'l' ? 160 : -160),
@@ -157,10 +164,21 @@ export default function Wishes() {
 
         <div className="gaagar__center">
           <div className="gaagar__pot">
+            {/* a warm glow behind the pot that slowly breathes */}
+            <span className="gaagar__glow" aria-hidden="true" />
             {!potArt && [1, 2, 3].map((n) => <span key={n} className={`gaagar__peek gaagar__peek--${n}`} aria-hidden="true" />)}
-            {potArt
-              ? <img src={POT} alt="A brass gaagar wrapped in phulkari, full of folded blessings" width="800" height="800" decoding="async" loading="lazy" />
-              : <PotFallback />}
+            {/* the pot itself sways gently on its base; a band of light sweeps across the brass now and then
+                (the shine is masked by the painting, so it only ever lights the pot, never the paper around it) */}
+            <div className="gaagar__body">
+              {potArt
+                ? <img src={POT} alt="A brass gaagar wrapped in phulkari, full of folded blessings" width="800" height="800" decoding="async" loading="lazy" />
+                : <PotFallback />}
+              {potArt && <span className="gaagar__shine" style={{ '--pot': `url(${POT})` }} aria-hidden="true" />}
+            </div>
+            {/* little gold glints twinkling over the rolled blessings at the mouth */}
+            {[[34, 9, 0], [62, 4, 0.9], [74, 17, 1.7], [46, 21, 2.4]].map(([x, y, d]) => (
+              <span key={x} className="gaagar__spark" style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${d}s` }} aria-hidden="true" />
+            ))}
             <span className="gaagar__mouth" aria-hidden="true" />
           </div>
           <p className="gaagar__count">{wishes.length} blessings inside</p>

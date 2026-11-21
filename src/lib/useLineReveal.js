@@ -36,7 +36,7 @@ export function useLineReveal() {
             onSplit: (self) => {
               if (played) return
               return gsap.from(self.lines, {
-                yPercent: 105, autoAlpha: 0, duration: 0.85, ease: 'power3.out', stagger: 0.11,
+                yPercent: 105, autoAlpha: 0, duration: 0.7, ease: 'power3.out', stagger: 0.07,
                 scrollTrigger: { trigger: el, start: 'top 90%', once: true, onEnter: () => { played = true } },
               })
             },

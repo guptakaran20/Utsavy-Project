@@ -5,12 +5,6 @@
 .ofam__sub { margin: 14px 0 0; font-style: italic; color: var(--ink-soft); }
 
 .ofam__threads { position: relative; width: min(100%, 520px); margin-top: clamp(14px, 3vw, 28px); }
-/* a soft cream glow behind the text so it reads over the pattern, without drawing a box */
-.ofam__threads::before {
-  content: ''; position: absolute; inset: 4% -6% 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(closest-side, rgba(255, 252, 246, .85), rgba(255, 252, 246, .5) 60%, transparent);
-  filter: blur(6px);
-}
 
 /* the families stack: the bride's first, an ampersand rule, then the groom's */
 .ofam__side { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; }
@@ -32,7 +26,7 @@
   box-shadow: 0 0 0 4px rgba(255, 252, 246, .9), 0 0 0 5px rgba(184, 134, 47, .55), 0 14px 22px -12px rgba(125, 39, 66, .55);
 }
 .ofam__seal::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; border: 1px dotted rgba(184, 134, 47, .8); }
-.ofam__seal-g { font: 400 clamp(26px, 7vw, 34px)/1 var(--font-gurmukhi); color: var(--gold-500); transform: translateY(2px); }
+.ofam__seal-g { font: 400 clamp(26px, 7vw, 34px)/1 var(--font-gurmukhi); color: var(--gold-500); transform: translateY(-2px); } /* lifted so the letters' body, not their top marks, sits on the centre */
 
 .ofam__family { margin: 16px 0 0; font: 500 clamp(18px, 4.8vw, 23px)/1.2 var(--font-display); letter-spacing: .08em; color: var(--rose-deep); }
 .ofam__label { margin-top: 4px; font: 500 clamp(9px, 2.4vw, 10.5px)/1.5 var(--font-label); letter-spacing: .18em; text-transform: uppercase; color: var(--leaf); text-wrap: balance; }
@@ -46,7 +40,7 @@
 .ofam__name { margin: 0; font: 400 clamp(40px, 10.5vw, 56px)/1.05 var(--font-script); color: var(--rose); }
 .ofam__and { margin: 2px 0; font: 500 14px var(--font-display); letter-spacing: .2em; color: var(--gold-500); }
 
-.ofam__blessings { display: flex; flex-direction: column; align-items: center; gap: 12px; width: min(100%, 290px); margin-top: clamp(20px, 5vw, 28px); padding: 14px 18px; border-radius: 14px; background: radial-gradient(closest-side, rgba(255, 252, 246, .9), rgba(255, 252, 246, .6) 70%, rgba(255, 252, 246, 0)); }
+.ofam__blessings { display: flex; flex-direction: column; align-items: center; gap: 12px; width: min(100%, 290px); margin-top: clamp(20px, 5vw, 28px); padding: 14px 18px; }
 .ofam__blessing { margin: 0; max-width: 24ch; font-style: italic; font-size: clamp(15px, 4vw, 17px); line-height: 1.45; color: var(--rose-deep); text-wrap: balance; }
 .ofam__gem { flex: none; width: 7px; height: 7px; transform: rotate(45deg); border: 1px solid var(--gold-400); }
 
@@ -84,3 +78,9 @@
 #families.ofam { padding-bottom: calc(max(112vw, 440px) * .3); }
 /* (the rangoli is a wrapper now, holding the painting and its diya glows) */
 #families.ofam > .ofam__rangoli img { display: block; width: 100%; height: auto; }
+
+/* the family seal is a painted gold-and-peony medallion (public/family-seal.webp, transparent); the drawn rings are
+   retired and the Gurmukhi name sits in its ivory centre (the disc's centre is ~2% above the picture's, hence the lift) */
+.ofam__seal { width: clamp(112px, 31vw, 136px); border: 0; border-radius: 0; box-shadow: none; background: url('/family-seal.webp') center / contain no-repeat; filter: drop-shadow(0 10px 12px rgba(125, 39, 66, .2)); }
+.ofam__seal::before { display: none; }
+.ofam__seal .ofam__seal-g { font-size: clamp(24px, 6.6vw, 30px); color: var(--gold-500); transform: translateY(-5px); }
