@@ -48,7 +48,7 @@ export default function OurFamilies() {
         const { tl, glide, cam, prime, cleanup } = lockedTimeline(lenis, {
           trigger: q('.ofam__threads')[0],
           safety: 16,
-          speed: 1.7, // written as a 9 s sequence; plays in about 5 s
+          speed: 1.3, // written as a 9 s sequence; plays in about 7 s, unhurried
           onDone: () => gsap.to(q('.ofam__seal'), { rotation: (i) => (i ? -2.5 : 2.5), duration: 3, ease: 'sine.inOut', yoyo: true, repeat: -1 }),
         })
 

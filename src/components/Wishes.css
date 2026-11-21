@@ -148,3 +148,10 @@ html.lite .gaagar__body, html.lite .gaagar__glow { animation: none; }
 
 /* a blessing's signature is whatever the guest is called; a long one shrinks with its length (--len, Wishes.jsx) */
 .gcard__name { font-size: min(clamp(20px, 12cqi, 28px), max(14px, calc(480cqi / var(--len, 12)))); }
+
+/* the outside of the folded chit: painted blush paper with a phulkari border (wishes/chit-back.webp), sealed with the
+   same painted wax seal and initials as the invitation's envelope (the seal's centre sits at 45% / 39% of its image) */
+.fold__back { background: url('/wishes/chit-back.webp') center / 100% 100% no-repeat; box-shadow: none; }
+.fold__seal { position: relative; display: block; width: 46%; max-width: 96px; aspect-ratio: 420 / 477; translate: 5% 11%; border-radius: 0; background: none; box-shadow: none; filter: drop-shadow(0 4px 5px rgba(90, 20, 40, .35)); }
+.fold__seal img { display: block; width: 100%; height: 100%; }
+.fold__seal b { position: absolute; left: 45%; top: 39%; translate: -50% -50%; white-space: nowrap; font: 400 clamp(15px, 4.4vw, 20px)/1 var(--font-script); color: #f3d48e; text-shadow: 0 1px 0 rgba(60, 10, 25, .55); }

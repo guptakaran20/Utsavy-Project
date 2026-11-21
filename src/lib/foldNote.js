@@ -1,4 +1,11 @@
 import { gsap } from './gsap'
+import { wedding } from '../data/wedding'
+
+// the outside of the folded chit (phulkari-bordered blush paper) and the invitation's own wax seal: fetched with this
+// module, so they are ready the moment a guest sends a blessing
+const BACK = '/wishes/chit-back.webp'
+const SEAL = '/invite-seal.webp'
+if (typeof Image !== 'undefined') [BACK, SEAL].forEach((src) => { new Image().src = src })
 
 // The written note turns into a sheet of paper over the form, folds like a letter (bottom third up, top third down),
 // folds once more in half into a little square with a wax seal, is carried up to the gaagar and dropped into it.
@@ -28,7 +35,7 @@ export function foldNote({ form, text, signer, mouth, scrollToY, onLanded }) {
     </div>`
   const panel = (x, y, seal) => `
     <div class="fold__face fold__front">${letter(x, y)}</div>
-    <div class="fold__face fold__back">${seal ? '<span class="fold__seal">❀</span>' : ''}</div>`
+    <div class="fold__face fold__back">${seal ? `<span class="fold__seal"><img src="${SEAL}" alt="" /><b></b></span>` : ''}</div>`
 
   const wrap = document.createElement('div')
   wrap.className = 'fold'
@@ -52,6 +59,8 @@ export function foldNote({ form, text, signer, mouth, scrollToY, onLanded }) {
   // the guest's words go in as text, never as HTML
   wrap.querySelectorAll('.fold__text').forEach((el) => { el.textContent = `“${text}”` })
   wrap.querySelectorAll('.fold__sign').forEach((el) => { el.textContent = `— ${signer}` })
+  // the couple's initials pressed into the wax, as on the invitation's envelope
+  wrap.querySelectorAll('.fold__seal b').forEach((el) => { el.textContent = `${wedding.bride.name[0]}&${wedding.groom.name[0]}` })
   document.body.appendChild(wrap)
 
   let done = false

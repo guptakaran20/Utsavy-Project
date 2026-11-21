@@ -7,10 +7,6 @@ import { LenisContext } from '../lib/smoothScroll'
 import { absTop, lockedTimeline } from '../lib/lockedTimeline'
 import { guestName, hasGuestName } from '../lib/guest'
 import { wedding } from '../data/wedding'
-import { downloadIcs } from '../lib/calendar'
-import { invitationText } from '../lib/invite'
-import { dhol } from '../lib/dhol'
-import { CalendarIcon, PinIcon } from './Icons'
 import SectionTitle from './SectionTitle'
 import Mandala from './Mandala'
 import FloralSides from './FloralSides'
@@ -28,25 +24,10 @@ const LAMPS = [
   [110, 680], [1370, 680], [1450, 740],
 ].map(([x, y]) => ({ left: `${(x / 14.91).toFixed(2)}%`, top: `${(y / 10.55).toFixed(2)}%` })).sort((a, b) => parseFloat(a.left) - parseFloat(b.left))
 
-// the scalloped rim of a wax seal: 18 soft bumps round a circle
-const SEAL_EDGE = (() => {
-  const n = 18
-  const pts = []
-  for (let i = 0; i <= n * 4; i++) {
-    const a = (i / (n * 4)) * Math.PI * 2
-    const r = 44 + 3.2 * Math.cos(a * n)
-    pts.push(`${(50 + r * Math.cos(a)).toFixed(2)} ${(50 + r * Math.sin(a)).toFixed(2)}`)
-  }
-  return `M${pts.join(' L')}Z`
-})()
-
 const PETAL_COLOURS = ['#f4a7b9', '#f7c4cf', '#e88aa0', '#fbd9df', '#f3b6c2']
 // genda (marigold) for the bursts, mixed in with the rose
 const MARIGOLD = ['#f5a623', '#f7b733', '#e8851a', '#ffcf4a']
 const BURST_COLOURS = [...MARIGOLD, ...PETAL_COLOURS]
-
-// the Anand Karaj: the day the guest pass and its calendar button point at
-const WED_EVENT = wedding.events.find((e) => e.id === wedding.venue.event) || wedding.events[0]
 
 // The guest is already known from the invitation link, so the reply is a single tap: "yes, we'll be there".
 function buildMessage(name) {
@@ -129,24 +110,32 @@ function sparkle(host, x, y) {
     { scale: 0, autoAlpha: 0, rotation: 90, y: gsap.utils.random(6, 18), duration: gsap.utils.random(0.6, 0.9), ease: 'power1.in', onComplete: () => s.remove() })
 }
 
-// one deep dhol "dhamak" as the seal stamps down: synthesised, and only while the dhol music is on
-function dholHit() {
-  if (!dhol.on) return
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext
-    const ctx = (dholHit.ctx ??= new AC())
-    const t = ctx.currentTime
-    const osc = ctx.createOscillator()
-    const g = ctx.createGain()
-    osc.frequency.setValueAtTime(110, t)
-    osc.frequency.exponentialRampToValueAtTime(48, t + 0.32)
-    g.gain.setValueAtTime(0.0001, t)
-    g.gain.exponentialRampToValueAtTime(0.7, t + 0.01)
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45)
-    osc.connect(g).connect(ctx.destination)
-    osc.start(t)
-    osc.stop(t + 0.5)
-  } catch { /* no audio: the hit is only a garnish */ }
+// one little five-petal bloom (rose or marigold) with a gold heart
+const BLOOM_SVG = (colour) => `<svg viewBox="-10 -10 20 20" aria-hidden="true">${[0, 72, 144, 216, 288]
+  .map((r) => `<ellipse cx="0" cy="-5" rx="3.6" ry="5" fill="${colour}" transform="rotate(${r})"/>`)
+  .join('')}<circle r="2.6" fill="#f2c75c"/><circle r="1.2" fill="#c98a1e"/></svg>`
+
+// blooms drifting down from the top of the screen over the whole page, once the guest has accepted;
+// the layer removes itself when the last one has fallen
+function bloomShower(count = 34) {
+  const layer = document.createElement('div')
+  layer.className = 'rsvp__blooms'
+  document.body.appendChild(layer)
+  const H = window.innerHeight
+  let left = count
+  for (let i = 0; i < count; i++) {
+    const b = document.createElement('span')
+    b.className = 'rsvp__bloom'
+    b.innerHTML = BLOOM_SVG(BURST_COLOURS[i % BURST_COLOURS.length])
+    b.style.left = `${gsap.utils.random(2, 98)}%`
+    b.style.width = `${gsap.utils.random(16, 30)}px`
+    layer.appendChild(b)
+    const fall = gsap.utils.random(4.2, 6.4)
+    gsap.timeline({ delay: gsap.utils.random(0, 2.6), onComplete: () => { b.remove(); if (--left === 0) layer.remove() } })
+      .fromTo(b, { y: -40, autoAlpha: 0, rotation: gsap.utils.random(0, 360) }, { autoAlpha: 1, duration: 0.5 })
+      .to(b, { y: H + 40, rotation: `+=${gsap.utils.random(200, 480)}`, duration: fall, ease: 'sine.in' }, 0)
+      .to(b, { x: gsap.utils.random(-40, 40), duration: fall / 3, ease: 'sine.inOut', yoyo: true, repeat: 2 }, 0)
+  }
 }
 
 export default function Rsvp() {
@@ -233,8 +222,8 @@ export default function Rsvp() {
   }, [])
 
   // Accept: the page holds still. The button squishes and bursts into little hearts, then folds itself into an
-  // envelope tied with the mauli thread. The card turns over like a real reply card to its thank-you side, where a
-  // wax seal stamps down and the guest's entry pass appears. Then the envelope flies down onto the stage, trailing
+  // envelope tied with the mauli thread. The words fade to a plain thank-you and blooms fall from the top of the
+  // screen. Then the envelope flies down onto the stage, trailing
   // gold, lands at the couple's feet and opens; the lamps light, and two bursts of rose and marigold petals go up.
   const { contextSafe } = useGSAP({ scope: root })
   const celebrate = contextSafe(() => {
@@ -244,7 +233,6 @@ export default function Rsvp() {
     const btnEl = q('.rsvp__submit')[0]
     const btn = btnEl.getBoundingClientRect()
     const env = q('.rsvp__envelope')[0]
-    const card = q('.rsvp__card')[0]
     const { tl, glide, cam, play } = lockedTimeline(lenis, {
       safety: 16,
       speed: 1.15,
@@ -286,7 +274,6 @@ export default function Rsvp() {
     gsap.set(q('.rsvp__envelope-flap'), { scaleY: -1 })
     gsap.set(q('.rsvp__envelope-bead'), { scale: 0, autoAlpha: 1 })
     gsap.set(q('.rsvp__envelope-heart'), { autoAlpha: 0, y: 0, scale: 0.4 })
-    gsap.set(card, { transformPerspective: 1100, transformOrigin: '50% 50%' })
 
     // 1. press: the button squishes, the phone taps back and hearts burst out of it
     navigator.vibrate?.(28)
@@ -299,21 +286,18 @@ export default function Rsvp() {
       .to(q('.rsvp__envelope-flap'), { scaleY: 1, duration: 0.45, ease: 'power2.inOut' }, 0.85)
       .to(q('.rsvp__envelope [pathLength]'), { strokeDashoffset: 0, duration: 0.5, ease: 'sine.inOut', stagger: 0.08 }, 1.15)
       .to(q('.rsvp__envelope-bead'), { scale: 1, duration: 0.35, ease: 'back.out(2.5)' }, 1.55)
-      // the envelope lifts off the card, so the card can turn over beneath it
+      // the envelope lifts off the words
       .to(env, { y: from.y - 26, scale: 1.08, duration: 0.5, ease: 'sine.out' }, 1.6)
-      // 3. the card turns over: edge-on, its front swaps for the thank-you side, and it comes round the rest of the way
-      // (the sheet keeps its height through the swap so nothing below it jumps)
-      .to(card, { rotationY: 90, duration: 0.38, ease: 'power2.in' }, 1.75)
+      // 3. the reply's words fade away and a plain thank-you takes their place (the sheet keeps its height so
+      // nothing below it jumps), as blooms start falling from the top of the screen
+      .to(q('.rsvp__form > *'), { y: -10, autoAlpha: 0, duration: 0.4, ease: 'power2.in' }, 1.7)
       .call(() => {
         const sheet = q('.rsvp__sheet')[0]
         gsap.set(sheet, { minHeight: sheet.offsetHeight })
-        sheet.classList.add('is-sent')
+        sheet.classList.add('is-thanked')
         setSent(true)
-      }, null, 2.13)
-      .fromTo(card, { rotationY: -90 }, { rotationY: 0, duration: 0.7, ease: 'back.out(1.2)', immediateRender: false }, 2.13)
-      // 4. the wax seal stamps down (its own spring, see the thank-you markup): the card gives a little jolt, and a dhol hit
-      .call(dholHit, null, 2.55)
-      .to(card, { keyframes: { y: [0, 5, -2, 0], rotation: [0, -0.6, 0.3, 0] }, duration: 0.4, ease: 'power1.out' }, 2.55)
+      }, null, 2.1)
+      .add(() => bloomShower(), 2.1)
     // 5. the page glides down to the stage once the thank-you has been read for a beat
     glide(stageStop, { duration: 2.4, ease: 'sine.inOut' }, 3.3)
     // ... and the envelope flies down in a soft arc, trailing gold, and lands at the couple's feet
@@ -344,7 +328,7 @@ export default function Rsvp() {
     }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       root.current.classList.add('is-celebrated')
-      root.current.querySelector('.rsvp__sheet')?.classList.add('is-sent')
+      root.current.querySelector('.rsvp__sheet')?.classList.add('is-thanked')
       setSent(true)
       return
     }
@@ -367,83 +351,14 @@ export default function Rsvp() {
         <div className="torn rsvp__sheet">
           {sent ? (
           <div className="rsvp__thanks">
-            {/* a rose wax seal pressed on the reply: it lands with a little turn, its gold ring draws
-                itself round and the heart pops in */}
-            <motion.svg
-              className="rsvp__seal"
-              viewBox="0 0 100 100"
-              aria-hidden="true"
-              initial={{ scale: 2.2, rotate: -30, opacity: 0 }}
-              animate={{ scale: 1, rotate: 0, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 17, delay: 0.25 }}
-            >
-              <defs>
-                <radialGradient id="rsvpSealWax" cx="38%" cy="32%" r="75%">
-                  <stop offset="0" stopColor="#d4637f" />
-                  <stop offset=".55" stopColor="#a63f5b" />
-                  <stop offset="1" stopColor="#6e1f36" />
-                </radialGradient>
-              </defs>
-              <path d={SEAL_EDGE} fill="url(#rsvpSealWax)" />
-              <motion.circle
-                cx="50" cy="50" r="33" fill="none" stroke="#e8c675" strokeWidth="1.6"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 0.9, delay: 0.6, ease }}
-              />
-              <circle cx="50" cy="50" r="28" fill="none" stroke="#e8c675" strokeWidth=".8" strokeDasharray="1.5 3" opacity=".8" />
-              <motion.path
-                d="M50 64 C38 56 33 49 33 43 C33 37.5 37.5 34 42 34 C45.5 34 48.5 36 50 39 C51.5 36 54.5 34 58 34 C62.5 34 67 37.5 67 43 C67 49 62 56 50 64 Z"
-                fill="#fbe7c4"
-                style={{ transformOrigin: '50px 49px' }}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: 'spring', stiffness: 420, damping: 14, delay: 1.0 }}
-              />
-            </motion.svg>
-            <motion.p className="rsvp__thanks-pa gurmukhi" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.55 }}>ਧੰਨਵਾਦ</motion.p>
-            <motion.h3 className="rsvp__thanks-title" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.7 }}>Shukriya{hasGuestName() ? `, ${name}` : ''}!</motion.h3>
-            <motion.p className="rsvp__thanks-text" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.85 }}>We can’t wait to celebrate with you. Get your dancing shoes ready!</motion.p>
-
-            {/* the guest's entry pass: a little ticket with their name, the day and the place, and a way to save it */}
-            <motion.div
-              className="rsvp__pass"
-              initial={{ opacity: 0, y: 26, rotateX: -55 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.8, ease, delay: 1.15 }}
-            >
-              <div className="rsvp__pass-band">
-                <span className="rsvp__pass-label">Admit one <span aria-hidden="true">·</span> <span className="gurmukhi">ਸੱਦਾ</span></span>
-                <strong className="rsvp__pass-name" style={fitLen(name, 12)}>{hasGuestName() ? name : 'Our honoured guest'}</strong>
-                <span className="rsvp__pass-status"><span aria-hidden="true">♥</span> Seat saved with love</span>
-              </div>
-              <div className="rsvp__pass-body">
-                <p className="rsvp__pass-event"><span className="gurmukhi">{WED_EVENT.gurmukhi}</span>{WED_EVENT.name}</p>
-                <ul className="rsvp__pass-info">
-                  <li>
-                    <CalendarIcon />
-                    <span><b>{wedding.dateLabel.split(', ').slice(1).join(', ')}</b><small>{wedding.dateLabel.split(', ')[0]} · {WED_EVENT.time}</small></span>
-                  </li>
-                  <li>
-                    <PinIcon />
-                    <span><b>{wedding.venue.name}</b><small>{wedding.venue.address}</small></span>
-                  </li>
-                </ul>
-              <button
-                type="button"
-                className="rsvp__pass-cal"
-                onClick={() =>
-                  downloadIcs({
-                    title: `${wedding.bride.name} & ${wedding.groom.name} — ${WED_EVENT.name}`,
-                    start: wedding.date,
-                    location: `${wedding.venue.name}, ${wedding.venue.address}`,
-                    description: invitationText(),
-                  })
-                }
-              >
-                <CalendarIcon /> Add to calendar
-              </button>
-              </div>
+            <header className="rsvp__head">
+              <motion.p className="rsvp__head-pa gurmukhi" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>ਧੰਨਵਾਦ</motion.p>
+              <motion.h3 className="rsvp__head-title" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.15 }}>Thank you</motion.h3>
+              <span className="rsvp__rule" aria-hidden="true" />
+            </header>
+            <motion.div className="rsvp__ask" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.35 }}>
+              <p className="rsvp__ask-q">We can’t wait to celebrate with you{hasGuestName() ? `, ${name}` : ''}.</p>
+              <p className="rsvp__ask-note">Your seat is saved with love.</p>
             </motion.div>
           </div>
         ) : (

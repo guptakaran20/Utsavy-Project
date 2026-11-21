@@ -91,7 +91,7 @@ export const wedding = {
       photo: '/photos/story-1.webp', focus: '50% 55%',
       title: 'Ik Lohri Mulaqat',
       accent: 'Lohri', // the word in the title written in green script
-      text: 'A cousin’s Lohri bonfire, one shared plate of gajak and a debate about who makes the better sarson da saag.',
+      text: 'One bonfire, one plate of gajak.',
     },
     {
       year: '2023',
@@ -99,7 +99,7 @@ export const wedding = {
       photo: '/photos/story-2.webp', focus: '50% 35%',
       title: 'The Wagah Question',
       accent: 'Wagah',
-      text: 'Golden hour at Wagah, nervous hands, and a ring hidden in a box of pinnis from Bibi ji.',
+      text: 'A ring hidden in Bibi ji’s pinnis.',
     },
     {
       year: '2026',
@@ -107,7 +107,7 @@ export const wedding = {
       photo: '/photos/story-3.webp', focus: '50% 50%',
       title: 'The Roka & Chunni Ceremony',
       accent: 'Chunni',
-      text: 'Two families, one very long dinner table, and enough laddoos to feed the whole mohalla.',
+      text: 'Two families, one very long table.',
     },
   ],
 

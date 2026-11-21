@@ -40,7 +40,6 @@ function Person({ person, role, roleGurmukhi, tone }) {
       <h3 className="person__name reveal" style={fitLen(person.name)}>{person.name}</h3>
       <p className="person__full reveal">{person.fullName}</p>
       <span className="person__rule reveal" aria-hidden="true" />
-      <p className="person__parents reveal">{person.parents}</p>
       <p className="person__blurb reveal">{person.blurb}</p>
     </article>
   )

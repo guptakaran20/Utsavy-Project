@@ -470,7 +470,7 @@ export default function Countdown() {
           Save the date
         </a>
         {/* a pale painted charkha under the countdown */}
-        <div className="punjabi-pair" data-art="bloom" aria-hidden="true">
+        <div className="punjabi-pair punjabi-pair--wide" data-art="bloom" aria-hidden="true">
           <img className="art-float" src="/punjabi/charkha.webp" alt="" width="680" height="680" loading="lazy" decoding="async" />
         </div>
       </div>

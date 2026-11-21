@@ -72,22 +72,22 @@
 @keyframes cloudDrift { to { transform: translateX(46px); } }
 .hero__sun { background: radial-gradient(circle, rgba(255,247,214,.95) 0, rgba(255,226,150,.7) 12%, rgba(255,190,110,.4) 30%, rgba(255,170,100,.18) 52%, rgba(255,160,90,0) 72%); }
 .hero__rays { opacity: .8; }
-.hero__om { color: #fff; text-shadow: 0 2px 10px rgba(20,60,130,.45); }
-.hero__eyebrow { color: rgba(255,255,255,.92); text-shadow: 0 1px 8px rgba(20,60,130,.5); letter-spacing: .3em; }
+.hero__om { color: #fff; text-shadow: 0 2px 10px rgba(120, 36, 64,.45); }
+.hero__eyebrow { color: rgba(255,255,255,.92); text-shadow: 0 1px 8px rgba(120, 36, 64,.5); letter-spacing: .3em; }
 .hero__rule { margin: 6px 0; display: flex; align-items: center; gap: 10px; width: min(78%, 420px); }
 .hero__rule i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.85)); }
 .hero__rule i:last-child { background: linear-gradient(270deg, transparent, rgba(255,255,255,.85)); }
 .hero__rule b { width: 7px; height: 7px; rotate: 45deg; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,.7); }
 .hero__names { font-family: var(--font-display); font-style: normal; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; line-height: 1.02; font-size: clamp(38px, min(11.5vw, 9svh), 112px); color: #fff; margin: 4px 0; }
-.hero__line { display: block; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #fff; animation: none; filter: drop-shadow(0 3px 14px rgba(20,60,130,.45)); white-space: nowrap; }
+.hero__line { display: block; background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #fff; animation: none; filter: drop-shadow(0 3px 14px rgba(120, 36, 64,.45)); white-space: nowrap; }
 .hero__weds-row { display: flex; align-items: center; justify-content: center; gap: 14px; width: min(78%, 420px); margin: 4px auto; }
 .hero__weds-row i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.8)); }
 .hero__weds-row i:last-child { background: linear-gradient(270deg, transparent, rgba(255,255,255,.8)); }
-.hero__weds { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(15px, 2.8vw, 22px); letter-spacing: .35em; text-transform: lowercase; color: #fff; margin: 0; text-shadow: 0 1px 8px rgba(20,60,130,.5); }
-.hero__sub { color: #fff; text-shadow: 0 1px 10px rgba(20,60,130,.5); }
-.hero__dear { color: rgba(255,255,255,.95); text-shadow: 0 1px 10px rgba(20,60,130,.5); }
+.hero__weds { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: clamp(15px, 2.8vw, 22px); letter-spacing: .35em; text-transform: lowercase; color: #fff; margin: 0; text-shadow: 0 1px 8px rgba(120, 36, 64,.5); }
+.hero__sub { color: #fff; text-shadow: 0 1px 10px rgba(120, 36, 64,.5); }
+.hero__dear { color: rgba(255,255,255,.95); text-shadow: 0 1px 10px rgba(120, 36, 64,.5); }
 .hero__dear b { color: #fff; }
-.hero__date { color: #fff; text-shadow: 0 2px 12px rgba(20,60,130,.45); font-family: var(--font-display); font-weight: 600; letter-spacing: .16em; font-size: clamp(18px, 3.4vw, 28px); }
+.hero__date { color: #fff; text-shadow: 0 2px 12px rgba(120, 36, 64,.45); font-family: var(--font-display); font-weight: 600; letter-spacing: .16em; font-size: clamp(18px, 3.4vw, 28px); }
 .hero__date i { background: rgba(255,255,255,.8); }
 .hero__date em { color: rgba(255,255,255,.92); letter-spacing: .34em; }
 @media (prefers-reduced-motion: reduce) { .hero__clouds .cl { animation: none; } }
@@ -122,7 +122,7 @@
 .hero { --scene-h: 112svh; }
 .hero__haveli .gur { height: var(--scene-h); max-width: none; bottom: -8svh; }
 .hero__text { padding-top: clamp(40px, 16svh, 150px); }
-.hero__line, .hero__weds, .hero__date, .hero__date em { text-shadow: 0 2px 16px rgba(20, 50, 110, .55); }
+.hero__line, .hero__weds, .hero__date, .hero__date em { text-shadow: 0 2px 16px rgba(120, 36, 64, .55); }
 
 /* full-width cover: the image spans the whole screen edge to edge, cropped rather than letterboxed */
 .hero__haveli { top: 0; height: auto; }
@@ -167,9 +167,9 @@
 .hero__date em { margin-top: 0; font-size: clamp(12px, 1.6vw, 15px); }
 
 /* "Scroll up" cue at the foot of the hero: two soft chevrons drifting upward over a small caps line */
-.hero__cue { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(28px, 7svh, 64px)); z-index: 6; translate: -50% 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; color: #fff; text-align: center; white-space: nowrap; text-shadow: 0 2px 10px rgba(20, 60, 130, .45); }
+.hero__cue { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(28px, 7svh, 64px)); z-index: 6; translate: -50% 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; color: #fff; text-align: center; white-space: nowrap; text-shadow: 0 2px 10px rgba(120, 36, 64, .45); }
 .hero__cue-arrows { position: relative; display: block; width: 22px; height: 26px; }
-.hero__cue-arrows i { position: absolute; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-left: 2px solid currentColor; border-top: 2px solid currentColor; rotate: 45deg; border-radius: 1px; opacity: 0; animation: cue-rise 1.8s ease-in-out infinite; filter: drop-shadow(0 1px 4px rgba(20, 60, 130, .45)); }
+.hero__cue-arrows i { position: absolute; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-left: 2px solid currentColor; border-top: 2px solid currentColor; rotate: 45deg; border-radius: 1px; opacity: 0; animation: cue-rise 1.8s ease-in-out infinite; filter: drop-shadow(0 1px 4px rgba(120, 36, 64, .45)); }
 .hero__cue-arrows i:last-child { animation-delay: .9s; }
 @keyframes cue-rise { 0% { translate: 0 16px; opacity: 0; } 30% { opacity: 1; } 100% { translate: 0 -2px; opacity: 0; } }
 .hero__cue-text { font-family: var(--font-label); font-weight: 500; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; }
@@ -177,19 +177,19 @@
 @media (prefers-reduced-motion: reduce) { .hero__cue-arrows i { animation: none; opacity: 1; top: 4px; } .hero__cue-arrows i:last-child { top: 12px; } }
 .hero__cue-in { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 
-/* "weds" and the city line: pure white, heavier, with a deeper blue shadow so they read crisply on the sky */
-.hero .hero__weds, .hero .hero__date em, .hero .hero__date { color: #fff !important; opacity: 1; font-weight: 700; text-shadow: 0 1px 3px rgba(15, 40, 100, .75), 0 2px 14px rgba(15, 40, 100, .7) !important; }
+/* "weds" and the city line: pure white, heavier, with a deep rose shadow so they read crisply on the sky */
+.hero .hero__weds, .hero .hero__date em, .hero .hero__date { color: #fff !important; opacity: 1; font-weight: 700; text-shadow: 0 1px 3px rgba(105, 28, 55, .75), 0 2px 14px rgba(105, 28, 55, .7) !important; }
 .hero .hero__weds-row i { background: linear-gradient(90deg, transparent, #fff); }
 .hero .hero__weds-row i:last-child { background: linear-gradient(270deg, transparent, #fff); }
 
 /* the guest's welcome: "Welcome" / GUEST NAME / to the wedding of / HARLEEN & JASRAJ.
    The name is the big line; a long name ("Sardar Gurpreet Singh ji") shrinks with its length (--len, set in Hero.jsx)
    and may break onto two balanced lines, so it never runs off the screen. */
-.hero .hero__welcome { margin: 0 0 clamp(4px, 1svh, 10px); font-family: var(--font-label); font-weight: 700; font-size: clamp(12px, 3.2vw, 17px); letter-spacing: .5em; padding-left: .5em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 3px rgba(15, 40, 100, .75), 0 2px 14px rgba(15, 40, 100, .7); }
+.hero .hero__welcome { margin: 0 0 clamp(4px, 1svh, 10px); font-family: var(--font-label); font-weight: 700; font-size: clamp(12px, 3.2vw, 17px); letter-spacing: .5em; padding-left: .5em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 3px rgba(105, 28, 55, .75), 0 2px 14px rgba(105, 28, 55, .7); }
 .hero .hero__guest { white-space: normal; text-wrap: balance; max-width: 92vw; font-size: min(1em, calc(155vw / var(--len, 10))); line-height: 1.08; }
 @media (min-aspect-ratio: 1/1) { .hero .hero__guest { font-size: min(1em, calc(110vw / var(--len, 10))); } }
 .hero .hero__weds-row { margin-top: clamp(6px, 1.4svh, 14px); }
-.hero .hero__couple { margin: clamp(4px, 1svh, 10px) 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(20px, 6.4vw, 40px); letter-spacing: .1em; text-transform: uppercase; line-height: 1.1; color: #fff; text-shadow: 0 1px 3px rgba(15, 40, 100, .6), 0 3px 16px rgba(20, 60, 130, .55); }
+.hero .hero__couple { margin: clamp(4px, 1svh, 10px) 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(20px, 6.4vw, 40px); letter-spacing: .1em; text-transform: uppercase; line-height: 1.1; color: #fff; text-shadow: 0 1px 3px rgba(105, 28, 55, .6), 0 3px 16px rgba(120, 36, 64, .55); }
 .hero .hero__amp { font-family: var(--font-serif); font-style: italic; font-weight: 500; text-transform: none; letter-spacing: 0; margin: 0 .1em; }
 .hero .hero__weds-row { width: min(86vw, 520px); }
 .hero .hero__weds { white-space: nowrap; letter-spacing: .22em; font-size: clamp(15px, 4vw, 24px); }
@@ -215,7 +215,23 @@
 /* Punjabi and English mixed: the welcome and the families' invitation are in Gurmukhi (no wide tracking or capitals,
    which break the script's joined letters) */
 .hero .hero__welcome.gurmukhi { font-family: var(--font-gurmukhi); letter-spacing: 0; word-spacing: normal; padding-left: 0; text-transform: none; font-weight: 600; font-size: clamp(17px, 4.6vw, 24px); }
-.hero .hero__sub { display: block; font-family: var(--font-gurmukhi); letter-spacing: 0; margin: clamp(6px, 1.4svh, 14px) 0 0; font-weight: 600; font-size: clamp(15px, 4.2vw, 21px); color: #fff; text-shadow: 0 1px 3px rgba(15, 40, 100, .75), 0 2px 14px rgba(15, 40, 100, .7); }
+.hero .hero__sub { display: block; font-family: var(--font-gurmukhi); letter-spacing: 0; margin: clamp(6px, 1.4svh, 14px) 0 0; font-weight: 600; font-size: clamp(15px, 4.2vw, 21px); color: #fff; text-shadow: 0 1px 3px rgba(105, 28, 55, .75), 0 2px 14px rgba(105, 28, 55, .7); }
 
 /* the gurdwara stands in front of the writing: where they meet, the text goes behind it, and as it rises on scroll it covers the words */
 .hero__haveli { z-index: 4; }
+
+/* ===== the sky is a painted rose dusk (hero-sky.webp), so the opening flows into the blush invitation after it.
+   The picture carries its own clouds, so the drawn white ones are left out ===== */
+.hero__sky { background: linear-gradient(180deg, rgba(246, 220, 216, .55) 0%, rgba(246, 220, 216, .68) 55%, rgba(246, 220, 216, .88) 85%, #f6dcd8 100%), #f6dcd8 url('/hero-sky.webp') 50% 50% / cover no-repeat; }
+/* the sky softens into the invitation's own blush paper (the same floral tile as the pages after it), so the two meet
+   on one colour instead of a hot pink against a pale one */
+.hero__sky::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: #f6dcd8 url('/paper-floral.webp') 0 0 / var(--paper-tile) repeat;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, .55) 70%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, .55) 70%, #000 100%);
+}
+.hero__clouds { display: none; }
+/* the foot of the screen is now pale blush paper, so the scroll cue turns deep rose to stay readable */
+.hero .hero__cue { color: #a63f5b; text-shadow: 0 1px 6px rgba(255, 245, 240, .8); }
+.hero .hero__cue-arrows i { filter: none; }

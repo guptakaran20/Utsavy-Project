@@ -2,8 +2,6 @@
    There is one backdrop per look of the site, crossfading as the guest scrolls:
    night (plane intro), sky (gurdwara hero), blush (everything after). Swap pictures here. */
 :root {
-  --dframe-bg-night: url('/night-sky.webp');
-  --dframe-bg-sky: url('/gurdwara.webp');
   --dframe-bg-blush: url('/venue.webp');
 }
 
@@ -18,7 +16,7 @@ html.is-framed, html.is-framed body { margin: 0; height: 100%; overflow: hidden;
   background: #f3e4de;
   transition: background-color 1.4s ease;
 }
-.dframe[data-scene='night'] { background: #060b1f; }
+.dframe[data-scene='night'] { background: #f6dcd8; }
 
 .dframe__bg {
   position: absolute;
@@ -30,13 +28,10 @@ html.is-framed, html.is-framed body { margin: 0; height: 100%; overflow: hidden;
   animation: dframe-drift 40s ease-in-out infinite alternate;
 }
 .dframe__bg.is-on { opacity: 1; }
-.dframe__bg--night { background: #060b1f var(--dframe-bg-night) 50% 0 / cover no-repeat; filter: blur(6px) brightness(.95); }
-/* the gurdwara is a cut-out, so it stands on the hero's blue sky */
-.dframe__bg--sky {
-  background:
-    var(--dframe-bg-sky) 50% 100% / auto 78% no-repeat,
-    linear-gradient(180deg, #5398e2 0%, #66a6ec 35%, #7db5ee 65%, #b9d4f2 100%);
-}
+/* the plane intro shows the same blush backdrop as the rest of the invitation */
+.dframe__bg--night { background: var(--dframe-bg-blush) center / cover no-repeat; }
+/* the opening sky screen shows the same blush backdrop as the invitation after it, so the backdrop never changes */
+.dframe__bg--sky { background: var(--dframe-bg-blush) center / cover no-repeat; }
 .dframe__bg--blush { background: var(--dframe-bg-blush) center / cover no-repeat; }
 
 /* blush haze, brightest behind the phone, a little deeper at the edges */

@@ -1,8 +1,8 @@
 .plane-intro { position: fixed; inset: 0; z-index: 100; overflow: hidden; color: var(--gold-100); touch-action: none; user-select: none; }
 
-/* the night sky and greeting; masked away from the bottom up as the plane flies over (see PlaneIntro.jsx) */
-.pi-sky { position: absolute; inset: 0; background: #060b1f url('/night-sky.webp') 50% 0 / cover no-repeat; }
-.pi-sky::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 100% at 50% 45%, transparent 55%, rgba(4, 8, 22, .5) 100%); }
+/* the rose dusk sky (the same painting as the hero after it); masked away from the bottom up as the plane flies over (see PlaneIntro.jsx) */
+.pi-sky { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(246, 220, 216, .55) 0%, rgba(246, 220, 216, .68) 55%, rgba(246, 220, 216, .88) 85%, #f6dcd8 100%), #f6dcd8 url('/hero-sky.webp') 50% 50% / cover no-repeat; } /* (the same softened sky as .hero__sky, so the two screens match) */
+.pi-sky::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 100% at 50% 45%, transparent 55%, rgba(140, 45, 75, .1) 100%); }
 .pi-stars { position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(1.4px 1.4px at 12% 22%, #fff9, transparent), radial-gradient(1px 1px at 33% 12%, #fff8, transparent), radial-gradient(1.6px 1.6px at 61% 30%, #fffb, transparent), radial-gradient(1px 1px at 80% 16%, #fff8, transparent), radial-gradient(1.4px 1.4px at 90% 40%, #fff9, transparent); animation: piTwinkle 4s ease-in-out infinite alternate; }
 @keyframes piTwinkle { to { opacity: .55; } }
 
@@ -11,6 +11,15 @@
 .pi-img { position: relative; display: block; width: 100%; height: auto; max-width: none; user-select: none; -webkit-user-drag: none; }
 .pi-contrail { position: absolute; width: 1.6%; height: 160vh; transform: translateX(-50%); background: linear-gradient(to bottom, rgba(255, 255, 255, .55), rgba(223, 232, 255, .18) 40%, transparent); border-radius: 50%; }
 
-.pi-skip { position: absolute; left: 0; right: 0; bottom: clamp(18px, 5svh, 44px); z-index: 1; margin: 0; text-align: center; font-family: var(--font-label); font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(243, 214, 138, .5); }
+.pi-skip { position: absolute; left: 0; right: 0; bottom: clamp(18px, 5svh, 44px); z-index: 1; margin: 0; text-align: center; font-family: var(--font-label); font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(255, 248, 244, .85); text-shadow: 0 1px 6px rgba(120, 36, 64, .45); }
 
 @media (prefers-reduced-motion: reduce) { .pi-stars { animation: none; } }
+
+/* like the hero, the foot of the sky melts into the invitation's blush floral paper */
+.pi-sky::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: #f6dcd8 url('/paper-floral.webp') 0 0 / var(--paper-tile) repeat;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, .55) 70%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, .55) 70%, #000 100%);
+}
+.pi-skip { color: #a63f5b; text-shadow: 0 1px 6px rgba(255, 245, 240, .8); }

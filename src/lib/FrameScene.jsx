@@ -5,7 +5,7 @@ import { gsap } from './gsap'
 // The browser's own bar (theme-color) takes that colour, so a phone never shows a maroon strip over the blush
 // pages; and inside the desktop phone frame, the frame's backdrop follows it too.
 const embedded = typeof window !== 'undefined' && window.self !== window.top
-const BAR = { night: '#060b1f', sky: '#14030a', blush: '#f6dcd8' }
+const BAR = { night: '#efc4c8', sky: '#efc4c8', blush: '#f6dcd8' }
 
 export default function FrameScene({ introDone }) {
   const [pastHero, setPastHero] = useState(false)

@@ -284,8 +284,8 @@ html.is-embedded::-webkit-scrollbar { display: none; }
 
 /* the page background follows the scene on screen (FrameScene.jsx): Android Chrome tints its bottom navigation bar with
    it, so the bar matches the night intro and the sky hero instead of showing a blush strip */
-html[data-scene="night"], html[data-scene="night"] body { background-color: #1c1c1d; }
-html[data-scene="sky"], html[data-scene="sky"] body { background-color: #92c1f1; }
+html[data-scene="night"], html[data-scene="night"] body { background-color: #f6c9c0; }
+html[data-scene="sky"], html[data-scene="sky"] body { background-color: #f6dcd8; }
 
 /* ===== motion for the painted header and footer pieces (see lib/useArtReveal.js) =====
    drop: a hanging garland unrolls downward from its top edge; rise: a footer band grows up from its foot;
