@@ -359,6 +359,8 @@ html[data-scene="sky"], html[data-scene="sky"] body { background-color: #f6dcd8;
 /* every photo (Photo.jsx) fades up from a soft blur once it has actually loaded, instead of painting in strips */
 .photo-img { opacity: 0; filter: blur(8px); transition: opacity .9s ease, filter 1.1s ease; }
 .photo-img.is-loaded { opacity: 1; filter: none; }
+/* phones fade photos up without the blur: animating a blur over a whole photo is redrawn on every frame */
+@media (pointer: coarse) { .photo-img { filter: none; transition: opacity .7s ease; } }
 
 @media (prefers-reduced-motion: reduce) {
   [data-art] { clip-path: none !important; opacity: 1 !important; scale: 1 !important; translate: none !important; rotate: none !important; transition: none; }

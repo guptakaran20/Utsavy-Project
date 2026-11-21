@@ -230,7 +230,7 @@ export default function Events() {
         <div className="cer-paper" ref={paper} aria-hidden="true" />
         <div className="cer-viewport">
           <div className="cer-page" ref={page}>
-            <img className="cer-decor" src="/events/header-decor.webp" alt="" width="760" height="428" aria-hidden="true" />
+            <img className="cer-decor" src="/events/header-decor.webp" alt="" width="760" height="428" loading="lazy" decoding="async" aria-hidden="true" />
             <svg className="cer-trail" aria-hidden="true"><path ref={trail} d="" /></svg>
             <header className="cer-head">
               <p className="cer-eyebrow gurmukhi">ਸਮਾਗਮ</p>

@@ -12,7 +12,7 @@ import './FloralSides.css'
 export default function FloralSides({ tiles, head = true, className = '' }) {
   return (
     <div className={`floral-sides ${className}`} aria-hidden="true">
-      {head && <img className="floral-sides__head" src="/florals.webp" alt="" width="1024" height="1536" decoding="async" />}
+      {head && <img className="floral-sides__head" src="/florals.webp" alt="" width="1024" height="1536" decoding="async" fetchPriority="low" />}
       <i className="floral-sides__run" />
     </div>
   )

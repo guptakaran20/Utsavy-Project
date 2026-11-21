@@ -106,7 +106,7 @@ export default function Invitation() {
       {/* the envelope: back panel, the card, then the front pocket and the flap with its wax seal */}
       <div className="env env__back" aria-hidden="true" />
       <div className="invite__arch">
-        <img className="invite__card" src="/invite-card.webp" alt="" width="1024" height="1536" decoding="async" aria-hidden="true" />
+        <img className="invite__card" src="/invite-card.webp" alt="" width="1024" height="1536" decoding="async" fetchPriority="low" aria-hidden="true" />
 
         <div className="invite__inner">
           {/* ੴ sits in a painted gold lotus medallion */}
@@ -144,10 +144,10 @@ export default function Invitation() {
         </svg>
       </div>
       {/* a painted spray of roses, marigolds and jasmine tied with ribbon, tucked across the pocket */}
-      <img className="env env__sprig" src="/invite-sprig.webp" alt="" width="1000" height="421" decoding="async" aria-hidden="true" />
+      <img className="env env__sprig" src="/invite-sprig.webp" alt="" width="1000" height="421" decoding="async" fetchPriority="low" aria-hidden="true" />
       {/* painted wax seal with gold ribbon; the couple's initials are pressed into its blank centre */}
       <button type="button" className="env env__seal" aria-label="Open the invitation">
-        <img src="/invite-seal.webp" alt="" width="420" height="477" decoding="async" />
+        <img src="/invite-seal.webp" alt="" width="420" height="477" decoding="async" fetchPriority="low" />
         <span>{bride.name[0]}<i>&amp;</i>{groom.name[0]}</span>
       </button>
       </div>

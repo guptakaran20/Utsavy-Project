@@ -197,7 +197,7 @@ export default function Gallery() {
           {/* a canopy of blossom branches with gold lanterns, bells and pearl strands hung across the top (painted, its
               paper cut away); the lanterns glow */}
           <div className="gallery__header art-sway" data-art="drop" aria-hidden="true">
-            <img src="/moments-header.webp" alt="" width="1000" height="235" decoding="async" />
+            <img src="/moments-header.webp" alt="" width="1000" height="235" loading="lazy" decoding="async" />
             <span className="art-flame gallery__lantern" style={{ left: '27.2%', top: '46%' }} />
             <span className="art-flame gallery__lantern" style={{ left: '72.6%', top: '46%', animationDelay: '-1.2s' }} />
           </div>
@@ -211,11 +211,11 @@ export default function Gallery() {
               <div className="jh__pane">
                 {items.map((g) => (
                   <div className="jh__photo" key={g.caption}>
-                    <Photo src={g.photo} focus={g.focus} alt={g.caption} loading="eager" fallback={<Placeholder />} />
+                    <Photo src={g.photo} focus={g.focus} alt={g.caption} fallback={<Placeholder />} />
                   </div>
                 ))}
               </div>
-              <img className="jh__img jh__img--open" src="/door/door-open.webp" alt="" width="900" height="1350" decoding="async" aria-hidden="true" />
+              <img className="jh__img jh__img--open" src="/door/door-open.webp" alt="" width="900" height="1350" loading="lazy" decoding="async" aria-hidden="true" />
             </div>
 
             <div className="jh__caps">
