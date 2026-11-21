@@ -1,0 +1,9 @@
+.phulkari-divider { display: block; width: min(86%, 380px); height: auto; margin: 4px auto 14px; mix-blend-mode: multiply; opacity: .92;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+
+/* small pastel Punjabi vignettes (giddha pair etc.): white paper dropped onto the blush sheet */
+.punjabi-vignette { display: block; width: min(52%, 190px); height: auto; margin: 2px auto 6px; mix-blend-mode: multiply; opacity: .95; }
+
+.punjabi-pair { display: flex; justify-content: center; align-items: center; gap: 4px; margin: 18px auto 0; }
+.punjabi-pair img { width: min(80%, 340px); height: auto; }
+.punjabi-paranda { display: block; width: min(46%, 190px); height: auto; margin: 6px auto 0; position: relative; z-index: 1; }

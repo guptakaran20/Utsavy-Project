@@ -6,6 +6,8 @@ import { downloadIcs } from '../lib/calendar'
 import { wedding } from '../data/wedding'
 import { invitationText } from '../lib/invite'
 import SectionTitle from './SectionTitle'
+import PhulkariDivider from './PhulkariDivider'
+import './PhulkariDivider.css'
 import { ArrowIcon, CalendarIcon, PinIcon } from './Icons'
 import './Venue.css'
 
@@ -68,6 +70,7 @@ export default function Venue() {
         </span>
       </div>
       <SectionTitle eyebrow="ਸਥਾਨ" title="The Venue" />
+      <PhulkariDivider />
       <div className="venue__grid">
         <div className="venue__info">
           <h3 className="venue__name">{venue.name}</h3>
@@ -97,6 +100,7 @@ export default function Venue() {
           </div>
         </div>
       </div>
+      <img className="punjabi-paranda" src="/punjabi/paranda.webp" alt="" width="900" height="900" loading="lazy" decoding="async" aria-hidden="true" />
       {/* a band of marigolds, roses and jasmine along the foot: the start of the toran that hangs at the top of Our Families */}
       <img className="venue__garland" data-art="rise" src="/venue-footer.webp" alt="" width="1536" height="380" loading="lazy" decoding="async" aria-hidden="true" />
     </section>

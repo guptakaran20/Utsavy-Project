@@ -4,6 +4,7 @@ import { gsap, useGSAP } from '../lib/gsap'
 import { LenisContext } from '../lib/smoothScroll'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
+import './PhulkariDivider.css'
 import Mandala from './Mandala'
 import PunjabClock from './PunjabClock'
 import './Countdown.css'
@@ -385,6 +386,10 @@ export default function Countdown() {
         <a className="btn btn--ghost reveal" href={calendarUrl()} target="_blank" rel="noreferrer">
           Save the date
         </a>
+        {/* a pale painted charkha under the countdown */}
+        <div className="punjabi-pair" aria-hidden="true">
+          <img src="/punjabi/charkha.webp" alt="" width="900" height="900" loading="lazy" decoding="async" />
+        </div>
       </div>
       <img className="countdown__scene" src="/wedding-scene.webp" alt="" aria-hidden="true" width="1644" height="957" loading="lazy" decoding="async" />
     </section>

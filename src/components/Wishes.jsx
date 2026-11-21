@@ -6,6 +6,7 @@ import { foldNote } from '../lib/foldNote'
 import { guestName, hasGuestName } from '../lib/guest'
 import { wedding } from '../data/wedding'
 import SectionTitle from './SectionTitle'
+import './PhulkariDivider.css'
 import FloralSides from './FloralSides'
 import './Wishes.css'
 
@@ -156,6 +157,7 @@ export default function Wishes() {
       <FloralSides tiles={6} head={false} />
       <SectionTitle eyebrow="ਅਸੀਸਾਂ" title="Ashirwad Gaagar" />
       <p className="wishes__sub reveal">Fold a blessing into the shagun gaagar. The couple will read every one.</p>
+      <img className="punjabi-vignette reveal" src="/punjabi/giddha-pair.webp" alt="" width="900" height="900" loading="lazy" decoding="async" aria-hidden="true" />
 
       <div className="gaagar__stage">
         <ul className="gaagar__cards" aria-label="Blessings from family and friends">
