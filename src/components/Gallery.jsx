@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { fitLen } from '../lib/fitText'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { wedding } from '../data/wedding'
 import Photo from './Photo'
@@ -220,7 +221,7 @@ export default function Gallery() {
             <div className="jh__caps">
               {items.map((g, i) => (
                 <div className="jh__cap" key={g.caption} style={i === 0 ? undefined : { opacity: 0 }}>
-                  <h3 className="jh__title">{g.caption}</h3>
+                  <h3 className="jh__title" style={fitLen(g.caption, 22)}>{g.caption}</h3>
                   <p className="jh__text">{g.text}</p>
                 </div>
               ))}

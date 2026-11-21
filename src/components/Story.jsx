@@ -5,7 +5,9 @@ import './PhulkariDivider.css'
 import Photo from './Photo'
 import './Story.css'
 
-const CHAPTERS = [['Chapter One', 'ਪਹਿਲਾ ਅਧਿਆਇ'], ['Chapter Two', 'ਦੂਜਾ ਅਧਿਆਇ'], ['Chapter Three', 'ਤੀਜਾ ਅਧਿਆਇ'], ['Chapter Four', 'ਚੌਥਾ ਅਧਿਆਇ']]
+// enough for any number of chapters in wedding.story (past eight they read "Chapter 9")
+const CHAPTERS = [['Chapter One', 'ਪਹਿਲਾ ਅਧਿਆਇ'], ['Chapter Two', 'ਦੂਜਾ ਅਧਿਆਇ'], ['Chapter Three', 'ਤੀਜਾ ਅਧਿਆਇ'], ['Chapter Four', 'ਚੌਥਾ ਅਧਿਆਇ'],
+  ['Chapter Five', 'ਪੰਜਵਾਂ ਅਧਿਆਇ'], ['Chapter Six', 'ਛੇਵਾਂ ਅਧਿਆਇ'], ['Chapter Seven', 'ਸੱਤਵਾਂ ਅਧਿਆਇ'], ['Chapter Eight', 'ਅੱਠਵਾਂ ਅਧਿਆਇ']]
 
 // a chapter title with its accent word in script: "Ik <em>Lohri</em> Mulaqat" (no accent, or not found: plain title)
 const Headline = ({ title, accent }) => {
@@ -164,7 +166,7 @@ export default function Story() {
           <p className="story__eyebrow"><span className="gurmukhi">ਮੁੱਠੀ ਭਰ ਪਲ</span><span>A handful of moments</span></p>
           <h2 className="story__title">Our Story</h2>
           <p className="story__sub">every love story is beautiful, but ours is our favourite</p>
-          <img className="punjabi-dhol" src="/punjabi/dhol.webp" alt="" width="900" height="900" loading="lazy" decoding="async" aria-hidden="true" />
+          <img className="punjabi-dhol art-beat" data-art="bloom" src="/punjabi/dhol.webp" alt="" width="900" height="900" loading="lazy" decoding="async" aria-hidden="true" />
         </header>
 
         {items.map((s, i) => (

@@ -145,3 +145,6 @@ html.lite .gaagar__body, html.lite .gaagar__glow { animation: none; }
 .fold__eyebrow { margin: 0 0 14px; text-align: center; font-family: var(--font-gurmukhi); font-size: 15px; color: var(--gold-500); }
 .fold__text { --lh: 34px; margin: 0; font-style: italic; font-size: 21px; line-height: var(--lh); color: var(--ink); overflow-wrap: anywhere; background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--lh) - 1.5px), rgba(217, 138, 156, .45) calc(var(--lh) - 1.5px) var(--lh)); }
 .fold__sign { margin: 14px 0 0; text-align: right; font: 400 26px/1.1 var(--font-script); color: var(--rose); }
+
+/* a blessing's signature is whatever the guest is called; a long one shrinks with its length (--len, Wishes.jsx) */
+.gcard__name { font-size: min(clamp(20px, 12cqi, 28px), max(14px, calc(480cqi / var(--len, 12)))); }

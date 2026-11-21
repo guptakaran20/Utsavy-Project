@@ -560,3 +560,8 @@
 }
 /* room under the garland for the heading */
 #rsvp.rsvp { padding-top: calc(max(112vw, 440px) * .4 - 40px); }
+
+/* the guest's name comes from their link and can be long ("Sardar Gurpreet Singh Sandhu ji and family"): it shrinks
+   with its length (--len, Rsvp.jsx) so it stays within two or three lines, and on the pass within one */
+.rsvp.sky-bg .rsvp__head-title { font-size: min(clamp(38px, 10vw, 54px), max(24px, calc(min(92vw, 520px) * 3.6 / var(--len, 12)))); }
+.rsvp__pass-name { font-size: min(38px, max(18px, calc(min(80vw, 340px) * 2.1 / var(--len, 12)))); }

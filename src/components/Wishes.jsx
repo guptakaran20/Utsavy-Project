@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
+import { fitLen } from '../lib/fitText'
 import { gsap, useGSAP, prefersReducedMotion } from '../lib/gsap'
 import { useReveal } from '../lib/useReveal'
 import { LenisContext } from '../lib/smoothScroll'
@@ -148,7 +149,7 @@ export default function Wishes() {
       style={{ '--tilt': `${[-3, 2.5, 1.5, -2, -1, 3][i % 6]}deg` }}
     >
       <p className="gcard__text">“{w.text}”</p>
-      <span className="gcard__name">{w.name}</span>
+      <span className="gcard__name" style={fitLen(w.name, 12)}>{w.name}</span>
     </li>
   )
 
@@ -190,7 +191,7 @@ export default function Wishes() {
             <div className={`gaagar__chit gcard${cardArt ? ' gcard--art' : ''}`} role="status" onClick={() => closeChit()}>
               <button type="button" className="gaagar__close" onClick={(e) => { e.stopPropagation(); closeChit() }} aria-label="Fold the chit back into the gaagar">×</button>
               <p className="gcard__text">“{pulled.text}”</p>
-              <span className="gcard__name">{pulled.name}</span>
+              <span className="gcard__name" style={fitLen(pulled.name, 12)}>{pulled.name}</span>
             </div>
           )}
         </div>

@@ -21,7 +21,6 @@
 .invite__rule i { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, #b98b3e 0 4px, transparent 4px 7px); transform-origin: 100% 50%; }
 .invite__rule i:last-child { transform-origin: 0 50%; }
 .invite__rule b { width: 2.6cqw; aspect-ratio: 1; background: #b98b3e; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
-.invite__text { max-width: 92%; font-style: italic; font-size: 3.9cqw; line-height: 1.5; color: #5a4148; text-wrap: balance; }
 .invite__date { margin-top: 4cqw !important; font: 500 3.3cqw var(--font-display); letter-spacing: .2em; text-transform: uppercase; color: #7d2742; }
 .invite__where { margin-top: 1.2cqw !important; font-style: italic; font-size: 3.8cqw; color: #74535a; }
 .invite .florals--corner { top: 9px; }
@@ -73,10 +72,9 @@
 .invite__motif { width: 20cqw; margin: 1.2cqw 0 1.6cqw; }
 .invite__welcome { font-size: 5.2cqw; }
 .invite__names { margin-top: 1.4cqw; }
-.invite__name { font-size: 11.6cqw; }
+.invite__name { font-size: min(11.6cqw, calc(132cqw / var(--len, 8))); }
 .invite__amp { font-size: 7.6cqw; margin: -1.2cqw 0; }
 .invite__rule { margin: 3cqw 0 2.6cqw !important; }
-.invite__text { max-width: 84%; font-size: 3.45cqw; line-height: 1.48; }
 .invite__where { margin-top: 2cqw !important; font-size: 3.5cqw; }
 
 /* the wax seal: the painted seal (ribbon tails hang below), the initials pressed into its blank centre (45% across, 39% down) */
@@ -107,3 +105,18 @@
    past its foot (sideways it still clips) and sits above the Bride & Groom page */
 .invite.chap { overflow-x: clip; overflow-y: visible; z-index: 3; }
 .invite__coda-orn { margin-bottom: calc(min(90vw, 440px) * -0.07); }
+
+/* ---- without the invitation paragraph: the words are larger and sit centred on the ivory, between the dome's peak
+   (19cqw) and the bouquets along the foot (from ~124cqw of the card's 150) ---- */
+.invite__inner { padding: 19cqw 13cqw 26cqw; justify-content: center; }
+.invite__crest { width: 16cqw; }
+.invite__crest .invite__ik { font-size: 6.2cqw; }
+.invite__bless { max-width: 42%; margin-top: 1.8cqw !important; font-size: 2.7cqw; }
+.invite__motif { width: 25cqw; margin: 1.8cqw 0 2.2cqw; }
+.invite__welcome { font-size: 6.6cqw; }
+.invite__names { margin-top: 2cqw; }
+.invite__name { font-size: min(15cqw, calc(140cqw / var(--len, 8))); }
+.invite__amp { font-size: 9.6cqw; margin: -1.6cqw 0; }
+.invite__rule { width: 58%; margin: 4cqw 0 3.4cqw !important; }
+.invite__rule b { width: 3cqw; }
+.invite__where { margin-top: 0 !important; font-size: 4.6cqw; letter-spacing: .04em; }

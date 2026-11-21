@@ -1,4 +1,5 @@
 import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { fitLen } from '../lib/fitText'
 import { motion } from 'framer-motion'
 import { useReveal } from '../lib/useReveal'
 import { gsap, useGSAP } from '../lib/gsap'
@@ -413,7 +414,7 @@ export default function Rsvp() {
             >
               <div className="rsvp__pass-band">
                 <span className="rsvp__pass-label">Admit one <span aria-hidden="true">·</span> <span className="gurmukhi">ਸੱਦਾ</span></span>
-                <strong className="rsvp__pass-name">{hasGuestName() ? name : 'Our honoured guest'}</strong>
+                <strong className="rsvp__pass-name" style={fitLen(name, 12)}>{hasGuestName() ? name : 'Our honoured guest'}</strong>
                 <span className="rsvp__pass-status"><span aria-hidden="true">♥</span> Seat saved with love</span>
               </div>
               <div className="rsvp__pass-body">
@@ -453,7 +454,7 @@ export default function Rsvp() {
           >
             <header className="rsvp__head">
               <p className="rsvp__head-pa gurmukhi">ਤੁਸੀਂ ਆਓਗੇ ਨਾ?</p>
-              <h3 className="rsvp__head-title">{hasGuestName() ? name : 'You'}</h3>
+              <h3 className="rsvp__head-title" style={fitLen(name, 12)}>{hasGuestName() ? name : 'You'}</h3>
               <span className="rsvp__rule" aria-hidden="true" />
             </header>
 

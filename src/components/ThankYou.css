@@ -78,3 +78,7 @@
 .thanks__love { margin: 0; font-family: var(--font-serif); font-style: italic; font-size: 13.5px; color: #7d4a58; }
 
 @media (prefers-reduced-motion: reduce) { .thanks__petals { display: none; } }
+
+/* the couple's names in spaced capitals: long names shrink with the longer one's length (--len, ThankYou.jsx). 30ch is the column width
+   (.thanks__body; for font-size, ch is measured in the parent font) */
+.thanks__names { font-size: min(clamp(19px, 5vw, 24px), max(13px, calc(30ch * .9 / var(--len, 10)))); }

@@ -1,4 +1,5 @@
 // All invitation content lives here — edit this file to personalise the site.
+import { stress } from './stress.js'
 
 // The couple and their families. Every line that mentions them (the couple cards, Our Families, the elders,
 // contacts, sign-offs) is written from these fields, so a name is only ever typed here.
@@ -76,6 +77,7 @@ export const wedding = {
   // the guest greeted when the link has no ?guest=… (a name in the link always wins). Set to '' to greet "Family & Friends".
   guest: 'Karan',
 
+  // No longer printed on the invitation card; it is the description in the "Save to Calendar" entries (Venue, RSVP).
   // {events} is written from the events list below: "with <mood> at the <name>, …, and <mood> at the <name>"
   // (a {guest} placeholder would be filled with the guest's name; the card says "you" by choice)
   invitation:
@@ -278,3 +280,9 @@ wedding.events.forEach((e) => { e.date ??= longDate(e.start) })
   Object.assign(wedding.venue, { name: e.venue, address: e.address })
 }
 
+
+// Dev only: open the site with ?stress to fill every name, place and line with worst-case long text and check that
+// nothing spills out of its card (see src/data/stress.js). Never runs in the built site.
+if (import.meta.env.DEV && typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('stress')) {
+  stress(wedding)
+}

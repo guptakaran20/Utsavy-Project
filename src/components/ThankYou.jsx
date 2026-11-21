@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { fitLenOf } from '../lib/fitText'
 import { motion, useInView } from 'framer-motion'
 import { wedding } from '../data/wedding'
 import { useScrollTo } from '../lib/smoothScroll'
@@ -45,7 +46,7 @@ export default function ThankYou() {
         <motion.p className="thanks__line" variants={rise} custom={3} initial="hidden" animate={state}>
           We can’t wait to celebrate with you.
         </motion.p>
-        <motion.p className="thanks__names" variants={rise} custom={4} initial="hidden" animate={state}>
+        <motion.p className="thanks__names" style={fitLenOf([wedding.bride.name, wedding.groom.name], 10)} variants={rise} custom={4} initial="hidden" animate={state}>
           {wedding.bride.name} <span>&amp;</span> {wedding.groom.name}
         </motion.p>
         <motion.p className="thanks__tag" variants={rise} custom={5} initial="hidden" animate={state}>{wedding.hashtag}</motion.p>

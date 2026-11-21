@@ -99,7 +99,7 @@ export default function OurFamilies() {
       <div className="ofam__threads">
         {/* the family portrait: shown big first, then it settles into its place here, above the families */}
         <div className="ofam__photo" aria-hidden="true">
-          <img src="/families.webp" alt="" width="1280" height="834" decoding="async" loading="lazy" />
+          <img src="/families.webp" alt="" width="1280" height="714" decoding="async" loading="lazy" />
         </div>
 
         <Side f={bride} side="bride" />

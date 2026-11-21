@@ -156,3 +156,12 @@
 @keyframes jhNudgeL { 0%, 100% { translate: 0 0; opacity: .6; } 50% { translate: -3px 0; opacity: 1; } }
 @keyframes jhNudgeR { 0%, 100% { translate: 0 0; opacity: .6; } 50% { translate: 3px 0; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .jh__swipe svg { animation: none !important; } }
+
+/* captions come from wedding.js and can be any length, but the doorway stage is one screen tall: a long title shrinks
+   with its length (--len, Gallery.jsx) and never takes more than two lines, the words below at most three */
+.jh__title { font-size: min(clamp(28px, 4.2svh, 40px), max(22px, calc(min(92vw, 440px) * 4 / var(--len, 22)))); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; padding-bottom: .12em; }
+.jh__caps .jh__text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+@media (min-width: 1100px) {
+  .jh__title { font-size: min(clamp(40px, 5.4svh, 58px), max(26px, calc(320px * 4 / var(--len, 22)))); -webkit-line-clamp: 3; line-clamp: 3; }
+  .jh__caps .jh__text { -webkit-line-clamp: 5; line-clamp: 5; }
+}

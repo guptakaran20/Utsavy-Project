@@ -68,7 +68,7 @@ function dropPetals(x, y, n = 2) {
 const buzz = (pattern) => { try { navigator.vibrate?.(pattern) } catch { /* not allowed here */ } }
 
 // A gold scalloped seal laid over the number: rub it away with a finger or the mouse to reveal it.
-function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL' }) {
+function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL', autoAfter = 0 }) {
   const ref = useRef(null)
   const handRef = useRef(null)
   const [touched, setTouched] = useState(false) // the hand hint bows out as soon as the guest starts rubbing
@@ -77,6 +77,7 @@ function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL' }) 
   const lastPt = useRef(null) // the previous rub point, so a quick swipe scratches a continuous stroke, not a row of dots
   const moves = useRef(0)
   const revealedRef = useRef(false)
+  const [auto, setAuto] = useState(false) // the card is scratching itself (autoAfter): the hint steps aside
 
   useEffect(() => {
     const c = ref.current
@@ -131,7 +132,7 @@ function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL' }) 
   // scratches, rubbing a clear strip through the gold so a sliver of the date peeks out and the guest sees what happens; after that it keeps rubbing
   // as a hint without scratching any more. It stops the moment the guest touches the card.
   useEffect(() => {
-    if (!hint || revealed || touched) return
+    if (!hint || revealed || touched || auto) return
     const c = ref.current
     const hand = handRef.current
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -183,7 +184,86 @@ function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL' }) 
     }, { threshold: 0.6 })
     io.observe(c)
     return () => { io.disconnect(); cancelAnimationFrame(raf) }
-  }, [hint, revealed, touched])
+  }, [hint, revealed, touched, auto])
+
+  // `autoAfter` seconds after the card first comes on screen, if the foil is still there, it scratches itself: the hand
+  // rubs across it in a zigzag, row by row, until it is all gone, then the date is revealed with the usual petals.
+  // Whatever the guest has already rubbed away simply stays gone.
+  useEffect(() => {
+    if (!autoAfter || revealed) return
+    const c = ref.current
+    let timer = 0
+    let raf = 0
+    const run = () => {
+      if (revealedRef.current) return
+      setAuto(true)
+      const hand = handRef.current
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const w = c.offsetWidth
+      const h = c.offsetHeight
+      const k = c.width / w
+      const x = c.getContext('2d')
+      const rad = Math.max(14, w * 0.11)
+      const ROWS = [0.14, 0.38, 0.62, 0.86]
+      // the rub path: left to right on the first row, back on the next, and so on
+      const pts = ROWS.flatMap((r, i) => (i % 2 ? [[1.05, r], [-0.05, r]] : [[-0.05, r], [1.05, r]]))
+      const DUR = reduced ? 0 : 1.8
+      let t0 = null
+      let prev = null
+      const at = (p) => { // a point p (0..1) along the zigzag
+        const segs = pts.length - 1
+        const f = Math.min(p * segs, segs - 0.0001)
+        const i = Math.floor(f)
+        const u = f - i
+        return [(pts[i][0] + (pts[i + 1][0] - pts[i][0]) * u) * w, (pts[i][1] + (pts[i + 1][1] - pts[i][1]) * u) * h]
+      }
+      const rub = (to) => {
+        const from = prev ?? to
+        x.save()
+        x.setTransform(1, 0, 0, 1, 0, 0)
+        x.globalCompositeOperation = 'destination-out'
+        x.lineCap = 'round'
+        x.lineWidth = rad * 2 * k
+        x.beginPath()
+        x.moveTo(from[0] * k, from[1] * k)
+        x.lineTo(to[0] * k + 0.01, to[1] * k)
+        x.stroke()
+        x.restore()
+        prev = to
+      }
+      const finish = () => {
+        x.save(); x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, c.width, c.height); x.restore()
+        if (!revealedRef.current) {
+          const b = c.getBoundingClientRect()
+          dropPetals(b.left + b.width / 2, b.top + b.height / 2, 14)
+          buzz([18, 50, 28])
+        }
+        revealedRef.current = true
+        onReveal()
+      }
+      if (!DUR) return finish()
+      const step = (now) => {
+        if (t0 == null) t0 = now
+        const p = Math.min(1, (now - t0) / 1000 / DUR)
+        const [px, py] = at(p)
+        rub([px, py])
+        if (hand) hand.style.transform = `translate(${px - 22}px, ${py - 10}px) rotate(${Math.sin(p * Math.PI * 8) * 10}deg)`
+        if (Math.random() < 0.35) { const b = c.getBoundingClientRect(); dropPetals(b.left + px, b.top + py, 1) }
+        if (p < 1) raf = requestAnimationFrame(step)
+        else finish()
+      }
+      raf = requestAnimationFrame(step)
+    }
+    // the countdown starts the first time most of the card is on screen
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting || timer) return
+      timer = window.setTimeout(run, autoAfter * 1000)
+      io.disconnect()
+    }, { threshold: 0.6 })
+    io.observe(c)
+    return () => { io.disconnect(); clearTimeout(timer); cancelAnimationFrame(raf) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoAfter])
 
   // how much paper is left? sample the middle of the card
   const checkClear = useCallback(() => {
@@ -250,7 +330,7 @@ function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL' }) 
       aria-hidden="true"
     />
     {hint && (
-      <span ref={handRef} className={`scratch-hand${touched || revealed ? ' is-gone' : ''}`} aria-hidden="true">
+      <span ref={handRef} className={`scratch-hand${(touched && !auto) || revealed ? ' is-gone' : ''}`} aria-hidden="true">
         <svg viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z" /></svg>
       </span>
     )}
@@ -261,7 +341,7 @@ function ScratchSeal({ revealed, onReveal, hint = false, label = 'TO REVEAL' }) 
 const toCalendarStamp = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
 
 function calendarUrl() {
-  const ceremony = wedding.events.find((e) => e.id === 'anand-karaj') ?? wedding.events[0]
+  const ceremony = wedding.events.find((e) => e.id === wedding.venue.event) ?? wedding.events[0]
   const start = new Date(wedding.date)
   const end = new Date(start.getTime() + 3 * 36e5)
   const params = new URLSearchParams({
@@ -273,6 +353,9 @@ function calendarUrl() {
   })
   return `https://calendar.google.com/calendar/render?${params}`
 }
+
+// seconds the date card waits on screen before it scratches itself off
+const AUTO_REVEAL = 10
 
 export default function Countdown() {
   const root = useRef(null)
@@ -353,7 +436,7 @@ export default function Countdown() {
             <span className="datecard__date">{dayMonthYear}</span>
             <span className="datecard__pa gurmukhi">ਸ਼ੁਭ ਦਿਹਾੜਾ</span>
           </div>
-          <ScratchSeal revealed={dateOpen} onReveal={() => setDateOpen(true)} hint label="THE DATE" />
+          <ScratchSeal revealed={dateOpen} onReveal={() => setDateOpen(true)} hint label="THE DATE" autoAfter={AUTO_REVEAL} />
         </div>
         <p className="countdown__hint datecard__hint">
           {dateOpen ? 'See you there' : <>Scratch the foil to reveal the date <button type="button" onClick={() => setDateOpen(true)}>Reveal</button></>}
@@ -387,11 +470,11 @@ export default function Countdown() {
           Save the date
         </a>
         {/* a pale painted charkha under the countdown */}
-        <div className="punjabi-pair" aria-hidden="true">
-          <img src="/punjabi/charkha.webp" alt="" width="900" height="900" loading="lazy" decoding="async" />
+        <div className="punjabi-pair" data-art="bloom" aria-hidden="true">
+          <img className="art-float" src="/punjabi/charkha.webp" alt="" width="900" height="900" loading="lazy" decoding="async" />
         </div>
       </div>
-      <img className="countdown__scene" src="/wedding-scene.webp" alt="" aria-hidden="true" width="1644" height="957" loading="lazy" decoding="async" />
+      <img className="countdown__scene" data-art="fade" src="/wedding-scene.webp" alt="" aria-hidden="true" width="1644" height="957" loading="lazy" decoding="async" />
     </section>
   )
 }
