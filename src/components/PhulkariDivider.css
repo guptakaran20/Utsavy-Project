@@ -7,3 +7,5 @@
 .punjabi-pair { display: flex; justify-content: center; align-items: center; gap: 4px; margin: 18px auto 0; }
 .punjabi-pair img { width: min(80%, 340px); height: auto; }
 .punjabi-paranda { display: block; width: min(46%, 190px); height: auto; margin: 6px auto 0; position: relative; z-index: 1; }
+.punjabi-dhol { display: block; width: min(50%, 210px); height: auto; margin: 10px auto 0; }
+.punjabi-chooda { display: block; width: min(46%, 190px); height: auto; margin: 10px auto 0; position: relative; z-index: 1; }

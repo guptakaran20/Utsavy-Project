@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { wedding } from '../data/wedding'
+import './PhulkariDivider.css'
 import Photo from './Photo'
 import './Story.css'
 
@@ -163,6 +164,7 @@ export default function Story() {
           <p className="story__eyebrow"><span className="gurmukhi">ਮੁੱਠੀ ਭਰ ਪਲ</span><span>A handful of moments</span></p>
           <h2 className="story__title">Our Story</h2>
           <p className="story__sub">every love story is beautiful, but ours is our favourite</p>
+          <img className="punjabi-dhol" src="/punjabi/dhol.webp" alt="" width="900" height="900" loading="lazy" decoding="async" aria-hidden="true" />
         </header>
 
         {items.map((s, i) => (

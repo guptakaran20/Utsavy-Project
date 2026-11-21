@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
 import SectionTitle from './SectionTitle'
+import './PhulkariDivider.css'
 import Mandala from './Mandala'
 import Photo from './Photo'
 import './Couple.css'
@@ -59,6 +60,7 @@ export default function Couple() {
         <img className="couple__and art-sway" data-art="drop" src="/couple-divider.webp" alt="and" width="500" height="394" decoding="async" loading="lazy" />
         <Person person={wedding.groom} role="The Groom" roleGurmukhi="ਲਾੜਾ" tone="groom" />
       </div>
+      <img className="punjabi-chooda" src="/punjabi/chooda.webp" alt="" width="900" height="900" loading="lazy" decoding="async" aria-hidden="true" />
       {/* five lit diyas between marigolds and petals along the foot (flame centres measured on the painting) */}
       <div className="couple__footer" data-art="rise" aria-hidden="true">
         <img src="/couple-footer.webp" alt="" width="1000" height="138" decoding="async" loading="lazy" />
