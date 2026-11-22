@@ -1,4 +1,6 @@
 import { useRef } from 'react'
+import { useHeroArt } from '../lib/heroArt'
+import { liteArt } from '../lib/device'
 import { fitLen } from '../lib/fitText'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
@@ -14,6 +16,7 @@ import './Couple.css'
 const LANTERNS = { bride: [[11.7, 35], [88.3, 35]], groom: [] }
 
 function Person({ person, role, roleGurmukhi, tone }) {
+  const art = useHeroArt()
   return (
     <article className={`person person--${tone}`}>
       <div className="person__window" data-art="fade">
@@ -31,7 +34,7 @@ function Person({ person, role, roleGurmukhi, tone }) {
             }
           />
         </div>
-        <img className="person__frame" src={`/frame-${tone}.webp`} alt="" width="700" height="1050" decoding="async" loading="lazy" aria-hidden="true" />
+        <img className="person__frame" src={art ? `/frame-${tone}${liteArt ? '-lite' : ''}.webp` : undefined} alt="" width="700" height="1050" decoding="async" loading="lazy" aria-hidden="true" />
         {LANTERNS[tone].map(([x, y], i) => (
           <span key={x} className="art-flame person__glow" style={{ left: `${x}%`, top: `${y}%`, animationDelay: `${i * -1.1}s` }} aria-hidden="true" />
         ))}
@@ -48,22 +51,23 @@ function Person({ person, role, roleGurmukhi, tone }) {
 export default function Couple() {
   const root = useRef(null)
   useReveal(root)
+  const art = useHeroArt() // the paintings come in after the hero's (lib/heroArt)
 
   return (
     <section id="couple" ref={root} className="section section--ivory couple chap" data-chapter data-dwell="6">
       {/* a garland of roses, peonies and marigolds with bells, jasmine strands and a pair of kaleere at its centre */}
-      <img className="couple__header art-sway" data-art="drop" src="/couple-header.webp" alt="" width="1000" height="240" decoding="async" loading="lazy" aria-hidden="true" />
+      <img className="couple__header art-sway" data-art="drop" src={art ? '/couple-header.webp' : undefined} alt="" width="1000" height="240" decoding="async" loading="lazy" aria-hidden="true" />
       <SectionTitle eyebrow="ਲਾੜੀ ਤੇ ਲਾੜਾ" title="The Bride & Groom" />
       <div className="couple__grid">
         <Person person={wedding.bride} role="The Bride" roleGurmukhi="ਲਾੜੀ" tone="bride" />
         {/* the two kaleere, crossed: in place of a plain "&" between the two of them */}
-        <img className="couple__and art-sway" data-art="drop" src="/couple-divider.webp" alt="and" width="500" height="394" decoding="async" loading="lazy" />
+        <img className="couple__and art-sway" data-art="drop" src={art ? '/couple-divider.webp' : undefined} alt="and" width="500" height="394" decoding="async" loading="lazy" />
         <Person person={wedding.groom} role="The Groom" roleGurmukhi="ਲਾੜਾ" tone="groom" />
       </div>
-      <img className="punjabi-chooda art-float" data-art="bloom" src="/punjabi/chooda.webp" alt="" width="540" height="540" loading="lazy" decoding="async" aria-hidden="true" />
+      <img className="punjabi-chooda art-float" data-art="bloom" src={art ? '/punjabi/chooda.webp' : undefined} alt="" width="540" height="540" loading="lazy" decoding="async" aria-hidden="true" />
       {/* five lit diyas between marigolds and petals along the foot (flame centres measured on the painting) */}
       <div className="couple__footer" data-art="rise" aria-hidden="true">
-        <img src="/couple-footer.webp" alt="" width="1000" height="138" decoding="async" loading="lazy" />
+        <img src={art ? '/couple-footer.webp' : undefined} alt="" width="1000" height="138" decoding="async" loading="lazy" />
         {[19, 34.5, 50, 65.5, 81].map((x, i) => (
           <span key={x} className="art-flame" style={{ left: `${x}%`, top: '44%', animationDelay: `${i * -0.53}s`, animationDuration: `${2.1 + (i % 3) * 0.35}s` }} />
         ))}

@@ -67,3 +67,8 @@
 
 /* the artwork's centre tassel hangs ~3.75% left of the image's middle; stretch from the left edge so the tassel lands on the true centre (the extra on the right is clipped) */
 .floral-sides.floral-sides--centered { transform: scaleX(1.081); transform-origin: 0 0; }
+
+/* slow or low-memory phones get the smaller tile (lib/device.js liteArt) */
+.lite-art .floral-sides__run { background-image: url(/florals-tile-lite.webp); }
+/* the running flowers wait for the hero's painting on a slow phone (lib/heroArt.js) */
+.art-hold .floral-sides__run { background-image: none; }

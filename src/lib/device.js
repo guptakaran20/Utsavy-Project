@@ -23,6 +23,11 @@ function detect() {
 
 export let isLite = detect()
 
+// Which size of the heaviest paintings to fetch (the *-lite.webp files, about 0.6x): fixed at page start, so a phone
+// that only turns lite later (watchFrames) keeps the pictures it already has instead of downloading them again.
+// main.jsx mirrors it as html.lite-art for the CSS backgrounds.
+export const liteArt = isLite
+
 // Phones that report nothing (every iPhone, many Androids) are judged by how they actually run: once the page has
 // loaded, the frame rate is sampled for two seconds, and a phone that can't hold ~35 fps goes lite from then on.
 export function watchFrames() {

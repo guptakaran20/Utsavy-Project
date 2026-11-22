@@ -4,6 +4,8 @@ import { LenisContext } from '../lib/smoothScroll'
 import { wedding } from '../data/wedding'
 import { guestName } from '../lib/guest'
 import HeroFX from './HeroFX'
+import { markHeroArt } from '../lib/heroArt'
+import { liteArt } from '../lib/device'
 import './Hero.css'
 
 
@@ -170,7 +172,16 @@ export default function Hero({ play }) {
 
       <HeroFX play={play} />
       <div className="hero__haveli" aria-hidden="true">
-        <img className="gur" src="/gurdwara-1100.webp" srcSet="/gurdwara-800.webp 800w, /gurdwara-1100.webp 1100w, /gurdwara-1300.webp 1300w, /gurdwara-1600.webp 1600w" sizes="(max-aspect-ratio: 1/1) 160vw, 112vw" alt="" width="2470" height="2548" decoding="async" />
+        {/* the first picture after the intro: fetched ahead of everything below the hero, which waits for it (lib/heroArt).
+            Lite phones (slow link or little memory) take one size down: 1100 instead of 1600 on a typical Android. */}
+        <img
+          ref={(img) => { if (img?.complete && img.naturalWidth) markHeroArt() }}
+          className="gur" src="/gurdwara-1100.webp"
+          srcSet="/gurdwara-800.webp 800w, /gurdwara-1100.webp 1100w, /gurdwara-1300.webp 1300w, /gurdwara-1600.webp 1600w"
+          sizes={liteArt ? '(max-aspect-ratio: 1/1) 100vw, 70vw' : '(max-aspect-ratio: 1/1) 160vw, 112vw'}
+          alt="" width="2470" height="2548" decoding="async" fetchPriority="high"
+          onLoad={markHeroArt} onError={markHeroArt}
+        />
       </div>
       <div className="hero__flash" aria-hidden="true"><i className="hero__bloom" /></div>
     </section>

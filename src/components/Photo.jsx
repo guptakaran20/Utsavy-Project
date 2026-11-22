@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useHeroArt } from '../lib/heroArt'
 
 // <img> for every photo slot. It always fills its frame (object-fit: cover), so ANY aspect ratio the backend later
 // sends is cropped to the frame's shape (arch, polaroid, round...) instead of stretching or leaving gaps.
@@ -9,13 +10,14 @@ import { useState } from 'react'
 export default function Photo({ src, alt, focus, fallback = null, className = '', style, onLoad, ...rest }) {
   const [bad, setBad] = useState(!src)
   const [loaded, setLoaded] = useState(false)
+  const art = useHeroArt() // photos start after the hero's painting (lib/heroArt)
   if (bad) return fallback
   return (
     <img
       // a picture already in the cache can finish before React attaches onLoad, so check once it mounts
       ref={(img) => { if (img?.complete && img.naturalWidth && !loaded) setLoaded(true) }}
       className={`photo-img${loaded ? ' is-loaded' : ''} ${className}`.trim()}
-      src={src}
+      src={art ? src : undefined}
       alt={alt}
       loading="lazy"
       decoding="async"

@@ -30,7 +30,8 @@ const SHOWN = {
 // anything not listed (not on screen when measured) keeps its size and is only re-encoded
 // never touched: the contact card is a nine-slice frame cut at fixed pixel positions (Contacts.css border-image 320);
 // gurdwara-*.webp are made separately below for the hero's srcset
-const SKIP = new Set(['contact-card.webp', 'gurdwara.webp', 'gurdwara-1100.webp', 'gurdwara-1600.webp'])
+const LITE = { 'florals.webp': 700, 'florals-tile.webp': 700, 'frame-bride.webp': 480, 'frame-groom.webp': 480, 'invite-card.webp': 700 }
+const SKIP = new Set([...Object.keys(LITE).map((f) => f.replace('.webp', '-lite.webp')), 'contact-card.webp', 'gurdwara.webp', 'gurdwara-1100.webp', 'gurdwara-1600.webp'])
 
 const tmp = mkdtempSync(join(tmpdir(), 'webp-'))
 const width = (f) => +execFileSync('sips', ['-g', 'pixelWidth', f]).toString().match(/pixelWidth: (\d+)/)[1]
@@ -61,5 +62,8 @@ for (const f of files) {
 
 // hero gurdwara: 704 CSS px wide on a 440 phone (160vw); phones pick from 800 / 1100 / 1300 / 1600
 for (const w of [800, 1100, 1300, 1600]) encode(join(PUBLIC, 'gurdwara.webp'), join(PUBLIC, `gurdwara-${w}.webp`), w, false)
+
+// slow / low-memory phones (lib/device.js liteArt) fetch these ~0.6x copies of the heaviest paintings instead
+for (const [f, w] of Object.entries(LITE)) encode(join(PUBLIC, f), join(PUBLIC, f.replace('.webp', '-lite.webp')), w, false)
 
 console.log(`\nart total ${(before / 1024) | 0} KB → ${(after / 1024) | 0} KB`)

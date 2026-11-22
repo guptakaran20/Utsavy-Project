@@ -120,3 +120,6 @@
 .invite__rule { width: 58%; margin: 4cqw 0 3.4cqw !important; }
 .invite__rule b { width: 3cqw; }
 .invite__where { margin-top: 0 !important; font-size: 4.6cqw; letter-spacing: .04em; }
+
+/* the crest waits for the hero's painting on a slow phone (lib/heroArt.js) */
+.art-hold .invite__crest { background-image: none; }

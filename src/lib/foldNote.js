@@ -1,11 +1,12 @@
 import { gsap } from './gsap'
 import { wedding } from '../data/wedding'
+import { onLowerArt } from './heroArt'
 
 // the outside of the folded chit (phulkari-bordered blush paper) and the invitation's own wax seal: fetched with this
 // module, so they are ready the moment a guest sends a blessing
 const BACK = '/wishes/chit-back.webp'
 const SEAL = '/invite-seal.webp'
-if (typeof Image !== 'undefined') [BACK, SEAL].forEach((src) => { new Image().src = src })
+if (typeof Image !== 'undefined') onLowerArt(() => [BACK, SEAL].forEach((src) => { new Image().src = src }))
 
 // The written note turns into a sheet of paper over the form, folds like a letter (bottom third up, top third down),
 // folds once more in half into a little square with a wax seal, is carried up to the gaagar and dropped into it.

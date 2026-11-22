@@ -18,6 +18,7 @@ import IdleNudge from './lib/IdleNudge'
 import { dhol } from './lib/dhol'
 import { useLineReveal } from './lib/useLineReveal'
 import { useArtReveal } from './lib/useArtReveal'
+import { useLowerArt } from './lib/heroArt'
 
 // 'plane' = a night flight crosses the sky, then the invitation opens; 'gate' = the haveli doorway (kept intact, switch back any time)
 const INTRO = 'plane'
@@ -26,7 +27,10 @@ export default function App() {
   const [opened, setOpened] = useState(false)
   const [gateDone, setGateDone] = useState(false)
   // the sections from the countdown down (Later.jsx): fetched straight away, drawn once they arrive
-  const [later, setLater] = useState(null)
+  const [loadedLater, setLater] = useState(null)
+  // ...but drawn only once the hero's painting and the pictures just below it are in: their backgrounds (contacts
+  // art, wishes pot, cards) would otherwise share a slow phone's bandwidth with them (lib/heroArt)
+  const later = useLowerArt() ? loadedLater : null
   useLineReveal(!!later)
   useArtReveal()
 

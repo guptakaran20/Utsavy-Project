@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { heroArtReady } from './heroArt'
 
 // The painted header and footer pieces (garlands, toran, rangoli, scenes) carry data-art="drop" | "rise" | "fade".
 // Each one is marked .is-in the first time part of it is on screen, and its entrance plays in CSS (index.css).
@@ -60,6 +61,8 @@ export function useArtReveal() {
     }
 
     const check = () => {
+      // nothing below the hero starts (or plays its entrance over an empty frame) before the hero's painting is in
+      if (!heroArtReady()) return
       const h = window.innerHeight
       document.querySelectorAll('[data-art]:not(.is-in)').forEach((el) => {
         const r = el.getBoundingClientRect()
