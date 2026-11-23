@@ -236,9 +236,9 @@
 .hero .hero__cue { color: #a63f5b; text-shadow: 0 1px 6px rgba(255, 245, 240, .8); }
 .hero .hero__cue-arrows i { filter: none; }
 
-/* ===== on the pale blush sky every word and line takes one ink, the antique gold of the invitation card's frame, instead of white,
-   with a soft light halo in place of the dark shadow ===== */
-.hero .hero__text { --hero-ink: #9a6a1f; --hero-halo: 0 1px 2px rgba(255, 248, 244, .75), 0 0 14px rgba(255, 245, 240, .55); }
+/* ===== on the pale blush sky every word and line takes one ink, wine rose (the invitation card's own deep rose),
+   with only a faint light edge, no glow ===== */
+.hero .hero__text { --hero-ink: #7d2742; --hero-halo: 0 1px 1px rgba(255, 248, 244, .55); }
 .hero .hero__text .hero__line,
 .hero .hero__text .hero__welcome,
 .hero .hero__text .hero__couple,
@@ -254,4 +254,4 @@
 .hero .hero__text .hero__rule i:last-child,
 .hero .hero__text .hero__weds-row i:last-child { background: linear-gradient(270deg, transparent, var(--hero-ink)); }
 .hero .hero__text .hero__rule b { background: var(--hero-ink); box-shadow: none; }
-.hero .hero__cue { color: #9a6a1f; }
+.hero .hero__cue { color: #7d2742; text-shadow: 0 1px 1px rgba(255, 248, 244, .55); }

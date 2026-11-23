@@ -454,6 +454,8 @@
 /* the thank-you sits in the middle of the space the form held */
 .rsvp__sheet.is-thanked { display: flex; flex-direction: column; justify-content: center; }
 .rsvp__thanks .rsvp__head { animation: none; }
+/* the thank-you fits the space the greeting and button held: its line sits where the button was */
+.rsvp__thanks .rsvp__ask { margin: 10px auto 0; }
 
 /* blooms falling from the top of the screen after Accept (a layer over the whole page; see bloomShower) */
 .rsvp__blooms { position: fixed; inset: 0; z-index: 60; overflow: hidden; pointer-events: none; }

@@ -252,7 +252,8 @@ export default function Rsvp() {
     const { width: W, height: H } = env.getBoundingClientRect()
     const bx = btn.left + btn.width / 2 - section.left
     const by = btn.top + btn.height / 2 - section.top
-    const from = { x: bx - W / 2, y: by - H / 2 }
+    // the envelope forms just below the button, so the thank-you can take the button's place above it
+    const from = { x: bx - W / 2, y: by - H / 2 + 58 }
     const landing = () => {
       const r = host.getBoundingClientRect()
       const c = q('.rsvp__couple')[0].getBoundingClientRect()
@@ -286,24 +287,24 @@ export default function Rsvp() {
       .to(q('.rsvp__envelope-flap'), { scaleY: 1, duration: 0.45, ease: 'power2.inOut' }, 0.85)
       .to(q('.rsvp__envelope [pathLength]'), { strokeDashoffset: 0, duration: 0.5, ease: 'sine.inOut', stagger: 0.08 }, 1.15)
       .to(q('.rsvp__envelope-bead'), { scale: 1, duration: 0.35, ease: 'back.out(2.5)' }, 1.55)
-      // the envelope lifts off the words
-      .to(env, { y: from.y - 26, scale: 1.08, duration: 0.5, ease: 'sine.out' }, 1.6)
-      // 3. the reply's words fade away and a plain thank-you takes their place (the sheet keeps its height so
-      // nothing below it jumps), as blooms start falling from the top of the screen
-      .to(q('.rsvp__form > *'), { y: -10, autoAlpha: 0, duration: 0.4, ease: 'power2.in' }, 1.7)
+      // the envelope lifts a touch once it is tied
+      .to(env, { y: from.y - 8, scale: 1.08, duration: 0.5, ease: 'sine.out' }, 1.6)
+      // 3. as the button folds away, the greeting fades and a plain thank-you takes its place at once, in the same
+      // space (the sheet is held at its height, so nothing below it moves), and blooms start falling from the top
+      .to(q('.rsvp__form > *'), { y: -8, autoAlpha: 0, duration: 0.3, ease: 'power2.in' }, 0.32)
       .call(() => {
         const sheet = q('.rsvp__sheet')[0]
-        gsap.set(sheet, { minHeight: sheet.offsetHeight })
+        gsap.set(sheet, { height: sheet.offsetHeight })
         sheet.classList.add('is-thanked')
         setSent(true)
-      }, null, 2.1)
-      .add(() => bloomShower(), 2.1)
+      }, null, 0.62)
+      .add(() => bloomShower(), 0.62)
     // 5. the page glides down to the stage once the thank-you has been read for a beat
     glide(stageStop, { duration: 2.4, ease: 'sine.inOut' }, 3.3)
     // ... and the envelope flies down in a soft arc, trailing gold, and lands at the couple's feet
     tl.add(() => { to = landing() }, 3.3)
       .to(env, { x: () => to.x, duration: 2.2, ease: 'sine.inOut', onUpdate: trail }, 3.35)
-      .to(env, { y: from.y - 70, rotation: -12, duration: 0.7, ease: 'sine.out' }, 3.35)
+      .to(env, { y: from.y - 14, rotation: -12, duration: 0.7, ease: 'sine.out' }, 3.35)
       .to(env, { y: () => to.y, rotation: 0, duration: 1.5, ease: 'sine.inOut' }, 4.05)
       .to(env, { scale: 0.7, duration: 2.2, ease: 'sine.inOut' }, 3.35)
       .to(env, { y: () => to.y - 10, duration: 0.18, ease: 'sine.out', yoyo: true, repeat: 1 }, 5.55)
@@ -353,12 +354,11 @@ export default function Rsvp() {
           <div className="rsvp__thanks">
             <header className="rsvp__head">
               <motion.p className="rsvp__head-pa gurmukhi" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>ਧੰਨਵਾਦ</motion.p>
-              <motion.h3 className="rsvp__head-title" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.15 }}>Thank you</motion.h3>
+              <motion.h3 className="rsvp__head-title" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.1 }}>Thank you</motion.h3>
               <span className="rsvp__rule" aria-hidden="true" />
             </header>
-            <motion.div className="rsvp__ask" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.35 }}>
+            <motion.div className="rsvp__ask" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease, delay: 0.25 }}>
               <p className="rsvp__ask-q">We can’t wait to celebrate with you{hasGuestName() ? `, ${name}` : ''}.</p>
-              <p className="rsvp__ask-note">Your seat is saved with love.</p>
             </motion.div>
           </div>
         ) : (
