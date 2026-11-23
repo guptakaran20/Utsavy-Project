@@ -81,7 +81,7 @@
      photo inside it is as big as possible; the caption tucks up onto the bottom step to give the door more room */
   .jh { --h: min(calc(100svh - 220px), 210vw); gap: 2px; }
   .jh__window { width: calc(var(--h) * 2 / 3); margin-inline: 0; flex: none; }
-  .jh__caps { margin-top: calc(var(--h) * -0.1); min-height: 84px; }
+  .jh__caps { margin-top: calc(var(--h) * 0); min-height: 72px; }
 }
 
 /* phones: the side flowers reached into the caption and hid its edges. Lean the gallery's flowers further out, keep the
@@ -114,7 +114,7 @@
 @media (max-width: 1099px) {
   .gallery { --foot: calc(max(112vw, 440px) * .13); }
   .gallery__stage.gallery__stage { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--bar-h, 0px) + var(--foot) + 10px); }
-  .jh.jh { --h: min(calc(100svh - 220px - var(--foot)), 210vw); }
+  .jh.jh { position: relative; z-index: 2; }
 }
 /* the doorway page's own sheet of paper fades in at its top and out at its foot into the sheet beneath, so where the Date Reveal's swag
    hangs right under the footer there is no line where the two sheets' print falls out of step */
@@ -133,8 +133,8 @@
 /* phones: the heading drops below the canopy's longest strands; the doorway gives up that height */
 @media (max-width: 1099px) {
   .gallery { --head: calc(max(112vw, 440px) * .2); }
-  .gallery__stage.gallery__stage { padding-top: calc(env(safe-area-inset-top, 0px) + var(--head)); }
-  .jh.jh { --h: min(calc(100svh - 220px - var(--foot) - var(--head) + 56px), 210vw); }
+  .gallery__stage.gallery__stage { padding-top: calc(env(safe-area-inset-top, 0px) + var(--head) - 18px); }
+  .jh.jh { --h: min(calc(100svh - 296px - var(--foot) - var(--head) + 74px), 210vw); }
 }
 
 /* the doorway takes sideways swipes for the photos; up / down swipes still scroll the page */
@@ -155,7 +155,10 @@
 .jh__swipe:not(.is-used) .jh__arrow:last-child svg { animation: jhNudgeR 1.6s ease-in-out infinite; }
 @keyframes jhNudgeL { 0%, 100% { translate: 0 0; opacity: .6; } 50% { translate: -3px 0; opacity: 1; } }
 @keyframes jhNudgeR { 0%, 100% { translate: 0 0; opacity: .6; } 50% { translate: 3px 0; opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .jh__swipe svg { animation: none !important; } }
+/* until the guest has used it, the pill glows softly so it reads as a button */
+.jh__swipe:not(.is-used) { animation: jhPulse 1.8s ease-in-out infinite; }
+@keyframes jhPulse { 0%, 100% { box-shadow: 0 4px 12px rgba(125, 39, 66, .25), 0 0 0 0 rgba(166, 63, 91, .55); } 50% { box-shadow: 0 4px 16px rgba(125, 39, 66, .4), 0 0 0 9px rgba(166, 63, 91, 0); } }
+@media (prefers-reduced-motion: reduce) { .jh__swipe svg, .jh__swipe { animation: none !important; } }
 
 /* captions come from wedding.js and can be any length, but the doorway stage is one screen tall: a long title shrinks
    with its length (--len, Gallery.jsx) and never takes more than two lines, the words below at most three */

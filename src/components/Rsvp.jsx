@@ -373,11 +373,6 @@ export default function Rsvp() {
               <span className="rsvp__rule" aria-hidden="true" />
             </header>
 
-            <div className="rsvp__ask">
-              <p className="rsvp__ask-q">Will you come and bless us with your presence?</p>
-              <p className="rsvp__ask-note">Our celebrations wouldn’t be complete without you.</p>
-            </div>
-
             <div className="rsvp__nav">
               <button type="submit" className="btn rsvp__submit">Joyfully accept <span aria-hidden="true">♥</span></button>
             </div>

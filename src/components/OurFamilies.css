@@ -84,3 +84,11 @@
 .ofam__seal { width: clamp(112px, 31vw, 136px); border: 0; border-radius: 0; box-shadow: none; background: url('/family-seal.webp') center / contain no-repeat; filter: drop-shadow(0 10px 12px rgba(125, 39, 66, .2)); }
 .ofam__seal::before { display: none; }
 .ofam__seal .ofam__seal-g { font-size: clamp(24px, 6.6vw, 30px); color: var(--gold-500); transform: translateY(-5px); }
+
+/* phones: the side flowers reach in over the grandparents' line. Keep the words to the clear middle (they wrap onto two
+   lines) and lay a soft blush wash behind them so any leaf that still reaches in sits quietly under the type */
+@media (max-width: 760px) {
+  .ofam__grand, .ofam__parents, .ofam__label { position: relative; isolation: isolate; max-width: min(100%, 250px); }
+  .ofam__grand::before, .ofam__parents::before { content: ''; position: absolute; inset: -8px -22px; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(246, 220, 216, .95) 60%, rgba(246, 220, 216, 0) 100%); }
+  .ofam__grand { color: #5a3540; }
+}
