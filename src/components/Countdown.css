@@ -399,3 +399,14 @@
 .countdown .punjabi-pair--wide { width: 100vw; max-width: none; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
 .countdown .punjabi-pair--wide img { width: 100%; max-width: 760px; }
 @media (max-width: 760px) { .countdown .punjabi-pair--wide img { max-width: none; width: 100%; } }
+
+/* the charkha's wheel turns slowly (Countdown.jsx). The wheel picture is centred on the painting's hub, 251.5 / 282.5
+   of 680, and is 272 across; the basket and bench (from 392 down) are the frame picture again, laid over the wheel */
+.countdown .punjabi-pair--wide .charkha { position: relative; width: 100%; max-width: 760px; margin-inline: auto; }
+@media (max-width: 760px) { .countdown .punjabi-pair--wide .charkha { max-width: none; } }
+.countdown .punjabi-pair--wide .charkha img { display: block; max-width: none; height: auto; }
+.countdown .punjabi-pair--wide .charkha__frame { width: 100%; }
+.countdown .punjabi-pair--wide .charkha__front { position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(57.65% 0 0 0); }
+.countdown .punjabi-pair--wide .charkha__wheel { position: absolute; left: 16.985%; top: 21.544%; width: 40%; height: 40%; animation: charkha-spin 10s linear infinite; }
+@keyframes charkha-spin { to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .countdown .punjabi-pair--wide .charkha__wheel { animation: none; } }

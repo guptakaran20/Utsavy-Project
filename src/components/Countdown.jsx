@@ -472,7 +472,14 @@ export default function Countdown() {
         </a>
         {/* a pale painted charkha under the countdown */}
         <div className="punjabi-pair punjabi-pair--wide" data-art="bloom" aria-hidden="true">
-          <img className="art-float" src="/punjabi/charkha.webp" alt="" width="680" height="680" loading="lazy" decoding="async" />
+          {/* the wheel turns: it is its own picture (charkha-wheel.webp, rebuilt from one clean slice of the painting so
+              no post or basket spins with it), laid over the frame with the wheel cut out, and the basket and bench from
+              the same frame picture laid back over its foot */}
+          <div className="charkha art-float">
+            <img className="charkha__frame" src="/punjabi/charkha-frame.webp" alt="" width="680" height="680" loading="lazy" decoding="async" />
+            <img className="charkha__wheel" src="/punjabi/charkha-wheel.webp" alt="" width="272" height="272" loading="lazy" decoding="async" />
+            <img className="charkha__front" src="/punjabi/charkha-frame.webp" alt="" width="680" height="680" loading="lazy" decoding="async" />
+          </div>
         </div>
       </div>
       <img className="countdown__scene" data-art="fade" src="/wedding-scene.webp" alt="" aria-hidden="true" width="1644" height="957" loading="lazy" decoding="async" />
