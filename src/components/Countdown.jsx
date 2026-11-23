@@ -4,6 +4,7 @@ import { gsap, useGSAP } from '../lib/gsap'
 import { LenisContext } from '../lib/smoothScroll'
 import { useReveal } from '../lib/useReveal'
 import { wedding } from '../data/wedding'
+import { isLite } from '../lib/device'
 import './PhulkariDivider.css'
 import Mandala from './Mandala'
 import PunjabClock from './PunjabClock'
@@ -49,7 +50,7 @@ const TORN = [11, 29, 47, 83].map(tornPath)
 const PETAL_COLOURS = ['#fffaf2', '#f6ecdf', '#eddcc4', '#e4cfa9', '#fdf3e2'] // torn bits of ivory paper
 function dropPetals(x, y, n = 2) {
   if (typeof window === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  const room = 48 - document.querySelectorAll('.scratch-petal').length // never more than a light flurry at once
+  const room = (isLite ? 14 : 48) - document.querySelectorAll('.scratch-petal').length // never more than a light flurry at once (fewer on a slow phone)
   for (let i = 0; i < Math.min(n, room); i++) {
     const p = document.createElement('i')
     p.className = 'scratch-petal'

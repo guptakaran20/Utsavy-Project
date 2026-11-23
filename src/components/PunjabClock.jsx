@@ -34,14 +34,23 @@ export default function PunjabClock() {
   useEffect(() => {
     let raf = 0
     let onScreen = false
+    const last = new Map()
+    const set = (ref, v) => {
+      if (!ref.current || last.get(ref) === v) return
+      last.set(ref, v)
+      ref.current.setAttribute('transform', v)
+    }
     const tick = () => {
       raf = 0
       if (!onScreen || document.hidden) return
       const { h, m, s } = istNow()
       const sec = Math.floor(s) + Math.min(1, (s % 1) * 4) // a gentle step each second, like a real quartz hand
-      second.current?.setAttribute('transform', `rotate(${sec * 6} ${C} ${C})`)
-      minute.current?.setAttribute('transform', `rotate(${(m + s / 60) * 6} ${C} ${C})`)
-      hour.current?.setAttribute('transform', `rotate(${((h % 12) + m / 60) * 30} ${C} ${C})`)
+      // each hand is only touched when its angle visibly changes: the second hand steps for a quarter second and then
+      // rests, and the minute hand creeps a tenth of a degree at a time. Setting them every frame repainted the whole
+      // shadowed dial 60 times a second, which a slow phone feels while scrolling past
+      set(second, `rotate(${(sec * 6).toFixed(1)} ${C} ${C})`)
+      set(minute, `rotate(${((m + s / 60) * 6).toFixed(1)} ${C} ${C})`)
+      set(hour, `rotate(${(((h % 12) + m / 60) * 30).toFixed(1)} ${C} ${C})`)
       raf = requestAnimationFrame(tick)
     }
     // the hands only move while the clock is on screen: off screen the loop sleeps instead of redrawing every frame

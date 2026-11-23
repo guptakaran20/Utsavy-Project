@@ -9,6 +9,7 @@ const IMG = { w: 1254, h: 1254 }
 const WING_LINE = 690 / IMG.h // just under the wings: the night sky is wiped away behind it as the plane passes
 const ENGINES = [415 / IMG.w, 838 / IMG.w] // engine centres, where the contrails start
 const ENGINE_TAIL = 520 / IMG.h
+const WIPE_PAD = 80 // the sky's box runs this far below the screen, so its soft foot is out of sight before the flight
 
 // A plain night sky (the greeting now lives in the hero). As soon as the page loads an airliner, seen from above, flies in from the bottom
 // of the screen and climbs straight up and out of the top. Its wings are wider than the screen, so for a moment it
@@ -20,6 +21,7 @@ export default function PlaneIntro({ onEnter, onDone }) {
 
   useLayoutEffect(() => {
     const el = root.current
+    const wipeBox = el.querySelector('.pi-wipe')
     const sky = el.querySelector('.pi-sky')
     const plane = el.querySelector('.pi-plane')
     const reduced = prefersReducedMotion()
@@ -61,11 +63,14 @@ export default function PlaneIntro({ onEnter, onDone }) {
       const y = vh() + 2 - state.p * (vh() + H + 4)
       plane.style.width = `${W}px`
       plane.style.transform = `translate3d(${-W / 2}px, ${y}px, 0)`
-      // everything below the wing line has been flown over: let the invitation show through there
+      // everything below the wing line has been flown over: let the invitation show through there.
+      // The sky sits in a box with a fixed soft-edged mask at its foot; the box slides up so its foot follows the wings,
+      // and the sky inside slides down by the same amount so it stays put. Both are plain GPU moves: animating the mask
+      // itself made a slow phone repaint the whole screen on every frame of the flight.
       const wipe = y + WING_LINE * H
-      const m = `linear-gradient(to bottom, #000 ${wipe - 60}px, transparent ${wipe + 10}px)`
-      sky.style.webkitMaskImage = m
-      sky.style.maskImage = m
+      const shift = Math.min(0, wipe + 10 - (vh() + WIPE_PAD))
+      wipeBox.style.transform = `translate3d(0, ${shift}px, 0)`
+      sky.style.transform = `translate3d(0, ${-shift}px, 0)`
       if (wipe < vh() * 0.9) enter()
     }
     place()
@@ -102,9 +107,11 @@ export default function PlaneIntro({ onEnter, onDone }) {
 
   return (
     <div className="plane-intro" ref={root} role="presentation">
-      <div className="pi-sky">
-        <div className="pi-stars" aria-hidden="true" />
-        <p className="pi-skip">tap to skip</p>
+      <div className="pi-wipe">
+        <div className="pi-sky">
+          <div className="pi-stars" aria-hidden="true" />
+          <p className="pi-skip">tap to skip</p>
+        </div>
       </div>
 
       <div className="pi-plane" aria-hidden="true">

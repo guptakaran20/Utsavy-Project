@@ -347,6 +347,12 @@ html[data-scene="sky"], html[data-scene="sky"] body { background-color: #f6dcd8;
 
 /* idle loops rest while off screen (lib/useArtReveal.js), so a phone only animates what is in view */
 .is-offscreen, .art-petals.is-offscreen i { animation-play-state: paused !important; }
+/* ...and every endless loop is switched right off there, not just paused: a paused transform loop still holds a GPU
+   layer (and forces one onto everything painted above it), which is what ran low-end phones out of graphics memory */
+.idle-loop.is-offscreen, .idle-before.is-offscreen::before, .idle-after.is-offscreen::after { animation-name: none !important; }
+/* sections more than a screen away let go of their will-change layers (they come back well before the guest arrives) */
+.is-far :is(.story__path, .story__heart, .cer-paper, .cer-page, .cer-terrace, .cer-heart, .cer-trail, .pclock, .jh__window,
+  .jh__photo, .jh__cap, .ucard, .scratch-hand, .ofam__photo img, .ofam__seal, .invite__arch, .hero__clouds .cl) { will-change: auto !important; }
 /* phones: the diya and sun glows blend normally. mix-blend-mode: screen makes the phone redraw everything behind each
    flickering glow on every frame; a plain warm glow over this light paper looks the same. */
 @media (pointer: coarse) {

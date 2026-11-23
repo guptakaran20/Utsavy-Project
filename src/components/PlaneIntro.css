@@ -1,5 +1,11 @@
 .plane-intro { position: fixed; inset: 0; z-index: 100; overflow: hidden; color: var(--gold-100); touch-action: none; user-select: none; }
 
+/* the sky's box: runs 80px (WIPE_PAD) below the screen with a fixed soft foot; PlaneIntro.jsx slides it up behind the
+   wings while the sky inside slides back down, so the sky is wiped away without repainting it */
+.pi-wipe { position: absolute; left: 0; right: 0; top: 0; bottom: -80px; overflow: hidden; will-change: transform;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 70px), transparent 100%); mask-image: linear-gradient(to bottom, #000 calc(100% - 70px), transparent 100%); }
+.pi-wipe > .pi-sky { inset: 0 0 80px 0; will-change: transform; }
+
 /* the rose dusk sky (the same painting as the hero after it); masked away from the bottom up as the plane flies over (see PlaneIntro.jsx) */
 .pi-sky { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(246, 220, 216, .55) 0%, rgba(246, 220, 216, .68) 55%, rgba(246, 220, 216, .88) 85%, #f6dcd8 100%), #f6dcd8 url('/hero-sky.webp') 50% 50% / cover no-repeat; } /* (the same softened sky as .hero__sky, so the two screens match) */
 .pi-sky::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 100% at 50% 45%, transparent 55%, rgba(140, 45, 75, .1) 100%); }

@@ -13,6 +13,13 @@ import { heroArtReady } from './heroArt'
 //   - holds a piece's entrance until its painting has downloaded and been decoded, so it always plays with the art.
 // The endless idle loops (swaying, flickering, floating) are paused while off screen (.is-offscreen, index.css), so a
 // phone only animates what the guest can actually see.
+//
+// Low-end phones also run out of graphics memory: every element with a running (or even paused) transform/opacity
+// loop, or a will-change hint, is kept on its own GPU layer, and everything painted above it gets a layer too. Left
+// alone the page piled up ~150 layers by the RSVP. So
+//   - every endless CSS loop on the page is found (document.getAnimations) and switched right off, not just paused,
+//     while it is off screen (.idle-loop.is-offscreen, index.css): that frees its layer, and
+//   - each section more than a screen away is marked .is-far, which drops the will-change hints inside it.
 
 const AHEAD = 3 // screens of lookahead for lazy images
 const IDLE = '.art-sway, .art-drift, .art-flame, .art-sun, .art-float, .art-beat, .art-swing, .art-petals'
@@ -40,6 +47,45 @@ export function useArtReveal() {
         entries.forEach((e) => e.target.classList.toggle('is-offscreen', !e.isIntersecting))
       }, { rootMargin: '25% 0px' })
       : null
+
+    // the same switch for every other endless CSS loop on the page (petals, glows, the pot, the polaroids...).
+    // Only loops that are an element's sole animation, so switching it off can never undo a finished entrance.
+    const looped = new WeakSet()
+    const findLoops = () => {
+      if (!io || !document.getAnimations) return
+      const byTarget = new Map()
+      for (const a of document.getAnimations()) {
+        if (typeof CSSAnimation === 'undefined' || !(a instanceof CSSAnimation)) continue
+        const fx = a.effect
+        const el = fx?.target
+        if (!el) continue
+        const key = el
+        const slot = byTarget.get(key) || { el, own: [], before: [], after: [] }
+        const list = fx.pseudoElement === '::before' ? slot.before : fx.pseudoElement === '::after' ? slot.after : fx.pseudoElement ? null : slot.own
+        if (!list) continue
+        list.push(fx.getTiming().iterations === Infinity)
+        byTarget.set(key, slot)
+      }
+      byTarget.forEach(({ el, own, before, after }) => {
+        if (looped.has(el)) return
+        const add = []
+        if (own.length && own.every(Boolean)) add.push('idle-loop')
+        if (before.length && before.every(Boolean)) add.push('idle-before')
+        if (after.length && after.every(Boolean)) add.push('idle-after')
+        if (!add.length) return
+        looped.add(el)
+        el.classList.add(...add)
+        if (!watched.has(el)) { watched.add(el); io.observe(el) }
+      })
+    }
+
+    // sections well away from the view drop their will-change hints (index.css .is-far), so their layers are freed
+    const far = 'IntersectionObserver' in window
+      ? new IntersectionObserver((entries) => {
+        entries.forEach((e) => e.target.classList.toggle('is-far', !e.isIntersecting))
+      }, { rootMargin: '120% 0px' })
+      : null
+    const farWatched = new WeakSet()
 
     // Background fill: once the page itself has loaded (intro and hero first), every other lazy picture is fetched in
     // page order, two at a time, so pieces animated by their own sections (GSAP timelines, .reveal, Events) are already
@@ -80,9 +126,19 @@ export function useArtReveal() {
           io.observe(el)
         })
       }
+      if (far) {
+        document.querySelectorAll('main section, .thanks').forEach((el) => {
+          if (farWatched.has(el)) return
+          farWatched.add(el)
+          far.observe(el)
+        })
+      }
+      // new loops start as sections open; a scan once a second is plenty
+      if (++ticks % 4 === 0) findLoops()
     }
+    let ticks = 3
     check()
     const id = setInterval(check, 250)
-    return () => { clearInterval(id); io?.disconnect() }
+    return () => { clearInterval(id); io?.disconnect(); far?.disconnect() }
   }, [])
 }
