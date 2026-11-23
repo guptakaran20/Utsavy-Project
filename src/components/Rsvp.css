@@ -297,7 +297,9 @@
 
 /* the reply page wears the blush paper and flowers; the couple stands on the stage beneath the card */
 .rsvp.sky-bg { background-color: #f6dcd8; color: #5a1424; isolation: isolate; padding-bottom: 0; }
-.rsvp.sky-bg > :not(.floral-sides):not(.rsvp__mandala):not(.rsvp__envelope) { position: relative; z-index: 2; }
+/* (the hearts and sparkles of the Accept moment are left out: they float over the page, absolutely placed, and
+   made relative they would stack in the flow under the stage and stretch the section for a moment) */
+.rsvp.sky-bg > :not(.floral-sides):not(.rsvp__mandala):not(.rsvp__envelope):not(.rsvp__spark-heart):not(.rsvp__sparkle) { position: relative; z-index: 2; }
 .rsvp.sky-bg .floral-sides { z-index: 1; -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 360px), transparent calc(100% - 120px)); mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 360px), transparent calc(100% - 120px)); }
 .rsvp.sky-bg .rsvp__mandala { color: #b8862f; opacity: .1; z-index: 0; }
 .rsvp.sky-bg .rsvp__deadline { color: #8a4a3a; }
