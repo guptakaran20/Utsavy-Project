@@ -229,6 +229,7 @@
 .countdown .unit__flame { width: 8px; height: 13px; margin-bottom: 6px; }
 .scratchseal { border-radius: inherit; transition: opacity .8s ease, transform .8s var(--ease-out), filter .8s ease; }
 .scratchseal.is-gone { transform: scale(1.08); filter: blur(4px); }
+@media (pointer: coarse) { .scratchseal.is-gone { filter: none; } }
 .countdown__hint { color: #74535a; }
 .countdown__hint button { color: #a63f5b; text-decoration-style: dashed; text-underline-offset: 4px; }
 @media (max-width: 520px) { .countdown .unit { padding: 16% 8% 10%; } .countdown .unit__digits { font-size: 46px; } }

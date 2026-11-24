@@ -16,7 +16,10 @@ export function SmoothScroll({ locked, children }) {
     lenis.on('scroll', ScrollTrigger.update)
     const tick = (time) => lenis.raf(time * 1000)
     gsap.ticker.add(tick)
-    gsap.ticker.lagSmoothing(0)
+    // A slow phone stalls now and then (a painting decoding, a section mounting). With no lag smoothing every running
+    // animation jumped ahead by the whole stall, so entrances looked skipped. Any frame over 200ms now counts as one
+    // normal frame: the animation pauses for the stall and carries on from where it was. Ordinary slow frames are untouched.
+    gsap.ticker.lagSmoothing(200, 33)
     return () => {
       gsap.ticker.remove(tick)
       lenis.destroy()

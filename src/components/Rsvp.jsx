@@ -7,6 +7,7 @@ import { LenisContext } from '../lib/smoothScroll'
 import { absTop, lockedTimeline } from '../lib/lockedTimeline'
 import { guestName, hasGuestName } from '../lib/guest'
 import { wedding } from '../data/wedding'
+import { isLite } from '../lib/device'
 import SectionTitle from './SectionTitle'
 import Mandala from './Mandala'
 import FloralSides from './FloralSides'
@@ -237,7 +238,9 @@ export default function Rsvp() {
       safety: 16,
       speed: 1.15,
       // once it has all played: the lamps keep a soft flicker and the envelope bobs where it landed
+      // (not on a slow phone: these never end, and each lamp's screen-blended glow repaints the stage on every frame)
       onDone: () => {
+        if (isLite) return
         gsap.to(q('.rsvp__lamp'), { opacity: () => gsap.utils.random(0.65, 1), duration: () => gsap.utils.random(1.2, 2.4), ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: 0.2, from: 'random' } })
         gsap.to(env, { y: '-=5', duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1 })
       },

@@ -385,3 +385,9 @@ html.lite .art-sway, html.lite .art-drift, html.lite .art-float, html.lite .art-
 html.lite .hero__clouds .cl, html.lite .hero__rays, html.lite .hero__birds, html.lite .bird,
 html.lite .story__polaroid.is-open, html.lite .gaagar__pot, html.lite .rsvp__couple img,
 html.lite .notes.is-open .notes__petals i, html.lite .notes.is-open .notes__spark, html.lite .notes.is-open .notes__glow { animation: none !important; }
+/* soft drop shadows on boxes whose contents move (the envelope card as its words write in, the doorway as photos slide
+   through it, the scratch cards, the clock face) are recomputed over the whole box on every frame of that motion */
+html.lite :is(.invite__arch, .jh__window, .countdown__units, .pclock__dial, .env__flap, .env__front) { filter: none !important; }
+/* glows that pulse over a blended layer, a sheen that sweeps a button, a flickering flame with a glow filter */
+html.lite .rsvp__stage::before, html.lite .rsvp__submit::after, html.lite .unit__flame, html.lite .story__heart i { animation: none !important; }
+

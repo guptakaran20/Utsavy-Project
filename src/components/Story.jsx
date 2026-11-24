@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { wedding } from '../data/wedding'
+import { isLite } from '../lib/device'
 import './PhulkariDivider.css'
 import Photo from './Photo'
 import './Story.css'
@@ -128,7 +129,7 @@ export default function Story() {
           gsap.timeline({ scrollTrigger: trigger, onComplete: () => pol.classList.add('is-open') })
             .from(pol, { rotateX: -82, y: 40, autoAlpha: 0, duration: 0.85, ease: 'back.out(1.35)' })
             .from(card.querySelectorAll('.story__corner'), { scale: 0, duration: 0.3, stagger: 0.07, ease: 'back.out(3)' }, 0.5)
-            .fromTo(photo, { clipPath: 'inset(50% 0 50% 0)', filter: 'brightness(2.2) saturate(0) blur(5px)' }, { clipPath: 'inset(0% 0 0% 0)', filter: 'brightness(1) saturate(1) blur(0px)', duration: 1, ease: 'power2.out', clearProps: 'filter,clipPath' }, 0.35)
+            .fromTo(photo, { clipPath: 'inset(50% 0 50% 0)', ...(isLite ? {} : { filter: 'brightness(2.2) saturate(0) blur(5px)' }) }, { clipPath: 'inset(0% 0 0% 0)', ...(isLite ? {} : { filter: 'brightness(1) saturate(1) blur(0px)' }), duration: 1, ease: 'power2.out', clearProps: 'filter,clipPath' }, 0.35)
             .from(card.querySelector('.story__chap'), { autoAlpha: 0, y: 8, duration: 0.5 }, 0.9)
           gsap.from(card.querySelectorAll('.story__headline, .story__text'), {
             y: 30, autoAlpha: 0, duration: 0.55, stagger: 0.1, ease: 'power3.out', delay: 0.25,

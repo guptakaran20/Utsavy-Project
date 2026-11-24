@@ -5,7 +5,7 @@ import { wedding } from '../data/wedding'
 import { guestName } from '../lib/guest'
 import HeroFX from './HeroFX'
 import { markHeroArt } from '../lib/heroArt'
-import { liteArt } from '../lib/device'
+import { liteArt, isLite } from '../lib/device'
 import './Hero.css'
 
 
@@ -30,10 +30,10 @@ export default function Hero({ play }) {
           .from('.hero__om', { scale: 0.4, autoAlpha: 0, duration: 0.9, ease: 'expo.out' }, 0.7)
           .from('.hero__eyebrow', { y: 12, autoAlpha: 0, duration: 0.7 }, 0.85)
           .from('.hero__rule', { scaleX: 0, autoAlpha: 0, duration: 1, stagger: 0.3, ease: 'power2.out' }, 1)
-          .from('.hero__line', { autoAlpha: 0, y: 24, letterSpacing: '0.3em', filter: 'blur(10px)', duration: 1.5, stagger: 0.35, ease: 'power3.out' }, 1.05)
+          .from('.hero__line', { autoAlpha: 0, y: 24, ...(isLite ? {} : { letterSpacing: '0.3em', filter: 'blur(10px)' }), duration: 1.5, stagger: 0.35, ease: 'power3.out' }, 1.05)
           .from('.hero__weds', { autoAlpha: 0, letterSpacing: '0.9em', duration: 1.4, ease: 'power3.out' }, 1.5)
           .from('.hero__welcome', { y: 10, autoAlpha: 0, duration: 1.1 }, 0.9)
-          .from('.hero__couple', { y: 16, autoAlpha: 0, filter: 'blur(8px)', duration: 1.2 }, 1.8)
+          .from('.hero__couple', { y: 16, autoAlpha: 0, ...(isLite ? {} : { filter: 'blur(8px)' }), duration: 1.2 }, 1.8)
           .from('.hero__sub', { y: 16, autoAlpha: 0, stagger: 0.12, duration: 0.8 }, 1.8)
           .from('.hero__cue-in', { y: 14, autoAlpha: 0, duration: 0.9 }, 2.6)
 
